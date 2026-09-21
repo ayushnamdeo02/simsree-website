@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
-import StatCard from '../components/StatCard';
+import { StatGrid } from '../components/StatCard';
 import PageHero, { HeroButton } from '../components/PageHero';
 import { Section, SectionTitle, Tagline, Heading, H5, AccentCard, Tag } from '../components/ui';
 import { useCommitteeData } from '../lib/useCommitteeData';
@@ -830,11 +830,7 @@ export default function CommitteeDetail() {
       {/* Stats — Figma "Layout / 396": 64 padding, four 296x300 cards, 32 gap (2x2, 16 gap on mobile). */}
       {has('stats') && (
         <section className="px-5 py-16 md:p-16">
-          <div className="max-w-[1280px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-            {c.stats.map((s) => (
-              <StatCard key={s.label} {...s} />
-            ))}
-          </div>
+          <StatGrid stats={c.stats} />
         </section>
       )}
 

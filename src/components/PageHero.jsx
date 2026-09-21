@@ -52,8 +52,8 @@ export function Breadcrumb({ items }) {
 // One hero action. `to` is an in-app route, `href` an external/mailto/tel/PDF link.
 // Figma: 44px tall, padding 10/24, radius 6, Inter Medium 16/24. Primary is Eastern
 // Blue with a 12px icon gap and arrow; secondary is white with a 20% black hairline.
-export function HeroButton({ label, to, href, primary = false, icon = primary, download }) {
-  const cls = `inline-flex items-center justify-center h-11 px-6 rounded-md text-base leading-[150%] font-medium whitespace-nowrap transition-colors ${
+export function HeroButton({ label, to, href, primary = false, icon = primary, download, className = '' }) {
+  const cls = `${className} inline-flex items-center justify-center h-11 px-6 rounded-md text-base leading-[150%] font-medium whitespace-nowrap transition-colors ${
     primary
       ? 'gap-3 bg-teal-500 outline outline-1 -outline-offset-1 outline-teal-500 text-white hover:bg-teal-600'
       : 'gap-2 bg-white outline outline-1 -outline-offset-1 outline-black/20 text-black hover:bg-navy-50'
@@ -83,7 +83,7 @@ export function HeroButton({ label, to, href, primary = false, icon = primary, d
  * @param image        background photo URL (Sanity or /images/… fallback)
  * @param breadcrumb   [{label, to}] — last item is the current page
  * @param eyebrow      small line above the title
- * @param eyebrowStyle 'plain' (18/150) · 'pill' (navy pill) · 'rule' (16 semibold between hairlines)
+ * @param eyebrowStyle 'plain' (18/150) · 'pill' (navy pill) · 'rule' (16 semibold between 80px rules)
  * @param title        72px Playfair title; '\n' forces a line break
  * @param titleWidth   Figma text-box width for the title, so it wraps where the design does
  * @param description  18/150 body under the title
@@ -91,6 +91,9 @@ export function HeroButton({ label, to, href, primary = false, icon = primary, d
  * @param actions      [{label, to|href, primary}] — first is usually primary
  * @param children     extra content under the actions (e.g. the Director's credentials)
  * @param height       Tailwind height classes; defaults to the 767px frame
+ * @param mobileOverlay how the mobile (375) frame darkens the photo: 'gradient' (the
+ *                     desktop gradient), 'gradient-tint' (gradient + 20% black) or
+ *                     'dark' (flat 40% black, used by About/History/Director)
  */
 export default function PageHero({
   image,
@@ -105,6 +108,13 @@ export default function PageHero({
   actions = [],
   children,
   height = 'h-[767px]',
+  mobileOverlay = 'gradient',
+  // Mobile title size: most frames use H4 36/130, a few (About, History) use 40/120.
+  mobileTitle = 'text-[36px] leading-[130%]',
+  // Mobile buttons: 'stack' (one per row, natural width), 'full' (one per row,
+  // full width) or 'grid' (two per row; mark one action mobileLast to give it the
+  // last row to itself).
+  mobileActions = 'stack',
 }) {
   return (
     <section
@@ -113,7 +123,12 @@ export default function PageHero({
       className={`relative mt-12 overflow-hidden bg-navy-950 bg-cover ${height}`}
       style={image ? { backgroundImage: `url('${image}')`, backgroundPosition: imagePosition } : undefined}
     >
-      <div className="absolute inset-0 md:hidden" style={{ backgroundImage: GRADIENT_MOBILE }} />
+      {mobileOverlay === 'dark' ? (
+        <div className="absolute inset-0 md:hidden bg-black/40" />
+      ) : (
+        <div className="absolute inset-0 md:hidden" style={{ backgroundImage: GRADIENT_MOBILE }} />
+      )}
+      {mobileOverlay === 'gradient-tint' && <div className="absolute inset-0 md:hidden bg-black/20" />}
       <div className="absolute inset-0 hidden md:block" style={{ backgroundImage: GRADIENT_DESKTOP }} />
 
       <div className="relative h-full max-w-[1440px] mx-auto px-5 md:px-[55px] pb-[72px] flex flex-col justify-end text-hero">
@@ -126,20 +141,22 @@ export default function PageHero({
 
         {eyebrow &&
           (eyebrowStyle === 'pill' ? (
-            <span className="w-fit bg-navy-900 outline outline-1 -outline-offset-1 outline-black/20 rounded-[32px] px-4 py-2.5 text-base md:text-lg leading-[150%] uppercase mb-4">
+            <span className="w-fit bg-navy-900 outline outline-1 -outline-offset-1 outline-black/20 rounded-[32px] px-4 py-2.5 text-[10px] md:text-lg leading-[150%] uppercase mb-4">
               {eyebrow}
             </span>
           ) : eyebrowStyle === 'rule' ? (
-            <span className="flex items-center gap-3 text-base leading-[150%] font-semibold uppercase mb-4">
+            // Figma: 80px white rules either side of the tagline, 32px gaps.
+            <span className="flex items-center gap-8 text-base leading-[150%] font-semibold uppercase mb-4">
+              <span className="block w-11 md:w-20 h-px bg-white" />
               {eyebrow}
-              <span className="block w-16 h-px bg-white/40" />
+              <span className="block w-11 md:w-20 h-px bg-white" />
             </span>
           ) : (
             <span className="text-base md:text-lg leading-[150%] mb-4">{eyebrow}</span>
           ))}
 
         <h1
-          className="font-display font-medium text-[36px] leading-[130%] tracking-[-0.01em] md:text-[72px] md:leading-[120%] whitespace-pre-line"
+          className={`font-display font-medium ${mobileTitle} tracking-[-0.01em] md:text-[72px] md:leading-[120%] whitespace-pre-line`}
           style={{ maxWidth: titleWidth }}
         >
           {title}
@@ -152,9 +169,21 @@ export default function PageHero({
         )}
 
         {actions.length > 0 && (
-          <div className="mt-8 flex flex-col md:flex-row md:flex-wrap md:items-center gap-4 items-start">
-            {actions.map((a) => (
-              <HeroButton key={a.label} {...a} />
+          <div
+            className={`mt-8 gap-4 md:flex md:flex-row md:flex-wrap md:items-center ${
+              mobileActions === 'grid'
+                ? 'grid grid-cols-2 [&>*]:w-full md:[&>*]:w-auto'
+                : mobileActions === 'full'
+                  ? 'flex flex-col [&>*]:w-full md:[&>*]:w-auto'
+                  : 'flex flex-col items-start'
+            }`}
+          >
+            {actions.map(({ mobileLast, ...a }) => (
+              <HeroButton
+                key={a.label}
+                {...a}
+                className={mobileLast ? 'max-md:order-last max-md:col-span-2' : undefined}
+              />
             ))}
           </div>
         )}
@@ -164,3 +193,4 @@ export default function PageHero({
     </section>
   );
 }
+

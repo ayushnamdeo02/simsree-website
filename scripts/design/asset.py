@@ -1,10 +1,12 @@
 """Copy a Figma image fill into public/images/ as a compressed WebP.
 
-    python scripts/design/asset.py <imageRef-prefix> <out/name> [--w=1600] [--q=78]
+    python scripts/design/asset.py <imageRef-prefix> <out/name> [--w=1600] [--q=78] [--stretch=1458x767]
 
 <imageRef-prefix> is the start of an imageRef as printed by outline.mjs (img:xxxxxxxxxx).
 Writes public/images/<out/name>.webp, scaled down to at most --w px wide, and prints
 the public URL to use in code (/images/<out/name>.webp).
+--stretch=WxH resizes to exactly that size without keeping the aspect ratio, which is
+how Figma draws an image fill set to "stretch".
 """
 import sys
 from pathlib import Path
@@ -23,7 +25,10 @@ if len(matches) != 1:
 
 img = Image.open(matches[0])
 img = img.convert("RGBA" if img.mode in ("RGBA", "LA", "P") else "RGB")
-if img.width > max_w:
+if "stretch" in flags:
+    w, h = (int(v) for v in flags["stretch"].split("x"))
+    img = img.resize((w, h), Image.LANCZOS)
+elif img.width > max_w:
     img = img.resize((max_w, round(img.height * max_w / img.width)), Image.LANCZOS)
 out = root / "public/images" / f"{name}.webp"
 out.parent.mkdir(parents=True, exist_ok=True)

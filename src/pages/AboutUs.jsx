@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
-import StatCard from '../components/StatCard';
+import { StatGrid } from '../components/StatCard';
+import PageHero, { HeroButton } from '../components/PageHero';
+import { Section, SectionTitle, Tagline, Heading, H5, Tag } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { useAboutPageData } from '../lib/useAboutPageData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -100,86 +104,94 @@ function imgUrl(image, width) {
   }
 }
 
-function TitleWithHighlight({ text, highlight, suffix, className }) {
-  // Editors sometimes type the whole sentence into the title field and fill the
-  // highlight field too. Colour the phrase in place rather than repeating it.
-  const base = text || '';
-  const idx = highlight ? base.indexOf(highlight) : -1;
-
-  if (idx !== -1) {
-    const tail = base.slice(idx + highlight.length);
-    // The title already carries the whole sentence, so only append a suffix that
-    // isn't part of it already.
-    const showSuffix = suffix && !base.includes(suffix);
-    return (
-      <h2 className={className}>
-        {base.slice(0, idx)}
-        <span className="text-teal-500">{highlight}</span>
-        {tail}
-        {showSuffix ? <> {suffix}</> : null}
-      </h2>
-    );
-  }
-
-  return (
-    <h2 className={className}>
-      {base}{' '}
-      <span className="text-teal-500">{highlight}</span>
-      {suffix ? <> {suffix}</> : null}
-    </h2>
-  );
-}
-
-// imageHeight varies by section: Campus & Culture uses 289, Alumni Network 470 (Figma)
-function LinkCard({ image, badge, title, description, linkUrl, imageHeight = 'h-[289px]', titleClass, rounded = false }) {
-  const cardImg = imgUrl(image, 400);
+// Campus & Culture card — Figma: 405x444, no radius, 1px black/20 hairline,
+// 270px photo (223 on mobile), 24px padding, 8px gaps, H5 28 (H6 22 on mobile).
+function CampusCard({ image, badge, title, description, linkUrl }) {
+  const cardImg = imgUrl(image, 820);
   return (
     <Link
       to={linkUrl || '#'}
-      className={`flex flex-col bg-white overflow-hidden outline outline-1 outline-black/15 hover:outline-navy-300 transition-colors ${
-        rounded ? 'rounded-2xl' : ''
-      }`}
+      className="flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20 hover:outline-navy-300 transition-colors"
     >
       <div
-        className={`${imageHeight} shrink-0 bg-gray-200 bg-cover bg-center`}
+        className="h-[223px] md:h-[270px] shrink-0 bg-navy-50 bg-cover bg-center"
         style={cardImg ? { backgroundImage: `url('${cardImg}')` } : undefined}
       />
-      <div className="flex flex-col flex-1 p-6">
-        {/* Figma: 51x29 badge, radius 16, padding 10/4, Eastern Blue/Lightest fill. */}
-        {badge && (
-          <span className="inline-block w-fit text-sm leading-[150%] text-teal-500 bg-sky-50 px-2.5 py-1 rounded-2xl mb-2">
-            {badge}
-          </span>
-        )}
-        {/* Figma: Heading/H6 22/140, Colour/Astronaut/Base (H5 28/140 Neutral/Darkest on alumni). */}
-        <h4
-          className={
-            titleClass ||
-            'font-display text-xl md:text-[22px] md:leading-[140%] font-medium text-navy-900 mb-2'
-          }
-        >
+      <div className="flex flex-col gap-2 p-6">
+        {badge && <Tag className="w-fit bg-sky-50 text-teal-500 outline-0">{badge}</Tag>}
+        <h3 className="font-display font-medium text-[22px] leading-[140%] md:text-[28px] tracking-[-0.01em] text-navy-900">
           {title}
-        </h4>
-        {/* Figma: Body small Normal 14/150, Color Scheme 1/Text. */}
+        </h3>
         <p className="text-sm leading-[150%] text-black">{description}</p>
       </div>
     </Link>
   );
 }
 
-// Teal date, title, then a solid navy action button with an arrow (Figma).
-function NewsRow({ date, title, isDownload, actionLabel }) {
-  // Figma: 1280 x 80 row, hairline divider between rows.
+// Alumni Network card — Figma: 308 wide; a 463px photo card (radius 16 on top,
+// hairline, "small" shadow) above 24px-padded copy, all inside a hairline frame
+// rounded 16 at the bottom.
+function AlumniCard({ image, badge, title, description, linkUrl }) {
+  const cardImg = imgUrl(image, 640);
   return (
-    <div className="flex items-center gap-6 h-[80px] border-b border-black/15 last:border-0">
-      <span className="text-lg leading-[150%] uppercase text-teal-500 w-40 shrink-0">{date}</span>
-      <h4 className="text-lg leading-[150%] text-black flex-1 min-w-0">{title}</h4>
-      <span className="inline-flex items-center gap-2 text-sm font-medium bg-navy-900 text-white px-4 py-2 rounded-md shrink-0">
-        {actionLabel || (isDownload ? 'PDF' : 'Read')} <ArrowUpRight size={14} />
-      </span>
+    <Link
+      to={linkUrl || '#'}
+      className="flex flex-col gap-4 bg-white rounded-b-2xl outline outline-1 -outline-offset-1 outline-black/20 hover:outline-navy-300 transition-colors"
+    >
+      <div
+        className="h-[463px] shrink-0 rounded-t-2xl bg-navy-50 bg-cover bg-center outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+        style={cardImg ? { backgroundImage: `url('${cardImg}')` } : undefined}
+      />
+      <div className="flex flex-col gap-2 p-6">
+        {badge && <Tag className="w-fit bg-sky-50 text-teal-500 outline-0">{badge}</Tag>}
+        <div className="flex flex-col gap-4">
+          <H5 className="text-black">{title}</H5>
+          <p className="text-base leading-[150%] text-black">{description}</p>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+// Announcement row — Figma "Accordion Item": 80 tall, hairline box, 20/32 padding,
+// 80 gaps; teal SemiBold date, 16/150 title, navy 40px button. Stacks on mobile.
+function NewsRow({ date, title, isDownload, actionLabel, fileUrl, url }) {
+  const label = actionLabel || (isDownload ? 'PDF' : 'Read');
+  const href = fileUrl || url;
+  return (
+    <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-20 min-h-20 px-8 py-5 outline outline-1 -outline-offset-1 outline-black/20">
+      <span className="md:w-28 shrink-0 text-base leading-[150%] font-semibold uppercase text-teal-500">{date}</span>
+      <p className="flex-1 min-w-0 text-base leading-[150%] text-black">{title}</p>
+      <a
+        href={href || '/events/news'}
+        className="inline-flex items-center gap-2 w-fit h-[37px] md:h-10 px-5 rounded-md bg-navy-900 outline outline-1 -outline-offset-1 outline-black/20 text-white text-sm md:text-base leading-[150%] md:font-medium hover:bg-navy-800 transition-colors shrink-0"
+      >
+        {label} <ArrowUpRight size={20} strokeWidth={1.5} />
+      </a>
     </div>
   );
 }
+
+// "Event / 4 /" block: tagline, H2, copy and a button inside a 32px-padded column.
+// Figma: 32 gaps desktop (24 mobile), 24 between title and copy; mobile insets 8.
+function StoryBlock({ tagline, children, action }) {
+  return (
+    <section className="px-5 py-16 md:px-16 md:py-28">
+      <div className="max-w-[1312px] mx-auto px-2 py-8 md:p-8 flex flex-col gap-6 md:gap-8">
+        <Tagline>{tagline}</Tagline>
+        <div className="flex flex-col gap-6">{children}</div>
+        {action}
+      </div>
+    </section>
+  );
+}
+
+// Figma Heading/H6 22/140 Playfair — the lead paragraph under each story title.
+const lead = 'font-display font-medium text-[22px] leading-[140%] tracking-[-0.01em] text-black whitespace-pre-line';
+const outlineBtn =
+  'inline-flex items-center gap-2 w-fit h-11 px-6 rounded-md outline outline-1 -outline-offset-1 outline-black/20 text-black text-base leading-[150%] font-medium hover:bg-navy-50 transition-colors';
+const navyBtn =
+  'inline-flex items-center gap-3 w-fit h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors';
 
 export default function AboutUs() {
   const facts = useKeyFacts();
@@ -190,269 +202,142 @@ export default function AboutUs() {
   const alumniCards = fillFactsDeep(data?.alumniCards?.length ? data.alumniCards : fallbackAlumniCards, facts);
   const news = fillFactsDeep(data?.news?.length ? data.news : fallbackNews, facts);
 
-  // The hero frame is landscape (1440x767) but the source may be portrait, so ask
-  // Sanity to crop to the frame's ratio rather than letting bg-cover overscale it.
-  // fit=crop honours the image's hotspot, set in the Studio.
-  const heroImageUrl = ap.heroImage
-    ? (() => {
-        try {
-          return urlFor(ap.heroImage)
-            .width(1600)
-            .height(852)
-            .fit('crop')
-            .crop('focalpoint')
-            .focalPoint(0.5, 0.58)
-            .auto('format')
-            .url();
-        } catch {
-          return undefined;
-        }
-      })()
-    : undefined;
+  const [storyLead, ...storyRest] = (ap.storyBody || '').split('\n\n');
 
   return (
     <div>
-      {/* Hero */}
-      <section>
-        <div
-          className="min-h-[600px] md:h-[767px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-          style={{
-            backgroundImage: heroImageUrl
-              ? `url('${heroImageUrl}')`
-              : "linear-gradient(180deg, #8a8f9e, #cfd3da)",
-          }}
-        >
-          {/* Figma: a linear gradient layer at 30% opacity over the image —
-              stops #000 at 0%, #333 at 51%, #666 at 99%, run on a diagonal from
-              the bottom-left. Each stop carries the layer's 30% as its alpha. */}
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                'linear-gradient(25deg, rgba(0,0,0,0.3) 0%, rgba(51,51,51,0.3) 51%, rgba(102,102,102,0.3) 99%)',
-            }}
-          />
-          {/* pt clears the fixed header; pb-[72px] + 36px gaps match the Figma content frame */}
-          {/* Figma: 1440x767 frame, 64px padding. */}
-          <div className="relative max-w-[1440px] mx-auto px-6 lg:px-16 pt-32 pb-12 md:pb-16 md:h-full flex flex-col justify-end text-white">
-            <span className="inline-block w-fit bg-navy-900 text-white text-[18px] leading-[150%] px-4 py-2.5 rounded-full mb-9">
-              {ap.heroEyebrow}
-            </span>
-            {/* Figma: H1 72/120. The measured line is ~807px, so cap the column
-                below the 1251px that "…distinctive management" would need — that
-                keeps the design's break after "distinctive". */}
-            <h1 className="font-display text-4xl md:text-[72px] md:leading-[120%] font-semibold mb-3 max-w-[900px]">{ap.heroTitle}</h1>
-            {/* Figma: Body medium Normal 18/150, W 803. */}
-            <p className="max-w-[803px] text-lg leading-[150%] text-white mb-9">{ap.heroDescription}</p>
-            <div className="flex flex-wrap gap-3 items-center">
-              <Link to={ap.heroPrimaryCtaUrl} className="bg-sky-600 outline outline-1 outline-sky-600 hover:bg-sky-500 transition-colors text-white text-base leading-[150%] font-medium px-6 py-2.5 rounded-md flex items-center gap-3">
-                {ap.heroPrimaryCtaLabel} <ArrowUpRight size={16} />
-              </Link>
-              <Link to={ap.heroDirectorLinkUrl} className="bg-white hover:bg-gray-100 transition-colors text-ink-900 text-base leading-[150%] font-medium px-6 py-2.5 rounded-md">
-                {ap.heroDirectorLinkLabel}
-              </Link>
-              {/* Figma: white fill, radius 6, Opacity/Neutral Darkest stroke, gap 8. */}
-              <Link to={ap.heroSecondaryCtaUrl} className="bg-white outline outline-1 outline-black/15 hover:bg-gray-100 transition-colors text-ink-900 text-base leading-[150%] font-medium px-6 py-2.5 rounded-md flex items-center gap-2">
-                {ap.heroSecondaryCtaLabel}
-              </Link>
-            </div>
-          </div>
-        </div>
+      <PageHero
+        image={heroImage(ap.heroImage, '/images/about/hero.webp', { stretch: true })}
+        eyebrow={ap.heroEyebrow}
+        eyebrowStyle="pill"
+        title={ap.heroTitle}
+        titleWidth={1000}
+        description={ap.heroDescription}
+        actions={[
+          { label: ap.heroPrimaryCtaLabel, to: ap.heroPrimaryCtaUrl, primary: true },
+          { label: ap.heroDirectorLinkLabel, to: ap.heroDirectorLinkUrl, mobileLast: true },
+          { label: ap.heroSecondaryCtaLabel, to: ap.heroSecondaryCtaUrl },
+        ]}
+        mobileOverlay="dark"
+        mobileTitle="text-[40px] leading-[120%]"
+        mobileActions="grid"
+      />
 
-        {/* Stat cards below hero — 1408 frame, 64px padding, 1280 row, 32px gap (Figma) */}
-        <div className="max-w-[1408px] mx-auto px-6 lg:px-16 py-10 lg:py-16">
-          <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {(ap.heroStats || []).map((s) => (
-              <StatCard key={s.label} {...s} />
-            ))}
-          </div>
-        </div>
+      {/* Stats — Figma "Layout / 396": 64 padding, 296x300 cards, 32 gap (2x2 on mobile). */}
+      <section className="px-5 py-16 md:p-16">
+        <StatGrid stats={ap.heroStats} />
       </section>
 
-      {/* Our Story — 1312 card, 32px padding, 24px content gap (Figma) */}
-      <section className="py-16 lg:py-28">
-        <div className="max-w-[1312px] mx-auto px-6 lg:px-0">
-          <div className="p-6 lg:p-8">
-            {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
-            <span className="text-base leading-[150%] font-semibold uppercase text-black">{ap.storyEyebrow}</span>
-            <TitleWithHighlight
-              text={ap.storyTitle}
-              highlight={ap.storyTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
-            />
-            {(ap.storyBody || '').split('\n\n').map((para, i) => (
-              <p
-                key={i}
-                className={
-                  i === 0
-                    ? 'font-display text-xl md:text-[22px] md:leading-[140%] text-black mb-6'
-                    : 'text-lg leading-[150%] text-black mb-6 last:mb-8'
-                }
-              >
+      <StoryBlock
+        tagline={ap.storyEyebrow}
+        action={
+          <Link to={ap.storyLinkUrl} className={navyBtn}>
+            {ap.storyLinkLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
+          </Link>
+        }
+      >
+        <Heading text={composeTitle(ap.storyTitle, ap.storyTitleHighlight)} highlight={ap.storyTitleHighlight} />
+        <p className={lead}>{storyLead}</p>
+        {storyRest.length > 0 && (
+          <div className="text-base md:text-lg leading-[150%] text-black whitespace-pre-line">
+            {storyRest.map((para, i) => (
+              <p key={i} className={i > 0 ? 'mt-[1.5em]' : undefined}>
                 {para}
               </p>
             ))}
-            <Link
-              to={ap.storyLinkUrl}
-              className="inline-flex items-center gap-3 bg-navy-900 hover:bg-navy-800 transition-colors text-white text-base leading-[150%] font-medium px-6 py-2.5 rounded-md w-fit"
-            >
-              {ap.storyLinkLabel} <ArrowUpRight size={16} />
-            </Link>
           </div>
-        </div>
-      </section>
+        )}
+      </StoryBlock>
 
-      {/* Leadership — 1312 card, 32px padding, quote not italic, outlined button (Figma) */}
-      <section className="py-16 lg:py-28">
-        <div className="max-w-[1312px] mx-auto px-6 lg:px-0">
-          <div className="p-6 lg:p-8">
-            {/* Figma: Inter Semi Bold 16/150, letter-spacing 0, Color Scheme 1/Text. */}
-            <span className="text-base leading-[150%] font-semibold uppercase text-black">{ap.leadershipEyebrow}</span>
-            <TitleWithHighlight
-              text={ap.leadershipTitle}
-              highlight={ap.leadershipTitleHighlight}
-              suffix={ap.leadershipTitleSuffix}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
-            />
-            {/* Figma: Heading/H6 22/140, Color Scheme 1/Text. */}
-            <blockquote className="font-display text-xl md:text-[22px] md:leading-[140%] text-black mb-6">
-              "{ap.leadershipQuote}"
-            </blockquote>
-            {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text. */}
-            <p className="text-lg leading-[150%] text-black mb-8">— {ap.leadershipName} · {ap.leadershipRole}</p>
-            <Link
-              to={ap.leadershipLinkUrl}
-              className="inline-flex items-center gap-2 outline outline-1 outline-black/15 hover:bg-navy-50 transition-colors text-ink-900 text-base leading-[150%] font-medium px-6 py-2.5 rounded-md w-fit"
-            >
-              {ap.leadershipLinkLabel}
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Recognition — 1312 card, left-aligned, white bg, outlined button (Figma) */}
-      <section className="py-16 lg:py-28">
-        <div className="max-w-[1312px] mx-auto px-6 lg:px-0">
-          <div className="p-6 lg:p-8">
-            {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
-            <span className="text-base leading-[150%] font-semibold uppercase text-black">{ap.recognitionEyebrow}</span>
-            <TitleWithHighlight
-              text={ap.recognitionTitle}
-              highlight={ap.recognitionTitleHighlight}
-              suffix={ap.recognitionTitleSuffix}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
-            />
-            {/* Figma: Heading/H6 22/140, Color Scheme 1/Text. */}
-            <p className="font-display text-xl md:text-[22px] md:leading-[140%] text-black mb-8">{ap.recognitionBody}</p>
-            <Link
-              to={ap.recognitionLinkUrl}
-              className="inline-flex items-center gap-2 outline outline-1 outline-black/15 hover:bg-navy-50 transition-colors text-ink-900 text-base leading-[150%] font-medium px-6 py-2.5 rounded-md w-fit"
-            >
-              {ap.recognitionLinkLabel}
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Campus & Culture — grey bg, centred heading, 1280 inner, 405.33 cards (Figma) */}
-      <section className="bg-navy-50 py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-20">
-            {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
-            <span className="text-base leading-[150%] font-semibold uppercase text-black">{ap.campusEyebrow}</span>
-            <TitleWithHighlight
-              text={ap.campusTitle}
-              highlight={ap.campusTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
-            />
-            {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text. */}
-            <p className="text-lg leading-[150%] text-black">{ap.campusBody}</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-            {campusCards.map((c) => (
-              <LinkCard key={c._id || c.title} {...c} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Alumni Network — white bg, centred heading, 308px cards, 16px gap (Figma) */}
-      <section className="py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-20">
-            {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
-            <span className="text-base leading-[150%] font-semibold uppercase text-black">{ap.alumniEyebrow}</span>
-            <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6">{ap.alumniTitle}</h2>
-            {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text, W 678. */}
-            <p className="max-w-[678px] mx-auto text-lg leading-[150%] text-black">{ap.alumniBody}</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {alumniCards.map((c) => (
-              <LinkCard
-                key={c._id || c.title}
-                {...c}
-                imageHeight="h-[463px]"
-                rounded
-                titleClass="font-display text-2xl md:text-[28px] md:leading-[140%] font-medium text-ink-900 mb-2"
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* News & Announcements — 1280 inner, 112px padding, outlined CTA (Figma) */}
-      <section className="py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="mb-10 lg:mb-20">
-            {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
-            <span className="text-base leading-[150%] font-semibold uppercase text-black">{ap.newsEyebrow}</span>
-            <TitleWithHighlight
-              text={ap.newsTitle}
-              highlight={ap.newsTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6"
-            />
-            {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text, 768 x H 27. */}
-            <p className="max-w-[768px] text-lg leading-[150%] text-black mt-6">{ap.newsSubtitle}</p>
-          </div>
-          <div className="mb-10 lg:mb-20">
-            {news.map((n) => (
-              <NewsRow key={n._id || n.title} {...n} />
-            ))}
-          </div>
-          <Link
-            to="/events/news"
-            className="inline-flex items-center gap-3 bg-navy-900 outline outline-1 outline-navy-900 hover:bg-navy-800 transition-colors text-white text-base leading-[150%] font-medium px-6 py-2.5 rounded-md"
-          >
-            {ap.newsLinkLabel} <ArrowUpRight size={16} />
+      <StoryBlock
+        tagline={ap.leadershipEyebrow}
+        action={
+          <Link to={ap.leadershipLinkUrl} className={outlineBtn}>
+            {ap.leadershipLinkLabel}
           </Link>
-        </div>
-      </section>
+        }
+      >
+        <Heading
+          text={composeTitle(ap.leadershipTitle, ap.leadershipTitleHighlight, ap.leadershipTitleSuffix)}
+          highlight={ap.leadershipTitleHighlight}
+        />
+        <blockquote className={lead}>&ldquo;{ap.leadershipQuote}&rdquo;</blockquote>
+        <p className="text-lg leading-[150%] text-black">
+          — {ap.leadershipName} · {ap.leadershipRole}
+        </p>
+      </StoryBlock>
 
-      {/* Get in Touch */}
-      <section className="bg-navy-900 text-white py-20">
-        <div className="max-w-3xl mx-auto px-6 text-center">
-          {/* Figma: Heading/Tagline 16/150, Colour/Neutral/White. */}
-          <span className="text-base leading-[150%] font-semibold uppercase text-white">{ap.contactEyebrow}</span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-6 mb-6">{ap.contactTitle}</h2>
-          {/* Figma: Text/Medium/Normal 18/150, Colour/Neutral/White. */}
-          <p className="max-w-[768px] mx-auto text-lg leading-[150%] text-white mb-8">{ap.contactBody}</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link
-              to={ap.contactPrimaryCtaUrl}
-              className="bg-sky-600 outline outline-1 outline-sky-600 hover:bg-sky-500 transition-colors text-white text-base leading-[150%] font-medium px-6 py-2.5 rounded-md inline-flex items-center gap-3"
-            >
-              {ap.contactPrimaryCtaLabel} <ArrowUpRight size={16} />
-            </Link>
-            {/* Figma: Color/White text on the white button. */}
-            <Link
-              to={ap.contactSecondaryCtaUrl}
-              className="bg-white hover:bg-gray-100 transition-colors text-ink-900 text-base leading-[150%] font-medium px-6 py-2.5 rounded-md"
-            >
-              {ap.contactSecondaryCtaLabel}
-            </Link>
-          </div>
+      <StoryBlock
+        tagline={ap.recognitionEyebrow}
+        action={
+          <Link to={ap.recognitionLinkUrl} className={outlineBtn}>
+            {ap.recognitionLinkLabel}
+          </Link>
+        }
+      >
+        <Heading
+          text={composeTitle(ap.recognitionTitle, ap.recognitionTitleHighlight, ap.recognitionTitleSuffix)}
+          highlight={ap.recognitionTitleHighlight}
+        />
+        <p className={lead}>{ap.recognitionBody}</p>
+      </StoryBlock>
+
+      {/* Campus & Culture — Figma "Blog / 36 /" on #eaeaf1: centred 768 title, 3 cards, 32 gap. */}
+      <Section bg="bg-navy-50" width={1280}>
+        <SectionTitle
+          center
+          tagline={ap.campusEyebrow}
+          title={composeTitle(ap.campusTitle, ap.campusTitleHighlight)}
+          highlight={ap.campusTitleHighlight}
+          body={ap.campusBody}
+        />
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+          {campusCards.map((c) => (
+            <CampusCard key={c._id || c.title} {...c} />
+          ))}
         </div>
-      </section>
+      </Section>
+
+      {/* Alumni Network — white "Blog / 36 /": centred title (678 body), four 308 cards, 16 gap. */}
+      <Section width={1280}>
+        <SectionTitle center tagline={ap.alumniEyebrow} title={ap.alumniTitle} />
+        <p className="mt-5 md:mt-6 max-w-[678px] mx-auto text-center text-base md:text-lg leading-[150%] text-black">
+          {ap.alumniBody}
+        </p>
+        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {alumniCards.map((c) => (
+            <AlumniCard key={c._id || c.title} {...c} />
+          ))}
+        </div>
+      </Section>
+
+      {/* News — Figma "FAQ / 1 /": 768 title (centred on mobile), 8px-gapped rows, navy CTA. */}
+      <Section width={1280} className="border-t border-white/20">
+        <SectionTitle
+          className="text-center md:text-left"
+          tagline={ap.newsEyebrow}
+          title={composeTitle(ap.newsTitle, ap.newsTitleHighlight)}
+          highlight={ap.newsTitleHighlight}
+          body={ap.newsSubtitle}
+        />
+        <div className="mt-20 flex flex-col gap-2">
+          {news.map((n) => (
+            <NewsRow key={n._id || n.title} {...n} />
+          ))}
+        </div>
+        <Link to="/events/news" className={`${navyBtn} mt-20 mx-auto md:mx-0`}>
+          {ap.newsLinkLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
+        </Link>
+      </Section>
+
+      {/* Get in touch — Figma "CTA / 57 /" navy: centred 768 column, 32 gap to buttons. */}
+      <Section bg="bg-navy-900" width={768} className="text-center">
+        <SectionTitle center dark tagline={ap.contactEyebrow} title={ap.contactTitle} body={ap.contactBody} />
+        <div className="mt-8 flex flex-wrap justify-center gap-4">
+          <HeroButton label={ap.contactPrimaryCtaLabel} to={ap.contactPrimaryCtaUrl} primary />
+          <HeroButton label={ap.contactSecondaryCtaLabel} to={ap.contactSecondaryCtaUrl} />
+        </div>
+      </Section>
     </div>
   );
 }

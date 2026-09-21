@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import PageHero from '../components/PageHero';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
+import { Section, SectionTitle, Tagline, Heading, H5, H6, Highlighted, AccentCard } from '../components/ui';
+import { ArrowRight } from 'lucide-react';
 import { useHistoryPageData } from '../lib/useHistoryPageData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -112,13 +116,6 @@ const fallbackCoreValues = [
   { title: 'Initiative', description: 'The institute runs largely on student initiative · responsibility is the curriculum.' },
 ];
 
-function HashLink({ to, ...props }) {
-  if (to?.startsWith('#')) {
-    return <a href={to} {...props} />;
-  }
-  return <Link to={to} {...props} />;
-}
-
 function imgUrl(image, width) {
   if (!image) return undefined;
   try {
@@ -128,135 +125,98 @@ function imgUrl(image, width) {
   }
 }
 
-function TitleWithHighlight({ text, highlight, className }) {
-  const idx = text.indexOf(highlight);
-  if (idx === -1) {
-    return <h2 className={className}>{text}</h2>;
-  }
-  const before = text.slice(0, idx);
-  const after = text.slice(idx + highlight.length);
-  return (
-    <h2 className={className}>
-      {before}
-      <span className="text-teal-500">{highlight}</span>
-      {after}
-    </h2>
-  );
-}
-
-// Cards on the left of the spine align their text right, so it hugs the centre (Figma).
-// Three card looks (Figma): default white, "highlight" cream, and "current" solid navy.
+// Timeline card looks (Figma): white, "highlight" (#FFDB43 at 10%), "current" navy.
+// All share radius 16, a black/20 hairline and the "small" shadow.
 const TIMELINE_VARIANTS = {
-  default: {
-    card: 'bg-white border border-navy-100',
-    category: 'text-teal-500',
-    year: 'text-navy-900',
-    title: 'text-ink-900',
-    body: 'text-black',
-    source: 'border-t border-navy-100 text-black',
-  },
-  highlight: {
-    card: 'bg-[#F2EFE6] border border-[#E3DECC]',
-    category: 'text-teal-500',
-    year: 'text-navy-900',
-    title: 'text-ink-900',
-    body: 'text-black',
-    source: 'border-t border-[#E3DECC] text-black',
-  },
-  current: {
-    card: 'bg-navy-900 border border-navy-900',
-    category: 'text-sky-300',
-    year: 'text-white',
-    title: 'text-white',
-    body: 'text-white/80',
-    source: 'border-t border-white/20 text-white/60',
-  },
+  default: { card: 'bg-white', year: 'text-navy-900', title: 'text-black', body: 'text-black', rule: 'border-black/20' },
+  highlight: { card: 'bg-[#fffbec]', year: 'text-navy-900', title: 'text-black', body: 'text-black', rule: 'border-black/20' },
+  current: { card: 'bg-navy-900', year: 'text-white', title: 'text-white', body: 'text-white', rule: 'border-white/20' },
 };
 
+// Figma "Card": 588 wide, padding 32. Cards left of the spine are right-aligned so
+// they hug the centre. Tagline (Eastern Blue 16 SemiBold) → year (H2 52) → title
+// (H5 28) → copy (14/150) → hairline → source line.
 function TimelineCard({ category, year, title, description, source, align = 'left', variant = 'default' }) {
-  const alignClass = align === 'right' ? 'text-right' : 'text-left';
   const v = TIMELINE_VARIANTS[variant] || TIMELINE_VARIANTS.default;
+  const right = align === 'right';
   return (
-    <div className={`${v.card} rounded-2xl px-6 py-6 shadow-sm ${alignClass}`}>
-      {/* Figma: Heading/Tagline 16/150, Eastern Blue/Base. */}
-      <span className={`text-base leading-[150%] uppercase ${v.category}`}>{category}</span>
-      {/* Figma: Heading/H2 52/120. */}
-      <div className={`font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-2 ${v.year}`}>{year}</div>
-      {/* Figma: Heading/H5 28/140, Colour/Neutral/Darkest. */}
-      <h4 className={`font-display text-2xl md:text-[28px] md:leading-[140%] font-medium mt-2 mb-3 ${v.title}`}>{title}</h4>
-      {/* Figma: Text/Small/Normal 14/150. */}
-      <p className={`text-sm leading-[150%] mb-4 ${v.body}`}>{description}</p>
-      {source && <p className={`pt-4 text-sm leading-[150%] ${v.source}`}>{source}</p>}
+    <div
+      className={`${v.card} rounded-2xl p-6 md:p-8 outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${
+        right ? 'text-right' : 'text-left'
+      }`}
+    >
+      <Tagline className="text-teal-500">{category}</Tagline>
+      <div
+        className={`font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em] ${
+          right ? 'mt-4' : ''
+        } ${v.year}`}
+      >
+        {year}
+      </div>
+      <H5 as="h3" className={`mt-2 ${v.title}`}>
+        {title}
+      </H5>
+      <p className={`mt-2 text-sm leading-[150%] ${v.body}`}>{description}</p>
+      {source && <p className={`mt-4 pt-4 border-t text-sm leading-[150%] ${v.rule} ${v.body}`}>{source}</p>}
     </div>
   );
 }
 
+// Three-dot spine marker (Figma "circles_ext", 24x24, Eastern Blue).
+function SpineIcon({ icon }) {
+  if (icon) return <img src={icon} alt="" className="w-6 h-6 object-cover rounded-full" />;
+  return (
+    <svg viewBox="0 0 24 24" className="w-6 h-6" aria-hidden="true">
+      <g fill="none" stroke="var(--color-teal-500)" strokeWidth="2.3">
+        <circle cx="12.02" cy="5.49" r="2.95" />
+        <circle cx="4.58" cy="17.53" r="2.95" />
+        <circle cx="19.46" cy="17.53" r="2.95" />
+      </g>
+      <circle cx="12.02" cy="13.05" r="2.05" fill="var(--color-teal-500)" />
+    </svg>
+  );
+}
+
+// Figma "Timeline Item": 1280 row = 588 card · 24 spine · 588 ghost year, 40 gaps.
+// The spine is two 2px black rules either side of the icon, 16px clear.
 function TimelineRow({ milestone, icon, side }) {
   const isCurrent = milestone.variant === 'current';
   const card = <TimelineCard {...milestone} align={side === 'left' ? 'right' : 'left'} />;
-  // The current milestone shows its label (e.g. "NOW") in teal rather than the year.
-  const yearGhost = (
+  // The ghost year is H2 52 in navy at 40%; the current milestone shows its label
+  // (e.g. "NOW") in Eastern Blue instead.
+  const ghost = (
     <div
-      className={`hidden lg:flex text-6xl font-display font-semibold items-center ${
-        isCurrent ? 'text-teal-500' : 'text-navy-100'
-      } ${side === 'left' ? 'justify-start pl-32' : 'justify-end pr-32'}`}
+      className={`hidden lg:block font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] ${
+        isCurrent ? 'text-teal-500' : 'text-navy-900/40'
+      } ${side === 'left' ? 'text-left' : 'text-right'}`}
     >
       {isCurrent ? milestone.ghostLabel || milestone.year : milestone.year}
     </div>
   );
+  const spine = (
+    <div className="hidden lg:flex flex-col items-center gap-4 self-stretch" aria-hidden="true">
+      <span className="flex-1 w-0.5 bg-black" />
+      <SpineIcon icon={icon} />
+      <span className="flex-1 w-0.5 bg-black" />
+    </div>
+  );
 
   return (
-    <div
-      className={`relative grid gap-6 items-center lg:gap-10 ${
-        side === 'left' ? 'lg:grid-cols-[524px_1fr]' : 'lg:grid-cols-[1fr_524px]'
-      }`}
-    >
-      {/* Figma parts the spine around the icon with ~8px of clear space either
-          side, and the segments meet the neighbouring rows so the line reads as
-          continuous down the page. */}
-      <span
-        className="hidden lg:block absolute left-1/2 -translate-x-1/2 w-0.5 bg-ink-900"
-        style={{ top: 0, bottom: 'calc(50% + 20px)' }}
-        aria-hidden="true"
-      />
-      <span
-        className="hidden lg:block absolute left-1/2 -translate-x-1/2 w-0.5 bg-ink-900"
-        style={{ top: 'calc(50% + 20px)', bottom: 0 }}
-        aria-hidden="true"
-      />
-
-      {/* Spine marker — three-dot cluster; the year is carried by the ghost text (Figma) */}
-      <span className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-6 bg-navy-50 items-center justify-center z-10">
-        {icon ? (
-          <img src={icon} alt="" className="w-full h-full object-cover rounded-full" />
-        ) : (
-          // Figma vector: 20.58x19.44 at left 1.73 / top 1.79 inside the 24x24
-          // frame — three #238BBC rings (7.4 outer diameter, ~2.5 stroke) with a
-          // 4.4 solid dot centred between them.
-          <svg viewBox="0 0 24 24" className="w-6 h-6" aria-hidden="true">
-            <g fill="none" stroke="var(--color-teal-500)" strokeWidth="2.3">
-              <circle cx="12.02" cy="5.49" r="2.95" />
-              <circle cx="4.58" cy="17.53" r="2.95" />
-              <circle cx="19.46" cy="17.53" r="2.95" />
-            </g>
-            <circle cx="12.02" cy="13.05" r="2.05" fill="var(--color-teal-500)" />
-          </svg>
-        )}
-      </span>
-
-      {/* Mobile: year pill above card */}
-      <span className="lg:hidden inline-block bg-navy-50 text-navy-800 text-xs font-semibold px-2.5 py-1 rounded-full w-fit">
+    <div className="grid gap-4 lg:gap-10 items-center lg:grid-cols-[588px_24px_588px]">
+      {/* Mobile: the year sits in a pill above the card. */}
+      <span className="lg:hidden w-fit bg-white text-navy-900 text-sm font-semibold px-2.5 py-1 rounded-2xl outline outline-1 -outline-offset-1 outline-black/20">
         {milestone.year}
       </span>
-
       {side === 'left' ? (
         <>
           {card}
-          {yearGhost}
+          {spine}
+          {ghost}
         </>
       ) : (
         <>
-          {yearGhost}
+          {ghost}
+          {spine}
           {card}
         </>
       )}
@@ -273,132 +233,96 @@ export default function History() {
   const coreValues = fillFactsDeep(data?.coreValues?.length ? data.coreValues : fallbackCoreValues, facts);
   const commitments = hp.missionCommitments || [];
 
-  const heroImageUrl = imgUrl(hp.heroImage, 1600);
-  const locationImageUrl = imgUrl(hp.locationImage, 1000);
+  const locationImageUrl = imgUrl(hp.locationImage, 1300) || '/images/history/location.webp';
 
   return (
     <div>
-      {/* Hero */}
-      <section
-        className="min-h-[600px] md:h-[767px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : "linear-gradient(180deg, #8a8f9e, #cfd3da)",
-        }}
-      >
-        {/* Figma: linear gradient layer at 30% over the image. */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              'linear-gradient(25deg, rgba(0,0,0,0.3) 0%, rgba(51,51,51,0.3) 51%, rgba(102,102,102,0.3) 99%)',
-          }}
-        />
-        {/* pt clears the fixed header; pb accounts for the milestone strip below */}
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-16 pt-32 pb-24 md:pb-[112px] md:h-full flex flex-col justify-end text-white">
-          {/* Eyebrow flanked by rules on both sides (Figma) */}
-          <span className="flex w-fit items-center gap-5 text-white text-sm font-medium uppercase tracking-[0.2em] mb-9">
-            <span className="h-px w-16 bg-white/50" aria-hidden="true" />
-            {hp.heroEyebrow}
-            <span className="h-px w-16 bg-white/50" aria-hidden="true" />
-          </span>
-          {/* Figma H1 is 628 Fill but the text hugs; "over four decades." measures
-              682px at 72px, so widen the heading to keep the designed two lines. */}
-          <h1 className="font-display text-4xl md:text-[72px] md:leading-[120%] font-semibold mb-4 max-w-[720px]">
-            {hp.heroTitle.replace(hp.heroTitleHighlight, '').trim()}
-            <br />
-            {hp.heroTitleHighlight}
-          </h1>
-          {/* Figma: Body medium Normal 18/150, W 628. */}
-          <p className="max-w-[628px] text-lg leading-[150%] text-white mb-9">{hp.heroDescription}</p>
-          <div className="flex flex-wrap gap-3">
-            <HashLink to={hp.heroPrimaryCtaUrl} className="bg-sky-600 outline outline-1 outline-sky-600 hover:bg-sky-500 transition-colors text-white text-base leading-[150%] font-medium px-6 py-2.5 rounded-md flex items-center gap-3 w-fit">
-              {hp.heroPrimaryCtaLabel} <ArrowUpRight size={16} />
-            </HashLink>
-            <Link to={hp.heroSecondaryCtaUrl} className="bg-white hover:bg-gray-100 transition-colors text-ink-900 text-base leading-[150%] font-medium px-6 py-2.5 rounded-md w-fit">
-              {hp.heroSecondaryCtaLabel}
-            </Link>
-          </div>
-        </div>
+      <PageHero
+        image={heroImage(hp.heroImage, '/images/history/hero.webp', { stretch: true })}
+        eyebrow={hp.heroEyebrow}
+        eyebrowStyle="rule"
+        // Figma breaks the title before the highlighted phrase ("A legacy built /
+        // over four decades."); force that break, as browser metrics run wider.
+        title={`${hp.heroTitle.replace(hp.heroTitleHighlight, '').trim()}\n${hp.heroTitleHighlight}`}
+        titleWidth={720}
+        description={hp.heroDescription}
+        descriptionWidth={628}
+        actions={[
+          { label: hp.heroPrimaryCtaLabel, href: hp.heroPrimaryCtaUrl, primary: true },
+          { label: hp.heroSecondaryCtaLabel, to: hp.heroSecondaryCtaUrl },
+        ]}
+        mobileOverlay="dark"
+        mobileTitle="text-[40px] leading-[120%]"
+        mobileActions="full"
+      />
 
-        {/* Bottom milestone strip — 48px tall, continuously scrolling marquee.
-            The track holds two identical halves so the -50% loop is seamless. */}
-        <div className="absolute bottom-0 left-0 right-0 h-12 flex items-center overflow-hidden bg-navy-900">
-          <div className="flex w-max animate-marquee">
-            {[0, 1].map((half) => (
-              <div key={half} className="flex items-center shrink-0" aria-hidden={half === 1}>
-                {(hp.heroStrip || []).map((s) => (
-                  <span key={`${half}-${s.year}`} className="px-8 text-xs font-medium whitespace-nowrap text-white">
-                    <span className="font-semibold">{s.year}</span>
-                    <span className="text-white/60"> · </span>
-                    <span className="text-white/80 uppercase tracking-wide">{s.label}</span>
-                  </span>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Location Advantage — 1312 card (632 text + 48 gap + 632 image), 16px radius (Figma) */}
-      <section className="py-16 lg:py-28">
-        <div className="max-w-[1312px] mx-auto px-6 lg:px-0">
-          <div className="bg-white border border-navy-100 shadow-md rounded-2xl overflow-hidden grid lg:grid-cols-[632px_1fr] gap-8 lg:gap-12">
-            <div className="p-6 lg:p-8 flex flex-col gap-6">
-              {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
-              <span className="text-base leading-[150%] font-semibold uppercase text-black">{hp.locationEyebrow}</span>
-              <TitleWithHighlight
-                text={hp.locationTitle}
-                highlight={hp.locationTitleHighlight}
-                className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900"
-              />
-              {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text. */}
-              <div className="flex flex-col gap-6">
-                {(hp.locationBody || '').split('\n\n').map((para, i) => (
-                  <p key={i} className="text-lg leading-[150%] text-black">{para}</p>
-                ))}
-              </div>
-              {/* Stats sit above the pull-quote (Figma) */}
-              {/* Figma keeps the three stats on one row across the 568px column. */}
-              <div className="flex flex-wrap gap-x-6 gap-y-6">
-                {(hp.locationStats || []).map((s) => (
-                  <div key={s.label}>
-                    <div className="font-display text-2xl md:text-[28px] md:leading-[140%] font-medium text-navy-900">{s.value}</div>
-                    {/* Figma: Text/Regular/Normal 16/150, Color Scheme 1/Text. */}
-                    <div className="text-base leading-[150%] text-black mt-1">{s.label}</div>
-                  </div>
-                ))}
-              </div>
-              <blockquote className="border border-black/15 border-l-2 border-l-teal-500 px-5 py-4 font-display text-xl md:text-[22px] md:leading-[140%] text-navy-900">
-                "{hp.locationQuote}"
-              </blockquote>
+      {/* Milestone strip — Figma: a 48px navy band under the photo, Inter 14/150
+          uppercase, 44px apart. It scrolls continuously; the track holds two
+          identical halves so the -50% loop is seamless. */}
+      <div className="h-12 flex items-center overflow-hidden bg-navy-900 text-white">
+        <div className="flex w-max animate-marquee">
+          {[0, 1].map((half) => (
+            <div key={half} className="flex items-center shrink-0" aria-hidden={half === 1}>
+              {(hp.heroStrip || []).map((s) => (
+                <span key={`${half}-${s.year}`} className="pr-11 text-sm leading-[150%] uppercase whitespace-nowrap">
+                  {s.year} · {s.label}
+                </span>
+              ))}
             </div>
-            <div
-              className="h-72 lg:h-auto lg:min-h-[818px] bg-gray-200 rounded-2xl bg-cover bg-center"
-              style={locationImageUrl ? { backgroundImage: `url('${locationImageUrl}')` } : undefined}
-            />
+          ))}
+        </div>
+      </div>
+
+      {/* Location Advantage — Figma "Component": 1312 card (632 copy + 48 gap + 632 photo),
+          radius 16, hairline + "small" shadow; copy column padded 32 with 32 gaps. */}
+      <section className="px-5 py-16 md:px-16 md:py-28">
+        <div className="max-w-[1312px] mx-auto bg-white rounded-2xl outline outline-1 -outline-offset-1 outline-black/20 shadow-small overflow-hidden grid lg:grid-cols-[632px_1fr] gap-8 lg:gap-12">
+          <div className="p-6 md:p-8 flex flex-col gap-8">
+            <Tagline>{hp.locationEyebrow}</Tagline>
+            <div className="flex flex-col gap-6">
+              <Heading text={composeTitle(hp.locationTitle, hp.locationTitleHighlight)} highlight={hp.locationTitleHighlight} />
+              <div className="text-base md:text-lg leading-[150%] text-black">
+                {(hp.locationBody || '').split('\n\n').map((para, i) => (
+                  <p key={i} className={i > 0 ? 'mt-[1.5em]' : undefined}>
+                    {para}
+                  </p>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-5">
+              {(hp.locationStats || []).map((s) => (
+                <div key={s.label} className="flex flex-col gap-2">
+                  <H5 as="div">{s.value}</H5>
+                  <div className="text-base leading-[150%] text-black">{s.label}</div>
+                </div>
+              ))}
+            </div>
+            {/* Figma: 64 tall hairline box, 3px Eastern Blue bar, 32 inset, H6 22 navy. */}
+            <blockquote className="flex items-stretch outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+              <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
+              <span className="py-4 px-8 font-display font-medium text-[22px] leading-[140%] tracking-[-0.01em] text-navy-900">
+                &ldquo;{hp.locationQuote}&rdquo;
+              </span>
+            </blockquote>
           </div>
+          <div
+            className="h-72 lg:h-auto lg:min-h-[818px] bg-navy-50 rounded-2xl bg-cover bg-center"
+            style={locationImageUrl ? { backgroundImage: `url('${locationImageUrl}')` } : undefined}
+          />
         </div>
       </section>
 
-      {/* Timeline */}
-      {/* Milestones — 1280 inner, 112px padding, no container box (Figma) */}
-      <section id="timeline" className="bg-navy-50 py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="text-center max-w-[768px] mx-auto mb-10 lg:mb-20">
-            {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
-            <span className="text-base leading-[150%] font-semibold uppercase text-black">{hp.timelineEyebrow}</span>
-            <TitleWithHighlight
-              text={hp.timelineTitle}
-              highlight={hp.timelineTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
-            />
-            {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text. */}
-            <p className="text-lg leading-[150%] text-black">{hp.timelineIntro}</p>
-          </div>
-
-          <div className="flex flex-col gap-10">
+      {/* Milestones — Figma "Blog / 36 /" on #eaeaf1: centred 768 title, then timeline
+          rows 80 apart. */}
+      <Section id="timeline" bg="bg-navy-50" width={1280}>
+        <SectionTitle
+          center
+          tagline={hp.timelineEyebrow}
+          title={composeTitle(hp.timelineTitle, hp.timelineTitleHighlight)}
+          highlight={hp.timelineTitleHighlight}
+          body={hp.timelineIntro}
+        />
+        <div className="mt-20 flex flex-col gap-10 lg:gap-20">
           {milestones.map((m, i) => (
             <TimelineRow
               key={m._id || m.year}
@@ -406,146 +330,124 @@ export default function History() {
               icon={imgUrl(m.icon, 80)}
               side={i % 2 === 0 ? 'left' : 'right'}
             />
-            ))}
-          </div>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Vision & Mission — 1280 inner, 600px cards, 80px gap (Figma) */}
-      <section className="py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="text-center max-w-[768px] mx-auto mb-10 lg:mb-20">
-            {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
-            <span className="text-base leading-[150%] font-semibold uppercase text-black">{hp.visionEyebrow}</span>
-            <TitleWithHighlight
-              text={hp.visionSectionTitle}
-              highlight={hp.visionSectionTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-4"
-            />
-            {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text. */}
-            <p className="text-lg leading-[150%] text-black">{hp.visionSectionSubtitle}</p>
-          </div>
+      {/* Vision & Mission — Figma: two 600 cards, 80 gap. Vision is navy, padded 32;
+          Mission has a 3px Eastern Blue bar and four hairline commitment rows. */}
+      <Section width={1280}>
+        <SectionTitle
+          center
+          tagline={hp.visionEyebrow}
+          title={composeTitle(hp.visionSectionTitle, hp.visionSectionTitleHighlight)}
+          highlight={hp.visionSectionTitleHighlight}
+        />
+        <p className="mt-5 md:mt-6 max-w-[678px] mx-auto text-center text-base md:text-lg leading-[150%] text-black">
+          {hp.visionSectionSubtitle}
+        </p>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-navy-900 text-white p-8">
-              <div className="flex items-center gap-4 mb-8">
-                {/* Figma: Heading/Tagline 16/150, Colour/Neutral/White. */}
-                <span className="text-base leading-[150%] font-semibold uppercase text-white">{hp.visionLabel}</span>
-                <span className="h-px flex-1 bg-white/20" aria-hidden="true" />
-                {/* Figma: Heading/H2 52/120, white at 50%. */}
-                <span className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-white/50">{hp.visionNumber}</span>
-              </div>
-              <TitleWithHighlight
-                text={hp.visionTitle}
-                highlight={hp.visionTitleHighlight}
-                className="font-display text-2xl md:text-[28px] md:leading-[140%] font-medium mb-4"
-              />
-              {/* Figma: Text/Medium/Normal 18/150 on the navy card. */}
-              <p className="text-white text-lg leading-[150%]">{hp.visionDescription}</p>
+        <div className="mt-20 grid lg:grid-cols-2 gap-10 lg:gap-20">
+          <div className="bg-navy-900 text-white p-8 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+            <div className="flex items-center gap-8">
+              <Tagline className="text-white shrink-0">{hp.visionLabel}</Tagline>
+              <span className="h-px flex-1 bg-white/20" aria-hidden="true" />
+              <span className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-white/50">
+                {hp.visionNumber}
+              </span>
             </div>
-
-            <div className="bg-white border border-navy-100 border-l-2 border-l-sky-600 p-8">
-              <div className="flex items-center gap-4 mb-8">
-                {/* Figma: Heading/Tagline 16/150, Colour/Astronaut/Base. */}
-                <span className="text-base leading-[150%] font-semibold uppercase text-navy-900">{hp.missionLabel}</span>
-                <span className="h-px flex-1 bg-navy-100" aria-hidden="true" />
-                {/* Figma: Heading/H2 52/120. */}
-                <span className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-300">{hp.missionNumber}</span>
-              </div>
-              <TitleWithHighlight
-                text={hp.missionTitle}
-                highlight={hp.missionTitleHighlight}
-                className="font-display text-2xl md:text-[28px] md:leading-[140%] font-medium text-navy-900 mb-4"
-              />
-              {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text. */}
-              <p className="text-lg leading-[150%] text-black mb-6">{hp.missionIntro}</p>
-              {/* Figma: 536x47 boxes, padding 16/8, gap 20, radius 0, 1px inside
-                  border and a small shadow — each row is its own box. */}
-              <ul className="flex flex-col gap-5">
-                {commitments.map((c, i) => (
-                  <li
-                    key={i}
-                    className="flex items-start gap-5 px-4 py-3 text-sm leading-[150%] text-black border border-black/15 shadow-sm"
-                  >
-                    {/* Figma: Heading/H6 22/140, Colour/Eastern Blue/Base. */}
-                    <span className="font-display text-xl md:text-[22px] md:leading-[140%] text-teal-500 shrink-0">{i + 1}</span>
-                    {c}
-                  </li>
-                ))}
-              </ul>
+            <div className="mt-8 flex flex-col gap-6 max-w-[513px]">
+              <H5 className="text-white">
+                <Highlighted text={hp.visionTitle} highlight={hp.visionTitleHighlight} highlightClass="text-teal-400" />
+              </H5>
+              <p className="text-base leading-[150%]">{hp.visionDescription}</p>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Core Values — 1280 inner, 405.33 cards, 16px radius (Figma) */}
-      <section className="py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-20">
-            {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
-            <span className="text-base leading-[150%] font-semibold uppercase text-black">{hp.valuesEyebrow}</span>
-            <TitleWithHighlight
-              text={hp.valuesTitle}
-              highlight={hp.valuesTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
-            />
-            {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text, W 678. */}
-            <p className="max-w-[678px] mx-auto text-lg leading-[150%] text-black">{hp.valuesSubtitle}</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-            {coreValues.map((v, i) => (
-              <div
-                key={v._id || v.title}
-                className="outline outline-1 outline-black/15 shadow-md rounded-2xl p-8 md:min-h-[208px]"
-              >
-                {/* Figma: Heading/H4 36/130, Colour/Astronaut/Base. */}
-                <span className="font-display text-3xl md:text-[36px] md:leading-[130%] font-semibold text-navy-900">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                {/* Figma: Heading/H5 28/140, Colour/Neutral/Darkest. */}
-                <h4 className="font-display text-2xl md:text-[28px] md:leading-[140%] font-medium text-ink-900 mt-3 mb-2">{v.title}</h4>
-                {/* Figma: Text/Small/Normal 14/150, Color Scheme 1/Text. */}
-                <p className="text-sm leading-[150%] text-black">{v.description}</p>
-              </div>
-            ))}
-          </div>
+          <AccentCard className="[&>div]:pb-8">
+            <div className="flex items-center gap-8">
+              <Tagline className="text-navy-900 shrink-0">{hp.missionLabel}</Tagline>
+              <span className="h-px flex-1 bg-black/20" aria-hidden="true" />
+              <span className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-navy-900/50">
+                {hp.missionNumber}
+              </span>
+            </div>
+            <div className="mt-12 flex flex-col gap-4">
+              <H5 className="text-black">
+                <Highlighted text={hp.missionTitle} highlight={hp.missionTitleHighlight} />
+              </H5>
+              <p className="text-base leading-[150%] text-black max-w-[513px]">{hp.missionIntro}</p>
+              {commitments.map((c, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-5 px-4 py-2 min-h-[47px] outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+                >
+                  <span className="font-display font-medium text-[22px] leading-[140%] text-teal-500 shrink-0">{i + 1}</span>
+                  <span className="text-sm leading-[150%] text-black">{c}</span>
+                </div>
+              ))}
+            </div>
+          </AccentCard>
         </div>
-      </section>
+      </Section>
 
-      {/* Continue Exploring — 1280 inner, 405.33 cards, teal left accent (Figma) */}
-      <section className="bg-navy-800 text-white py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="text-center max-w-[768px] mx-auto mb-10 lg:mb-20">
-            {/* Figma: Heading/Tagline 16/150, Colour/Neutral/White. */}
-            <span className="text-base leading-[150%] font-semibold uppercase text-white">{hp.ctaEyebrow}</span>
-            <TitleWithHighlight
-              text={hp.ctaTitle}
-              highlight={hp.ctaTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-6 mb-6"
-            />
-            {/* Figma: Text/Medium/Normal 18/150, Color Scheme 3/Text. */}
-            <p className="text-lg leading-[150%] text-white">{hp.ctaSubtitle}</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-            {(hp.ctaCards || []).map((c) => (
-              <div
-                key={c.title}
-                className="bg-navy-900 outline outline-1 outline-white/20 shadow-md rounded-2xl p-8 md:min-h-[222px] flex flex-col"
-              >
-                {/* Figma: Body small Normal 14/150, Colour/Eastern Blue/Light (#65ADD0). */}
-                <span className="text-sm leading-[150%] uppercase text-teal-400">{c.tag}</span>
-                {/* Figma: Heading/H5 28/140. */}
-                <h4 className="font-display text-2xl md:text-[28px] md:leading-[140%] font-medium mt-2 mb-3">{c.title}</h4>
-                {/* Figma: Text/Small/Normal 14/150, Colour/Neutral/Lightest (#F2F2F2). */}
-                <p className="text-sm leading-[150%] text-ink-50 mb-4">{c.description}</p>
-                <Link to={c.linkUrl} className="text-base leading-[150%] font-medium text-white flex items-center gap-2 w-fit mt-auto">
-                  {c.linkLabel} <ArrowRight size={16} />
-                </Link>
-              </div>
-            ))}
-          </div>
+      {/* Core Values — Figma: 405x208 cards, radius 16, padded 32, 32 gaps. */}
+      <Section width={1280}>
+        <SectionTitle
+          center
+          tagline={hp.valuesEyebrow}
+          title={composeTitle(hp.valuesTitle, hp.valuesTitleHighlight)}
+          highlight={hp.valuesTitleHighlight}
+        />
+        <p className="mt-5 md:mt-6 max-w-[678px] mx-auto text-center text-base md:text-lg leading-[150%] text-black">
+          {hp.valuesSubtitle}
+        </p>
+        <div className="mt-20 grid md:grid-cols-3 gap-8">
+          {coreValues.map((v, i) => (
+            <div
+              key={v._id || v.title}
+              className="flex flex-col justify-center gap-2 min-h-[208px] p-8 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+            >
+              <span className="font-display font-medium text-[36px] leading-[130%] tracking-[-0.01em] text-navy-900">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <H5 className="text-black">{v.title}</H5>
+              <p className="text-sm leading-[150%] text-black">{v.description}</p>
+            </div>
+          ))}
         </div>
-      </section>
+      </Section>
+
+      {/* Continue Exploring — Figma "CTA / 57 /" on #24295c: 405x222 navy cards. */}
+      <Section bg="bg-navy-800" width={1280} className="border-t border-white/20">
+        <SectionTitle
+          center
+          dark
+          tagline={hp.ctaEyebrow}
+          title={composeTitle(hp.ctaTitle, hp.ctaTitleHighlight)}
+          highlight={hp.ctaTitleHighlight}
+          body={hp.ctaSubtitle}
+        />
+        <div className="mt-20 grid md:grid-cols-3 gap-8">
+          {(hp.ctaCards || []).map((c) => (
+            <div
+              key={c.title}
+              className="flex flex-col justify-center gap-4 min-h-[222px] p-8 rounded-2xl bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-white/20 shadow-small"
+            >
+              <span className="text-sm leading-[150%] uppercase text-teal-400">{c.tag}</span>
+              <div className="flex flex-col gap-2">
+                <H6 as="h3" className="text-white">
+                  {c.title}
+                </H6>
+                <p className="text-sm leading-[150%] text-ink-50">{c.description}</p>
+              </div>
+              <Link to={c.linkUrl} className="flex items-center gap-2 w-fit text-sm leading-[150%] hover:underline underline-offset-2">
+                {c.linkLabel} <ArrowRight size={24} strokeWidth={1.5} />
+              </Link>
+            </div>
+          ))}
+        </div>
+      </Section>
     </div>
   );
 }

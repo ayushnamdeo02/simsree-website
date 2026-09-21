@@ -42,3 +42,18 @@ export default function StatCard({ label, value, dark = false }) {
     </div>
   );
 }
+
+// The four-card stats row. Figma: 1280 row, 32 gap on desktop; on mobile a 2x2
+// grid with 16 gap whose colours checkerboard (navy/white, white/navy), so the
+// third and fourth cards trade places below lg.
+export function StatGrid({ stats = [], className = '' }) {
+  return (
+    <div
+      className={`max-w-[1280px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 max-lg:[&>*:nth-child(3)]:order-last ${className}`}
+    >
+      {stats.map((s) => (
+        <StatCard key={s.label} {...s} />
+      ))}
+    </div>
+  );
+}
