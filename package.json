@@ -12,7 +12,8 @@
     "studio:build": "npm --prefix studio run build",
     "studio:deploy": "npm --prefix studio run deploy",
     "dev:all": "concurrently -k -n web,studio -c cyan,magenta \"npm run dev\" \"npm run studio\"",
-    "install:all": "npm install && npm --prefix studio install"
+    "install:all": "npm install && npm --prefix studio install",
+    "figma:export": "node scripts/figma-export.mjs"
   },
   "dependencies": {
     "@sanity/client": "^8.4.0",
