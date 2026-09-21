@@ -1,0 +1,30 @@
+export default {
+  name: 'downloadFile',
+  title: 'Admissions — Download',
+  type: 'document',
+  description: 'A downloadable PDF shown on the Downloads & Affidavits page',
+  fields: [
+    {name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()},
+    {name: 'description', title: 'Description', type: 'text', rows: 3},
+    {
+      name: 'category',
+      title: 'Category',
+      description: 'Drives the filter chips',
+      type: 'string',
+      options: {list: ['Affidavits', 'Documents', 'Fee', 'Notifications']},
+      validation: (Rule) => Rule.required(),
+    },
+    {
+      name: 'file',
+      title: 'PDF file',
+      description: 'Upload the PDF here. If empty, the external URL below is used instead.',
+      type: 'file',
+      options: {accept: '.pdf'},
+    },
+    {name: 'externalUrl', title: 'External URL', description: 'Used only when no file is uploaded', type: 'string'},
+    {name: 'ctaLabel', title: 'Button label', type: 'string', initialValue: 'Download'},
+    {name: 'order', title: 'Display order', type: 'number', validation: (Rule) => Rule.required()},
+  ],
+  orderings: [{title: 'Display order', name: 'orderAsc', by: [{field: 'order', direction: 'asc'}]}],
+  preview: {select: {title: 'title', subtitle: 'category'}},
+}

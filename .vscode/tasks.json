@@ -1,0 +1,27 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "website: dev",
+      "type": "npm",
+      "script": "dev",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "studio: dev",
+      "type": "npm",
+      "script": "studio",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "start both",
+      "type": "npm",
+      "script": "dev:all",
+      "isBackground": true,
+      "problemMatcher": [],
+      "group": {"kind": "build", "isDefault": true}
+    }
+  ]
+}

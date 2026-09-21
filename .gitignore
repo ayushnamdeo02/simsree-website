@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+studio/dist/
+
+# Sanity runtime (regenerated on every studio start)
+studio/.sanity/
+
+# Logs & scratch
+*.log
+.tmp_*
+
+# Env / local
+.env
+.env.*
+*.local
+
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel

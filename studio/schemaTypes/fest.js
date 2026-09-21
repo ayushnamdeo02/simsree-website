@@ -1,0 +1,21 @@
+export default {
+  name: 'fest',
+  title: 'Flagship Events — Fest',
+  type: 'document',
+  description: 'One per fest. Featured fests appear in the top grid; all appear in the full lineup.',
+  fields: [
+    {name: 'name', title: 'Fest name', type: 'string', validation: (Rule) => Rule.required()},
+    {name: 'image', title: 'Image', type: 'image', options: {hotspot: true}},
+    {name: 'featured', title: 'Featured fest?', description: 'Shows in the large "Featured fests" grid', type: 'boolean', initialValue: false},
+    {name: 'dateBadge', title: 'Date badge', description: 'e.g. "02 · Feb 2027"', type: 'string'},
+    {name: 'tagline', title: 'Tagline', description: 'Featured card line, e.g. "Five tracks · 2 days · 500+ delegates"', type: 'string'},
+    {name: 'featuredMeta', title: 'Featured meta line', description: 'The small caps line at the foot of the featured card', type: 'string'},
+    {name: 'subtitle', title: 'Lineup subtitle', description: 'e.g. "Annual case competition festival"', type: 'string'},
+    {name: 'description', title: 'Lineup description', type: 'text', rows: 3},
+    {name: 'ctaLabel', title: 'Lineup link label', type: 'string', initialValue: 'View 2027 edition'},
+    {name: 'ctaUrl', title: 'Link URL', type: 'string'},
+    {name: 'order', title: 'Display order', description: 'Also shown as the 01/02/03 number', type: 'number', validation: (Rule) => Rule.required()},
+  ],
+  orderings: [{title: 'Display order', name: 'orderAsc', by: [{field: 'order', direction: 'asc'}]}],
+  preview: {select: {title: 'name', subtitle: 'subtitle', media: 'image'}},
+}
