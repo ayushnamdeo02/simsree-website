@@ -1,0 +1,166 @@
+[34mℹ[39m Running with auto-updates enabled
+The following local package versions are different from the versions currently served at runtime.
+When using auto updates, we recommend that you run with the same versions locally as will be used when deploying.
+
+ - sanity (local version: 6.11.0, runtime version: 6.13.0)
+ - @sanity/vision (local version: 6.11.0, runtime version: 6.13.0)
+
+
+[32m✔[39m Checking configuration files...
+- Starting dev server
+[32m✔[39m Starting dev server
+Sanity Studio using vite@8.2.2 ready in 472ms and running at http://localhost:3333/
+[2m8:05:11 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m8:05:11 pm[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: network error
+[2m8:05:15 pm[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mBuilding schema for synchronization took more than 1 second (1978.5999999996275ms)
+[2m8:07:02 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m8:07:02 pm[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: network error
+[2m8:07:08 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m8:07:08 pm[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: network error
+[2m8:10:08 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m8:10:08 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m8:10:08 pm[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: network error
+[2m8:10:14 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m8:10:15 pm[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: network error
+[2m8:10:20 pm[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mBuilding schema for synchronization took more than 1 second (3672.4000000003725ms)
+[2m8:25:29 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m8:25:29 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m8:25:29 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m9:07:37 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m9:07:37 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m9:14:11 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/programme.js[22m
+[2m9:14:24 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/programme.js[22m
+[2m9:16:10 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m9:16:10 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m9:16:10 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m9:20:52 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m9:20:52 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m9:20:52 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m9:34:51 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/admissionDetail.js[22m
+[2m9:38:02 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m9:38:02 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m9:38:02 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m9:47:23 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m9:47:23 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m9:47:23 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m9:47:48 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/programmeDetail.js[22m
+[2m10:05:08 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:05:08 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:05:08 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m10:11:15 pm[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mBuilding schema for synchronization took more than 1 second (8509.5ms)
+[2m10:12:39 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:12:39 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:12:39 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m10:12:40 pm[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: network error
+[2m10:12:48 pm[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mBuilding schema for synchronization took more than 1 second (7094.60000000149ms)
+[2m10:19:41 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:19:41 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:19:41 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m10:24:44 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/committee.js[22m
+[2m1:27:56 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m1:27:56 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m1:32:00 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m1:32:00 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m1:32:00 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m1:37:05 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m1:37:05 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m1:37:05 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m2:06:22 pm[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mBuilding schema for synchronization took more than 1 second (3453.7999999970198ms)
+[2m9:03:10 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/flagshipEvent.js[22m
+[2m9:03:55 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m9:03:55 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m9:03:55 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m10:43:51 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:43:51 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:43:51 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m10:47:55 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:47:55 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:47:55 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m10:52:37 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:52:37 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:52:37 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m10:57:08 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:57:08 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m10:57:08 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m11:01:09 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/newsItem.js[22m
+[2m11:02:48 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/index.js[22m
+[2m11:02:48 pm[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mdeskStructure.js[22m
+[2m1:59:16 am[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mFailed to fetch version for package (using tag=latest) sanity Error: TypeError: Failed to fetch
+    at fetchLatestAvailableVersionForPackage (http://localhost:3333/node_modules/.sanity/vite/deps/lib-42_BAWWM.js?v=cf0260e7:28508:19)
+    at t6 (http://localhost:3333/node_modules/.sanity/vite/deps/lib-42_BAWWM.js?v=cf0260e7:28602:36)
+    at poll (http://localhost:3333/node_modules/.sanity/vite/deps/lib-42_BAWWM.js?v=cf0260e7:28622:10)
+    at t7 (http://localhost:3333/node_modules/.sanity/vite/deps/lib-42_BAWWM.js?v=cf0260e7:28624:3)
+    at Object.react_stack_bottom_frame (http://localhost:3333/node_modules/.sanity/vite/deps/dist-DSjXklIR.js?v=cf0260e7:33821:13)
+    at runWithFiberInDEV (http://localhost:3333/node_modules/.sanity/vite/deps/dist-DSjXklIR.js?v=cf0260e7:21770:66)
+    at commitHookEffectListMount (http://localhost:3333/node_modules/.sanity/vite/deps/dist-DSjXklIR.js?v=cf0260e7:27536:153)
+    at commitHookPassiveMountEffects (http://localhost:3333/node_modules/.sanity/vite/deps/dist-DSjXklIR.js?v=cf0260e7:27571:55)
+    at reconnectPassiveEffects (http://localhost:3333/node_modules/.sanity/vite/deps/dist-DSjXklIR.js?v=cf0260e7:28620:6)
+    at recursivelyTraverseReconnectPassiveEffects (http://localhost:3333/node_modules/.sanity/vite/deps/dist-DSjXklIR.js?v=cf0260e7:28607:5)
+[2m1:59:26 am[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mstyled-components: it looks like an unknown prop "intent" is being sent through to the DOM, which will likely trigger a React console error. If you would like automatic filtering of unknown props, you can opt-into that behavior via `<StyleSheetManager shouldForwardProp={...}>` (connect an API like `@emotion/is-prop-valid`) or consider using transient props (`$` prefix for automatic filtering.)
+[2m1:59:26 am[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mstyled-components: it looks like an unknown prop "params" is being sent through to the DOM, which will likely trigger a React console error. If you would like automatic filtering of unknown props, you can opt-into that behavior via `<StyleSheetManager shouldForwardProp={...}>` (connect an API like `@emotion/is-prop-valid`) or consider using transient props (`$` prefix for automatic filtering.)
+[2m2:07:34 am[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: network error
+[2m2:23:19 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/courseOffered.js[22m
+[2m2:37:10 am[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mstyled-components: it looks like an unknown prop "intent" is being sent through to the DOM, which will likely trigger a React console error. If you would like automatic filtering of unknown props, you can opt-into that behavior via `<StyleSheetManager shouldForwardProp={...}>` (connect an API like `@emotion/is-prop-valid`) or consider using transient props (`$` prefix for automatic filtering.)
+[2m2:37:10 am[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mstyled-components: it looks like an unknown prop "params" is being sent through to the DOM, which will likely trigger a React console error. If you would like automatic filtering of unknown props, you can opt-into that behavior via `<StyleSheetManager shouldForwardProp={...}>` (connect an API like `@emotion/is-prop-valid`) or consider using transient props (`$` prefix for automatic filtering.)
+[2m2:48:39 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/homepage.js[22m
+[2m2:48:40 am[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m Pre-transform error: Transform failed with 1 error:
+
+[PARSE_ERROR] Expected `,` or `}` but found `Identifier`
+    ╭─[ schemaTypes/homepage.js:94:34 ]
+    │
+ 91 │     {
+    │     ┬  
+    │     ╰── Opened here
+    │ 
+ 94 │       description: 'e.g. "Mumbai's" — sits on line 2 ahead of the highlighted phrase.',
+    │                                  ┬  
+    │                                  ╰── `,` or `}` expected
+────╯
+
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/aksh6/Downloads/simsree-react/simsree/studio/schemaTypes/homepage.js[39m
+[2m2:48:40 am[22m [31m[1m[vite][22m[39m [31m[2m(client)[22m[39m [2m[console.error] [22mTypeError: network error
+[2m2:48:40 am[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[PARSE_ERROR] Expected `,` or `}` but found `Identifier`
+    ╭─[ schemaTypes/homepage.js:94:34 ]
+    │
+ 91 │     {
+    │     ┬  
+    │     ╰── Opened here
+    │ 
+ 94 │       description: 'e.g. "Mumbai's" — sits on line 2 ahead of the highlighted phrase.',
+    │                                  ┬  
+    │                                  ╰── `,` or `}` expected
+────╯
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/aksh6/Downloads/simsree-react/simsree/studio/schemaTypes/homepage.js[39m
+      at transformWithOxc (file:///C:/Users/aksh6/Downloads/simsree-react/simsree/studio/node_modules/vite/dist/node/chunks/node.js:4103:19)
+      at TransformPluginContext.transform (file:///C:/Users/aksh6/Downloads/simsree-react/simsree/studio/node_modules/vite/dist/node/chunks/node.js:4174:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/aksh6/Downloads/simsree-react/simsree/studio/node_modules/vite/dist/node/chunks/node.js:30932:51)
+      at async loadAndTransform (file:///C:/Users/aksh6/Downloads/simsree-react/simsree/studio/node_modules/vite/dist/node/chunks/node.js:20671:26)
+      at async viteTransformMiddleware (file:///C:/Users/aksh6/Downloads/simsree-react/simsree/studio/node_modules/vite/dist/node/chunks/node.js:25205:20)
+[2m2:52:22 am[22m [31m[1m[vite][22m[39m [31mInternal server error: Transform failed with 1 error:
+
+[PARSE_ERROR] Expected `,` or `}` but found `Identifier`
+    ╭─[ schemaTypes/homepage.js:94:34 ]
+    │
+ 91 │     {
+    │     ┬  
+    │     ╰── Opened here
+    │ 
+ 94 │       description: 'e.g. "Mumbai's" — sits on line 2 ahead of the highlighted phrase.',
+    │                                  ┬  
+    │                                  ╰── `,` or `}` expected
+────╯
+[39m
+  Plugin: [35mvite:oxc[39m
+  File: [36mC:/Users/aksh6/Downloads/simsree-react/simsree/studio/schemaTypes/homepage.js[39m
+      at transformWithOxc (file:///C:/Users/aksh6/Downloads/simsree-react/simsree/studio/node_modules/vite/dist/node/chunks/node.js:4103:19)
+      at TransformPluginContext.transform (file:///C:/Users/aksh6/Downloads/simsree-react/simsree/studio/node_modules/vite/dist/node/chunks/node.js:4174:26)
+      at EnvironmentPluginContainer.transform (file:///C:/Users/aksh6/Downloads/simsree-react/simsree/studio/node_modules/vite/dist/node/chunks/node.js:30932:51)
+      at async loadAndTransform (file:///C:/Users/aksh6/Downloads/simsree-react/simsree/studio/node_modules/vite/dist/node/chunks/node.js:20671:26)
+      at async viteTransformMiddleware (file:///C:/Users/aksh6/Downloads/simsree-react/simsree/studio/node_modules/vite/dist/node/chunks/node.js:25205:20)
+[2m2:52:53 am[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2mschemaTypes/homepage.js[22m
+[2m2:53:03 am[22m [33m[1m[vite][22m[39m [33m[2m(client)[22m[39m [2m[console.warn] [22mBuilding schema for synchronization took more than 1 second (6944.800000011921ms)

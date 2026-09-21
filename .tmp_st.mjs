@@ -1,0 +1,13 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 1440, height: 900 } });
+const errs = [];
+p.on('pageerror', e => errs.push(e.message));
+await p.goto('http://localhost:3333/structure', { waitUntil: 'networkidle', timeout: 60000 });
+await p.waitForTimeout(6000);
+const txt = await p.evaluate(() => document.body.innerText);
+console.log('blank:', txt.trim().length < 40);
+console.log('--- visible items ---');
+console.log(txt.split('\n').filter(Boolean).slice(0, 30).join('\n'));
+console.log('--- errors ---', errs.slice(0, 3));
+await b.close();

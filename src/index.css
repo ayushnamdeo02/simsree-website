@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* Colors from the SIMSREE design system.
+     "Astronaut" (#2E3474) is the brand navy used for dark sections, the top bar,
+     and primary buttons — it maps to navy-900, with darker ramp steps above it. */
+  --color-navy-950: #0d0f22;
+  --color-navy-900: #2e3474;
+  --color-navy-800: #24295c;
+  --color-navy-700: #12142e;
+  --color-navy-600: #6c709d;
+  --color-navy-300: #a4a7c1;
+  --color-navy-100: #d5d6e3;
+  --color-navy-50: #eaeaf1;
+
+  --color-teal-700: #0a2938;
+  --color-teal-600: #1c6f96;
+  --color-teal-500: #238bbc;
+  --color-teal-400: #65add0;
+  --color-teal-100: #d3e7f1;
+  --color-teal-50: #e9f3f8;
+  /* Colour/Eastern Blue/Lightest — labels on the navy contact cards. */
+  --color-teal-100: #d3e7f1;
+
+  /* Eastern Blue/Lightest — the pale section background. */
+  --color-sky-50: #e9f3f8;
+
+  --color-sky-600: #238bbc;
+  --color-sky-500: #65add0;
+
+  /* Chart series — validated for CVD separation + lightness band against the
+     white chart surface (dataviz six-checks). Series 1 is a lightened brand
+     navy: #2E3474 fails the lightness band at plot scale. */
+  --color-chart-1: #3f47a0;
+  --color-chart-2: #238bbc;
+  --color-chart-track: #eaeaf1;
+
+  /* Chart series for panels on the navy surface. The light-mode pair fails
+     contrast there (#238bbc is only 2.95:1 on navy), so dark panels use a
+     lighter sky + amber pair: 5.39:1 and 6.33:1 against navy, CVD-separated
+     at delta-E 19.2 (protan). Bars are also directly labelled. */
+  --color-chart-dark-1: #5fbee8;
+  --color-chart-dark-2: #efb95f;
+  --color-chart-dark-track: #4a5090;
+
+  --color-gold-600: #b08d57;
+
+  /* Hero headings use the design system's off-white, not pure #fff. */
+  --color-hero: #fefefe;
+
+  --color-ink-900: #191919;
+  --color-ink-600: #4c4c4c;
+  --color-ink-400: #7f7f7f;
+  /* Colour/Neutral/Lightest — body copy on dark panels. */
+  --color-ink-50: #f2f2f2;
+
+  --font-display: 'Playfair Display', ui-serif, Georgia, serif;
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-ink-900);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Continuous logo marquee (Recruiting Partners). The track holds two identical
+   halves, so translating by -50% loops seamlessly. */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+}
