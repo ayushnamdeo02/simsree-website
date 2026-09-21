@@ -22,7 +22,7 @@ const socialIcons = {
   ),
 };
 
-function SocialIcon({ name, size = 18 }) {
+function SocialIcon({ name, size = 24 }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       {socialIcons[name]}
@@ -42,46 +42,51 @@ export default function Footer() {
   const emblemUrl = emblemSource ? urlFor(emblemSource).height(96).auto('format').url() : null;
 
   return (
-    <footer className="bg-navy-900 text-white border-t border-white/10">
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-16 py-14 lg:py-20 grid grid-cols-1 lg:grid-cols-6 gap-10 lg:gap-20">
-        <div className="lg:col-span-2">
-          {emblemUrl ? (
-            <img src={emblemUrl} alt="" className="h-12 w-auto max-w-[240px] object-contain mb-4" />
-          ) : (
-            <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-sm font-display mb-4">
-              S
+    // Figma "Footer / 6 /": 80/64 padding (64/20 on mobile), 1280 container, 80 gap to credits.
+    <footer className="bg-navy-900 text-white border-t border-white/20">
+      <div className="max-w-[1280px] mx-auto box-content px-5 py-16 md:px-16 md:py-20">
+        <div className="flex flex-col lg:flex-row gap-10">
+          {/* Brand column — 620 wide: 229x56 logo, 40 gap, then 390 content with 20 gaps. */}
+          <div className="lg:w-[620px] shrink-0 flex flex-col gap-10">
+            {emblemUrl ? (
+              <img src={emblemUrl} alt="SIMSREE" className="h-14 w-auto max-w-[229px] object-contain object-left" />
+            ) : (
+              <div className="h-14" />
+            )}
+            <div className="max-w-[390px] flex flex-col gap-5">
+              <p className="text-lg leading-[150%] font-semibold">{addressLine1}</p>
+              <p className="text-base leading-[150%]">{addressLine2}</p>
+              <div className="flex gap-4">
+                <SocialIcon name="linkedin" />
+                <SocialIcon name="facebook" />
+                <SocialIcon name="instagram" />
+                <SocialIcon name="x" />
+                <SocialIcon name="youtube" />
+              </div>
             </div>
-          )}
-          <p className="font-display text-lg leading-snug mb-3">{addressLine1}</p>
-          <p className="text-sm text-white/70">{addressLine2}</p>
-          <div className="flex gap-4 mt-5 text-white/80">
-            <SocialIcon name="linkedin" />
-            <SocialIcon name="facebook" />
-            <SocialIcon name="instagram" />
-            <SocialIcon name="x" />
-            <SocialIcon name="youtube" />
+          </div>
+
+          {/* Four 125-wide link columns, 40 gap (two rows of two on mobile). */}
+          <div className="grid grid-cols-[125px_125px] gap-10 justify-between lg:flex lg:ml-auto">
+            {footerColumns.map((col) => (
+              <div key={col.heading} className="w-[125px]">
+                <h4 className="text-base leading-[150%] font-semibold mb-4">{col.heading}</h4>
+                <ul>
+                  {col.links.map((l) => (
+                    <li key={l.path}>
+                      <Link to={l.path} className="block py-2 text-sm leading-[150%] hover:underline underline-offset-2">
+                        {l.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
         </div>
 
-        {footerColumns.map((col) => (
-          <div key={col.heading}>
-            <h4 className="font-semibold text-sm mb-3">{col.heading}</h4>
-            <ul className="space-y-2">
-              {col.links.map((l) => (
-                <li key={l.path}>
-                  <Link to={l.path} className="text-sm text-white/70 hover:text-white transition-colors">
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-
-      <div>
-        {/* Rule sits inside the 1280 container so it stops short of the viewport edges */}
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-16 border-t border-white/10 py-4 text-xs text-white/60">
+        {/* Credits — 1px white/20 rule, 32 gap, Inter 14/150. */}
+        <div className="mt-20 pt-8 border-t border-white/20 text-sm leading-[150%]">
           © {new Date().getFullYear()} SIMSREE · All rights reserved · Designed by DigIN Media rights reserved.
         </div>
       </div>

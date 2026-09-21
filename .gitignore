@@ -26,3 +26,4 @@ Thumbs.db
 
 # Figma export cache (regenerate with: npm run figma:export)
 design/figma/
+design/shots/

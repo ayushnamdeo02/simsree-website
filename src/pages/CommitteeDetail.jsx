@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
 import StatCard from '../components/StatCard';
+import PageHero, { HeroButton } from '../components/PageHero';
+import { Section, SectionTitle, Tagline, Heading, H5, AccentCard, Tag } from '../components/ui';
 import { useCommitteeData } from '../lib/useCommitteeData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -764,31 +765,15 @@ function genericCommittee(slug) {
     ],
   };
 }
-
-// Splits a title so the committee's own name renders in teal.
-function TitleWithName({ text = '', name, className }) {
-  const idx = name ? text.indexOf(name) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
-  return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{name}</span>
-      {text.slice(idx + name.length)}
-    </h2>
-  );
-}
-
-function TitleWithHighlight({ text = '', highlight, className }) {
-  const idx = highlight ? text.indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
-  return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
-  );
-}
+// Figma hero photo per committee, used until an image is set in the Studio.
+const HERO_FALLBACK = Object.fromEntries(
+  [
+    'placement', 'alumni', 'corporate-relations', 'course-coordinators', 'entrepreneurship-cell',
+    'events', 'finance-forum', 'infra-tech', 'marketing-media', 'hrudaya-ops', 'research-consulting', 'ssr',
+  ].map((s) => [s, `/images/committees/hero-${s}.webp`]),
+);
+// Figma member portraits, in card order, for members without a photo yet.
+const MEMBER_FALLBACK = [1, 2, 3, 4, 5, 6].map((n) => `/images/committees/member-${n}.webp`);
 
 export default function CommitteeDetail() {
   const { slug } = useParams();
@@ -804,16 +789,9 @@ export default function CommitteeDetail() {
   if (!c) {
     return (
       <div className="max-w-[1280px] mx-auto px-6 py-32">
-        <h1 className="font-display text-3xl font-semibold text-navy-900 mb-4">
-          Committee not found
-        </h1>
-        <p className="text-sm text-ink-600 mb-6">
-          This committee page has not been created in the CMS yet.
-        </p>
-        <Link
-          to="/about/student-driven-system"
-          className="text-sm font-medium text-sky-600 hover:text-teal-600"
-        >
+        <h1 className="font-display text-3xl font-medium text-navy-900 mb-4">Committee not found</h1>
+        <p className="text-sm text-ink-600 mb-6">This committee page has not been created in the CMS yet.</p>
+        <Link to="/students/body-structure" className="text-sm font-medium text-teal-500 hover:text-teal-600">
           See all committees
         </Link>
       </div>
@@ -821,67 +799,38 @@ export default function CommitteeDetail() {
   }
 
   const heroImageUrl = c.heroImage
-    ? urlFor(c.heroImage).width(1600).url()
+    ? urlFor(c.heroImage).width(1920).auto('format').url()
     : c.image
-      ? urlFor(c.image).width(1600).url()
-      : null;
+      ? urlFor(c.image).width(1920).auto('format').url()
+      : HERO_FALLBACK[slug];
 
   const has = (k) => Array.isArray(c[k]) && c[k].length > 0;
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[360px] md:h-[420px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-10 md:pb-[44px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-4 flex items-center flex-wrap">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/about" className="hover:text-white">About Us</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/about/student-driven-system" className="hover:text-white">
-              Student Body Structure
-            </Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">{c.name}</span>
-          </div>
-          {c.heroEyebrow && (
-            <span className="text-[11px] font-semibold tracking-widest uppercase text-white/90 mb-3">
-              {c.heroEyebrow}
-            </span>
-          )}
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-3">{c.name}</h1>
-          {c.tagline && <p className="text-sm text-white/85 mb-6">{c.tagline}</p>}
-          <div className="flex flex-wrap gap-3">
-            {c.contactEmail && (
-              <a
-                href={`mailto:${c.contactEmail}`}
-                className="bg-sky-600 hover:bg-teal-600 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md flex items-center gap-2 w-fit"
-              >
-                Email {c.contactEmail} <ArrowUpRight size={15} />
-              </a>
-            )}
-            <Link
-              to="/about/student-driven-system"
-              className="bg-white hover:bg-gray-100 transition-colors text-navy-900 text-sm font-medium px-5 py-3 rounded-md w-fit"
-            >
-              All {facts.committeeCount} committees
-            </Link>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        image={heroImageUrl}
+        breadcrumb={[
+          { label: 'Home', to: '/' },
+          { label: 'About Us', to: '/about' },
+          { label: 'Student Body Structure', to: '/students/body-structure' },
+          { label: c.name },
+        ]}
+        eyebrow={c.heroEyebrow}
+        title={c.name}
+        titleWidth={706}
+        description={c.tagline}
+        descriptionWidth={628}
+        actions={[
+          ...(c.contactEmail ? [{ label: `Email ${c.contactEmail}`, href: `mailto:${c.contactEmail}`, primary: true }] : []),
+          { label: `All ${facts.committeeCount} committees`, to: '/students/body-structure' },
+        ]}
+      />
 
-      {/* Stats */}
+      {/* Stats — Figma "Layout / 396": 64 padding, four 296x300 cards, 32 gap (2x2, 16 gap on mobile). */}
       {has('stats') && (
-        <section className="max-w-[1408px] mx-auto px-6 lg:px-16 py-10 lg:py-14">
-          <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+        <section className="px-5 py-16 md:p-16">
+          <div className="max-w-[1280px] mx-auto grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
             {c.stats.map((s) => (
               <StatCard key={s.label} {...s} />
             ))}
@@ -889,160 +838,118 @@ export default function CommitteeDetail() {
         </section>
       )}
 
-      {/* What it does */}
+      {/* What it does — tagline/title/body, then activities card and skills column, 80 gap. */}
       {(c.aboutTitle || has('activities')) && (
-        <section className="py-16 lg:py-20">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              About This Committee
-            </span>
-            <TitleWithName
-              text={c.aboutTitle}
-              name={c.name}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
-            />
-            {c.aboutBody && (
-              <p className="text-sm text-ink-600 leading-relaxed max-w-3xl mb-10">{c.aboutBody}</p>
+        <Section>
+          <Tagline>About this committee</Tagline>
+          <Heading text={c.aboutTitle} highlight={c.name} className="text-navy-900 mt-8" />
+          {c.aboutBody && <p className="mt-6 text-base md:text-lg leading-[150%] text-black">{c.aboutBody}</p>}
+
+          <div className="mt-20 grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+            {has('activities') && (
+              <AccentCard>
+                {c.activities.map((a, i) => (
+                  <div key={a.title} className={i > 0 ? 'mt-6 pt-12 border-t border-black/20' : ''}>
+                    <H5>{a.title}</H5>
+                    <p className="mt-4 text-base leading-[150%] text-black">{a.description}</p>
+                  </div>
+                ))}
+              </AccentCard>
             )}
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-              {has('activities') && (
-                <div className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-7 py-2">
-                  {c.activities.map((a) => (
-                    <div key={a.title} className="py-5 border-b border-navy-100 last:border-b-0">
-                      <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                        {a.title}
-                      </h3>
-                      <p className="text-sm text-ink-600 leading-relaxed">{a.description}</p>
-                    </div>
-                  ))}
+            <div className="flex flex-col gap-8">
+              {has('skills') && (
+                <div>
+                  <H5>{c.skillsTitle}</H5>
+                  <div className="mt-8 flex flex-wrap gap-3.5 max-w-[364px]">
+                    {c.skills.map((s) => (
+                      <Tag key={s}>{s}</Tag>
+                    ))}
+                  </div>
                 </div>
               )}
-
-              <div>
-                {has('skills') && (
-                  <>
-                    <h3 className="font-display text-xl font-semibold text-navy-900 mb-4">
-                      {c.skillsTitle}
-                    </h3>
-                    <div className="flex flex-wrap gap-2 mb-8">
-                      {c.skills.map((s) => (
-                        <span
-                          key={s}
-                          className="text-[11px] text-navy-900 border border-navy-100 rounded px-3 py-1.5"
-                        >
-                          {s}
-                        </span>
-                      ))}
-                    </div>
-                  </>
-                )}
-
-                {c.equivalentValue && (
-                  <div className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5">
-                    <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                      {c.equivalentTitle}
-                    </h3>
-                    <p className="text-sm text-ink-600">{c.equivalentValue}</p>
-                  </div>
-                )}
-              </div>
+              {c.equivalentValue && (
+                <AccentCard accent="bg-navy-900">
+                  <H5>{c.equivalentTitle}</H5>
+                  <p className="mt-4 text-base leading-[150%] text-black">{c.equivalentValue}</p>
+                </AccentCard>
+              )}
             </div>
           </div>
-        </section>
+        </Section>
       )}
 
-      {/* Team */}
+      {/* Team — Figma "CTA / 57" on #24295c: centred header, 3-up 405x522 navy cards. */}
       {has('team') && (
-        <section className="bg-navy-900 text-white py-16 lg:py-24">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-            <div className="max-w-[768px] mx-auto text-center mb-12">
-              <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
-                {c.teamEyebrow}
-              </span>
-              <TitleWithHighlight
-                text={c.teamTitle}
-                highlight={c.teamTitleHighlight}
-                className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-5 mb-3"
-              />
-              <p className="text-sm text-white/70">{c.teamSubtitle}</p>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {c.team.map((m, i) => {
-                const photoUrl = m.photo ? urlFor(m.photo).width(500).url() : null;
-                return (
-                  <div
-                    key={`${m.name}-${i}`}
-                    className="border border-white/15 rounded-lg overflow-hidden"
-                  >
-                    <div
-                      className="h-[220px] bg-white/10 bg-cover bg-center m-4 rounded"
-                      style={photoUrl ? { backgroundImage: `url('${photoUrl}')` } : undefined}
-                    />
-                    <div className="px-5 pb-5">
-                      <p className="font-display text-lg font-semibold mb-1">{m.name}</p>
-                      <p className="text-xs text-white/60">{m.role}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Member voice */}
-      {c.voiceQuote && (
-        <section className="py-16 lg:py-20">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {c.voiceEyebrow}
-            </span>
-            <TitleWithHighlight
-              text={c.voiceTitle}
-              highlight={c.voiceTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
-            />
-            {c.voiceAttribution && (
-              <p className="text-sm text-ink-600 mb-8">{c.voiceAttribution}</p>
-            )}
-            <figure className="m-0">
-              <blockquote className="bg-navy-50 border-l-2 border-l-sky-600 rounded-sm px-7 py-6 text-sm text-navy-900 leading-relaxed">
-                {c.voiceQuote}
-              </blockquote>
-            </figure>
-          </div>
-        </section>
-      )}
-
-      {/* Join CTA */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-sky-500">
-            {c.joinEyebrow || 'Get Involved'}
-          </span>
-          <TitleWithName
-            text={c.joinTitle || `Join ${c.name}`}
-            name={c.name}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-5 mb-4"
+        <Section bg="bg-navy-800" width={1280} className="border-t border-white/20">
+          <SectionTitle
+            center
+            dark
+            tagline={c.teamEyebrow}
+            title={c.teamTitle}
+            highlight={c.teamTitleHighlight}
+            body={c.teamSubtitle}
           />
-          {c.joinBody && (
-            <p className="text-sm text-white/75 leading-relaxed max-w-md mb-8">{c.joinBody}</p>
-          )}
-          <div className="flex flex-wrap gap-3">
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {c.team.map((m, i) => {
+              const photoUrl = m.photo
+                ? urlFor(m.photo).width(700).auto('format').url()
+                : MEMBER_FALLBACK[i % MEMBER_FALLBACK.length];
+              return (
+                <div
+                  key={`${m.name}-${i}`}
+                  className="bg-navy-900 rounded-2xl outline outline-1 -outline-offset-1 outline-white/20 shadow-small p-8 flex flex-col gap-16"
+                >
+                  <div
+                    className="h-80 rounded-2xl bg-white/10 bg-cover bg-center"
+                    style={photoUrl ? { backgroundImage: `url('${photoUrl}')` } : undefined}
+                  />
+                  <div className="flex flex-col gap-2 text-white">
+                    <H5 as="p" className="text-white">
+                      {m.name}
+                    </H5>
+                    <p className="text-lg leading-[150%]">{m.role}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Section>
+      )}
+
+      {/* Member voice — Figma "Layout / 141": 768 header, 80 gap, grey quote bar. */}
+      {c.voiceQuote && (
+        <Section width={1280}>
+          <SectionTitle
+            tagline={c.voiceEyebrow}
+            title={c.voiceTitle}
+            highlight={c.voiceTitleHighlight}
+            body={c.voiceAttribution}
+          />
+          <figure className="mt-20">
+            <AccentCard bg="bg-navy-50">
+              <blockquote className="-my-4 text-lg leading-[150%] text-black">{c.voiceQuote}</blockquote>
+            </AccentCard>
+          </figure>
+        </Section>
+      )}
+
+      {/* Join CTA — Figma "CTA / 57" navy: 64 padding, 613 column, Eastern Blue tagline. */}
+      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+        <div className="max-w-[1280px] mx-auto">
+          <div className="max-w-[613px]">
+            <Tagline className="text-teal-400">{c.joinEyebrow || 'Get Involved'}</Tagline>
+            <Heading
+              text={c.joinTitle || `Join ${c.name}`}
+              highlight={c.name}
+              className="text-white mt-4"
+              highlightClass="text-teal-400"
+            />
+            {c.joinBody && <p className="mt-6 text-lg leading-[150%] max-w-[504px]">{c.joinBody}</p>}
+          </div>
+          <div className="mt-8 flex flex-col md:flex-row gap-3.5">
             {(c.joinButtons || []).map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-              </a>
+              <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} icon={false} />
             ))}
           </div>
         </div>

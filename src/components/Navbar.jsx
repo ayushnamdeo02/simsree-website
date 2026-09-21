@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, ArrowUpRight } from 'lucide-react';
 import { mainNav as fallbackMainNav, utilityLinks as fallbackUtilityLinks } from '../data/sitemap';
 import { useSiteSettings } from '../lib/useSiteSettings';
 import { urlFor } from '../lib/sanity';
@@ -55,12 +55,18 @@ export default function Navbar() {
     <header
       className={`${isTransparentRoute ? 'fixed' : 'sticky'} top-0 left-0 right-0 z-50`}
     >
-      {/* Utility bar — 48px tall to match the design system */}
-      <div className="hidden lg:block bg-navy-900 text-white text-xs">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-16 h-12 flex items-center justify-end gap-5">
+      {/* Utility bar — Figma "Navbar / 1 /": 48 tall on every screen. Desktop: Inter 14/150,
+          24 gap, right-aligned, 14px arrows. Mobile: 12/150, 16 gap, scrolls sideways. */}
+      <div className="bg-navy-900 text-white">
+        <div className="max-w-[1440px] mx-auto px-5 lg:px-16 h-12 flex items-center lg:justify-end gap-4 lg:gap-6 overflow-x-auto [scrollbar-width:none]">
           {utilityLinks.map((l) => (
-            <Link key={l.path} to={l.path} className="hover:text-sky-500 transition-colors">
-              {l.label} ↗
+            <Link
+              key={l.path}
+              to={l.path}
+              className="flex items-center gap-1 shrink-0 whitespace-nowrap text-xs leading-[150%] lg:text-sm hover:underline underline-offset-2"
+            >
+              {l.label}
+              <ArrowUpRight size={14} strokeWidth={1.5} className="hidden lg:block" />
             </Link>
           ))}
         </div>
@@ -68,8 +74,9 @@ export default function Navbar() {
 
       {/* Main nav — 1312px frame at x=64 (1440 - 64 - 64), 120px tall (Figma) */}
       <div className={`transition-colors duration-300 ${isTransparent ? 'bg-transparent' : 'bg-white shadow-sm'}`}>
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
-          <div className="flex items-center justify-between h-20 lg:h-[120px]">
+        <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
+          {/* Figma: 108 tall with a 192x47 logo on mobile; 120 tall with a 229x56 logo on desktop. */}
+          <div className="flex items-center justify-between h-[108px] lg:h-[120px]">
             <Link
               to="/"
               aria-label="SIMSREE — home"
@@ -81,7 +88,7 @@ export default function Navbar() {
                 <img
                   src={logoUrl}
                   alt="SIMSREE"
-                  className={`h-12 w-auto max-w-[220px] object-contain ${
+                  className={`h-[47px] lg:h-14 w-auto max-w-[229px] object-contain ${
                     lightenLogo ? 'brightness-0 invert' : darkenLogo ? 'brightness-0' : ''
                   }`}
                 />
@@ -96,7 +103,8 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop nav */}
-            <nav className="hidden xl:flex items-center gap-0.5 shrink-0">
+            {/* Figma: Inter 16/150 links, 16 gap, 16px chevrons 4px from the label. */}
+            <nav className="hidden xl:flex items-center gap-4 shrink-0 ml-auto mr-8">
               {mainNav.map((item) => (
                 <div
                   key={item.path}
@@ -106,12 +114,12 @@ export default function Navbar() {
                 >
                   <Link
                     to={item.path}
-                    className={`flex items-center gap-1 whitespace-nowrap px-2.5 py-2 text-sm font-medium transition-colors ${
+                    className={`flex items-center gap-1 whitespace-nowrap py-2 text-base leading-[150%] transition-colors ${
                       isTransparent ? 'text-white hover:text-white/80' : 'text-ink-900 hover:text-navy-800'
                     }`}
                   >
                     {item.label}
-                    {item.children?.length > 0 && <ChevronDown size={14} className="shrink-0" />}
+                    {item.children?.length > 0 && <ChevronDown size={16} className="shrink-0" />}
                   </Link>
 
                   {item.children?.length > 0 && openDropdown === item.path && (
@@ -134,7 +142,7 @@ export default function Navbar() {
             {/* Stays navy in both the transparent and solid header states (Figma) */}
             <Link
               to={applyUrl}
-              className="hidden lg:inline-block shrink-0 whitespace-nowrap text-sm font-medium px-5 py-2.5 rounded-md bg-navy-900 text-white hover:bg-navy-800 transition-colors"
+              className="hidden lg:inline-flex items-center h-11 shrink-0 whitespace-nowrap text-base leading-[150%] font-medium px-6 rounded-md bg-navy-900 text-white hover:bg-navy-800 transition-colors"
             >
               {applyLabel}
             </Link>
