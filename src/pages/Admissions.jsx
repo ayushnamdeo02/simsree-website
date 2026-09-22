@@ -1,4 +1,9 @@
-import { ArrowUpRight, ChevronDown, Info } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { AlertCircle, ArrowUpRight, ChevronDown } from 'lucide-react';
+import PageHero, { HeroButton } from '../components/PageHero';
+import { Section, SectionTitle, Tagline, Heading, H5, H6, AccentCard } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { useAdmissionsData } from '../lib/useAdmissionsData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -7,7 +12,7 @@ const fallbackPage = {
   heroEyebrow: 'AY 2026-27 · Cycles Open',
   heroTitle: 'Apply to SIMSREE.',
   heroDescription:
-    'Five programmes. One week in a fully documented step-by-step guide. All five always know where your path is. No management quota. No agents. Just merit.',
+    'Five programmes, five ways in — every cycle documented step-by-step, so you always know where you stand. No management quota. No agents. No payment seats. Merit only.',
   heroButtons: [
     { label: 'Pick your programme', url: '#programmes', primary: true },
     { label: 'Get the forms & affidavits', url: '/admissions/downloads', primary: false },
@@ -188,15 +193,34 @@ const fallbackFaqs = [
   { question: 'Can I visit campus before applying?', answer: '', order: 5 },
 ];
 
-function TitleWithHighlight({ text = '', highlight, className }) {
-  const idx = highlight ? text.indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
+// Figma card photos, in card order (five programmes, then Downloads).
+const CARD_PHOTOS = [1, 2, 3, 4, 5, 6].map((n) => `/images/admissions/card-${n}.webp`);
+// Figma key-date tag colours by card position.
+const DATE_TAGS = ['bg-[#fffbec] text-navy-900', 'bg-[#fffbec] text-navy-900', 'bg-sky-50 text-teal-500', 'bg-navy-50 text-navy-900'];
+
+// Figma admission card: 405x744, radius 16, hairline + shadow; 490px photo
+// (radius 16 on top), then 24/32 padded copy: tag, H5 title, 18/150, teal link.
+function AdmissionCard({ image, eyebrow, title, summary, url }) {
   return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
+    <div className="flex flex-col rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small overflow-hidden">
+      <div
+        className="h-[260px] md:h-[490px] bg-navy-50 bg-cover bg-center rounded-t-2xl"
+        style={image ? { backgroundImage: `url('${image}')` } : undefined}
+      />
+      <div className="flex-1 flex flex-col gap-6 px-8 py-6">
+        <span className="w-fit px-4 py-1 rounded-2xl bg-[#fffbec] text-navy-900 text-sm leading-[150%] uppercase">{eyebrow}</span>
+        <div className="flex flex-col gap-3">
+          <H5>{title}</H5>
+          <p className="text-base md:text-lg leading-[150%] text-black">{summary}</p>
+        </div>
+        <Link
+          to={url || '#'}
+          className="mt-auto flex items-center gap-2 w-fit text-base leading-[150%] text-teal-500 hover:underline underline-offset-2"
+        >
+          Open guide <ArrowUpRight size={24} strokeWidth={1.5} />
+        </Link>
+      </div>
+    </div>
   );
 }
 
@@ -211,334 +235,183 @@ export default function Admissions() {
   const reasons = fillFactsDeep(ap.reasons?.length ? ap.reasons : fallbackPage.reasons, facts);
   const ctaButtons = fillFactsDeep(ap.ctaButtons?.length ? ap.ctaButtons : fallbackPage.ctaButtons, facts);
 
-  const heroImageUrl = ap.heroImage ? urlFor(ap.heroImage).width(1600).url() : null;
-  const faqImageUrl = ap.faqImage ? urlFor(ap.faqImage).width(800).url() : null;
+  const faqImageUrl = ap.faqImage ? urlFor(ap.faqImage).width(864).auto('format').url() : '/images/history/location.webp';
 
   // Only programmes that carry admissions content appear in each section.
   const admissionCards = programmes.filter((p) => p.admissionCardTitle);
   const eligibilityRows = programmes.filter((p) => p.eligibility);
   const dateCards = programmes.filter((p) => p.keyDatesLabel && p.keyDates?.length);
+  const cardImg = (image, i) => (image ? urlFor(image).width(810).auto('format').url() : CARD_PHOTOS[i]);
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[440px] md:h-[520px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[56px] md:h-full flex flex-col justify-end text-white">
-          <span className="inline-block w-fit bg-navy-900 text-white text-[11px] font-semibold tracking-widest uppercase px-4 py-2 rounded mb-6">
-            {ap.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-5">{ap.heroTitle}</h1>
-          <p className="max-w-lg text-sm text-white/85 leading-relaxed mb-8">{ap.heroDescription}</p>
-          <div className="flex flex-wrap gap-3">
-            {heroButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`font-medium px-5 py-3 rounded-md transition-colors flex items-center gap-2 w-fit ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-                {b.primary && <ArrowUpRight size={16} />}
-              </a>
-            ))}
+      <PageHero
+        image={heroImage(ap.heroImage, '/images/admissions/hero.webp', { stretch: true })}
+        eyebrow={ap.heroEyebrow}
+        eyebrowStyle="pill"
+        title={ap.heroTitle}
+        description={ap.heroDescription}
+        descriptionWidth={628}
+        actions={heroButtons.map((b) => ({ label: b.label, href: b.url, primary: b.primary }))}
+        mobileOverlay="gradient-tint"
+      />
+
+      {/* Notice + programme cards — Figma: navy 102px notice (radius 16, padding 24),
+          80 gap, title, then 3-up 405 cards 32 apart. */}
+      <Section id="programmes" width={1280} className="scroll-mt-24">
+        {ap.alertText && (
+          <div role="note" className="flex items-start gap-3 p-6 rounded-2xl bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20">
+            <AlertCircle size={24} strokeWidth={1.5} className="shrink-0" />
+            <p className="text-base leading-[150%]">
+              <span className="font-medium">{ap.alertLabel}</span> {ap.alertText}
+            </p>
           </div>
+        )}
+        <SectionTitle className={ap.alertText ? 'mt-20' : ''} tagline={ap.programmesEyebrow} title={ap.programmesTitle} body={ap.programmesSubtitle} />
+        <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {admissionCards.map((p, i) => (
+            <AdmissionCard
+              key={p._id || p.shortName}
+              image={cardImg(p.admissionCardImage, i)}
+              eyebrow={p.admissionCardEyebrow}
+              title={p.admissionCardTitle}
+              summary={p.admissionCardSummary}
+              url={p.admissionGuideUrl}
+            />
+          ))}
+          {extraCards.map((c, i) => (
+            <AdmissionCard
+              key={c.title}
+              image={cardImg(c.image, admissionCards.length + i)}
+              eyebrow={c.eyebrow}
+              title={c.title}
+              summary={c.summary}
+              url={c.url}
+            />
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Important notice */}
-      {ap.alertText && (
-        <section className="pt-12 lg:pt-16">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-            <div
-              role="note"
-              className="bg-navy-900 text-white rounded-lg px-6 py-5 flex items-start gap-3"
-            >
-              <Info size={18} className="shrink-0 mt-0.5 text-sky-500" />
-              <p className="text-sm leading-relaxed">
-                <span className="font-semibold">{ap.alertLabel}</span>{' '}
-                <span className="text-white/85">{ap.alertText}</span>
-              </p>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Programme cards */}
-      <section id="programmes" className="py-16 lg:py-24 scroll-mt-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {ap.programmesEyebrow}
-          </span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4">
-            {ap.programmesTitle}
-          </h2>
-          <p className="text-sm text-ink-600 mb-10">{ap.programmesSubtitle}</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {admissionCards.map((p) => {
-              const imgUrl = p.admissionCardImage
-                ? urlFor(p.admissionCardImage).width(700).url()
-                : null;
-              return (
-                <div
-                  key={p._id || p.shortName}
-                  className="border border-navy-100 rounded-lg overflow-hidden flex flex-col"
-                >
-                  <div
-                    className="h-[180px] bg-gray-200 bg-cover bg-center"
-                    style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
-                  />
-                  <div className="p-6 flex flex-col flex-1">
-                    <span className="text-[10px] font-semibold tracking-widest uppercase text-sky-600 mb-3">
-                      {p.admissionCardEyebrow}
-                    </span>
-                    <h3 className="font-display text-xl font-semibold text-navy-900 mb-3">
-                      {p.admissionCardTitle}
-                    </h3>
-                    <p className="text-sm text-ink-600 leading-relaxed mb-5">
-                      {p.admissionCardSummary}
-                    </p>
-                    <a
-                      href={p.admissionGuideUrl || '#'}
-                      className="text-sm font-medium text-navy-900 hover:text-sky-600 transition-colors inline-flex items-center gap-1.5 mt-auto"
-                    >
-                      Open guide <ArrowUpRight size={14} />
-                    </a>
-                  </div>
-                </div>
-              );
-            })}
-
-            {extraCards.map((c) => {
-              const imgUrl = c.image ? urlFor(c.image).width(700).url() : null;
-              return (
-                <div
-                  key={c.title}
-                  className="border border-navy-100 rounded-lg overflow-hidden flex flex-col"
-                >
-                  <div
-                    className="h-[180px] bg-gray-200 bg-cover bg-center"
-                    style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
-                  />
-                  <div className="p-6 flex flex-col flex-1">
-                    <span className="text-[10px] font-semibold tracking-widest uppercase text-sky-600 mb-3">
-                      {c.eyebrow}
-                    </span>
-                    <h3 className="font-display text-xl font-semibold text-navy-900 mb-3">
-                      {c.title}
-                    </h3>
-                    <p className="text-sm text-ink-600 leading-relaxed mb-5">{c.summary}</p>
-                    <a
-                      href={c.url || '#'}
-                      className="text-sm font-medium text-navy-900 hover:text-sky-600 transition-colors inline-flex items-center gap-1.5 mt-auto"
-                    >
-                      Open guide <ArrowUpRight size={14} />
-                    </a>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Eligibility table */}
-      <section className="bg-navy-50 py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {ap.eligibilityEyebrow}
-          </span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4">
-            {ap.eligibilityTitle}
-          </h2>
-          <p className="text-sm text-ink-600 mb-10">{ap.eligibilitySubtitle}</p>
-
-          {/* Wide table scrolls inside its own container, never the page */}
-          <div className="overflow-x-auto rounded-lg border border-navy-100 bg-white">
-            <table className="w-full min-w-[820px] border-collapse text-left">
-              <thead>
-                <tr className="bg-navy-900 text-white">
-                  {['Programme', 'Eligibility', 'Entrance / Selection', 'Work-ex Needed'].map((h) => (
-                    <th
-                      key={h}
-                      scope="col"
-                      className="text-[10px] font-semibold tracking-widest uppercase px-5 py-4 whitespace-nowrap"
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {eligibilityRows.map((p) => (
-                  <tr key={p._id || p.shortName} className="border-t border-navy-100">
-                    <th
-                      scope="row"
-                      className="text-sm font-medium text-navy-900 px-5 py-4 whitespace-nowrap"
-                    >
-                      {p.shortName}
-                    </th>
-                    <td className="text-sm text-ink-600 px-5 py-4">{p.eligibility}</td>
-                    <td className="text-sm text-ink-600 px-5 py-4">{p.entranceSelection}</td>
-                    <td className="text-sm text-ink-600 px-5 py-4 whitespace-nowrap">
-                      {p.workExNeeded}
-                    </td>
-                  </tr>
+      {/* Eligibility — #eaeaf1; navy header row, 64px zebra rows. */}
+      <Section bg="bg-navy-50" width={1280}>
+        <SectionTitle tagline={ap.eligibilityEyebrow} title={ap.eligibilityTitle} body={ap.eligibilitySubtitle} />
+        <div className="mt-12 overflow-x-auto">
+          <table className="w-full min-w-[820px] border-collapse text-left">
+            <thead>
+              <tr className="bg-navy-900 text-hero h-16">
+                {['Programme', 'Eligibility', 'Entrance / Selection', 'Work-ex needed'].map((h) => (
+                  <th key={h} scope="col" className="px-4 first:pl-6 text-base leading-[150%] font-semibold uppercase whitespace-nowrap">
+                    {h}
+                  </th>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </tr>
+            </thead>
+            <tbody>
+              {eligibilityRows.map((p, i) => (
+                <tr key={p._id || p.shortName} className={`h-16 text-black ${i % 2 ? 'bg-navy-50' : 'bg-white'}`}>
+                  <th scope="row" className="pl-6 pr-4 text-base leading-[150%] font-medium whitespace-nowrap">
+                    {p.shortName}
+                  </th>
+                  <td className="px-4 text-sm leading-[150%]">{p.eligibility}</td>
+                  <td className="px-4 text-sm leading-[150%]">{p.entranceSelection}</td>
+                  <td className="px-4 text-sm leading-[150%] whitespace-nowrap">{p.workExNeeded}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </section>
+      </Section>
 
-      {/* Key dates */}
-      <section id="dates" className="py-16 lg:py-24 scroll-mt-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {ap.datesEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={ap.datesTitle}
-            highlight={ap.datesTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
-          />
-          <p className="text-sm text-ink-600 mb-10">{ap.datesSubtitle}</p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {dateCards.map((p) => (
-              <div
-                key={p._id || p.shortName}
-                className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm p-6"
-              >
-                <span className="text-[10px] font-semibold tracking-widest uppercase text-ink-400">
+      {/* Key dates — four 296x273 bar cards: tag, H5 name, 14/150 label/value rows. */}
+      <Section id="dates" width={1280} className="scroll-mt-24">
+        <SectionTitle
+          tagline={ap.datesEyebrow}
+          title={composeTitle(ap.datesTitle, ap.datesTitleHighlight)}
+          highlight={ap.datesTitleHighlight}
+          body={ap.datesSubtitle}
+        />
+        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {dateCards.map((p, i) => (
+            <AccentCard key={p._id || p.shortName}>
+              <div className="flex flex-col gap-4">
+                <span className={`w-fit px-2.5 py-1 rounded-2xl text-xs leading-[150%] uppercase ${DATE_TAGS[i] || DATE_TAGS[0]}`}>
                   {p.keyDatesLabel}
                 </span>
-                <h3 className="font-display text-xl font-semibold text-navy-900 mt-2 mb-5">
-                  {p.keyDatesName || p.shortName}
-                </h3>
-                <dl className="space-y-0">
-                  {p.keyDates.map((d) => (
-                    <div
-                      key={d.label}
-                      className="flex items-center justify-between gap-3 py-2.5 border-b border-navy-100 last:border-b-0"
-                    >
-                      <dt className="text-[10px] uppercase tracking-wide text-ink-400">{d.label}</dt>
-                      <dd className="text-xs font-medium text-navy-900 m-0 text-right">{d.value}</dd>
-                    </div>
-                  ))}
-                </dl>
+                <div className="flex flex-col gap-3">
+                  <H5>{p.keyDatesName || p.shortName}</H5>
+                  <dl className="flex flex-col gap-4">
+                    {p.keyDates.map((d, j, all) => (
+                      <div
+                        key={d.label}
+                        className={`flex justify-between gap-4 text-sm leading-[150%] pb-1.5 ${j < all.length - 1 ? 'border-b border-black/20' : ''}`}
+                      >
+                        <dt className="uppercase text-ink-400">{d.label}</dt>
+                        <dd className="text-black text-right">{d.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                </div>
               </div>
+            </AccentCard>
+          ))}
+        </div>
+      </Section>
+
+      {/* Reasons — #eaeaf1, six white bar cards (H5 + 14/150). */}
+      <Section bg="bg-navy-50" width={1280}>
+        <SectionTitle
+          tagline={ap.reasonsEyebrow}
+          title={composeTitle(ap.reasonsTitle, ap.reasonsTitleHighlight)}
+          highlight={ap.reasonsTitleHighlight}
+          body={ap.reasonsSubtitle}
+        />
+        <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {reasons.map((r) => (
+            <AccentCard key={r.title}>
+              <H5>{r.title}</H5>
+              <p className="mt-4 text-sm leading-[150%] text-black">{r.description}</p>
+            </AccentCard>
+          ))}
+        </div>
+      </Section>
+
+      {/* FAQ — accordion (H6 22 questions, 1px rules) beside a 432x461 photo. */}
+      <Section width={1280}>
+        <SectionTitle
+          tagline={ap.faqEyebrow}
+          title={composeTitle(ap.faqTitle, ap.faqTitleHighlight)}
+          highlight={ap.faqTitleHighlight}
+          body={ap.faqSubtitle}
+        />
+        <div className="mt-12 grid lg:grid-cols-[1fr_432px] gap-12 lg:gap-20 items-start">
+          <div className="border-y border-black/20">
+            {faqs.map((f, i) => (
+              <details key={f._id || f.question} open={i === 0} className="group border-b border-black/20 last:border-b-0">
+                <summary className="flex items-center justify-between gap-6 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                  <H6 as="span" className="text-black">
+                    {f.question}
+                  </H6>
+                  <ChevronDown size={32} strokeWidth={1.5} className="shrink-0 transition-transform group-open:rotate-180" />
+                </summary>
+                {f.answer && <p className="text-sm leading-[150%] text-black pb-4 pr-8">{f.answer}</p>}
+              </details>
             ))}
           </div>
+          <div className="h-[300px] lg:h-[461px] rounded-2xl bg-navy-50 bg-cover bg-center" style={{ backgroundImage: `url('${faqImageUrl}')` }} />
         </div>
-      </section>
+      </Section>
 
-      {/* Five reasons */}
-      <section className="bg-navy-50 py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {ap.reasonsEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={ap.reasonsTitle}
-            highlight={ap.reasonsTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4 max-w-md"
-          />
-          <p className="text-sm text-ink-600 mb-10">{ap.reasonsSubtitle}</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {reasons.map((r) => (
-              <div key={r.title} className="bg-white border border-navy-100 rounded-lg p-6">
-                <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">{r.title}</h3>
-                <p className="text-sm text-ink-600 leading-relaxed">{r.description}</p>
-              </div>
-            ))}
-          </div>
+      {/* Closing CTA — navy, left column, Eastern Blue tagline. */}
+      <Section bg="bg-navy-900" width={1280} className="text-white border-t border-white/20">
+        <Tagline className="text-teal-400">{ap.ctaEyebrow}</Tagline>
+        <Heading text={ap.ctaTitle} className="text-white mt-4" />
+        <p className="mt-6 max-w-[504px] text-base md:text-lg leading-[150%]">{ap.ctaSubtitle}</p>
+        <div className="mt-8 flex flex-col md:flex-row gap-3.5">
+          {ctaButtons.map((b) => (
+            <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} />
+          ))}
         </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {ap.faqEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={ap.faqTitle}
-            highlight={ap.faqTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
-          />
-          <p className="text-sm text-ink-600 mb-10">{ap.faqSubtitle}</p>
-
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8 lg:gap-12 items-start">
-            {/* Native <details> — works with keyboard and without JS */}
-            <div className="border-t border-navy-100">
-              {faqs.map((f, i) => (
-                <details
-                  key={f._id || f.question}
-                  open={i === 0}
-                  className="group border-b border-navy-100"
-                >
-                  <summary className="flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                    <span className="text-sm font-medium text-navy-900">{f.question}</span>
-                    <ChevronDown
-                      size={16}
-                      className="shrink-0 text-ink-400 transition-transform group-open:rotate-180"
-                    />
-                  </summary>
-                  {f.answer && (
-                    <p className="text-sm text-ink-600 leading-relaxed pb-5 pr-8">{f.answer}</p>
-                  )}
-                </details>
-              ))}
-            </div>
-
-            <div
-              className="h-[280px] rounded-lg bg-gray-200 bg-cover bg-center"
-              style={faqImageUrl ? { backgroundImage: `url('${faqImageUrl}')` } : undefined}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Closing CTA */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-white/80">
-            {ap.ctaEyebrow}
-          </span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-5 mb-4">
-            {ap.ctaTitle}
-          </h2>
-          <p className="text-sm text-white/75 max-w-md mb-8">{ap.ctaSubtitle}</p>
-          <div className="flex flex-wrap gap-3">
-            {ctaButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+      </Section>
     </div>
   );
 }
