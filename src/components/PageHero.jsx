@@ -101,6 +101,8 @@ export default function PageHero({
   breadcrumb,
   eyebrow,
   eyebrowStyle = 'plain',
+  // Some frames set the plain eyebrow in capitals ("FOR RECRUITERS").
+  eyebrowUpper = false,
   title,
   titleWidth = 1330,
   description,
@@ -160,7 +162,7 @@ export default function PageHero({
               {eyebrow}
             </span>
           ) : (
-            <span className="text-base md:text-lg leading-[150%] mb-4">{eyebrow}</span>
+            <span className={`text-base md:text-lg leading-[150%] mb-4 ${eyebrowUpper ? 'uppercase' : ''}`}>{eyebrow}</span>
           ))}
 
         <h1

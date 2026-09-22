@@ -1,16 +1,22 @@
-import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, Download } from 'lucide-react';
-import StatCard from '../components/StatCard';
+import { StatGrid } from '../components/StatCard';
+import PageHero from '../components/PageHero';
+import { Section, SectionTitle, H5, H6, Tag, AccentCard } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { useRankingsPageData } from '../lib/useRankingsPageData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
-// Figma: Colour/Eastern Blue/Base accent, Position Center, weight 3.
-const ACCENT_BORDER = {
-  navy: 'border-l-teal-500',
-  sky: 'border-l-teal-500',
-  teal: 'border-l-teal-500',
+// Figma: every framework card uses the Colour/Eastern Blue/Base bar, weight 3.
+const ACCENT_BG = {
+  navy: 'bg-teal-500',
+  sky: 'bg-teal-500',
+  teal: 'bg-teal-500',
 };
+
+// Figma photos for the two honour cards, until images are set in the Studio.
+const HONOUR_FALLBACK = ['/images/rankings/honour-fpsb.webp', '/images/rankings/honour-hbsu.webp'];
 
 const fallbackRankingsPage = {
   heroEyebrow: 'Independently Verified',
@@ -111,21 +117,6 @@ function imgUrl(image, width) {
   }
 }
 
-function TitleWithHighlight({ text, highlight, className, highlightClassName = 'text-sky-600' }) {
-  if (!highlight) return <h2 className={className}>{text}</h2>;
-  const idx = text.indexOf(highlight);
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
-  const before = text.slice(0, idx);
-  const after = text.slice(idx + highlight.length);
-  return (
-    <h2 className={className}>
-      {before}
-      <span className={highlightClassName}>{highlight}</span>
-      {after}
-    </h2>
-  );
-}
-
 // Figma: exported 48x48 vectors for the accreditation cards.
 function AccIcon({ d, size = 48, className = '' }) {
   return (
@@ -160,232 +151,166 @@ export default function Rankings() {
   const accreditations = fillFactsDeep(data?.accreditations?.length ? data.accreditations : fallbackAccreditations, facts);
   const verificationDocs = fillFactsDeep(data?.verificationDocs?.length ? data.verificationDocs : fallbackVerificationDocs, facts);
 
-  const heroImageUrl = imgUrl(rp.heroImage, 1600);
-
   return (
     <div>
-      {/* Hero */}
-      <section>
-        <div
-          className="min-h-[600px] md:h-[767px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-          style={{
-            backgroundImage: heroImageUrl
-              ? `url('${heroImageUrl}')`
-              : "linear-gradient(180deg, #8a8f9e, #cfd3da)",
-          }}
-        >
-          {/* Figma: linear gradient layer at 30% over the image. */}
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                'linear-gradient(25deg, rgba(0,0,0,0.3) 0%, rgba(51,51,51,0.3) 51%, rgba(102,102,102,0.3) 99%)',
-            }}
-          />
-          {/* Figma: 1440 frame, 64px padding; content block 1330 x 524, gap 36. */}
-          <div className="relative max-w-[1440px] mx-auto px-6 lg:px-16 h-full flex flex-col justify-end text-white pt-32 pb-[72px]">
-            {/* Figma: breadcrumb sits inside the hero, above the content block. */}
-            <nav className="text-sm leading-[150%] text-white/80 mb-9" aria-label="Breadcrumb">
-              <Link to="/" className="hover:text-white">Home</Link>
-              <span className="mx-1.5">/</span>
-              <Link to="/about" className="hover:text-white">About Us</Link>
-              <span className="mx-1.5">/</span>
-              <span className="text-white">Rankings</span>
-            </nav>
-            <div className="flex flex-col gap-9 max-w-[1330px]">
-              {/* Figma: Body medium Normal 18/150, Colour/Neutral/White. */}
-              <span className="text-lg leading-[150%] uppercase text-white">{rp.heroEyebrow}</span>
-              <TitleWithHighlight
-                text={rp.heroTitle}
-                highlight={rp.heroTitleHighlight}
-                className="font-display text-4xl md:text-[72px] md:leading-[120%] font-semibold max-w-[1140px]"
-                highlightClassName=""
-              />
-              {/* Figma: Body medium Normal 18/150, W 628. */}
-              <p className="max-w-[628px] text-lg leading-[150%] text-white">{rp.heroDescription}</p>
-              <div className="flex flex-wrap gap-3">
-                <a href={rp.heroPrimaryCtaUrl} className="bg-sky-600 outline outline-1 outline-sky-600 hover:bg-sky-500 transition-colors text-white text-base leading-[150%] font-medium px-6 py-2.5 rounded-md flex items-center gap-3 w-fit">
-                  {rp.heroPrimaryCtaLabel} <ArrowUpRight size={16} />
-                </a>
-                <a href={rp.heroSecondaryCtaUrl} className="bg-white hover:bg-gray-100 transition-colors text-ink-900 text-base leading-[150%] font-medium px-6 py-2.5 rounded-md w-fit">
-                  {rp.heroSecondaryCtaLabel}
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
+      <PageHero
+        image={heroImage(rp.heroImage, '/images/rankings/hero.webp')}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'About Us', to: '/about' }, { label: 'Rankings' }]}
+        eyebrow={rp.heroEyebrow}
+        eyebrowUpper
+        title={rp.heroTitle}
+        titleWidth={1140}
+        description={rp.heroDescription}
+        descriptionWidth={628}
+        actions={[
+          { label: rp.heroPrimaryCtaLabel, href: rp.heroPrimaryCtaUrl, primary: true },
+          { label: rp.heroSecondaryCtaLabel, href: rp.heroSecondaryCtaUrl },
+        ]}
+        mobileOverlay="gradient-tint"
+      />
 
-        {/* Stat cards below hero */}
-        {/* Figma: 1280 row, 80px gap. */}
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 py-16">
-            {(rp.stats || []).map((s) => (
-              <StatCard key={s.label} {...s} />
-            ))}
-          </div>
-        </div>
+      <section className="px-5 py-16 md:p-16">
+        <StatGrid stats={rp.stats} />
       </section>
 
-      {/* National Rankings */}
-      <section className="max-w-[1280px] mx-auto px-6 lg:px-0 py-16 lg:py-28">
-        <div className="text-center max-w-[678px] mx-auto mb-10 lg:mb-20">
-          {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
-          <span className="text-base leading-[150%] font-semibold uppercase text-black">{rp.frameworksEyebrow}</span>
-          <TitleWithHighlight
-            text={rp.frameworksTitle}
-            highlight={rp.frameworksTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
-            highlightClassName="text-teal-500"
-          />
-          {/* Figma: Text/Medium/Normal 18/150, W 678. */}
-          <p className="text-lg leading-[150%] text-black">{rp.frameworksSubtitle}</p>
-        </div>
-        {/* Figma: 405.33 x 432 cards, radius 0, padding 32, gap 48. */}
-        <div className="grid md:grid-cols-3 gap-8">
+      {/* National Rankings — centred title, three 405 cards with a 3px Eastern Blue
+          bar, 48 gaps inside (tag · copy · button). */}
+      <Section width={1280}>
+        <SectionTitle
+          center
+          tagline={rp.frameworksEyebrow}
+          title={composeTitle(rp.frameworksTitle, rp.frameworksTitleHighlight)}
+          highlight={rp.frameworksTitleHighlight}
+        />
+        <p className="mt-5 md:mt-6 max-w-[678px] mx-auto text-center text-base md:text-lg leading-[150%] text-black">
+          {rp.frameworksSubtitle}
+        </p>
+        <div className="mt-20 grid md:grid-cols-3 gap-8 items-start">
           {frameworks.map((f) => (
-            <div
-              key={f._id || f.title}
-              className={`bg-white border border-black/15 border-l-[3px] p-8 flex flex-col gap-12 ${ACCENT_BORDER[f.accentColor] || ACCENT_BORDER.navy}`}
-            >
-              {/* Figma: 46x29 badge, radius 16, padding 10/4, Astronaut/Base. */}
-              <span className="inline-block w-fit text-sm leading-[150%] bg-navy-900 text-white px-2.5 py-1 rounded-2xl">
-                {f.tag}
-              </span>
-              <div className="flex flex-col gap-4 flex-1">
-                {/* Figma: Heading/H5 28/140, Colour/Astronaut/Base. */}
-                <h4 className="font-display text-2xl md:text-[26px] md:leading-[140%] font-medium text-navy-900">{f.title}</h4>
-                {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text. */}
-                <p className="text-lg leading-[150%] text-black">{f.description}</p>
+            <AccentCard key={f._id || f.title} accent={ACCENT_BG[f.accentColor] || 'bg-teal-500'}>
+              <div className="flex flex-col gap-12">
+                <Tag className="w-fit bg-navy-900 text-white outline-0">{f.tag}</Tag>
+                <div className="flex flex-col gap-4">
+                  {/* H5 28 / 16 on desktop, H6 22 / 14 on mobile (Figma). */}
+                  <H5 className="text-navy-900 max-md:text-[22px]">{f.title}</H5>
+                  <p className="text-sm md:text-base leading-[150%] text-black">{f.description}</p>
+                </div>
+                {f.actionLabel && (
+                  <a
+                    href={f.actionUrl || '#'}
+                    className="inline-flex items-center gap-3 w-fit h-11 px-6 rounded-md bg-white outline outline-1 -outline-offset-1 outline-black/20 text-sm md:text-base leading-[150%] md:font-medium text-black hover:bg-navy-50 transition-colors"
+                  >
+                    {f.actionLabel}
+                    {f.isDownload ? <Download size={24} strokeWidth={1.5} /> : <ArrowRight size={24} strokeWidth={1.5} />}
+                  </a>
+                )}
               </div>
-              {f.actionLabel && (
-                <a href={f.actionUrl || '#'} className="text-base leading-[150%] font-medium border border-black/15 rounded-md px-6 py-2.5 flex items-center gap-3 hover:bg-gray-50 transition-colors w-fit">
-                  {f.actionLabel} {f.isDownload ? <Download size={16} /> : <ArrowRight size={16} />}
-                </a>
-              )}
-            </div>
+            </AccentCard>
           ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Recent Honours */}
-      {/* Figma: Astronaut/Lightest fill, 64/112 padding, 80px gap. */}
-      <section className="bg-navy-50 py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0 flex flex-col gap-20">
-          <div className="max-w-[678px]">
-            {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
-            <span className="text-base leading-[150%] font-semibold uppercase text-black">{rp.honoursEyebrow}</span>
-            <TitleWithHighlight
-              text={rp.honoursTitle}
-              highlight={rp.honoursTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
-              highlightClassName="text-teal-500"
-            />
-            {/* Figma: Text/Medium/Normal 18/150, W 678. */}
-            <p className="text-lg leading-[150%] text-black">{rp.honoursSubtitle}</p>
-          </div>
-          {/* Figma: 624x808 cards, radius 16, padding 32, gap 48. */}
-          <div className="grid md:grid-cols-2 gap-8">
-            {honours.map((h) => {
-              const img = imgUrl(h.image, 1120);
-              return (
+      {/* Recent Honours — #eaeaf1, left-aligned title, two 624x808 cards: 560x490
+          photo, 24 gaps, yellow-tint date tag, H5 28 + 18/150 copy, teal link. */}
+      <Section bg="bg-navy-50" width={1280}>
+        <SectionTitle
+          tagline={rp.honoursEyebrow}
+          title={composeTitle(rp.honoursTitle, rp.honoursTitleHighlight)}
+          highlight={rp.honoursTitleHighlight}
+        />
+        <p className="mt-5 md:mt-6 max-w-[678px] text-base md:text-lg leading-[150%] text-black">{rp.honoursSubtitle}</p>
+        <div className="mt-20 grid md:grid-cols-2 gap-8">
+          {honours.map((h, i) => {
+            const img = imgUrl(h.image, 1120) || HONOUR_FALLBACK[i];
+            return (
+              <div
+                key={h._id || h.title}
+                // On mobile the card box drops away and the photo runs full width (Figma).
+                className="flex flex-col gap-6 md:p-8 md:rounded-2xl md:outline md:outline-1 md:-outline-offset-1 md:outline-black/20 md:shadow-small"
+              >
                 <div
-                  key={h._id || h.title}
-                  className="border border-black/15 shadow-sm rounded-2xl p-8 flex flex-col gap-12"
-                >
-                  {/* Figma: 560x490 image, radius 16. */}
-                  <div
-                    className="h-[300px] lg:h-[490px] bg-gray-200 bg-cover bg-center rounded-2xl shrink-0"
-                    style={img ? { backgroundImage: `url('${img}')` } : undefined}
-                  />
-                  <div className="flex flex-col gap-4">
-                    {/* Figma: 79x26 badge, radius 16, padding 10/4, #FFDB43 at 10%. */}
-                    <span className="inline-block w-fit text-sm leading-[150%] uppercase text-ink-900 bg-[#FFDB43]/10 px-2.5 py-1 rounded-2xl">
-                      {h.date}
-                    </span>
-                    {/* Figma: Heading/H5 28/140, Colour/Astronaut/Base. */}
-                    <h4 className="font-display text-2xl md:text-[26px] md:leading-[140%] font-medium text-navy-900">{h.title}</h4>
-                    {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text. */}
-                    <p className="text-lg leading-[150%] text-black">{h.description}</p>
-                    {h.linkLabel && (
-                      <a href={h.linkUrl || '#'} className="text-lg leading-[150%] text-teal-500 flex items-center gap-2 w-fit hover:underline">
-                        {h.linkLabel} <ArrowUpRight size={18} />
-                      </a>
-                    )}
-                  </div>
+                  className="h-[300px] lg:h-[490px] rounded-2xl bg-navy-100 bg-cover bg-center shrink-0"
+                  style={img ? { backgroundImage: `url('${img}')` } : undefined}
+                />
+                <Tag className="w-fit bg-[#fffbec] text-navy-900 text-xs outline-0">{h.date}</Tag>
+                <div className="flex flex-col gap-3">
+                  <H5>{h.title}</H5>
+                  <p className="text-base md:text-lg leading-[150%] text-black">{h.description}</p>
                 </div>
-              );
-            })}
-          </div>
+                {h.linkLabel && (
+                  <a
+                    href={h.linkUrl || '#'}
+                    className="flex items-center gap-2 w-fit text-base leading-[150%] text-teal-500 hover:underline underline-offset-2"
+                  >
+                    {h.linkLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
+                  </a>
+                )}
+              </div>
+            );
+          })}
         </div>
-      </section>
+      </Section>
 
-      {/* Accreditations */}
-      <section id="accreditations" className="max-w-7xl mx-auto px-6 py-16">
-        <div className="text-center max-w-xl mx-auto mb-10">
-          {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
-          <span className="text-base leading-[150%] font-semibold uppercase text-black">{rp.accreditationsEyebrow}</span>
-          <TitleWithHighlight
-            text={rp.accreditationsTitle}
-            highlight={rp.accreditationsTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
-            highlightClassName="text-teal-500"
-          />
-          {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text. */}
-          <p className="text-lg leading-[150%] text-black">{rp.accreditationsSubtitle}</p>
-        </div>
-        {/* Figma: 296x251 cards, radius 0, gap 32, Eastern Blue left accent at weight 3. */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
+      {/* Accreditations — four 296x251 navy cards, 3px Eastern Blue bar, 48px icon. */}
+      <Section id="accreditations" width={1280}>
+        <SectionTitle
+          center
+          tagline={rp.accreditationsEyebrow}
+          title={composeTitle(rp.accreditationsTitle, rp.accreditationsTitleHighlight)}
+          highlight={rp.accreditationsTitleHighlight}
+        />
+        <p className="mt-5 md:mt-6 max-w-[678px] mx-auto text-center text-base md:text-lg leading-[150%] text-black">
+          {rp.accreditationsSubtitle}
+        </p>
+        <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {accreditations.map((a) => (
             <a
               key={a._id || a.title}
               href={a.linkUrl || '#'}
-              className="bg-navy-900 border border-black/15 border-l-[3px] border-l-teal-500 hover:bg-navy-800 transition-colors text-white p-8 flex flex-col gap-6"
+              className="flex min-h-[251px] bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small hover:bg-navy-800 transition-colors"
             >
-              <AccIcon d={ACC_PATHS[ACC_ICON[a.icon] || 'order']} size={48} className="text-white shrink-0" />
-              <div className="flex flex-col gap-2">
-                {/* Figma: Heading/H6 22/140, Colour/Neutral/White. */}
-                <h4 className="font-display text-xl md:text-[22px] md:leading-[140%] font-medium text-white">{a.title}</h4>
-                {/* Figma: Text/Small/Normal 14/150, Colour/Neutral/Lightest. */}
-                <p className="text-sm leading-[150%] text-ink-50">{a.description}</p>
-              </div>
+              <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
+              <span className="flex flex-col gap-4 py-8 pl-8 pr-8">
+                <AccIcon d={ACC_PATHS[ACC_ICON[a.icon] || 'order']} size={48} className="text-white shrink-0" />
+                <span className="flex flex-col gap-2">
+                  <H6 as="span" className="text-white">
+                    {a.title}
+                  </H6>
+                  <span className="text-sm leading-[150%] text-navy-50">{a.description}</span>
+                </span>
+              </span>
             </a>
           ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Verification & Documents */}
-      <section className="bg-navy-800 text-white py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0 flex flex-col gap-20">
-          <div className="text-center max-w-[768px] mx-auto">
-            {/* Figma: Heading/Tagline 16/150, Colour/Neutral/White. */}
-            <span className="text-base leading-[150%] font-semibold uppercase text-white">{rp.verifyEyebrow}</span>
-            <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-6 mb-6">{rp.verifyTitle}</h2>
-            {/* Figma: Text/Medium/Normal 18/150, Color Scheme 3/Text. */}
-            <p className="text-lg leading-[150%] text-white">{rp.verifySubtitle}</p>
-          </div>
-          {/* Figma: 296x251 cards, radius 0, gap 32, Astronaut/Base with an inside border. */}
-          <div className="grid md:grid-cols-3 gap-8">
-            {verificationDocs.map((d) => (
-              <div
-                key={d._id || d.title}
-                className="bg-navy-900 outline outline-1 outline-white/20 rounded-2xl p-8 flex flex-col gap-6"
-              >
-                {/* Figma: Body small Normal 14/150, Colour/Eastern Blue/Lightest. */}
-                <span className="text-sm leading-[150%] uppercase text-teal-100">{d.tag}</span>
-                <div className="flex flex-col gap-2 flex-1">
-                  {/* Figma: Heading/H6 22/140, Colour/Neutral/White. */}
-                  <h4 className="font-display text-xl md:text-[22px] md:leading-[140%] font-medium text-white">{d.title}</h4>
-                  {/* Figma: Text/Small/Normal 14/150, Colour/Neutral/Lightest. */}
-                  <p className="text-sm leading-[150%] text-ink-50">{d.detail}</p>
-                </div>
-                <a href={d.actionUrl || '#'} className="text-base leading-[150%] font-medium text-white flex items-center gap-2 w-fit hover:underline">
-                  {d.actionLabel} {d.isExternal ? <ArrowUpRight size={16} /> : <Download size={16} />}
-                </a>
+      {/* Verification & Documents — #24295c, centred title, three 405x201 navy cards. */}
+      <Section bg="bg-navy-800" width={1280} className="border-t border-white/20">
+        <SectionTitle center dark tagline={rp.verifyEyebrow} title={rp.verifyTitle} body={rp.verifySubtitle} />
+        <div className="mt-20 grid md:grid-cols-3 gap-8">
+          {verificationDocs.map((d) => (
+            <div
+              key={d._id || d.title}
+              className="flex flex-col justify-center gap-4 min-h-[201px] p-8 rounded-2xl bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-white/20 shadow-small"
+            >
+              <span className="text-sm leading-[150%] uppercase text-teal-100">{d.tag}</span>
+              <div className="flex flex-col gap-2">
+                <H6 as="h3" className="text-white">
+                  {d.title}
+                </H6>
+                <p className="text-sm leading-[150%] text-ink-50">{d.detail}</p>
               </div>
-            ))}
-          </div>
+              <a
+                href={d.actionUrl || '#'}
+                className="flex items-center gap-2 w-fit text-sm leading-[150%] hover:underline underline-offset-2"
+              >
+                {d.actionLabel}
+                {d.isExternal ? <ArrowUpRight size={24} strokeWidth={1.5} /> : <Download size={24} strokeWidth={1.5} />}
+              </a>
+            </div>
+          ))}
         </div>
-      </section>
+      </Section>
     </div>
   );
 }
