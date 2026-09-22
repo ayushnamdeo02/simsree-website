@@ -1,18 +1,21 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import {
   AlertCircle,
   ArrowUpRight,
   Briefcase,
   CheckCircle2,
+  ChevronDown,
   GraduationCap,
+  Handshake,
   Loader2,
   Mail,
   Newspaper,
   Phone,
-  Tag,
   Users,
 } from 'lucide-react';
+import PageHero, { HeroButton } from '../components/PageHero';
+import { Section, SectionTitle, H5, H6 } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
 import { useContactData } from '../lib/useContactData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -22,8 +25,16 @@ const ROLE_ICONS = {
   recruiter: Briefcase,
   alumnus: Users,
   press: Newspaper,
-  vendor: Tag,
+  vendor: Handshake,
 };
+
+const COUNT_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+// Figma directory portraits, used when a department has no Sanity photo.
+const DEPT_PHOTOS = [1, 2, 3, 4, 5].map((n) => `/images/contact/dept-${n}.webp`);
+const img = (image, fallback, w) => (image ? urlFor(image).width(w).auto('format').url() : fallback);
+// Figma banner buttons: white, 1px navy border, navy 16 medium, 40 tall.
+const BANNER_BTN =
+  'inline-flex items-center gap-3 h-10 px-5 rounded-md bg-white outline outline-1 -outline-offset-1 outline-navy-900 text-navy-900 text-base leading-[150%] font-medium hover:bg-navy-50';
 
 const fallbackPage = {
   heroEyebrow: 'Who are you here as?',
@@ -32,7 +43,7 @@ const fallbackPage = {
   heroDescription:
     'Pick your role below and the page surfaces the right contact, form and next step.',
 
-  pickerEyebrow: 'I am a...',
+  pickerEyebrow: 'I am a…',
   pickerTitle: 'paths · one page.',
   pickerTitleHighlight: 'one page.',
   pickerSubtitle: 'Pick your role below — the page tailors itself to you.',
@@ -230,23 +241,17 @@ const FIELDS = [
 
 const EMPTY = Object.fromEntries(FIELDS.map((f) => [f.name, '']));
 
-function TitleWithHighlight({ text = '', highlight, className, prefix }) {
-  const idx = highlight ? text.indexOf(highlight) : -1;
-  const body =
-    idx === -1 ? (
-      text
-    ) : (
-      <>
-        {text.slice(0, idx)}
-        <span className="text-teal-500">{highlight}</span>
-        {text.slice(idx + highlight.length)}
-      </>
-    );
+// Figma bar card: hairline + "small" shadow, 3px Eastern Blue bar, content 32
+// from it with 16 top/bottom and 32 right: H5 navy title over the details.
+function BarCard({ title, children, className = '' }) {
   return (
-    <h2 className={className}>
-      {prefix && <>{prefix} </>}
-      {body}
-    </h2>
+    <div className={`flex gap-4 md:gap-8 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${className}`}>
+      <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
+      <div className="flex-1 min-w-0 py-4 pr-4 md:pr-6 flex flex-col gap-4">
+        <H5 as="h3" className="max-md:text-[22px]">{title}</H5>
+        {children}
+      </div>
+    </div>
   );
 }
 
@@ -278,7 +283,6 @@ export default function Contact() {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle');
 
-  const heroImageUrl = cp.heroImage ? urlFor(cp.heroImage).width(1600).url() : null;
   const sending = status === 'sending';
 
   const roleOptions = roles.map((r) => r.name);
@@ -337,38 +341,35 @@ export default function Contact() {
 
   const fieldError = (name) => touched[name] && errors[name];
 
-  const italic = cp.heroTitleItalic;
-  const iIdx = italic ? (cp.heroTitle || '').indexOf(italic) : -1;
+  // Figma inputs: 48px, 1px black border, 12 padding, 16/150; labels 16/150 8 above.
+  const inputCls = (err) =>
+    `w-full bg-white border px-3 text-base leading-[150%] text-black placeholder:text-black/60 focus:outline-none focus:ring-2 focus:ring-teal-500/40 ${
+      err ? 'border-red-500' : 'border-black'
+    }`;
 
   const renderForm = (submitLabel, footnote) =>
     status === 'success' ? (
-      <div role="status" className="max-w-[820px] border border-emerald-200 bg-emerald-50 rounded-lg p-8">
-        <div className="flex items-start gap-3 mb-5">
-          <CheckCircle2 size={22} className="text-emerald-600 shrink-0 mt-0.5" />
+      <div role="status" className="max-w-[814px] p-8 bg-white outline outline-1 -outline-offset-1 outline-black/20 flex flex-col gap-6">
+        <div className="flex items-start gap-3">
+          <CheckCircle2 size={24} className="text-emerald-600 shrink-0" />
           <div>
-            <h3 className="font-display text-xl font-semibold text-navy-900 mb-2">
+            <H6 as="h3" className="text-black">
               {cp.successTitle}
-            </h3>
-            <p className="text-sm text-ink-600">{cp.successBody}</p>
+            </H6>
+            <p className="text-base leading-[150%] text-black">{cp.successBody}</p>
           </div>
         </div>
-        <button
-          type="button"
-          onClick={() => setStatus('idle')}
-          className="border border-navy-100 hover:bg-navy-50 transition-colors text-navy-900 text-sm font-medium px-4 py-2.5 rounded-md"
-        >
-          Send another message
-        </button>
+        <HeroButton label="Send another message" onClick={() => setStatus('idle')} className="w-fit" />
       </div>
     ) : (
-      <form onSubmit={handleSubmit} noValidate className="max-w-[820px]">
+      <form onSubmit={handleSubmit} noValidate className="max-w-[814px]">
         {status === 'fail' && (
-          <div role="alert" className="border border-red-200 bg-red-50 rounded-lg p-6 mb-8 flex items-start gap-3">
+          <div role="alert" className="mb-6 p-5 outline outline-1 -outline-offset-1 outline-red-300 flex items-start gap-3">
             <AlertCircle size={20} className="text-red-500 shrink-0 mt-0.5" />
-            <div>
-              <h3 className="font-semibold text-navy-900 mb-1">{cp.failTitle}</h3>
-              <p className="text-sm text-ink-600 mb-3">{cp.failBody}</p>
-              <a href={mailtoHref()} className="text-sm font-medium text-sky-600 hover:text-teal-600">
+            <div className="text-base leading-[150%] text-black">
+              <p className="font-semibold">{cp.failTitle}</p>
+              <p>{cp.failBody}</p>
+              <a href={mailtoHref()} className="text-navy-900 underline underline-offset-2">
                 Email {cp.fallbackEmail} instead
               </a>
             </div>
@@ -376,44 +377,43 @@ export default function Contact() {
         )}
 
         <fieldset disabled={sending} className="border-0 p-0 m-0 disabled:opacity-60">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+          <div className="grid md:grid-cols-2 gap-6">
             {FIELDS.map((f) => {
               const err = fieldError(f.name);
-              const base = `w-full border rounded-md px-4 py-3 text-sm text-navy-900 placeholder:text-ink-400 focus:outline-none transition-colors ${
-                err ? 'border-red-400 focus:border-red-500' : 'border-navy-100 focus:border-sky-600'
-              }`;
               return (
-                <div key={f.name} className={f.full ? 'md:col-span-2' : ''}>
-                  <label htmlFor={`c-${f.name}`} className="block text-sm text-navy-900 mb-2">
+                <div key={f.name} className={`flex flex-col gap-2 ${f.full ? 'md:col-span-2' : ''}`}>
+                  <label htmlFor={`c-${f.name}`} className="text-base leading-[150%] text-black">
                     {f.label}
-                    {f.required && <span className="text-red-500 ml-1">*</span>}
+                    {f.required && <span className="text-[#d00416]"> *</span>}
                   </label>
                   {f.type === 'select' ? (
-                    <select
-                      id={`c-${f.name}`}
-                      value={values[f.name]}
-                      onChange={(e) => setField(f.name, e.target.value)}
-                      onBlur={() => handleBlur(f.name)}
-                      aria-invalid={!!err}
-                      className={`${base} ${values[f.name] ? '' : 'text-ink-400'}`}
-                    >
-                      <option value="">Select Prospective Student,</option>
-                      {roleOptions.map((o) => (
-                        <option key={o} value={o}>
-                          {o}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="relative">
+                      <select
+                        id={`c-${f.name}`}
+                        value={values[f.name]}
+                        onChange={(e) => setField(f.name, e.target.value)}
+                        onBlur={() => handleBlur(f.name)}
+                        aria-invalid={!!err}
+                        className={`${inputCls(err)} h-12 pr-10 appearance-none ${values[f.name] ? '' : 'text-black/60'}`}
+                      >
+                        <option value="">Select Prospective Student,</option>
+                        {roleOptions.map((o) => (
+                          <option key={o} value={o}>
+                            {o}
+                          </option>
+                        ))}
+                      </select>
+                      <ChevronDown size={24} strokeWidth={1.5} className="pointer-events-none absolute right-3 top-3" />
+                    </div>
                   ) : f.type === 'textarea' ? (
                     <textarea
                       id={`c-${f.name}`}
-                      rows={f.rows}
                       value={values[f.name]}
                       onChange={(e) => setField(f.name, e.target.value)}
                       onBlur={() => handleBlur(f.name)}
                       placeholder={f.placeholder}
                       aria-invalid={!!err}
-                      className={`${base} resize-y`}
+                      className={`${inputCls(err)} h-[180px] py-3 resize-y`}
                     />
                   ) : (
                     <input
@@ -424,16 +424,16 @@ export default function Contact() {
                       onBlur={() => handleBlur(f.name)}
                       placeholder={f.placeholder}
                       aria-invalid={!!err}
-                      className={base}
+                      className={`${inputCls(err)} h-12`}
                     />
                   )}
-                  {err && <p className="text-xs text-red-500 mt-1.5">{err}</p>}
+                  {err && <p className="text-sm text-red-600">{err}</p>}
                 </div>
               );
             })}
           </div>
 
-          <label className="flex items-start gap-3 mt-6 cursor-pointer">
+          <label className="mt-6 pb-4 flex items-start gap-3 cursor-pointer">
             <input
               type="checkbox"
               checked={consent}
@@ -443,391 +443,262 @@ export default function Contact() {
               }}
               onBlur={() => handleBlur('consent')}
               aria-invalid={!!fieldError('consent')}
-              className="mt-0.5 w-4 h-4 shrink-0 accent-navy-900"
+              className="mt-0.5 w-[18px] h-[18px] shrink-0 accent-navy-900"
             />
-            <span className="text-sm text-ink-600">{cp.consentLabel}</span>
+            <span className="text-sm leading-[150%] text-black">{cp.consentLabel}</span>
           </label>
-          {fieldError('consent') && (
-            <p className="text-xs text-red-500 mt-1.5">Please accept the privacy notice.</p>
-          )}
+          {fieldError('consent') && <p className="text-sm text-red-600">Please accept the privacy notice.</p>}
 
           <button
             type="submit"
-            className="mt-6 bg-sky-600 hover:bg-teal-600 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md flex items-center gap-2"
+            className="mt-2 h-11 px-6 rounded-md bg-teal-500 hover:bg-teal-600 outline outline-1 -outline-offset-1 outline-teal-500 text-white text-base leading-[150%] font-medium inline-flex items-center gap-2 transition-colors"
           >
-            {sending && <Loader2 size={15} className="animate-spin" />}
+            {sending && <Loader2 size={20} className="animate-spin" />}
             {sending ? 'Sending…' : submitLabel}
           </button>
         </fieldset>
 
-        {footnote && <p className="text-xs text-ink-400 mt-4">{footnote}</p>}
+        {footnote && <p className="mt-6 text-sm leading-[150%] text-black">{footnote}</p>}
       </form>
     );
 
+  const helpers = (cp.directoryPanels || [])[1];
+
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[360px] md:h-[420px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-10 md:pb-[44px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-4 flex items-center">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">Contact Us</span>
-          </div>
-          <span className="text-[11px] font-semibold tracking-widest uppercase text-white/90 mb-3">
-            {cp.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-4">
-            {iIdx === -1 ? (
-              cp.heroTitle
-            ) : (
-              <>
-                {cp.heroTitle.slice(0, iIdx)}
-                <span className="italic">{italic}</span>
-                {cp.heroTitle.slice(iIdx + italic.length)}
-              </>
-            )}
-          </h1>
-          <p className="max-w-md text-sm text-white/85 leading-relaxed">{cp.heroDescription}</p>
-        </div>
-      </section>
+      <PageHero
+        image={heroImage(cp.heroImage, '/images/contact/hero.webp', { stretch: true })}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Contact Us' }]}
+        eyebrow={cp.heroEyebrow}
+        eyebrowUpper
+        title={cp.heroTitle}
+        titleItalic={cp.heroTitleItalic}
+        titleWidth={900}
+        description={cp.heroDescription}
+        descriptionWidth={628}
+      />
 
-      {/* Role picker */}
-      <section className="py-16 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {cp.pickerEyebrow}
-          </span>
-          <TitleWithHighlight
-            prefix={roles.length === 5 ? 'Five' : roles.length}
-            text={cp.pickerTitle}
-            highlight={cp.pickerTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
-          />
-          <p className="text-sm text-ink-600 mb-8">{cp.pickerSubtitle}</p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {roles.map((r, i) => {
-              const Icon = ROLE_ICONS[r.icon] || GraduationCap;
-              const active = roleIndex === i;
-              return (
-                <button
-                  key={r.name}
-                  type="button"
-                  onClick={() => setRoleIndex(active ? null : i)}
-                  aria-pressed={active}
-                  className={`text-left rounded-lg border p-5 transition-colors ${
-                    active
-                      ? 'bg-navy-900 border-navy-900 text-white'
-                      : 'bg-white border-navy-100 hover:border-navy-300'
-                  }`}
-                >
-                  <Icon size={20} className={`mb-5 ${active ? 'text-white' : 'text-navy-900'}`} />
-                  <p
-                    className={`font-display text-lg font-semibold mb-1.5 ${
-                      active ? 'text-white' : 'text-navy-900'
-                    }`}
-                  >
+      {/* Role picker — five 237 cards (24 gaps): 36px icon, H6 navy, 14/150 copy;
+          the picked one turns navy with the "large" shadow. */}
+      <Section width={1280}>
+        <SectionTitle
+          tagline={cp.pickerEyebrow}
+          title={`${COUNT_WORDS[roles.length] || roles.length} ${cp.pickerTitle}`}
+          highlight={cp.pickerTitleHighlight}
+          body={cp.pickerSubtitle}
+        />
+        <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          {roles.map((r, i) => {
+            const Icon = ROLE_ICONS[r.icon] || GraduationCap;
+            const active = roleIndex === i;
+            return (
+              <button
+                key={r.name}
+                type="button"
+                onClick={() => setRoleIndex(active ? null : i)}
+                aria-pressed={active}
+                className={`text-left p-6 flex flex-col gap-6 transition-colors outline outline-1 -outline-offset-1 ${
+                  active ? 'bg-navy-900 outline-navy-900 shadow-large text-white' : 'bg-white outline-black/20 shadow-small hover:bg-navy-50'
+                }`}
+              >
+                <Icon size={36} strokeWidth={1.5} className={active ? 'text-white' : 'text-black'} />
+                <span className="flex flex-col gap-2">
+                  <H6 as="span" className={active ? 'text-white' : 'text-navy-900'}>
                     {r.name}
-                  </p>
-                  <p className={`text-[11px] leading-relaxed ${active ? 'text-white/70' : 'text-ink-600'}`}>
-                    {r.cardDescription}
-                  </p>
-                </button>
-              );
-            })}
-          </div>
+                  </H6>
+                  <span className={`text-sm leading-[150%] ${active ? 'text-ink-50' : 'text-black'}`}>{r.cardDescription}</span>
+                </span>
+              </button>
+            );
+          })}
         </div>
-      </section>
+      </Section>
 
-      {/* Panel — role-specific, or the general form */}
-      <section className="pb-16 lg:pb-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {role ? role.panelEyebrow : cp.generalEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={role ? role.panelTitle : cp.generalTitle}
-            highlight={role ? role.panelTitleHighlight : cp.generalTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
-          />
-          <p className="text-sm text-ink-600 max-w-2xl mb-8">
-            {role ? role.panelSubtitle : cp.generalSubtitle}
-          </p>
+      {/* Panel — the picked role's route, or the general form. */}
+      <Section width={1280}>
+        <SectionTitle
+          tagline={role ? role.panelEyebrow : cp.generalEyebrow}
+          title={role ? role.panelTitle : cp.generalTitle}
+          highlight={role ? role.panelTitleHighlight : cp.generalTitleHighlight}
+          body={role ? role.panelSubtitle : cp.generalSubtitle}
+          width={role ? 961 : 768}
+        />
 
-          {role?.panelButtons?.length > 0 && (
-            <div className="flex flex-wrap gap-3 mb-10">
-              {role.panelButtons.map((b) => (
-                <a
-                  key={b.label}
-                  href={b.url || '#'}
-                  className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors ${
-                    b.primary
-                      ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                      : 'border border-navy-100 text-navy-900 hover:bg-navy-50'
-                  }`}
-                >
-                  {b.label}
+        {role?.panelButtons?.length > 0 && (
+          <div className="mt-8 flex flex-wrap gap-6">
+            {role.panelButtons.map((b) => (
+              <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} />
+            ))}
+          </div>
+        )}
+
+        {(!role || role.showForm) && (
+          <div className="mt-20">{renderForm(role ? role.formSubmitLabel || 'Send Message' : cp.generalSubmitLabel, role ? role.formFootnote : cp.generalFootnote)}</div>
+        )}
+
+        {role?.cards?.length > 0 && (
+          <div className="mt-20 grid md:grid-cols-3 gap-8">
+            {role.cards.map((c) => (
+              <BarCard key={c.title} title={c.title}>
+                {c.body && <p className="text-sm leading-[150%] text-black">{c.body}</p>}
+                {c.linkLabel && (
+                  <a href={c.linkUrl || '#'} className="text-sm leading-[150%] text-navy-900 underline underline-offset-2">
+                    {c.linkLabel}
+                  </a>
+                )}
+              </BarCard>
+            ))}
+          </div>
+        )}
+
+        {role?.banner?.title && (
+          <div className="mt-20 p-6 rounded-2xl bg-navy-900 outline outline-1 -outline-offset-1 outline-black/20 text-white flex flex-col md:flex-row md:items-center gap-6 md:gap-8">
+            <div className="flex-1 min-w-0 flex items-center gap-4">
+              <GraduationCap size={48} strokeWidth={1.5} className="shrink-0" />
+              <div className="flex flex-col gap-1">
+                <p className="text-lg leading-[150%]">{role.banner.title}</p>
+                <p className="text-sm leading-[150%]">{role.banner.detail}</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-4">
+              {role.banner.callUrl && (
+                <a href={role.banner.callUrl} className={BANNER_BTN}>
+                  {role.banner.callLabel} <Phone size={24} strokeWidth={1.5} />
                 </a>
-              ))}
+              )}
+              {role.banner.emailUrl && (
+                <a href={role.banner.emailUrl} className={BANNER_BTN}>
+                  {role.banner.emailLabel} <Mail size={24} strokeWidth={1.5} />
+                </a>
+              )}
             </div>
-          )}
-
-          {/* Form for roles that take a message, and for the general state */}
-          {(!role || role.showForm) &&
-            renderForm(
-              role ? role.formSubmitLabel || 'Send Message' : cp.generalSubmitLabel,
-              role ? role.formFootnote : cp.generalFootnote
-            )}
-
-          {role?.cards?.length > 0 && (
-            <div
-              className={`grid grid-cols-1 md:grid-cols-3 gap-5 ${role.showForm ? 'mt-10' : ''}`}
-            >
-              {role.cards.map((c) => (
-                <div
-                  key={c.title}
-                  className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
-                >
-                  <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                    {c.title}
-                  </h3>
-                  {c.body && <p className="text-xs text-ink-600 leading-relaxed">{c.body}</p>}
-                  {c.linkLabel && (
-                    <a
-                      href={c.linkUrl || '#'}
-                      className="text-xs font-medium text-sky-600 hover:text-teal-600 transition-colors mt-2 inline-block"
-                    >
-                      {c.linkLabel}
-                    </a>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-
-          {role?.banner?.title && (
-            <div className="bg-navy-900 text-white rounded-lg px-6 py-5 flex flex-wrap items-center gap-4 mt-6">
-              <GraduationCap size={20} className="shrink-0 text-white/80" />
-              <div className="min-w-0 flex-1">
-                <p className="font-medium">{role.banner.title}</p>
-                <p className="text-xs text-white/70 mt-0.5">{role.banner.detail}</p>
-              </div>
-              <div className="flex gap-2">
-                {role.banner.callUrl && (
-                  <a
-                    href={role.banner.callUrl}
-                    className="bg-white hover:bg-gray-100 transition-colors text-navy-900 text-xs font-medium px-4 py-2 rounded-md flex items-center gap-1.5"
-                  >
-                    {role.banner.callLabel} <Phone size={12} />
-                  </a>
-                )}
-                {role.banner.emailUrl && (
-                  <a
-                    href={role.banner.emailUrl}
-                    className="bg-white hover:bg-gray-100 transition-colors text-navy-900 text-xs font-medium px-4 py-2 rounded-md flex items-center gap-1.5"
-                  >
-                    {role.banner.emailLabel} <Mail size={12} />
-                  </a>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Department directory */}
-      <section className="bg-navy-50 py-16 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {cp.directoryEyebrow}
-          </span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3">
-            {cp.directoryTitle}
-          </h2>
-          <p className="text-sm text-ink-600 mb-10">{cp.directorySubtitle}</p>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 mb-10">
-            {(cp.departments || []).map((d) => {
-              const photoUrl = d.photo ? urlFor(d.photo).width(300).url() : null;
-              return (
-                <div key={d.name} className="flex flex-col items-center text-center">
-                  <div
-                    className="w-[110px] h-[110px] rounded-full bg-gray-200 bg-cover bg-center mb-4"
-                    style={photoUrl ? { backgroundImage: `url('${photoUrl}')` } : undefined}
-                  />
-                  <p className="text-sm font-semibold text-navy-900">{d.name}</p>
-                  {d.role && <p className="text-xs text-ink-600 mt-0.5">{d.role}</p>}
-                  {d.phone && (
-                    <a
-                      href={`tel:${d.phone.replace(/[^\d+]/g, '')}`}
-                      className="text-xs text-ink-600 hover:text-sky-600 transition-colors mt-0.5"
-                    >
-                      {d.phone}
-                    </a>
-                  )}
-                  {d.email && (
-                    <a
-                      href={`mailto:${d.email}`}
-                      className="text-xs text-ink-600 hover:text-sky-600 transition-colors break-all"
-                    >
-                      {d.email}
-                    </a>
-                  )}
-                </div>
-              );
-            })}
           </div>
+        )}
+      </Section>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start">
-            <div className="flex flex-col gap-5">
-              {(cp.directoryPanels || [])
-                .filter((_, i) => i !== 1)
-                .map((p) => (
-                  <div key={p.title} className="bg-white border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5">
-                    <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                      {p.title}
-                    </h3>
-                    {p.body && <p className="text-[11px] text-ink-600 leading-relaxed">{p.body}</p>}
-                  </div>
-                ))}
-            </div>
-
-            {(cp.directoryPanels || [])[1] && (
-              <div className="bg-white border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5">
-                <h3 className="font-display text-lg font-semibold text-navy-900 mb-3">
-                  {cp.directoryPanels[1].title}
-                </h3>
-                <dl className="grid grid-cols-1 gap-1 m-0">
-                  {(cp.directoryPanels[1].rows || []).map((r) => (
-                    <div key={r.label} className="flex gap-2 text-[11px]">
-                      <dt className="text-ink-600">{r.label}</dt>
-                      <dd className="text-ink-600 m-0">· {r.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Find us */}
-      <section className="py-16 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
-            <div>
-              <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                {cp.locationEyebrow}
-              </span>
-              <TitleWithHighlight
-                text={cp.locationTitle}
-                highlight={cp.locationTitleHighlight}
-                className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
+      {/* Directory — #eaeaf1; five 211 round portraits (22 semibold name, 18/150
+          role + phone), then bar cards: two stacked | the helpers list. */}
+      <Section bg="bg-navy-50" width={1280}>
+        <SectionTitle tagline={cp.directoryEyebrow} title={cp.directoryTitle} body={cp.directorySubtitle} />
+        <div className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 lg:gap-x-14 gap-y-12">
+          {(cp.departments || []).map((d, i) => (
+            <div key={d.name} className="flex flex-col items-center gap-4 text-center text-black">
+              <div
+                className="w-full max-w-[211px] aspect-square rounded-full bg-navy-100 bg-cover bg-center"
+                style={{ backgroundImage: `url('${img(d.photo, DEPT_PHOTOS[i % DEPT_PHOTOS.length], 422)}')` }}
               />
-              <p className="text-sm text-ink-600 mb-6">{cp.locationSubtitle}</p>
-
-              <div className="flex flex-wrap gap-3 mb-8">
-                <a
-                  href={cp.mapsUrl || '#'}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="bg-navy-900 hover:bg-navy-800 transition-colors text-white text-sm font-medium px-4 py-2.5 rounded-md flex items-center gap-2"
-                >
-                  Open in Google Maps <ArrowUpRight size={14} />
-                </a>
-                <a
-                  href={cp.mapsUrl || '#'}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="border border-navy-100 hover:bg-navy-50 transition-colors text-navy-900 text-sm font-medium px-4 py-2.5 rounded-md"
-                >
-                  Walking directions
-                </a>
+              <div>
+                <p className="text-lg md:text-[22px] leading-[150%] font-semibold lg:whitespace-nowrap">{d.name}</p>
+                {d.role && <p className="text-base md:text-lg leading-[150%]">{d.role}</p>}
+                {d.phone && (
+                  <a href={`tel:${d.phone.replace(/[^\d+]/g, '')}`} className="block text-base md:text-lg leading-[150%] hover:underline underline-offset-2">
+                    {d.phone}
+                  </a>
+                )}
+                {d.email && (
+                  <a href={`mailto:${d.email}`} className="block text-base leading-[150%] break-all hover:underline underline-offset-2">
+                    {d.email}
+                  </a>
+                )}
               </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-20 grid lg:grid-cols-[714fr_534fr] gap-8 items-stretch">
+          <div className="flex flex-col gap-4">
+            {(cp.directoryPanels || [])
+              .filter((_, i) => i !== 1)
+              .map((p) => (
+                <BarCard key={p.title} title={p.title} className="flex-1">
+                  {p.body && <p className="text-sm leading-[150%] text-black">{p.body}</p>}
+                </BarCard>
+              ))}
+          </div>
+          {helpers && (
+            <BarCard title={helpers.title}>
+              <ul className="list-none m-0 p-0 text-sm leading-[150%] text-black">
+                {(helpers.rows || []).map((r) => (
+                  <li key={r.label}>
+                    {r.label} · {r.value}
+                  </li>
+                ))}
+              </ul>
+            </BarCard>
+          )}
+        </div>
+      </Section>
 
+      {/* Find us — 698 copy (title, buttons, directions bar card) | 502 map. */}
+      <Section width={1280}>
+        <div className="grid lg:grid-cols-[698px_1fr] gap-12 lg:gap-20">
+          <div className="flex flex-col gap-20">
+            <SectionTitle tagline={cp.locationEyebrow} title={cp.locationTitle} highlight={cp.locationTitleHighlight} body={cp.locationSubtitle} width={698} />
+            <div className="flex flex-col gap-6 max-w-[534px]">
+              <div className="flex flex-wrap gap-6">
+                <a
+                  href={cp.mapsUrl || '#'}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-3 h-11 px-6 rounded-md bg-navy-900 hover:bg-navy-800 outline outline-1 -outline-offset-1 outline-navy-900 text-white text-base leading-[150%] font-medium transition-colors"
+                >
+                  Open in Google Maps <ArrowUpRight size={24} strokeWidth={1.5} />
+                </a>
+                <HeroButton label="Walking directions" href={cp.mapsUrl} />
+              </div>
               {cp.directions?.length > 0 && (
-                <div className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5">
-                  <h3 className="font-display text-lg font-semibold text-navy-900 mb-3">
-                    {cp.directionsTitle}
-                  </h3>
-                  <ol className="list-decimal pl-4 space-y-1">
+                <BarCard title={cp.directionsTitle}>
+                  <ol className="list-decimal m-0 pl-5 text-sm leading-[150%] text-black">
                     {cp.directions.map((d) => (
-                      <li key={d} className="text-[11px] text-ink-600">
-                        {d}
-                      </li>
+                      <li key={d}>{d}</li>
                     ))}
                   </ol>
-                </div>
-              )}
-            </div>
-
-            <div className="h-[320px] rounded-lg bg-gray-200 overflow-hidden">
-              {cp.mapEmbedUrl && (
-                <iframe
-                  src={cp.mapEmbedUrl}
-                  title="SIMSREE campus location"
-                  className="w-full h-full border-0"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
+                </BarCard>
               )}
             </div>
           </div>
+          <div className="h-[335px] lg:h-[534px] bg-navy-50 overflow-hidden">
+            {cp.mapEmbedUrl ? (
+              <iframe
+                src={cp.mapEmbedUrl}
+                title="SIMSREE campus location"
+                className="w-full h-full border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+            ) : (
+              <a href={cp.mapsUrl || '#'} target="_blank" rel="noreferrer" aria-label="Open the campus on Google Maps" className="block w-full h-full bg-cover bg-center" style={{ backgroundImage: "url('/images/contact/map.webp')" }} />
+            )}
+          </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Anti-ragging */}
-      <section className="pb-16 lg:pb-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {cp.disclosureEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={cp.disclosureTitle}
-            highlight={cp.disclosureTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
-          />
-          <p className="text-sm text-ink-600 max-w-lg mb-6">{cp.disclosureBody}</p>
-
-          <div className="flex flex-wrap gap-3 mb-8">
-            {(cp.disclosureButtons || []).map((b) => (
+      {/* Anti-ragging — title, navy + outline buttons, three hairline cards. */}
+      <Section width={1280}>
+        <SectionTitle tagline={cp.disclosureEyebrow} title={cp.disclosureTitle} body={cp.disclosureBody} />
+        <div className="mt-12 flex flex-wrap gap-6">
+          {(cp.disclosureButtons || []).map((b) =>
+            b.primary ? (
               <a
                 key={b.label}
                 href={b.url || '#'}
-                className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors flex items-center gap-2 ${
-                  b.primary
-                    ? 'bg-navy-900 hover:bg-navy-800 text-white'
-                    : 'border border-navy-100 text-navy-900 hover:bg-navy-50'
-                }`}
+                className="inline-flex items-center gap-3 h-11 px-6 rounded-md bg-navy-900 hover:bg-navy-800 outline outline-1 -outline-offset-1 outline-navy-900 text-white text-base leading-[150%] font-medium transition-colors"
               >
-                {b.label}
-                {b.primary && <ArrowUpRight size={14} />}
+                {b.label} <ArrowUpRight size={24} strokeWidth={1.5} />
               </a>
-            ))}
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {(cp.disclosureCards || []).map((c) => (
-              <div
-                key={c.title}
-                className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
-              >
-                <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">{c.title}</h3>
-                <p className="text-xs text-ink-600">{c.body}</p>
-              </div>
-            ))}
-          </div>
+            ) : (
+              <HeroButton key={b.label} label={b.label} href={b.url} />
+            ),
+          )}
         </div>
-      </section>
+        <div className="mt-12 grid md:grid-cols-3 gap-8">
+          {(cp.disclosureCards || []).map((c) => (
+            <div key={c.title} className="min-h-[128px] py-4 px-8 flex flex-col justify-center gap-2 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+              <H6 as="h3">{c.title}</H6>
+              <p className="text-base leading-[150%] text-black">{c.body}</p>
+            </div>
+          ))}
+        </div>
+      </Section>
     </div>
   );
 }

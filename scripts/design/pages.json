@@ -47,7 +47,7 @@
   {"name": "com-hrudaya-ops", "route": "/students/committees/hrudaya-ops", "desktop": "1:32079"},
   {"name": "com-research-consulting", "route": "/students/committees/research-consulting", "desktop": "1:32282"},
   {"name": "com-ssr", "route": "/students/committees/ssr", "desktop": "1:32485"},
-  {"name": "contact", "route": "/contact", "desktop": "1:5405", "mobile": "1:6092"},
+  {"name": "contact", "route": "/contact", "desktop": "1:4702", "mobile": "1:6092"},
   {"name": "events", "route": "/events", "desktop": "1:19737", "mobile": "1:22738"},
   {"name": "simerations", "route": "/events/simerations", "desktop": "1:21113", "mobile": "1:24604"},
   {"name": "flagship", "route": "/events/flagship", "desktop": "1:21923", "mobile": "1:25303"},
