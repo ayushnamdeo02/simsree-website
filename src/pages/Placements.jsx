@@ -1,5 +1,9 @@
-import { ArrowRight, ArrowUpRight, Download } from 'lucide-react';
-import StatCard from '../components/StatCard';
+import { ArrowUpRight, ChevronRight } from 'lucide-react';
+import { StatGrid } from '../components/StatCard';
+import PageHero, { HeroButton } from '../components/PageHero';
+import { Section, SectionTitle, Tagline, H5, H6, Tag, AccentCard } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { usePlacementsData } from '../lib/usePlacementsData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -9,7 +13,7 @@ const fallbackPage = {
   heroTitle: 'Hire from the 2024-26 batch.',
   heroTitleItalic: '2024-26 batch.',
   heroDescription:
-    '120 students, 26% women, 63% with prior work-ex. Placement window opens January 2026 — book your interview slot now.',
+    '120 students. 38% women. 62% with prior work-ex. Placement window opens January 2026 — book your interview slot now.',
   heroPrimaryCtaLabel: 'Book a campus visit',
   heroPrimaryCtaUrl: '/placements/contact',
   heroSecondaryCtaLabel: 'See why recruit here',
@@ -27,7 +31,7 @@ const fallbackPage = {
   pathsEyebrow: 'Two Paths',
   pathsTitle: 'Pick your next step.',
   pathsTitleHighlight: 'next step.',
-  pathsSubtitle: 'Get what you need, wherever you are starting.',
+  pathsSubtitle: "Get what you need, wherever you're starting.",
   pathCards: [
     {
       label: 'Recruiter Path',
@@ -63,7 +67,7 @@ const fallbackPage = {
   processEyebrow: 'How Placement Works',
   processTitle: 'Student-driven · faculty-guided.',
   processTitleHighlight: 'faculty-guided.',
-  processSubtitle: 'Here is how hiring works, in six steps.',
+  processSubtitle: "Here's how hiring works, in six steps.",
 
   reportsEyebrow: 'Reports',
   reportsTitle: 'Detailed outcomes per year',
@@ -72,7 +76,7 @@ const fallbackPage = {
 
   cellEyebrow: 'Direct Line to the Cell',
   cellTitle: 'Speak to the Placement Office.',
-  cellSubtitle: 'Paras Surve · +91 8830 332 100 · Sahil Sawant · +91 8097 251 728',
+  cellSubtitle: 'Paras Surve · +91 8830 532 100 · Sahil Sawant · +91 8097 251 728',
   cellButtons: [
     { label: 'Call Paras Surve', url: 'tel:+918830332100', primary: true },
     { label: 'WhatsApp Sahil', url: '#', primary: false },
@@ -92,7 +96,7 @@ const fallbackPage = {
       rows: [
         { label: 'Time on campus', value: '1 day' },
         { label: 'Candidates seen', value: '14-22' },
-        { label: 'Offer roll', value: 'Same day' },
+        { label: 'Offer-roll out', value: 'Same-day' },
       ],
     },
     {
@@ -114,134 +118,90 @@ const fallbackPage = {
   ],
 };
 
+// Defaults below follow the Figma "Placements" frame.
 const fallbackPartners = [
-  'Barclays', 'Deloitte', 'Citi', 'Deutsche Bank', 'Godrej & Boyce', 'Finserv', 'Goldman', 'Wells Fargo',
-  'Morgan Stanley', 'BNP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T',
-  'Infosys', 'BNP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T',
-  'Wipro', 'Deloitte', 'Citi', 'Deutsche Bank', 'Godrej & Boyce', 'Finserv', 'Goldman', 'Wells Fargo',
-  'Cipla', 'BNP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T',
-  'Standard Chartered', 'BNP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T',
-  'Adobe', 'BNP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T',
-  'Paytm', 'BNP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T',
-].map((name, i) => ({ name, order: i + 1 }));
+  ['Barclays', 'Deloitte', 'Citi', 'Deutsche Bank', 'Godrej & Boyce', 'Piramal', 'Arcesium', 'Wells Fargo'],
+  ['Morgan Stanley', 'GEP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T'],
+  ['Infosys', 'GEP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T'],
+  ['Wipro', 'Deloitte', 'Citi', 'Deutsche Bank', 'Godrej & Boyce', 'Piramal', 'Arcesium', 'Wells Fargo'],
+  ['Cipla', 'GEP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T'],
+  ['Standard Chartered', 'GEP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T'],
+  ['Adobe', 'GEP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T'],
+  ['Paytm', 'GEP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T'],
+]
+  .flat()
+  .map((name, i) => ({ name, order: i + 1 }));
 
 const fallbackHiringSteps = [
-  {
-    timing: 'Day 0 · 45-60 min',
-    title: 'Pre-Placement Talk',
-    description: 'You brief students on the role and projects.',
-    meta: 'Run by: Placement Committee',
-    order: 1,
-  },
-  {
-    timing: 'Day 1 · 24-hr window',
-    title: 'Resume Scrutiny',
-    description: 'We send you resumes to shortlist.',
-    meta: 'Owner: Placement Portal · PlaceComm',
-    order: 2,
-  },
-  {
-    timing: 'Day 2 · 90 min',
-    title: 'Group Discussion',
-    description: 'Shortlisted students move to your selection round.',
-    meta: 'Moderated by: Placement Officer',
-    order: 3,
-  },
-  {
-    timing: 'Day 3 · 30-45 min/slot',
-    title: 'Personal Interviews',
-    description: 'You interview candidates one on one.',
-    meta: 'Slot managed by: PlaceComm',
-    order: 4,
-  },
-  {
-    timing: 'Day 3 EOD',
-    title: 'Final Selection',
-    description: 'Final results are announced.',
-    meta: 'Moderated by: Placement Officer',
-    order: 5,
-  },
-  {
-    timing: 'Within 2 weeks',
-    title: 'Final Offer',
-    description: 'You make offers to the students you select.',
-    meta: 'Audited by: Cell',
-    order: 6,
-  },
-];
+  ['Day 0 · 45-60 min', 'Pre-Placement Talk', 'You brief students on the role and projects.', 'Run by: Placement Committee'],
+  ['Day 1 · 24-hr window', 'Resume Scrutiny', 'We send you resumes to shortlist.', 'Owner: Placement Portal · PlaceComm'],
+  ['Day 2 · 90 min', 'Group Discussion', 'Shortlisted students move to your selection round.', 'Moderated by: Placement Officer'],
+  ['Day 3 · 30-45 min/slot', 'Personal Interview', 'You interview candidates one on one.', 'Slots managed by: PlaceComm'],
+  ['Day 3 EOD', 'Final Selection', 'Final results are announced.', 'Moderated by: Placement Officer'],
+  ['Within 2 weeks', 'Final Offer', 'You make offers to the students you select.', 'Audited by: Crisil'],
+].map(([timing, title, description, meta], i) => ({ timing, title, description, meta, order: i + 1 }));
 
 const fallbackReports = [
   {
     title: 'Final Placement Report',
-    tag: 'Current · Archive',
+    tag: 'Current + Archive',
     description: '{{placementRate}} placement · {{avgCtc}} avg CTC · top 12 recruiters listed.',
     downloadLabel: 'Download',
     order: 1,
   },
   {
     title: 'Summer Placement Report',
-    tag: 'Year 1 internships',
+    tag: 'Year-1 internships',
     description: '100% summer · ₹85K avg stipend · 62% PPO conversion.',
     downloadLabel: 'Download',
     order: 2,
   },
   {
     title: 'Executive Placement Report',
-    tag: 'MFM · MMM',
-    description: '5.7 candidate CGL each 25 minutes · Faculty observers join for first-time recruiters.',
+    tag: 'MFM / MMM',
+    description: '+38% CTC delta · 62% role switch · 28% promoted within.',
     downloadLabel: 'Download',
     order: 3,
   },
 ];
 
 const fallbackJourneySteps = [
-  {
-    title: 'Pre-Placement Talk',
-    description:
-      'Company arrives on campus · briefs the cohort about the role, mandate, team and growth track. 45-60 minutes including Q&A.',
-    order: 1,
-  },
-  {
-    title: 'Resume Scrutiny',
-    description:
-      'Interested candidates upload resumes via the Placement Portal. Placement Committee normalises to the recruiter preferred format and ships within 24 hours.',
-    order: 2,
-  },
-  {
-    title: 'Shortlist',
-    description:
-      'Recruiter shares shortlist by midnight 2 days before the slot. Candidates get individual SMS + email notifications by 8am the next morning.',
-    order: 3,
-  },
-  {
-    title: 'Aptitude · Case · optional',
-    description:
-      'Roles requiring quantitative aptitude or case-solving get a 75-90 minute on-campus written/online round. Most consulting and finance recruiters use this stage.',
-    order: 4,
-  },
-  {
-    title: 'Group Discussion',
-    description:
-      'Groups of 8-10 · 20 minutes each · moderated by Placement Officer with faculty observers. Held in the seminar hall.',
-    order: 5,
-  },
-  {
-    title: 'Personal Interviews · Offer',
-    description:
-      '2-3 round PIs · ending the same day with offer rollouts in the auditorium. Average time from PPT to offer: 3-4 hours.',
-    order: 6,
-  },
-];
+  ['Pre-Placement Talk', 'Company arrives on campus · briefs the cohort about the role, mandate, team and growth track. 45-60 minutes including Q&A.'],
+  ['Resume Scrutiny', "Interested candidates upload resumes via the Placement Portal · Placement Committee normalises to the recruiter's preferred format and ships within 24 hours."],
+  ['Shortlist', 'Recruiter shares shortlist by midnight 2 days before the slot. Candidates get individual SMS + email notifications by 9am the next morning.'],
+  ['Aptitude / Case · optional', 'Roles requiring quantitative aptitude or case-solving get a 75-90 minute on-campus written/online round. Most consulting and finance recruiters use this stage.'],
+  ['Group Discussion', '5-7 candidate GDs, each 25 minutes. Faculty observers join for first-time recruiters. Results inside 90 minutes.'],
+  ['Personal Interviews + Offer', '2-3 round PIs · ending the same day with offer rollouts in the auditorium. Average time from PPT to offer: 5.4 hours.'],
+].map(([title, description], i) => ({ title, description, order: i + 1 }));
 
-function TitleWithHighlight({ text, highlight, className }) {
-  const idx = highlight ? (text || '').indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
+// Figma report photos, in card order.
+const REPORT_FALLBACK = ['final', 'summer', 'executive'].map((n) => `/images/placements/report-${n}.webp`);
+
+// Figma report tag colours: Astronaut/Lightest by default, Eastern Blue for exec.
+const REPORT_TAG = ['bg-navy-50 text-navy-900', 'bg-navy-50 text-navy-900', 'bg-sky-50 text-teal-500'];
+
+function WhatsAppIcon() {
   return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
+    <svg viewBox="0 0 24 24" className="w-5 h-5 shrink-0" aria-hidden="true">
+      <path
+        fill="#25D366"
+        d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4a.5.5 0 0 0 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.6 4c1.7.7 2.3.8 3.2.7a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.2-.2-.5-.3z"
+      />
+    </svg>
+  );
+}
+
+// Numbered timeline row — Figma "Timeline Item": 48px circle (white/navy outline or
+// solid navy), 2px black/20 connector, 40 gap to the copy.
+function StepCircle({ n, solid }) {
+  return (
+    <span
+      className={`w-12 h-12 shrink-0 rounded-full flex items-center justify-center text-lg leading-[150%] outline outline-1 -outline-offset-1 outline-navy-900 ${
+        solid ? 'bg-navy-900 text-white' : 'bg-white text-navy-900'
+      }`}
+    >
+      {String(n).padStart(2, '0')}
+    </span>
   );
 }
 
@@ -257,361 +217,260 @@ export default function Placements() {
   const cellButtons = fillFactsDeep(pp.cellButtons?.length ? pp.cellButtons : fallbackPage.cellButtons, facts);
   const factPanels = fillFactsDeep(pp.factPanels?.length ? pp.factPanels : fallbackPage.factPanels, facts);
 
-  const heroImageUrl = pp.heroImage ? urlFor(pp.heroImage).width(1600).url() : null;
-  const journeyImageUrl = pp.journeyImage ? urlFor(pp.journeyImage).width(1000).url() : null;
-
-  // Hero title: render the italic tail in serif italic (Figma)
-  const italic = pp.heroTitleItalic;
-  const iIdx = italic ? (pp.heroTitle || '').indexOf(italic) : -1;
+  const journeyImageUrl = pp.journeyImage
+    ? urlFor(pp.journeyImage).width(1200).auto('format').url()
+    : '/images/student-system/track.webp';
+  const [recruiter, prospect] = pathCards;
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[560px] md:h-[660px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[72px] md:h-full flex flex-col justify-end text-white">
-          <span className="inline-block w-fit bg-navy-900 text-white text-[11px] font-semibold tracking-widest uppercase px-4 py-2 rounded-full mb-6">
-            {pp.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-5">
-            {iIdx === -1 ? (
-              pp.heroTitle
-            ) : (
-              <>
-                {pp.heroTitle.slice(0, iIdx)}
-                <span className="italic">{italic}</span>
-                {pp.heroTitle.slice(iIdx + italic.length)}
-              </>
-            )}
-          </h1>
-          <p className="max-w-xl text-sm text-white/85 leading-relaxed mb-8">{pp.heroDescription}</p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href={pp.heroPrimaryCtaUrl}
-              className="bg-sky-600 hover:bg-teal-600 transition-colors text-white font-medium px-5 py-3 rounded-md flex items-center gap-2 w-fit"
-            >
-              {pp.heroPrimaryCtaLabel} <ArrowUpRight size={16} />
-            </a>
-            <a
-              href={pp.heroSecondaryCtaUrl}
-              className="bg-white hover:bg-gray-100 transition-colors text-navy-900 font-medium px-5 py-3 rounded-md w-fit"
-            >
-              {pp.heroSecondaryCtaLabel}
-            </a>
-            <a
-              href={pp.heroTertiaryCtaUrl}
-              className="border border-white/40 hover:bg-white/10 transition-colors text-white font-medium px-5 py-3 rounded-md w-fit"
-            >
-              {pp.heroTertiaryCtaLabel}
-            </a>
-          </div>
-        </div>
+      <PageHero
+        image={heroImage(pp.heroImage, '/images/placements/hero.webp')}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Placements' }]}
+        eyebrow={pp.heroEyebrow}
+        eyebrowUpper
+        title={pp.heroTitle}
+        titleItalic={pp.heroTitleItalic}
+        description={pp.heroDescription}
+        descriptionWidth={628}
+        actions={[
+          { label: pp.heroPrimaryCtaLabel, to: pp.heroPrimaryCtaUrl, primary: true },
+          { label: pp.heroSecondaryCtaLabel, to: pp.heroSecondaryCtaUrl },
+          { label: pp.heroTertiaryCtaLabel, href: pp.heroTertiaryCtaUrl },
+        ]}
+      />
+
+      <section className="px-5 py-16 md:p-16">
+        <StatGrid stats={pp.stats} />
       </section>
 
-      {/* Stats */}
-      <section className="max-w-[1408px] mx-auto px-6 lg:px-16 py-10 lg:py-16">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {(pp.stats || []).map((s) => (
-            <StatCard key={s.label} {...s} />
-          ))}
-        </div>
-      </section>
-
-      {/* Two paths */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {pp.pathsEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={pp.pathsTitle}
-            highlight={pp.pathsTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-4"
-          />
-          <p className="text-sm text-ink-600 mb-10">{pp.pathsSubtitle}</p>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-            {pathCards.map((c, i) => {
-              const dark = i === 0;
-              return (
-                <div
-                  key={c.title}
-                  className={`rounded-xl p-8 border ${
-                    dark ? 'bg-navy-900 border-navy-900 text-white' : 'bg-white border-navy-100'
-                  }`}
-                >
-                  <span
-                    className={`text-[11px] font-semibold tracking-widest uppercase ${
-                      dark ? 'text-white/70' : 'text-sky-600'
-                    }`}
-                  >
-                    {c.label}
-                  </span>
-                  <h3
-                    className={`font-display text-xl font-semibold mt-4 mb-6 ${
-                      dark ? 'text-white' : 'text-navy-900'
-                    }`}
-                  >
-                    {c.title}
-                  </h3>
-
-                  {c.steps?.length ? (
-                    <ol className="space-y-3 mb-8">
-                      {c.steps.map((s, si) => (
-                        <li
-                          key={s}
-                          className={`flex gap-3 text-sm ${dark ? 'text-white/80' : 'text-ink-600'}`}
-                        >
-                          <span className={dark ? 'text-white/50' : 'text-ink-400'}>{si + 1}.</span>
-                          <span>{s}</span>
-                        </li>
+      {/* Two paths — left title; 600 navy card | 600 bar card, 80 apart. */}
+      <Section width={1280}>
+        <SectionTitle
+          tagline={pp.pathsEyebrow}
+          title={composeTitle(pp.pathsTitle, pp.pathsTitleHighlight)}
+          highlight={pp.pathsTitleHighlight}
+          body={pp.pathsSubtitle}
+        />
+        <div className="mt-20 grid lg:grid-cols-2 gap-10 lg:gap-20">
+          {recruiter && (
+            <div className="flex items-center p-8 bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+              <div className="flex flex-col gap-8">
+                <div className="flex flex-col gap-4">
+                  <Tagline className="text-white">{recruiter.label}</Tagline>
+                  <div className="flex flex-col gap-6">
+                    <H5 className="text-white">{recruiter.title}</H5>
+                    <ol className="flex flex-col gap-2 text-base md:text-lg leading-[150%] list-decimal pl-6">
+                      {(recruiter.steps || []).map((st) => (
+                        <li key={st}>{st}</li>
                       ))}
                     </ol>
-                  ) : (
-                    <p className={`text-sm mb-8 ${dark ? 'text-white/80' : 'text-ink-600'}`}>{c.body}</p>
-                  )}
-
-                  <div className="flex flex-wrap items-center gap-3">
-                    {c.primaryCtaLabel && (
-                      <a
-                        href={c.primaryCtaUrl || '#'}
-                        className="bg-sky-600 hover:bg-teal-600 transition-colors text-white text-sm font-medium px-4 py-2.5 rounded-md flex items-center gap-2 w-fit"
-                      >
-                        {c.primaryCtaLabel} <ArrowRight size={14} />
-                      </a>
-                    )}
-                    {c.secondaryCtaLabel && (
-                      <a
-                        href={c.secondaryCtaUrl || '#'}
-                        className={`text-sm font-medium px-4 py-2.5 rounded-md border transition-colors w-fit ${
-                          dark
-                            ? 'border-white/30 text-white hover:bg-white/10'
-                            : 'border-navy-100 text-navy-900 hover:bg-navy-50'
-                        }`}
-                      >
-                        {c.secondaryCtaLabel}
-                      </a>
-                    )}
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Recruiting partners */}
-      <section className="bg-navy-950 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-white">
-            {pp.partnersEyebrow}
-          </span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-6 mb-5 max-w-xl">
-            {pp.partnersTitle}
-          </h2>
-          <p className="text-sm text-white/70 leading-relaxed max-w-3xl mb-8">{pp.partnersSubtitle}</p>
-          <a
-            href={pp.partnersCtaUrl || '#'}
-            className="bg-sky-600 hover:bg-teal-600 transition-colors text-white text-sm font-medium px-4 py-2.5 rounded-md inline-flex items-center gap-2 mb-12"
-          >
-            {pp.partnersCtaLabel} <ArrowUpRight size={14} />
-          </a>
-
-          <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-3">
-            {partners.map((p, i) => {
-              const logoUrl = p.logo ? urlFor(p.logo).width(200).url() : null;
-              return (
-                <div
-                  key={p._id || `${p.name}-${i}`}
-                  className="h-[68px] rounded-md border border-white/10 bg-white/[0.03] hover:bg-white/10 transition-colors flex items-center justify-center px-2"
-                >
-                  {logoUrl ? (
-                    <img src={logoUrl} alt={p.name} className="max-h-8 max-w-full object-contain" />
-                  ) : (
-                    <span className="text-[10px] text-white/70 text-center leading-tight">{p.name}</span>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* How placement works */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {pp.processEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={pp.processTitle}
-            highlight={pp.processTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-4"
-          />
-          <p className="text-sm text-ink-600 mb-12">{pp.processSubtitle}</p>
-
-          <div className="max-w-[900px]">
-            {hiringSteps.map((s, i) => (
-              <div
-                key={s._id || s.title}
-                className="flex gap-6 py-6 border-b border-navy-100 last:border-b-0"
-              >
-                <span className="shrink-0 w-9 h-9 rounded-full border border-navy-100 flex items-center justify-center text-xs font-semibold text-navy-600">
-                  {String(s.order ?? i + 1).padStart(2, '0')}
-                </span>
-                <div className="min-w-0">
-                  <span className="text-[11px] font-semibold tracking-widest uppercase text-sky-600">
-                    {s.timing}
-                  </span>
-                  <h3 className="font-display text-lg font-semibold text-navy-900 mt-2 mb-1">
-                    {s.title}
-                  </h3>
-                  <p className="text-sm text-ink-600">{s.description}</p>
-                  {s.meta && <p className="text-xs text-ink-400 mt-2">{s.meta}</p>}
+                <div className="flex flex-wrap gap-4">
+                  <HeroButton label={recruiter.primaryCtaLabel} to={recruiter.primaryCtaUrl} primary />
+                  <HeroButton label={recruiter.secondaryCtaLabel} href={recruiter.secondaryCtaUrl} />
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Reports */}
-      <section id="reports" className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {pp.reportsEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={pp.reportsTitle}
-            highlight={pp.reportsTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-4"
-          />
-          <p className="text-sm text-ink-600 mb-10">{pp.reportsSubtitle}</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {reports.map((r) => {
-              const imgUrl = r.image ? urlFor(r.image).width(600).url() : null;
-              return (
-                <div
-                  key={r._id || r.title}
-                  className="rounded-xl border border-navy-100 overflow-hidden flex flex-col"
-                >
-                  <div
-                    className="h-[200px] bg-gray-200 bg-cover bg-center"
-                    style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
-                  />
-                  <div className="p-6 flex flex-col flex-1">
-                    <span className="text-[11px] font-semibold tracking-widest uppercase text-sky-600 mb-2">
-                      {r.tag}
-                    </span>
-                    <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">{r.title}</h3>
-                    <p className="text-sm text-ink-600 mb-5">{r.description}</p>
-                    <a
-                      href={r.fileUrl || '#'}
-                      className="text-sm font-medium text-navy-900 flex items-center gap-2 w-fit mt-auto"
-                    >
-                      {r.downloadLabel || 'Download'} <Download size={14} />
-                    </a>
-                  </div>
+            </div>
+          )}
+          {prospect && (
+            <AccentCard>
+              <div className="flex flex-col gap-12">
+                <Tagline>{prospect.label}</Tagline>
+                <div className="flex flex-col gap-4">
+                  <H5 className="text-black">{prospect.title}</H5>
+                  <p className="text-base leading-[150%] text-black">{prospect.body}</p>
                 </div>
+                <div className="flex flex-col items-start gap-4">
+                  <a
+                    href={prospect.primaryCtaUrl}
+                    className="inline-flex items-center gap-3 h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors"
+                  >
+                    {prospect.primaryCtaLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
+                  </a>
+                  <HeroButton label={prospect.secondaryCtaLabel} to={prospect.secondaryCtaUrl} />
+                </div>
+              </div>
+            </AccentCard>
+          )}
+        </div>
+      </Section>
+
+      {/* Recruiting partners — #12142e, left title + teal CTA, then an 8-up grid of
+          151x148 white-hairline cells (radius 12), 10/30 gaps. */}
+      <Section bg="bg-navy-700" width={1280}>
+        <SectionTitle dark tagline={pp.partnersEyebrow} title={pp.partnersTitle} body={pp.partnersSubtitle} />
+        <div className="mt-9">
+          <HeroButton label={pp.partnersCtaLabel} href={pp.partnersCtaUrl} primary />
+        </div>
+        <div className="mt-20 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-x-2.5 gap-y-[30px]">
+          {partners.map((p, i) => {
+            const logo = p.logo ? urlFor(p.logo).height(96).auto('format').url() : null;
+            return (
+              <div
+                key={p._id || `${p.name}-${i}`}
+                className="h-[120px] lg:h-[148px] rounded-xl outline outline-1 -outline-offset-1 outline-white flex items-center justify-center p-6 text-center transition-colors hover:bg-white/10"
+              >
+                {logo ? (
+                  <img src={logo} alt={p.name} className="max-h-12 max-w-full object-contain" />
+                ) : (
+                  <span className="text-sm leading-[150%] text-white">{p.name}</span>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </Section>
+
+      {/* How placement works — 1312 wide steps, 48 apart: outlined circle and
+          connector | timing, H6 title + 16 copy, hairline, 14 owner line. */}
+      <Section>
+        <SectionTitle
+          tagline={pp.processEyebrow}
+          title={composeTitle(pp.processTitle, pp.processTitleHighlight)}
+          highlight={pp.processTitleHighlight}
+          body={pp.processSubtitle}
+          width={1312}
+        />
+        <ol className="mt-20 flex flex-col gap-12">
+          {hiringSteps.map((st, i, all) => (
+            <li key={st._id || st.title} className="flex gap-6 md:gap-10">
+              <div className="flex flex-col items-center gap-4">
+                <StepCircle n={st.order ?? i + 1} />
+                {i < all.length - 1 && <span className="w-0.5 h-[108px] bg-black/20" aria-hidden="true" />}
+              </div>
+              <div className="flex-1 min-w-0 flex flex-col gap-4">
+                <span className="text-base leading-[150%] uppercase text-black">{st.timing}</span>
+                <div className="flex flex-col gap-2">
+                  <H6 as="h3" className="text-black">
+                    {st.title}
+                  </H6>
+                  <p className="text-base leading-[150%] text-black">{st.description}</p>
+                </div>
+                <div className="flex flex-col gap-2 border-t border-black/20 pt-2">
+                  <p className="text-sm leading-[150%] text-black">{st.meta}</p>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </Section>
+
+      {/* Reports — left title; three 405x506 hairline cards: 270px photo, tag,
+          H5 navy title, 16 copy, Download link with a chevron. */}
+      <Section id="reports" width={1280}>
+        <SectionTitle
+          tagline={pp.reportsEyebrow}
+          title={composeTitle(pp.reportsTitle, pp.reportsTitleHighlight)}
+          highlight={pp.reportsTitleHighlight}
+          body={pp.reportsSubtitle}
+        />
+        <div className="mt-20 grid md:grid-cols-3 gap-8">
+          {reports.map((r, i) => {
+            const img = r.image ? urlFor(r.image).width(810).auto('format').url() : REPORT_FALLBACK[i];
+            const fileUrl = r.file?.asset?.url || r.fileUrl;
+            return (
+              <div key={r._id || r.title} className="flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
+                <div className="h-[270px] bg-navy-50 bg-cover bg-center" style={img ? { backgroundImage: `url('${img}')` } : undefined} />
+                <div className="flex-1 flex flex-col gap-6 p-6">
+                  <div className="flex flex-col gap-4">
+                    <Tag className={`w-fit uppercase outline-0 ${REPORT_TAG[i] || REPORT_TAG[0]}`}>{r.tag}</Tag>
+                    <div className="flex flex-col gap-2">
+                      <H5>{r.title}</H5>
+                      <p className="text-base leading-[150%] text-black">{r.description}</p>
+                    </div>
+                  </div>
+                  <a
+                    href={fileUrl || '/placements/reports'}
+                    className="flex items-center gap-2 w-fit text-base leading-[150%] text-black hover:underline underline-offset-2"
+                  >
+                    {r.downloadLabel || 'Download'} <ChevronRight size={24} strokeWidth={1.5} />
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </Section>
+
+      {/* Speak to the office — navy, 64 padding, centred; 598 contact line, four
+          buttons 14 apart (WhatsApp mark on the second). */}
+      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+        <div className="max-w-[873px] mx-auto text-center flex flex-col items-center gap-8">
+          <SectionTitle center dark tagline={pp.cellEyebrow} title={pp.cellTitle} />
+          <p className="-mt-2 max-w-[598px] text-base md:text-lg leading-[150%]">{pp.cellSubtitle}</p>
+          <div className="flex flex-wrap justify-center gap-3.5">
+            {cellButtons.map((b) => {
+              const isWhatsApp = /whatsapp/i.test(b.label);
+              return b.primary ? (
+                <HeroButton key={b.label} label={b.label} href={b.url} primary />
+              ) : (
+                <a
+                  key={b.label}
+                  href={b.url || '#'}
+                  className="inline-flex items-center gap-2 h-11 px-6 rounded-md bg-white outline outline-1 -outline-offset-1 outline-black/20 text-base leading-[150%] font-medium text-black hover:bg-navy-50 transition-colors"
+                >
+                  {isWhatsApp && <WhatsAppIcon />}
+                  {b.label}
+                </a>
               );
             })}
           </div>
         </div>
       </section>
 
-      {/* Placement office CTA */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0 text-center">
-          <span className="text-xs font-semibold tracking-widest uppercase text-white">
-            {pp.cellEyebrow}
-          </span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-6 mb-4">{pp.cellTitle}</h2>
-          <p className="text-sm text-white/75 mb-8">{pp.cellSubtitle}</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {cellButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'border border-white/30 text-white hover:bg-white/10'
-                }`}
-              >
-                {b.label}
-              </a>
-            ))}
+      {/* Journey — 600 title + 600x553 photo | numbered steps (solid navy circles,
+          32 gaps); three 395x237 fact panels with the Eastern Blue bar below. */}
+      <Section width={1280}>
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+          <div className="flex flex-col gap-[52px]">
+            <SectionTitle
+              tagline={pp.journeyEyebrow}
+              title={composeTitle(pp.journeyTitle, pp.journeyTitleHighlight)}
+              highlight={pp.journeyTitleHighlight}
+              body={pp.journeySubtitle}
+              width={600}
+            />
+            <div
+              className="h-[300px] lg:h-[553px] bg-navy-50 bg-cover bg-center"
+              style={{ backgroundImage: `url('${journeyImageUrl}')` }}
+            />
           </div>
-        </div>
-      </section>
-
-      {/* Placement journey */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
-            <div>
-              <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                {pp.journeyEyebrow}
-              </span>
-              <TitleWithHighlight
-                text={pp.journeyTitle}
-                highlight={pp.journeyTitleHighlight}
-                className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-4"
-              />
-              <p className="text-sm text-ink-600 mb-8">{pp.journeySubtitle}</p>
-              <div
-                className="h-[280px] rounded-xl bg-gray-200 bg-cover bg-center"
-                style={journeyImageUrl ? { backgroundImage: `url('${journeyImageUrl}')` } : undefined}
-              />
-            </div>
-
-            <div>
-              {journeySteps.map((s, i) => (
-                <div
-                  key={s._id || s.title}
-                  className="flex gap-5 pb-8 last:pb-0 border-b border-navy-100 last:border-b-0 mb-8 last:mb-0"
-                >
-                  <span className="shrink-0 w-9 h-9 rounded-full bg-navy-900 text-white flex items-center justify-center text-xs font-semibold">
-                    {String(s.order ?? i + 1).padStart(2, '0')}
-                  </span>
-                  <div className="min-w-0">
-                    <h3 className="font-display text-lg font-semibold text-sky-600 mb-2">{s.title}</h3>
-                    <p className="text-sm text-ink-600 leading-relaxed">{s.description}</p>
-                  </div>
+          <ol className="flex flex-col gap-8">
+            {journeySteps.map((st, i, all) => (
+              <li key={st._id || st.title} className="flex gap-10 min-h-[120px]">
+                <div className="flex flex-col items-center gap-4">
+                  <StepCircle n={st.order ?? i + 1} solid />
+                  {i < all.length - 1 && <span className="w-0.5 h-14 bg-black/20" aria-hidden="true" />}
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Fact panels */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 mt-16">
-            {factPanels.map((p) => (
-              <div key={p.title} className="border border-navy-100 rounded-xl p-6">
-                <h3 className="font-display text-lg font-semibold text-navy-900 mb-4">{p.title}</h3>
-                <div className="space-y-3">
-                  {(p.rows || []).map((r) => (
-                    <div key={r.label} className="flex items-center gap-3">
-                      <span className="text-[11px] uppercase tracking-wide text-ink-400 shrink-0">
-                        {r.label}
-                      </span>
-                      <span className="flex-1 h-px bg-navy-100" />
-                      <span className="text-xs font-medium text-navy-900 shrink-0">{r.value}</span>
+                <div className="flex flex-col gap-2">
+                  <H6 as="h3">{st.title}</H6>
+                  <p className="text-base leading-[150%] text-black">{st.description}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+        <div className="mt-20 grid md:grid-cols-3 gap-8 lg:gap-12">
+          {factPanels.map((f) => (
+            <AccentCard key={f.title}>
+              <div className="flex flex-col gap-4">
+                <H5>{f.title}</H5>
+                <span className="h-px bg-black/20" aria-hidden="true" />
+                <dl className="flex flex-col gap-4">
+                  {(f.rows || []).map((r) => (
+                    <div key={r.label} className="flex gap-4 text-sm leading-[150%] text-black">
+                      <dt className="uppercase">{r.label}</dt>
+                      <dd className="font-semibold">{r.value}</dd>
                     </div>
                   ))}
-                </div>
+                </dl>
               </div>
-            ))}
-          </div>
+            </AccentCard>
+          ))}
         </div>
-      </section>
+      </Section>
     </div>
   );
 }

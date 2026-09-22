@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { figmaWrap } from '../lib/text';
+import { Highlighted } from './ui';
 
 // The full-bleed photo hero every inner page opens with (Figma "Frame 2147229563").
 //
@@ -106,6 +107,8 @@ export default function PageHero({
   eyebrowUpper = false,
   title,
   titleWidth = 1330,
+  // Part of the title the design sets in italic (Placements: "2024-26 batch.").
+  titleItalic,
   description,
   descriptionWidth = 803,
   actions = [],
@@ -177,7 +180,11 @@ export default function PageHero({
           className={`font-display font-medium ${mobileTitle} tracking-[-0.01em] md:text-[72px] md:leading-[120%] whitespace-pre-line`}
           style={{ maxWidth: titleWidth }}
         >
-          {figmaWrap(title)}
+          {titleItalic ? (
+            <Highlighted text={figmaWrap(title)} highlight={titleItalic} highlightClass="italic" />
+          ) : (
+            figmaWrap(title)
+          )}
         </h1>
 
         {description && (
