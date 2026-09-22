@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
-import { figmaWrap } from '../lib/text';
+import { useFigmaWrap } from '../lib/useFigmaWrap';
 import { Highlighted } from './ui';
 
 // The full-bleed photo hero every inner page opens with (Figma "Frame 2147229563").
@@ -132,6 +132,7 @@ export default function PageHero({
   // 'center' stacks everything on the frame's centre line (Campus Life, Life).
   align = 'left',
 }) {
+  const figmaWrap = useFigmaWrap();
   const center = align === 'center';
   return (
     <section

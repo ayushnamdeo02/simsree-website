@@ -1,4 +1,4 @@
-import { figmaWrap } from '../lib/text';
+import { useFigmaWrap } from '../lib/useFigmaWrap';
 
 // Shared building blocks taken 1:1 from the Figma design system, so every page
 // uses the same measurements. Desktop values first, mobile in the comments.
@@ -44,6 +44,7 @@ export function Highlighted({ text = '', highlight, highlightClass = 'text-teal-
 
 // Figma "Heading H2": Playfair Medium 52/120, -1% tracking; H4 36/130 on mobile.
 export function Heading({ text, highlight, className = 'text-navy-900', as: Tag = 'h2', highlightClass }) {
+  const figmaWrap = useFigmaWrap();
   return (
     <Tag
       className={`font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em] whitespace-pre-line ${className}`}
