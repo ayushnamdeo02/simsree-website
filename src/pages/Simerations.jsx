@@ -1,7 +1,9 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowUpRight, CalendarPlus, ChevronRight } from 'lucide-react';
-import StatCard from '../components/StatCard';
+import { ChevronRight } from 'lucide-react';
+import { StatGrid } from '../components/StatCard';
+import PageHero, { HeroButton } from '../components/PageHero';
+import { Section, SectionTitle, H5 } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
 import { useSimerationsData } from '../lib/useSimerationsData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -11,7 +13,7 @@ const fallbackPage = {
   heroTitle: 'Simerations — the annual show.',
   heroTitleBreakAfter: '—',
   heroDescription:
-    'Two days · five tracks · 500+ delegates. Case competitions, industry games, keynote speakers — organised entirely by the Events Committee.',
+    'Two days · five tracks · 500+ delegates. Case competitions, debates, industry games, keynote speakers — organised entirely by the Events Committee.',
   heroButtons: [
     { label: 'Register for Simerations 2026', url: '/contact', primary: true },
     { label: 'See past editions', url: '#archive', primary: false },
@@ -28,8 +30,8 @@ const fallbackPage = {
   editionsSubtitle: 'Every past edition, archived.',
 
   tracksEyebrow: 'Tracks',
-  tracksTitle: '2026 · 18-19 Sept',
-  tracksTitleHighlight: '18-19 Sept',
+  tracksTitle: '2026 · 18–19 Sept',
+  tracksTitleHighlight: '18–19 Sept',
   tracksSubtitle: 'Each track has its own prize pool and partner sponsor.',
 
   datesEyebrow: 'Key Dates',
@@ -46,7 +48,7 @@ const fallbackPage = {
   ],
 
   archiveEyebrow: 'Past Editions',
-  archiveTitle: 'Archive · 2023-2025',
+  archiveTitle: 'Archive · 2023–2025',
   archiveTitleHighlight: '2023-2025',
   archiveSubtitle: 'Open any card for winners + gallery.',
 
@@ -123,18 +125,6 @@ const fallbackTracks = [
   { name: 'The Keynote', description: 'CXO panel · sectors TBA · open to all delegates.', order: 5 },
 ];
 
-function TitleWithHighlight({ text = '', highlight, className }) {
-  const idx = highlight ? text.indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
-  return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
-  );
-}
-
 // Builds a real .ics file from the key dates so the button downloads something
 // a calendar app can actually open, rather than linking nowhere.
 function buildIcs(eventName, dates) {
@@ -167,46 +157,45 @@ function buildIcs(eventName, dates) {
   return lines.join('\r\n');
 }
 
+// Figma photos used when an edition has no Sanity image.
+const EDITION_PHOTOS = { 2026: 'sim-ed-2026', 2025: 'sim-ed-2025', 2024: 'sim-ed-2024', 2023: 'sim-ed-2023' };
+const ARCHIVE_PHOTOS = { 2025: 'sim-arc-2025', 2024: 'sim-arc-2024', 2023: 'sim-arc-2023' };
+const photo = (image, map, year, w) =>
+  image ? urlFor(image).width(w).auto('format').url() : map[year] ? `/images/events/${map[year]}.webp` : null;
+
+const COUNT_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+
+// Figma bar card: 1px hairline + "small" shadow, a 3px coloured bar, content 32
+// from the bar (16 on mobile) with 16/0 padding: H5 navy title over 16/150 copy.
+function BarCard({ title, body, bar = 'bg-teal-500', className = '' }) {
+  return (
+    <div className={`flex gap-4 md:gap-8 outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${className}`}>
+      <span className={`w-[3px] shrink-0 ${bar}`} aria-hidden="true" />
+      <div className="flex-1 min-w-0 py-4 pr-4 flex flex-col gap-2">
+        <H5 as="h3">{title}</H5>
+        <p className="text-base leading-[150%] text-black">{body}</p>
+      </div>
+    </div>
+  );
+}
+
 export default function Simerations() {
   const facts = useKeyFacts();
   const { data } = useSimerationsData();
   const sp = fillFactsDeep({ ...fallbackPage, ...(data?.page || {}) }, facts);
-  const editions = fillFactsDeep(
-    data?.editions?.length ? data.editions : fallbackEditions,
-    facts
-  );
+  const editions = fillFactsDeep(data?.editions?.length ? data.editions : fallbackEditions, facts);
   const tracks = fillFactsDeep(data?.tracks?.length ? data.tracks : fallbackTracks, facts);
-  const heroButtons = fillFactsDeep(
-    sp.heroButtons?.length ? sp.heroButtons : fallbackPage.heroButtons,
-    facts
-  );
-  const sponsorButtons = fillFactsDeep(
-    sp.sponsorButtons?.length ? sp.sponsorButtons : fallbackPage.sponsorButtons,
-    facts
-  );
-  const keyDates = fillFactsDeep(
-    sp.keyDates?.length ? sp.keyDates : fallbackPage.keyDates,
-    facts
-  );
+  const heroButtons = fillFactsDeep(sp.heroButtons?.length ? sp.heroButtons : fallbackPage.heroButtons, facts);
+  const sponsorButtons = fillFactsDeep(sp.sponsorButtons?.length ? sp.sponsorButtons : fallbackPage.sponsorButtons, facts);
+  const keyDates = fillFactsDeep(sp.keyDates?.length ? sp.keyDates : fallbackPage.keyDates, facts);
 
   const [edition, setEdition] = useState('All');
 
-  const heroImageUrl = sp.heroImage ? urlFor(sp.heroImage).width(1600).url() : null;
-
-  const chips = useMemo(
-    () => [
-      'All',
-      ...editions.map((e) => (e.upcoming ? `${e.year} (Upcoming)` : e.year)),
-    ],
-    [editions]
-  );
-
+  const chipOf = (e) => (e.upcoming ? `${e.year} (Upcoming)` : e.year);
+  const chips = useMemo(() => ['All', ...editions.map(chipOf)], [editions]);
   const visible = useMemo(
-    () =>
-      edition === 'All'
-        ? editions
-        : editions.filter((e) => (e.upcoming ? `${e.year} (Upcoming)` : e.year) === edition),
-    [editions, edition]
+    () => (edition === 'All' ? editions : editions.filter((e) => chipOf(e) === edition)),
+    [editions, edition],
   );
 
   // Archive strip shows past editions only.
@@ -228,136 +217,86 @@ export default function Simerations() {
   const title = sp.heroTitle || '';
   const brk = sp.heroTitleBreakAfter;
   const bIdx = brk ? title.indexOf(brk) : -1;
-  const line1 = bIdx === -1 ? title : title.slice(0, bIdx + brk.length);
-  const line2 = bIdx === -1 ? '' : title.slice(bIdx + brk.length).trim();
+  const heroTitle = bIdx === -1 ? title : `${title.slice(0, bIdx + brk.length)}\n${title.slice(bIdx + brk.length).trim()}`;
+
+  // Figma: three tracks on the first row, two wider ones on the second.
+  const trackSpan = (i) =>
+    tracks.length === 5 ? (i < 3 ? 'lg:col-span-2' : 'lg:col-span-3') : 'lg:col-span-2';
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[380px] md:h-[440px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-10 md:pb-[44px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-4 flex items-center">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/events" className="hover:text-white">Events</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">Simerations</span>
-          </div>
-          <span className="text-[11px] font-semibold tracking-widest uppercase text-white/90 mb-3">
-            {sp.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold italic mb-4">
-            {line1}
-            {line2 && (
-              <>
-                <br />
-                {line2}
-              </>
-            )}
-          </h1>
-          <p className="max-w-md text-xs text-white/85 leading-relaxed mb-7">
-            {sp.heroDescription}
-          </p>
-          <div className="flex flex-wrap gap-3">
-            {heroButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-5 py-3 rounded-md transition-colors flex items-center gap-2 w-fit ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-                {b.primary && <ArrowUpRight size={15} />}
-              </a>
-            ))}
-          </div>
-        </div>
+      <PageHero
+        image={heroImage(sp.heroImage, '/images/events/sim-hero.webp', { stretch: true })}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Events', to: '/events' }, { label: 'Simerations' }]}
+        eyebrow={sp.heroEyebrow}
+        eyebrowUpper
+        title={heroTitle}
+        description={sp.heroDescription}
+        descriptionWidth={628}
+        actions={heroButtons.map((b) => ({ label: b.label, href: b.url, primary: b.primary }))}
+      />
+
+      <section className="px-5 py-16 md:p-16">
+        <StatGrid stats={sp.stats || []} />
       </section>
 
-      {/* Stats */}
-      <section className="max-w-[1408px] mx-auto px-6 lg:px-16 py-10 lg:py-14">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {(sp.stats || []).map((s) => (
-            <StatCard key={s.label} {...s} />
-          ))}
-        </div>
-      </section>
-
-      {/* Editions */}
-      <section className="py-12 lg:py-16">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {sp.editionsEyebrow}
-          </span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3">
-            {sp.editionsTitle}
-          </h2>
-          <p className="text-sm text-ink-600 mb-8">{sp.editionsSubtitle}</p>
-
-          <div className="flex flex-wrap items-center gap-2 mb-8">
+      {/* Editions — radius-4 year tabs; 616 cards in two columns (48 gaps): a 240
+          photo | 24-padded H5 + tag, 14/150 summary and hairline-split rows. */}
+      <Section width={1280}>
+        <SectionTitle tagline={sp.editionsEyebrow} title={sp.editionsTitle} body={sp.editionsSubtitle} />
+        <div className="mt-20 flex flex-col gap-12">
+          <div className="flex flex-wrap">
             {chips.map((c) => (
               <button
                 key={c}
                 type="button"
                 onClick={() => setEdition(c)}
                 aria-pressed={c === edition}
-                className={`text-xs px-4 py-2 rounded-md transition-colors ${
+                className={`h-11 px-4 rounded text-base leading-[150%] transition-colors ${
                   c === edition
-                    ? 'bg-navy-900 text-white'
-                    : 'text-ink-600 hover:text-navy-900 hover:bg-navy-50'
+                    ? 'bg-navy-900 text-white font-medium outline outline-1 -outline-offset-1 outline-black/20'
+                    : 'text-black hover:bg-navy-50'
                 }`}
               >
                 {c}
               </button>
             ))}
           </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {visible.map((e) => {
-              const imgUrl = e.image ? urlFor(e.image).width(500).url() : null;
+          <div className="grid lg:grid-cols-2 gap-12">
+            {visible.map((e, i) => {
+              const src = photo(e.image, EDITION_PHOTOS, e.year, 480);
               return (
                 <div
                   key={e._id || e.year}
-                  className="border border-navy-100 rounded-lg overflow-hidden flex"
+                  className={`${i >= 2 ? 'lg:min-h-[398px]' : ''} flex flex-col lg:flex-row bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small`}
                 >
                   <div
-                    className="w-[38%] shrink-0 bg-gray-200 bg-cover bg-center min-h-[190px]"
-                    style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
+                    className={`${i < 2 ? 'h-[380px]' : 'h-[199px]'} lg:h-auto lg:w-[240px] shrink-0 bg-navy-50 bg-cover bg-center`}
+                    style={src ? { backgroundImage: `url('${src}')` } : undefined}
                   />
-                  <div className="flex-1 min-w-0 p-6">
-                    <div className="flex items-start gap-3 mb-3">
-                      <h3 className="font-display text-xl font-semibold text-navy-900">
-                        {e.title}
-                      </h3>
-                      {e.upcoming && (
-                        <span className="shrink-0 text-[9px] font-semibold tracking-widest uppercase text-sky-700 bg-sky-50 px-2 py-1 rounded">
-                          Upcoming
-                        </span>
-                      )}
+                  <div className="flex-1 min-w-0 p-6 flex flex-col justify-center gap-6">
+                    <div className="flex flex-col gap-2">
+                      <div className="flex flex-wrap items-center gap-4">
+                        <H5 as="h3" className="text-black">
+                          {e.title}
+                        </H5>
+                        {e.upcoming && (
+                          <span className="px-2.5 py-1 rounded-2xl bg-sky-50 text-xs leading-[150%] text-sky-600 uppercase">
+                            Upcoming
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm leading-[150%] text-black">{e.summary}</p>
                     </div>
-                    <p className="text-xs text-ink-600 leading-relaxed mb-4">{e.summary}</p>
                     {e.rows?.length > 0 && (
-                      <dl className="m-0">
-                        {e.rows.map((r) => (
+                      <dl className="m-0 flex flex-col gap-4">
+                        {e.rows.map((r, ri) => (
                           <div
                             key={r.label}
-                            className="flex items-center gap-3 py-2 border-t border-navy-100"
+                            className={`flex gap-2 text-sm leading-[150%] ${ri < e.rows.length - 1 ? 'pb-2 border-b border-black/20' : ''}`}
                           >
-                            <dt className="text-[9px] uppercase tracking-wide text-ink-400 w-[74px] shrink-0">
-                              {r.label}
-                            </dt>
-                            <dd className="text-[11px] text-navy-900 m-0">{r.value}</dd>
+                            <dt className="uppercase text-ink-400">{r.label}</dt>
+                            <dd className="m-0 text-black">{r.value}</dd>
                           </div>
                         ))}
                       </dl>
@@ -368,147 +307,84 @@ export default function Simerations() {
             })}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Tracks */}
-      <section className="bg-navy-50 py-16 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {tracks.length === 5 ? 'Five' : tracks.length} {sp.tracksEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={sp.tracksTitle}
-            highlight={sp.tracksTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
-          />
-          <p className="text-sm text-ink-600 mb-8">{sp.tracksSubtitle}</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {tracks.map((t) => (
-              <div
-                key={t._id || t.name}
-                className="bg-white border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
-              >
-                <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">{t.name}</h3>
-                <p className="text-xs text-ink-600 leading-relaxed">{t.description}</p>
-              </div>
-            ))}
-          </div>
+      {/* Tracks — #eaeaf1 band; bar cards with Eastern Blue bars, 3 + 2 (32 gaps). */}
+      <Section bg="bg-navy-50" width={1280}>
+        <SectionTitle
+          tagline={`${COUNT_WORDS[tracks.length] || tracks.length} ${sp.tracksEyebrow}`}
+          title={sp.tracksTitle?.replace(/(\d)-(\d)/g, '$1–$2')}
+          highlight={sp.tracksTitleHighlight?.replace(/(\d)-(\d)/g, '$1–$2')}
+          body={sp.tracksSubtitle}
+        />
+        <div className="mt-20 grid lg:grid-cols-6 gap-8">
+          {tracks.map((t, i) => (
+            <BarCard key={t._id || t.name} title={t.name} body={t.description} className={trackSpan(i)} />
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Key dates */}
-      <section className="py-16 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {sp.datesEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={sp.datesTitle}
-            highlight={sp.datesTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
-          />
-          <p className="text-sm text-ink-600 mb-8">{sp.datesSubtitle}</p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-            {keyDates.map((d) => (
-              <div
-                key={d.label}
-                className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
-              >
-                <p className="font-display text-lg font-semibold text-navy-900 mb-1">{d.label}</p>
-                <p className="text-xs text-ink-600">{d.description}</p>
-              </div>
-            ))}
-          </div>
-
-          <button
-            type="button"
-            onClick={downloadIcs}
-            className="bg-sky-600 hover:bg-teal-600 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md inline-flex items-center gap-2"
-          >
-            {sp.calendarCtaLabel} <CalendarPlus size={15} />
-          </button>
-        </div>
-      </section>
-
-      {/* Archive */}
-      {archive.length > 0 && (
-        <section id="archive" className="py-16 lg:py-20 scroll-mt-24">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {sp.archiveEyebrow}
-            </span>
-            <TitleWithHighlight
-              text={sp.archiveTitle}
-              highlight={sp.archiveTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
+      {/* Key dates — four navy-bar cards (the last Eastern Blue), then the .ics button. */}
+      <Section width={1280}>
+        <SectionTitle tagline={sp.datesEyebrow} title={sp.datesTitle} body={sp.datesSubtitle} />
+        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {keyDates.map((d, i) => (
+            <BarCard
+              key={d.label}
+              title={d.label}
+              body={d.description}
+              bar={i === keyDates.length - 1 ? 'bg-teal-500' : 'bg-navy-900'}
             />
-            <p className="text-sm text-ink-600 mb-8">{sp.archiveSubtitle}</p>
+          ))}
+        </div>
+        <div className="mt-20">
+          <HeroButton label={sp.calendarCtaLabel} onClick={downloadIcs} primary />
+        </div>
+      </Section>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {archive.map((e) => {
-                const imgUrl = e.image ? urlFor(e.image).width(600).url() : null;
-                return (
+      {/* Archive — three 405 cards (32 gaps): 270 photo, H5 + copy, "Gallery + Winners ›". */}
+      {archive.length > 0 && (
+        <Section id="archive" width={1280} className="scroll-mt-24">
+          <SectionTitle tagline={sp.archiveEyebrow} title={sp.archiveTitle} body={sp.archiveSubtitle} />
+          <div className="mt-20 grid md:grid-cols-3 gap-8 items-start">
+            {archive.map((e) => {
+              const src = photo(e.archiveImage || e.image, ARCHIVE_PHOTOS, e.year, 810);
+              return (
+                <div key={e._id || e.year} className="flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
                   <div
-                    key={e._id || e.year}
-                    className="border border-navy-100 rounded-lg overflow-hidden flex flex-col"
-                  >
-                    <div
-                      className="h-[150px] bg-gray-200 bg-cover bg-center"
-                      style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
-                    />
-                    <div className="p-5 flex flex-col flex-1">
-                      <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
+                    className="h-[223px] md:h-[270px] bg-navy-50 bg-cover bg-center"
+                    style={src ? { backgroundImage: `url('${src}')` } : undefined}
+                  />
+                  <div className="p-6 flex flex-col gap-6">
+                    <div className="flex flex-col gap-2">
+                      <H5 as="h3" className="text-black max-md:text-[22px]">
                         {e.title}
-                      </h3>
-                      <p className="text-xs text-ink-600 leading-relaxed mb-4">
-                        {e.archiveSummary}
-                      </p>
-                      <a
-                        href={e.archiveCtaUrl || '#'}
-                        className="text-xs font-medium text-navy-900 inline-flex items-center gap-1 mt-auto"
-                      >
-                        {e.archiveCtaLabel || 'Gallery + Winners'} <ChevronRight size={13} />
-                      </a>
+                      </H5>
+                      <p className="text-base leading-[150%] text-black">{e.archiveSummary}</p>
                     </div>
+                    <a
+                      href={e.archiveCtaUrl || '#'}
+                      className="w-fit inline-flex items-center gap-2 text-base leading-[150%] text-black hover:underline underline-offset-2"
+                    >
+                      {e.archiveCtaLabel || 'Gallery + Winners'} <ChevronRight size={24} strokeWidth={1.5} />
+                    </a>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
-        </section>
+        </Section>
       )}
 
-      {/* Sponsor CTA */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0 text-center">
-          <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
-            {sp.sponsorEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={sp.sponsorTitle}
-            highlight={sp.sponsorTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-5 mb-4"
-          />
-          <p className="text-sm text-white/75 mb-8 max-w-xl mx-auto">{sp.sponsorSubtitle}</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {sponsorButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-              </a>
-            ))}
-          </div>
+      {/* Sponsor CTA — navy, centred 768 column. */}
+      <Section bg="bg-navy-900" width={768} className="text-center border-t border-white/20">
+        <SectionTitle center dark tagline={sp.sponsorEyebrow} title={sp.sponsorTitle} body={sp.sponsorSubtitle} />
+        <div className="mt-8 flex flex-wrap justify-center gap-4">
+          {sponsorButtons.map((b) => (
+            <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} />
+          ))}
         </div>
-      </section>
+      </Section>
     </div>
   );
 }
