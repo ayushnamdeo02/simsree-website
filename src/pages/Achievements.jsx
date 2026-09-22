@@ -1,14 +1,9 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import {
-  ArrowUpRight,
-  Award,
-  BookOpen,
-  FileText,
-  Lightbulb,
-  Plus,
-  Trophy,
-} from 'lucide-react';
+import { ArrowUpRight, BadgeCheck, GraduationCap, Newspaper, Plus, Trophy, Medal, Lightbulb } from 'lucide-react';
+import PageHero, { HeroButton } from '../components/PageHero';
+import { Section, SectionTitle, Tagline, Heading, H5, H6 } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { useAchievementsData } from '../lib/useAchievementsData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -21,12 +16,13 @@ const CATEGORIES = [
   'External Recognition',
 ];
 
+// Figma icons: trophy · school · news · sports · badge.
 const SUBMIT_ICONS = {
-  case: Lightbulb,
-  scholarship: Award,
-  publication: BookOpen,
-  sports: Trophy,
-  external: FileText,
+  case: Trophy,
+  scholarship: GraduationCap,
+  publication: Newspaper,
+  sports: Medal,
+  external: BadgeCheck,
 };
 
 const fallbackPage = {
@@ -153,64 +149,59 @@ const fallbackCategories = [
   },
 ];
 
-function TitleWithHighlight({ text = '', highlight, className }) {
-  const idx = highlight ? text.indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
-  return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
-  );
-}
+// Figma photos for the six achievement rows and the five-photo collage.
+const ROW_PHOTOS = [1, 2, 3, 4, 5, 6].map((n) => `/images/students/achievement-${n}.webp`);
+const COLLAGE_PHOTOS = [1, 2, 3, 4, 5].map((n) => `/images/students/collage-${n}.webp`);
+
+const img = (image, fallback, w) =>
+  !image ? fallback : typeof image === 'string' ? image : urlFor(image).width(w).auto('format').url();
 
 // Native <details> so the row expands with keyboard and without JS.
-function AchievementRow({ a, defaultOpen }) {
-  const imgUrl = a.image ? urlFor(a.image).width(400).url() : null;
+// Figma "Card": 1280 wide, hairline, 192px photo, 32 padding; square #eaeaf1 tag
+// (#d8d8d8 hairline), H5 28 black title, 16/150 summary, 32px plus.
+function AchievementRow({ a, photo, defaultOpen }) {
   return (
-    <details
-      open={defaultOpen}
-      className="group border border-navy-100 rounded-lg overflow-hidden bg-white"
-    >
-      <summary className="flex items-stretch gap-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+    <details open={defaultOpen} className="group flex bg-white outline outline-1 -outline-offset-1 outline-black/20">
+      <summary className="flex items-stretch cursor-pointer list-none [&::-webkit-details-marker]:hidden">
         <div
-          className="w-[110px] md:w-[150px] shrink-0 bg-gray-200 bg-cover bg-center min-h-[104px]"
-          style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
+          className="w-[110px] md:w-48 shrink-0 min-h-[140px] md:min-h-48 bg-navy-50 bg-cover bg-center group-open:md:min-h-[329px]"
+          style={photo ? { backgroundImage: `url('${photo}')` } : undefined}
         />
-        <div className="flex-1 min-w-0 py-5">
-          {a.badge && (
-            <span className="inline-block text-[9px] font-semibold tracking-widest uppercase text-navy-900 bg-navy-50 px-2.5 py-1 rounded mb-2.5">
-              {a.badge}
-            </span>
-          )}
-          <h3 className="font-display text-lg font-semibold text-navy-900 mb-1">{a.title}</h3>
-          <p className="text-xs text-ink-600">{a.summary}</p>
-        </div>
-        <span className="shrink-0 self-center pr-5 text-ink-400 transition-transform group-open:rotate-45">
-          <Plus size={18} />
-        </span>
-      </summary>
-
-      {(a.detail || a.metaRows?.length > 0) && (
-        <div className="pl-[110px] md:pl-[150px]">
-          <div className="px-5 pb-5">
-            {a.detail && (
-              <p className="text-sm text-ink-600 leading-relaxed mb-4">{a.detail}</p>
+        <div className="flex-1 min-w-0 flex items-center gap-8 p-5 md:p-8">
+          <div className="flex-1 min-w-0 flex flex-col gap-4">
+            {a.badge && (
+              <span className="w-fit px-2.5 py-1 rounded bg-navy-50 outline outline-1 -outline-offset-1 outline-[#d8d8d8] text-sm leading-[150%] uppercase text-navy-900">
+                {a.badge}
+              </span>
             )}
-            {a.metaRows?.length > 0 && (
-              <dl className="flex flex-wrap gap-x-6 gap-y-2 m-0">
-                {a.metaRows.map((m) => (
-                  <div key={m.label} className="flex items-center gap-1.5 text-[11px]">
-                    <dt className="text-ink-400">{m.label}:</dt>
-                    <dd className="text-navy-900 m-0">{m.value}</dd>
-                  </div>
-                ))}
-              </dl>
+            <div className="flex flex-col gap-2">
+              <H5 as="h3" className="text-black max-md:text-[22px]">
+                {a.title}
+              </H5>
+              <p className="text-base leading-[150%] text-black">{a.summary}</p>
+            </div>
+            {(a.detail || a.metaRows?.length > 0) && (
+              <div className="hidden group-open:flex flex-col gap-4 pt-6">
+                {a.detail && <p className="text-base leading-[150%] text-black">{a.detail}</p>}
+                {a.metaRows?.length > 0 && (
+                  <dl className="m-0 flex flex-wrap items-center gap-2 text-sm leading-[150%] text-black">
+                    {a.metaRows.map((m, i) => (
+                      <div key={m.label} className="flex items-center gap-2">
+                        {i > 0 && <span aria-hidden="true">•</span>}
+                        <dt>{m.label}:</dt>
+                        <dd className="m-0 text-ink-400">{m.value}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                )}
+              </div>
             )}
           </div>
+          <span className="shrink-0 self-start md:self-center transition-transform group-open:rotate-45">
+            <Plus size={32} strokeWidth={1.5} />
+          </span>
         </div>
-      )}
+      </summary>
     </details>
   );
 }
@@ -219,252 +210,143 @@ export default function Achievements() {
   const facts = useKeyFacts();
   const { data } = useAchievementsData();
   const ap = fillFactsDeep({ ...fallbackPage, ...(data?.page || {}) }, facts);
-  const achievements = fillFactsDeep(
-    data?.achievements?.length ? data.achievements : fallbackAchievements,
-    facts
-  );
-  const categories = fillFactsDeep(
-    data?.categories?.length ? data.categories : fallbackCategories,
-    facts
-  );
-  const heroButtons = fillFactsDeep(
-    ap.heroButtons?.length ? ap.heroButtons : fallbackPage.heroButtons,
-    facts
-  );
-  const submitStats = fillFactsDeep(
-    ap.submitStats?.length ? ap.submitStats : fallbackPage.submitStats,
-    facts
-  );
+  const achievements = fillFactsDeep(data?.achievements?.length ? data.achievements : fallbackAchievements, facts);
+  const categories = fillFactsDeep(data?.categories?.length ? data.categories : fallbackCategories, facts);
+  const heroButtons = fillFactsDeep(ap.heroButtons?.length ? ap.heroButtons : fallbackPage.heroButtons, facts);
+  const submitStats = fillFactsDeep(ap.submitStats?.length ? ap.submitStats : fallbackPage.submitStats, facts);
 
   const pageSize = ap.pageSize || 6;
   const [category, setCategory] = useState('All');
   const [shown, setShown] = useState(pageSize);
 
-  const heroImageUrl = ap.heroImage ? urlFor(ap.heroImage).width(1600).url() : null;
-
-  // Only offer chips for categories that actually have entries.
-  const chips = useMemo(() => {
-    const present = new Set(achievements.map((a) => a.category).filter(Boolean));
-    return ['All', ...CATEGORIES.filter((c) => present.has(c))];
-  }, [achievements]);
-
   const filtered = useMemo(
     () => (category === 'All' ? achievements : achievements.filter((a) => a.category === category)),
-    [achievements, category]
+    [achievements, category],
   );
   const visible = filtered.slice(0, shown);
-  const hasMore = filtered.length > shown;
 
   const pickCategory = (c) => {
     setCategory(c);
     setShown(pageSize); // reset paging when the filter changes
   };
 
-  // Render the collage layout even before images exist, so the page keeps its
-  // shape; tiles fall back to the grey placeholder used elsewhere.
-  const collage = ap.collage?.length ? ap.collage : [null, null, null, null, null];
-
-  const italic = ap.heroTitleItalic;
-  const iIdx = italic ? (ap.heroTitle || '').indexOf(italic) : -1;
+  const collage = (ap.collage?.length ? ap.collage : COLLAGE_PHOTOS).map((c, i) => img(c, COLLAGE_PHOTOS[i], i === 0 ? 1248 : 592));
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[380px] md:h-[440px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-10 md:pb-[48px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-4 flex items-center">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/students" className="hover:text-white">Student&apos;s Corner</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">Achievements</span>
-          </div>
-          <span className="text-[11px] font-semibold tracking-widest uppercase text-white/90 mb-3">
-            {ap.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-4">
-            {iIdx === -1 ? (
-              ap.heroTitle
-            ) : (
-              <>
-                {ap.heroTitle.slice(0, iIdx)}
-                <span className="italic">{italic}</span>
-                {ap.heroTitle.slice(iIdx + italic.length)}
-              </>
-            )}
-          </h1>
-          <p className="max-w-md text-sm text-white/85 leading-relaxed mb-7">
-            {ap.heroDescription}
-          </p>
-          <div className="flex flex-wrap gap-3">
-            {heroButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-5 py-3 rounded-md transition-colors flex items-center gap-2 w-fit ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-                {b.primary && <ArrowUpRight size={15} />}
-              </a>
+      <PageHero
+        image={heroImage(ap.heroImage, '/images/students/achievements-hero.webp', { stretch: true })}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: "Student's Corner", to: '/students' }, { label: 'Achievements' }]}
+        eyebrow={ap.heroEyebrow}
+        eyebrowUpper
+        title={ap.heroTitle}
+        titleItalic={ap.heroTitleItalic}
+        description={ap.heroDescription}
+        descriptionWidth={628}
+        actions={heroButtons.map((b) => ({ label: b.label, href: b.url, primary: b.primary }))}
+      />
+
+      {/* Filter + list — centred title; 44px tab chips (navy when active, radius 4);
+          1280 rows 32 apart; centred navy "load more". */}
+      <Section id="list" width={1280} className="scroll-mt-24">
+        <SectionTitle center tagline={ap.filterEyebrow} title={ap.filterTitle} body={ap.filterSubtitle} />
+        <div className="mt-20 flex flex-wrap justify-center">
+          {['All', ...CATEGORIES].map((c) => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => pickCategory(c)}
+              aria-pressed={c === category}
+              className={`h-11 px-4 rounded text-base leading-[150%] transition-colors ${
+                c === category ? 'bg-navy-900 text-white font-medium outline outline-1 -outline-offset-1 outline-black/20' : 'text-black hover:bg-navy-50'
+              }`}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
+        {visible.length > 0 ? (
+          <div className="mt-12 flex flex-col gap-8">
+            {visible.map((a, i) => (
+              <AchievementRow key={a._id || a.title} a={a} photo={img(a.image, ROW_PHOTOS[achievements.indexOf(a) % ROW_PHOTOS.length], 384)} defaultOpen={i === 0} />
             ))}
           </div>
+        ) : (
+          <p className="mt-12 text-base leading-[150%] text-black text-center">No achievements in this category yet.</p>
+        )}
+        <div className="mt-20 flex justify-center">
+          <button
+            type="button"
+            onClick={() => setShown((s) => s + pageSize)}
+            disabled={filtered.length <= shown}
+            className="inline-flex items-center gap-3 h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 disabled:opacity-60 transition-colors"
+          >
+            {ap.loadMoreLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
+          </button>
         </div>
-      </section>
+      </Section>
 
-      {/* Filter + list */}
-      <section id="list" className="py-16 lg:py-20 scroll-mt-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {ap.filterEyebrow}
-            </span>
-            <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3">
-              {ap.filterTitle}
-            </h2>
-            <p className="text-sm text-ink-600">{ap.filterSubtitle}</p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
-            {chips.map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => pickCategory(c)}
-                aria-pressed={c === category}
-                className={`text-xs px-4 py-2 rounded-md transition-colors ${
-                  c === category
-                    ? 'bg-navy-900 text-white'
-                    : 'text-ink-600 hover:text-navy-900 hover:bg-navy-50'
-                }`}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
-
-          {visible.length > 0 ? (
-            <div className="max-w-[980px] mx-auto flex flex-col gap-4">
-              {visible.map((a, i) => (
-                <AchievementRow key={a._id || a.title} a={a} defaultOpen={i === 0} />
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-ink-600 text-center py-8">
-              No achievements in this category yet.
-            </p>
-          )}
-
-          {hasMore && (
-            <div className="flex justify-center mt-10">
-              <button
-                type="button"
-                onClick={() => setShown((s) => s + pageSize)}
-                className="bg-navy-900 hover:bg-navy-800 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md inline-flex items-center gap-2"
-              >
-                {ap.loadMoreLabel} <ArrowUpRight size={14} />
-              </button>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Submit band */}
-      <section id="submit" className="bg-navy-900 text-white py-16 lg:py-24 scroll-mt-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-            <div>
-              <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
-                {ap.submitEyebrow}
-              </span>
-              <TitleWithHighlight
-                text={ap.submitTitle}
-                highlight={ap.submitTitleHighlight}
-                className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-5 mb-4"
-              />
-              <p className="text-sm text-white/75 leading-relaxed max-w-md mb-8">
-                {ap.submitDescription}
-              </p>
-              <a
-                href={ap.submitCtaUrl || '#'}
-                className="bg-sky-600 hover:bg-teal-600 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md inline-flex items-center gap-2 mb-12"
-              >
-                {ap.submitCtaLabel} <ArrowUpRight size={14} />
-              </a>
-
-              <div className="grid grid-cols-3 gap-6 max-w-md">
-                {submitStats.map((s) => (
-                  <div key={s.label}>
-                    <p className="font-display text-3xl font-semibold mb-1">{s.value}</p>
-                    <p className="text-[10px] uppercase tracking-wide text-white/50">{s.label}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-display text-2xl font-semibold mb-7">{ap.submitListTitle}</h3>
-              <div className="flex flex-col">
-                {categories.map((c) => {
-                  const Icon = SUBMIT_ICONS[c.icon] || Lightbulb;
-                  return (
-                    <div
-                      key={c.title}
-                      className="flex gap-4 py-5 border-b border-white/10 last:border-b-0"
-                    >
-                      <span className="shrink-0 w-9 h-9 rounded-full border border-white/25 flex items-center justify-center">
-                        <Icon size={15} className="text-white" />
-                      </span>
-                      <div className="min-w-0">
-                        <p className="font-medium mb-1">{c.title}</p>
-                        <p className="text-xs text-white/55 leading-relaxed">{c.examples}</p>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Photo collage */}
-      {collage.length > 0 && (
-        <section className="pb-16 lg:pb-24 pt-16 lg:pt-24">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:h-[420px]">
-              <div
-                className="col-span-2 row-span-2 rounded-lg bg-gray-200 bg-cover bg-center min-h-[220px]"
-                style={
-                  collage[0]
-                    ? { backgroundImage: `url('${urlFor(collage[0]).width(900).url()}')` }
-                    : undefined
-                }
-              />
-              {collage.slice(1, 5).map((img, i) => (
-                <div
-                  key={i}
-                  className="rounded-lg bg-gray-200 bg-cover bg-center min-h-[130px]"
-                  style={
-                    img ? { backgroundImage: `url('${urlFor(img).width(500).url()}')` } : undefined
-                  }
+      {/* Submit — navy: 572 copy + stat tiles | 504 list with 48px white icon discs. */}
+      <Section id="submit" bg="bg-navy-900" width={1280} className="text-white scroll-mt-24">
+        <div className="grid lg:grid-cols-[704px_1fr] gap-12 lg:gap-[72px]">
+          <div className="flex flex-col gap-20">
+            <div className="flex flex-col gap-8 max-w-[572px]">
+              <div className="flex flex-col gap-4">
+                <Tagline className="text-white">{ap.submitEyebrow}</Tagline>
+                <Heading
+                  text={composeTitle(ap.submitTitle, ap.submitTitleHighlight)}
+                  highlight={ap.submitTitleHighlight}
+                  className="text-white"
+                  highlightClass="text-teal-400"
                 />
+                <p className="text-base md:text-lg leading-[150%]">{ap.submitDescription}</p>
+              </div>
+              <div>
+                <HeroButton label={ap.submitCtaLabel} href={ap.submitCtaUrl || '#'} primary />
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-6">
+              {submitStats.map((s) => (
+                <div key={s.label} className="flex flex-col gap-4 px-4 py-8">
+                  <span className="font-display font-medium text-[36px] md:text-[44px] leading-[120%] tracking-[-0.01em]">{s.value}</span>
+                  <span className="text-sm leading-[150%] uppercase">{s.label}</span>
+                </div>
               ))}
             </div>
           </div>
-        </section>
-      )}
+          <div className="flex flex-col gap-12">
+            <h3 className="font-display font-medium text-[36px] leading-[130%] tracking-[-0.01em]">{ap.submitListTitle}</h3>
+            <div className="flex flex-col gap-4">
+              {categories.map((c, i, all) => {
+                const Icon = SUBMIT_ICONS[c.icon] || Lightbulb;
+                return (
+                  <div key={c.title} className={`flex gap-10 pb-4 ${i < all.length - 1 ? 'border-b border-white/20' : ''}`}>
+                    <span className="w-12 h-12 shrink-0 rounded-full bg-white text-navy-900 flex items-center justify-center">
+                      <Icon size={24} strokeWidth={1.5} />
+                    </span>
+                    <div className="flex flex-col gap-4">
+                      <H6 as="p" className="text-white">
+                        {c.title}
+                      </H6>
+                      <p className="text-base leading-[150%]">{c.examples}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Collage — one 624 square beside four 296 squares, 32 gaps. */}
+      <Section width={1280}>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-8">
+          <div className="col-span-2 row-span-2 aspect-square bg-navy-50 bg-cover bg-center" style={{ backgroundImage: `url('${collage[0]}')` }} />
+          {collage.slice(1, 5).map((src, i) => (
+            <div key={i} className="aspect-square bg-navy-50 bg-cover bg-center" style={{ backgroundImage: `url('${src}')` }} />
+          ))}
+        </div>
+      </Section>
     </div>
   );
 }

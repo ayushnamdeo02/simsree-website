@@ -34,6 +34,8 @@ if (flags.all || flags.pages) {
 
 async function shoot(browser, {route, name}, width) {
   const page = await browser.newPage({viewport: {width, height: 900}, deviceScaleFactor: 1})
+  // A render crash leaves an empty page; report it instead of a misleading shot.
+  page.on('pageerror', (e) => console.log(`${name}-${width}  PAGE ERROR: ${e.message}`))
   try {
     await page.goto(base + route, {waitUntil: 'networkidle', timeout: 60000})
     // Freeze motion so the screenshot is stable.
