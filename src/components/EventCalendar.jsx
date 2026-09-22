@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun'];
 const MONTHS = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',
@@ -13,8 +13,8 @@ const mondayIndex = (d) => (d.getDay() + 6) % 7;
 const toKey = (y, m, day) =>
   `${y}-${String(m + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
 
-// Builds the 6×7 grid, padding with the neighbouring months' days so the
-// calendar keeps a stable height as months change.
+// Builds the month grid, padding with the neighbouring months' days so every
+// row is complete.
 function buildGrid(year, month) {
   const first = new Date(year, month, 1);
   const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -29,27 +29,30 @@ function buildGrid(year, month) {
     cells.push({ day: d, outside: false });
   }
   let next = 1;
-  while (cells.length % 7 !== 0 || cells.length < 35) {
+  while (cells.length % 7 !== 0) {
     cells.push({ day: next++, outside: true });
   }
   return cells;
 }
 
+// Figma "Calendar": white, radius 16, 30 padding. Header (18/150 month, 46px
+// chevrons), a 58px weekday row, 64px cells with overlapping #d5d4df hairlines.
+// Days with events fill navy (student) or Eastern Blue (MDP / corporate);
+// neighbouring-month days are #eaeaf1. Legend of 10px dots below.
 export default function EventCalendar({ events = [], selected, onSelect, initialDate }) {
   const start = initialDate ? new Date(initialDate) : new Date();
   const [view, setView] = useState({ year: start.getFullYear(), month: start.getMonth() });
 
-  // Which days in the visible month have events, and of what audience.
+  // The audience of each day's events in the visible month.
   const dayMarks = useMemo(() => {
     const marks = new Map();
     for (const e of events) {
       if (!e.date) continue;
       const [y, m] = e.date.split('-').map(Number);
       if (y !== view.year || m - 1 !== view.month) continue;
-      const key = e.date;
-      const existing = marks.get(key) || new Set();
+      const existing = marks.get(e.date) || new Set();
       existing.add(e.audience === 'corporate' ? 'corporate' : 'student');
-      marks.set(key, existing);
+      marks.set(e.date, existing);
     }
     return marks;
   }, [events, view]);
@@ -64,103 +67,84 @@ export default function EventCalendar({ events = [], selected, onSelect, initial
   };
 
   return (
-    <div className="border border-navy-100 rounded-lg p-6">
-      <div className="flex items-center justify-between mb-5">
-        <p className="font-display text-lg font-semibold text-navy-900">
-          {MONTHS[view.month]} {view.year}
-        </p>
-        <div className="flex gap-1">
-          <button
-            type="button"
-            onClick={() => shift(-1)}
-            aria-label="Previous month"
-            className="w-7 h-7 rounded flex items-center justify-center text-ink-400 hover:text-navy-900 hover:bg-navy-50 transition-colors"
-          >
-            <ChevronLeft size={15} />
-          </button>
-          <button
-            type="button"
-            onClick={() => shift(1)}
-            aria-label="Next month"
-            className="w-7 h-7 rounded flex items-center justify-center text-ink-400 hover:text-navy-900 hover:bg-navy-50 transition-colors"
-          >
-            <ChevronRight size={15} />
-          </button>
+    <div className="bg-white rounded-2xl py-[30px] lg:px-[30px] flex flex-col gap-6">
+      <div className="flex flex-col gap-3">
+        <div className="flex items-center justify-between">
+          <p className="text-lg leading-[150%] text-black">
+            {MONTHS[view.month]} {view.year}
+          </p>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() => shift(-1)}
+              aria-label="Previous month"
+              className="w-[46px] h-[46px] flex items-center justify-center text-black/40 hover:text-black transition-colors"
+            >
+              <ChevronLeft size={20} strokeWidth={1.5} />
+            </button>
+            <button
+              type="button"
+              onClick={() => shift(1)}
+              aria-label="Next month"
+              className="w-[46px] h-[46px] flex items-center justify-center text-black hover:text-navy-900 transition-colors"
+            >
+              <ChevronRight size={20} strokeWidth={1.5} />
+            </button>
+          </div>
+        </div>
+
+        <div role="grid" aria-label={`${MONTHS[view.month]} ${view.year}`}>
+          <div role="row" className="grid grid-cols-7 h-[58px]">
+            {WEEKDAYS.map((w) => (
+              <span key={w} role="columnheader" className="flex items-center justify-center text-xs leading-[150%] text-black">
+                {w}
+              </span>
+            ))}
+          </div>
+          <div className="grid grid-cols-7 border-l border-t border-[#d5d4df]">
+            {cells.map((c, i) => {
+              const key = c.outside ? null : toKey(view.year, view.month, c.day);
+              const marks = key ? dayMarks.get(key) : null;
+              const isSelected = key && key === selected;
+              const base = 'h-16 flex items-center justify-center border-r border-b border-[#d5d4df] text-sm leading-[120%]';
+              if (c.outside) {
+                return (
+                  <span key={i} role="gridcell" className={`${base} bg-navy-50 text-black/30`}>
+                    {c.day}
+                  </span>
+                );
+              }
+              const fill = marks
+                ? marks.has('student')
+                  ? 'bg-navy-900 text-white'
+                  : 'bg-sky-600 text-white'
+                : isSelected
+                  ? 'bg-navy-50 text-black'
+                  : 'text-black hover:bg-navy-50';
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  role="gridcell"
+                  onClick={() => onSelect?.(isSelected ? null : key)}
+                  aria-pressed={isSelected}
+                  aria-label={`${c.day} ${MONTHS[view.month]} ${view.year}${marks ? ' — has events' : ''}`}
+                  className={`${base} transition-colors ${fill} ${isSelected ? 'font-semibold underline underline-offset-4' : ''}`}
+                >
+                  {c.day}
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
 
-      <table className="w-full border-collapse">
-        <thead>
-          <tr>
-            {WEEKDAYS.map((w) => (
-              <th
-                key={w}
-                scope="col"
-                className="text-[10px] font-normal text-ink-400 pb-2 text-center"
-              >
-                {w}
-              </th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {Array.from({ length: cells.length / 7 }, (_, row) => (
-            <tr key={row}>
-              {cells.slice(row * 7, row * 7 + 7).map((c, i) => {
-                const key = c.outside ? null : toKey(view.year, view.month, c.day);
-                const marks = key ? dayMarks.get(key) : null;
-                const isSelected = key && key === selected;
-                return (
-                  <td key={i} className="p-0.5 text-center">
-                    {c.outside ? (
-                      <span className="block w-9 h-9 leading-9 text-xs text-ink-400/40">
-                        {c.day}
-                      </span>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={() => onSelect?.(isSelected ? null : key)}
-                        aria-pressed={isSelected}
-                        aria-label={`${c.day} ${MONTHS[view.month]} ${view.year}${
-                          marks ? ` — ${marks.size} event type(s)` : ''
-                        }`}
-                        className={`relative w-9 h-9 rounded text-xs transition-colors ${
-                          isSelected
-                            ? 'bg-sky-500 text-white'
-                            : marks
-                              ? 'text-navy-900 font-medium hover:bg-navy-50'
-                              : 'text-navy-900 hover:bg-navy-50'
-                        }`}
-                      >
-                        {c.day}
-                        {marks && !isSelected && (
-                          <span className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-0.5">
-                            {[...marks].map((m) => (
-                              <span
-                                key={m}
-                                className={`w-1 h-1 rounded-full ${
-                                  m === 'corporate' ? 'bg-sky-500' : 'bg-navy-900'
-                                }`}
-                              />
-                            ))}
-                          </span>
-                        )}
-                      </button>
-                    )}
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <div className="flex gap-5 mt-5 pt-4 border-t border-navy-100">
-        <span className="flex items-center gap-2 text-[10px] text-ink-600">
-          <span className="w-1.5 h-1.5 rounded-full bg-navy-900" /> Student event
+      <div className="flex flex-wrap gap-6">
+        <span className="flex items-center gap-4 text-sm leading-[150%] text-black">
+          <span className="w-2.5 h-2.5 rounded-full bg-navy-900" /> Student event
         </span>
-        <span className="flex items-center gap-2 text-[10px] text-ink-600">
-          <span className="w-1.5 h-1.5 rounded-full bg-sky-500" /> MDP / Corporate
+        <span className="flex items-center gap-4 text-sm leading-[150%] text-black">
+          <span className="w-2.5 h-2.5 rounded-full bg-sky-600" /> MDP / Corporate
         </span>
       </div>
     </div>

@@ -1,7 +1,10 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ChevronRight, Plus } from 'lucide-react';
+import { ArrowUpRight, ChevronRight, Minus, Plus } from 'lucide-react';
 import EventCalendar from '../components/EventCalendar';
+import PageHero from '../components/PageHero';
+import { Section, SectionTitle, Tagline, H5, H6 } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
 import { useEventsData } from '../lib/useEventsData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -18,6 +21,7 @@ const TYPES = [
 
 const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const DAYS_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const MONTHS_LONG = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const fallbackPage = {
   heroEyebrow: 'Always Something Happening',
@@ -136,7 +140,7 @@ const fallbackProgrammes = [
     badge: 'Short Workshops',
     description: 'CV clinic · mock case · interview bootcamp · for early-career professionals.',
     ctaLabel: 'Open',
-    ctaUrl: '/events/industry',
+    ctaUrl: '/events/industry-events',
     order: 2,
   },
   {
@@ -144,115 +148,137 @@ const fallbackProgrammes = [
     badge: 'Panels · Live Projects',
     description: 'CXO panels · live project briefings · breakfast briefings.',
     ctaLabel: 'Open',
-    ctaUrl: '/events/industry',
+    ctaUrl: '/events/industry-events',
     order: 3,
   },
 ];
 
-// Splits a title on two separate highlight phrases.
-function CalendarTitle({ text = '', one, two, className }) {
-  if (!one) return <h2 className={className}>{text}</h2>;
-  const i1 = text.indexOf(one);
-  if (i1 === -1) return <h2 className={className}>{text}</h2>;
-  const before = text.slice(0, i1);
-  const rest = text.slice(i1 + one.length);
-  const i2 = two ? rest.indexOf(two) : -1;
-  return (
-    <h2 className={className}>
-      {before}
-      <span className="text-teal-500">{one}</span>
-      {i2 === -1 ? (
-        rest
-      ) : (
-        <>
-          {rest.slice(0, i2)}
-          <span className="text-teal-500">{two}</span>
-          {rest.slice(i2 + two.length)}
-        </>
-      )}
-    </h2>
-  );
-}
+// Figma photos used when an entry has no Sanity image.
+const FLAGSHIP_PHOTOS = [1, 2, 3, 4].map((n) => `/images/events/flag-${n}.webp`);
+const PROGRAMME_PHOTOS = [1, 2, 3].map((n) => `/images/events/prog-${n}.webp`);
+const EVENT_PHOTO = '/images/events/flag-3.webp';
 
-function TitleWithHighlight({ text = '', highlight, className, prefix }) {
-  const idx = highlight ? text.indexOf(highlight) : -1;
-  const body =
-    idx === -1 ? (
-      text
-    ) : (
-      <>
-        {text.slice(0, idx)}
-        <span className="text-teal-500">{highlight}</span>
-        {text.slice(idx + highlight.length)}
-      </>
+// Figma month tags cycle navy, gold and Eastern Blue tints.
+const TAG_STYLES = [
+  'bg-navy-50 text-navy-900',
+  'bg-[#ffdb43]/10 text-[#dfb400]',
+  'bg-sky-50 text-sky-600',
+  'bg-navy-50 text-navy-900',
+];
+
+const COUNT_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+
+const img = (image, fallback, w) => (image ? urlFor(image).width(w).auto('format').url() : fallback);
+
+const ordinal = (n) => {
+  const s = ['th', 'st', 'nd', 'rd'];
+  const v = n % 100;
+  return n + (s[(v - 20) % 10] || s[v] || s[0]);
+};
+
+// Figma H2 with two teal phrases ("Browse by date, filter by type.").
+function TwoHighlightHeading({ text = '', one, two }) {
+  const parts = [];
+  let rest = text;
+  for (const h of [one, two]) {
+    const i = h ? rest.indexOf(h) : -1;
+    if (i === -1) continue;
+    parts.push(
+      rest.slice(0, i),
+      <span key={h} className="text-teal-500">
+        {h}
+      </span>,
     );
+    rest = rest.slice(i + h.length);
+  }
+  parts.push(rest);
   return (
-    <h2 className={className}>
-      {prefix && <>{prefix} </>}
-      {body}
+    <h2 className="font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em] text-navy-900">
+      {parts}
     </h2>
   );
 }
 
-// Native <details> so each event row expands with keyboard and without JS.
-function EventRow({ e, defaultOpen }) {
-  const imgUrl = e.image ? urlFor(e.image).width(300).url() : null;
+// Figma event card. Desktop: 32 padding, 168-wide navy date block (radius 16) with
+// day / 36px number / month, H5 title + 14/150 meta, a 32px plus. Open, a second
+// row holds a 168 square photo (radius 16), body, details and the navy button.
+// Mobile: a small "6th May" date pill, 22px title, a hairline, then the details
+// and a full-width 250px photo.
+function EventCard({ e, defaultOpen }) {
   const [y, m, d] = (e.date || '').split('-').map(Number);
-  const dayName = y ? DAYS_SHORT[new Date(y, m - 1, d).getDay()] : '';
+  const date = y ? new Date(y, m - 1, d) : null;
+  const dayName = date ? DAYS_SHORT[date.getDay()] : '';
+  const photo = img(e.image, EVENT_PHOTO, 400);
+  const hasDetail = e.description || e.detailRows?.length > 0 || e.ctaLabel;
 
   return (
-    <details open={defaultOpen} className="group border border-navy-100 rounded-lg overflow-hidden">
-      <summary className="flex items-stretch gap-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-        <div className="w-[76px] shrink-0 bg-navy-900 text-white flex flex-col items-center justify-center py-4">
-          <span className="text-[10px] text-white/70">{dayName}</span>
-          <span className="font-display text-2xl font-semibold leading-tight">
-            {String(d || '').padStart(2, '0')}
-          </span>
-          <span className="text-[9px] uppercase tracking-wide text-white/70">
-            {m ? MONTHS_SHORT[m - 1] : ''} {y || ''}
+    <details
+      open={defaultOpen}
+      className="group bg-white outline outline-1 -outline-offset-1 outline-black/20 max-lg:shadow-small px-4 py-6 lg:p-8"
+    >
+      <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        {/* Mobile header */}
+        <div className="lg:hidden flex flex-col gap-4">
+          <div className="flex justify-between gap-4">
+            <span className="p-2 rounded-lg bg-navy-900 text-xs leading-[150%] text-white">
+              {date ? `${ordinal(d)} ${MONTHS_LONG[m - 1]}` : ''}
+            </span>
+            <Plus size={24} strokeWidth={1.5} className="shrink-0 transition-transform group-open:rotate-45" />
+          </div>
+          <div className="flex flex-col gap-2">
+            <H6 as="h3" className="text-black">
+              {e.title}
+            </H6>
+            {e.meta && <p className="text-sm leading-[150%] text-black">{e.meta}</p>}
+          </div>
+        </div>
+        {/* Desktop header */}
+        <div className="max-lg:hidden flex items-stretch gap-8">
+          <div className="w-[168px] shrink-0 min-h-[127px] p-4 rounded-2xl bg-navy-900 text-white flex flex-col items-center justify-center text-center">
+            <span className="text-base leading-[150%]">{dayName}</span>
+            <span className="font-display font-medium text-[36px] leading-[130%] tracking-[-0.01em]">
+              {String(d || '').padStart(2, '0')}
+            </span>
+            <span className="text-base leading-[150%]">{m ? `${MONTHS_SHORT[m - 1]} ${y}` : ''}</span>
+          </div>
+          <div className="flex-1 min-w-0 py-8 flex flex-col justify-center">
+            <H5 as="h3" className="text-black">
+              {e.title}
+            </H5>
+            {e.meta && <p className="text-sm leading-[150%] text-black">{e.meta}</p>}
+          </div>
+          <span className="shrink-0 self-center">
+            <Plus size={32} strokeWidth={1.5} className="group-open:hidden" />
+            <Minus size={32} strokeWidth={1.5} className="hidden group-open:block" />
           </span>
         </div>
-        <div className="flex-1 min-w-0 py-4">
-          <h3 className="font-display text-lg font-semibold text-navy-900 mb-1">{e.title}</h3>
-          <p className="text-xs text-ink-600">{e.meta}</p>
-        </div>
-        <span className="shrink-0 self-center pr-5 text-ink-400 transition-transform group-open:rotate-45">
-          <Plus size={18} />
-        </span>
       </summary>
 
-      {(e.description || e.detailRows?.length > 0 || e.ctaLabel) && (
-        <div className="pl-[76px]">
-          <div className="px-5 pb-5 flex gap-4">
-            {imgUrl && (
-              <div
-                className="w-[110px] h-[76px] shrink-0 rounded bg-gray-200 bg-cover bg-center"
-                style={{ backgroundImage: `url('${imgUrl}')` }}
-              />
+      {hasDetail && (
+        <div className="mt-8 max-lg:pt-8 max-lg:border-t max-lg:border-black/20 flex flex-col-reverse lg:flex-row gap-8">
+          <div
+            className="h-[250px] lg:w-[168px] lg:h-[168px] shrink-0 rounded-2xl bg-navy-50 bg-cover bg-center"
+            style={{ backgroundImage: `url('${photo}')` }}
+          />
+          <div className="flex-1 min-w-0 flex flex-col gap-4 lg:py-3.5">
+            {e.description && <p className="text-base leading-[150%] text-black">{e.description}</p>}
+            {e.detailRows?.length > 0 && (
+              <dl className="m-0 flex flex-col lg:flex-row gap-4 lg:gap-12">
+                {e.detailRows.map((r) => (
+                  <div key={r.label} className="text-sm leading-[150%] text-black">
+                    <dt className="inline font-semibold">{r.label}:</dt> <dd className="inline m-0">{r.value}</dd>
+                  </div>
+                ))}
+              </dl>
             )}
-            <div className="min-w-0">
-              {e.description && (
-                <p className="text-xs text-ink-600 leading-relaxed mb-3">{e.description}</p>
-              )}
-              {e.detailRows?.length > 0 && (
-                <dl className="flex flex-wrap gap-x-5 gap-y-1 m-0 mb-4">
-                  {e.detailRows.map((r) => (
-                    <div key={r.label} className="flex items-center gap-1.5 text-[11px]">
-                      <dt className="text-navy-900 font-medium">{r.label}:</dt>
-                      <dd className="text-ink-600 m-0">{r.value}</dd>
-                    </div>
-                  ))}
-                </dl>
-              )}
-              {e.ctaLabel && (
-                <a
-                  href={e.ctaUrl || '#'}
-                  className="bg-sky-600 hover:bg-teal-600 transition-colors text-white text-xs font-medium px-4 py-2 rounded-md inline-flex items-center gap-1.5"
-                >
-                  {e.ctaLabel} <ArrowUpRight size={12} />
-                </a>
-              )}
-            </div>
+            {e.ctaLabel && (
+              <a
+                href={e.ctaUrl || '#'}
+                className="w-fit h-10 px-5 rounded-md bg-navy-900 hover:bg-navy-800 outline outline-1 -outline-offset-1 outline-black/20 text-white text-base leading-[150%] font-medium inline-flex items-center gap-2 transition-colors"
+              >
+                {e.ctaLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
+              </a>
+            )}
           </div>
         </div>
       )}
@@ -264,198 +290,108 @@ export default function Events() {
   const facts = useKeyFacts();
   const { data } = useEventsData();
   const ep = fillFactsDeep({ ...fallbackPage, ...(data?.page || {}) }, facts);
-  const flagships = fillFactsDeep(
-    data?.flagships?.length ? data.flagships : fallbackFlagships,
-    facts
-  );
+  const flagships = fillFactsDeep(data?.flagships?.length ? data.flagships : fallbackFlagships, facts);
   const events = fillFactsDeep(data?.events?.length ? data.events : fallbackEvents, facts);
-  const programmes = fillFactsDeep(
-    data?.programmes?.length ? data.programmes : fallbackProgrammes,
-    facts
-  );
-  const heroButtons = fillFactsDeep(
-    ep.heroButtons?.length ? ep.heroButtons : fallbackPage.heroButtons,
-    facts
-  );
+  const programmes = fillFactsDeep(data?.programmes?.length ? data.programmes : fallbackProgrammes, facts);
+  const heroButtons = fillFactsDeep(ep.heroButtons?.length ? ep.heroButtons : fallbackPage.heroButtons, facts);
 
   const [type, setType] = useState('All');
   const [selectedDay, setSelectedDay] = useState(null);
 
-  const heroImageUrl = ep.heroImage ? urlFor(ep.heroImage).width(1600).url() : null;
-
-  // Only offer chips for types that actually have events.
-  const chips = useMemo(() => {
-    const present = new Set(events.map((e) => e.type).filter(Boolean));
-    return [
-      { label: 'All', display: `All ${events.length}` },
-      ...TYPES.filter((t) => present.has(t)).map((t) => ({ label: t, display: t })),
-    ];
-  }, [events]);
+  // Figma lists every type; the count is the number of events.
+  const chips = [{ label: 'All', display: `All ${events.length}` }, ...TYPES.map((t) => ({ label: t, display: t }))];
 
   const visible = useMemo(
-    () =>
-      events.filter(
-        (e) =>
-          (type === 'All' || e.type === type) && (!selectedDay || e.date === selectedDay)
-      ),
-    [events, type, selectedDay]
+    () => events.filter((e) => (type === 'All' || e.type === type) && (!selectedDay || e.date === selectedDay)),
+    [events, type, selectedDay],
   );
 
-  // Open the calendar on the month of the first event, so the fallback data is visible.
+  // Open the calendar on the month of the first event, so the listed events show.
   const initialDate = events[0]?.date;
 
   const title = ep.heroTitle || '';
   const brk = ep.heroTitleBreakAfter;
   const bIdx = brk ? title.indexOf(brk) : -1;
-  const line1 = bIdx === -1 ? title : title.slice(0, bIdx + brk.length);
-  const line2 = bIdx === -1 ? '' : title.slice(bIdx + brk.length).trim();
-  const renderLine = (line) => {
-    const it = ep.heroTitleItalic;
-    const iIdx = it ? line.indexOf(it) : -1;
-    if (iIdx === -1) return line;
-    return (
-      <>
-        {line.slice(0, iIdx)}
-        <span className="italic">{it}</span>
-        {line.slice(iIdx + it.length)}
-      </>
-    );
-  };
+  const heroTitle = bIdx === -1 ? title : `${title.slice(0, bIdx + brk.length)}\n${title.slice(bIdx + brk.length).trim()}`;
+
+  const count = COUNT_WORDS[flagships.length] || flagships.length;
+  const flagshipsTitle = `${count} ${ep.flagshipsTitle}`;
+  const flagshipsHighlight = ep.flagshipsTitleHighlight && `${count} ${ep.flagshipsTitleHighlight}`;
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[380px] md:h-[440px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-10 md:pb-[44px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-4 flex items-center">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">Events</span>
-          </div>
-          <span className="text-[11px] font-semibold tracking-widest uppercase text-white/90 mb-3">
-            {ep.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-4">
-            {renderLine(line1)}
-            {line2 && (
+      <PageHero
+        image={heroImage(ep.heroImage, '/images/events/hero.webp', { stretch: true })}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Events' }]}
+        eyebrow={ep.heroEyebrow}
+        eyebrowUpper
+        title={heroTitle}
+        titleItalic={ep.heroTitleItalic}
+        description={ep.heroDescription}
+        descriptionWidth={628}
+        actions={heroButtons.map((b) => ({ label: b.label, href: b.url, primary: b.primary }))}
+      />
+
+      {/* Flagships — 284 cards, 48 gaps: square photo, 16-padded tag + H6 + copy. */}
+      <Section width={1280}>
+        <SectionTitle tagline={ep.flagshipsEyebrow} title={flagshipsTitle} highlight={flagshipsHighlight} body={ep.flagshipsSubtitle} />
+        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-12 items-start">
+          {flagships.map((f, i) => {
+            const inner = (
               <>
-                <br />
-                {renderLine(line2)}
-              </>
-            )}
-          </h1>
-          <p className="max-w-lg text-xs text-white/85 leading-relaxed mb-7">
-            {ep.heroDescription}
-          </p>
-          <div className="flex flex-wrap gap-3">
-            {heroButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-5 py-3 rounded-md transition-colors flex items-center gap-2 w-fit ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-                {b.primary && <ArrowUpRight size={15} />}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Flagships */}
-      <section className="py-16 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {ep.flagshipsEyebrow}
-          </span>
-          <TitleWithHighlight
-            prefix={flagships.length === 4 ? 'Four' : flagships.length}
-            text={ep.flagshipsTitle}
-            highlight={ep.flagshipsTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3 max-w-xl"
-          />
-          <p className="text-sm text-ink-600 mb-10">{ep.flagshipsSubtitle}</p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {flagships.map((f) => {
-              const imgUrl = f.image ? urlFor(f.image).width(600).url() : null;
-              const card = (
-                <>
-                  <div
-                    className="h-[130px] bg-gray-200 bg-cover bg-center"
-                    style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
-                  />
-                  <div className="p-5">
-                    {f.monthBadge && (
-                      <span className="inline-block text-[9px] font-semibold tracking-widest uppercase text-navy-900 bg-navy-50 px-2.5 py-1 rounded mb-3">
-                        {f.monthBadge}
-                      </span>
-                    )}
-                    <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                      {f.title}
-                    </h3>
-                    <p className="text-xs text-ink-600 leading-relaxed">{f.description}</p>
-                  </div>
-                </>
-              );
-              return f.linkUrl ? (
-                <Link
-                  key={f._id || f.title}
-                  to={f.linkUrl}
-                  className="border border-navy-100 rounded-lg overflow-hidden hover:shadow-md transition-shadow"
-                >
-                  {card}
-                </Link>
-              ) : (
                 <div
-                  key={f._id || f.title}
-                  className="border border-navy-100 rounded-lg overflow-hidden"
-                >
-                  {card}
+                  className="aspect-square bg-navy-50 bg-cover bg-center"
+                  style={{ backgroundImage: `url('${img(f.image, FLAGSHIP_PHOTOS[i % 4], 600)}')` }}
+                />
+                <div className="p-4 flex flex-col gap-2">
+                  {f.monthBadge && (
+                    <span className={`w-fit px-2.5 py-1 rounded-2xl text-sm leading-[150%] uppercase ${TAG_STYLES[i % 4]}`}>
+                      {f.monthBadge}
+                    </span>
+                  )}
+                  <div className="flex flex-col gap-2">
+                    <H6 as="h3">{f.title}</H6>
+                    <p className="text-base leading-[150%] text-black">{f.description}</p>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
+              </>
+            );
+            const cls = 'flex flex-col gap-6 bg-white outline outline-1 -outline-offset-1 outline-black/20';
+            return f.linkUrl ? (
+              <Link key={f._id || f.title} to={f.linkUrl} className={`${cls} hover:shadow-medium transition-shadow`}>
+                {inner}
+              </Link>
+            ) : (
+              <div key={f._id || f.title} className={cls}>
+                {inner}
+              </div>
+            );
+          })}
         </div>
-      </section>
+      </Section>
 
-      {/* Live calendar */}
-      <section id="calendar" className="py-16 lg:py-20 scroll-mt-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {ep.calendarEyebrow}
-          </span>
-          <CalendarTitle
-            text={ep.calendarTitle}
-            one={ep.calendarTitleHighlight}
-            two={ep.calendarTitleHighlightTwo}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
-          />
-          <p className="text-sm text-ink-600 max-w-2xl mb-8">{ep.calendarSubtitle}</p>
+      {/* Calendar — radius-4 filter tabs; 502 calendar | 730 event cards (48 apart). */}
+      <Section id="calendar" width={1280} className="scroll-mt-24">
+        <div className="max-w-[768px]">
+          <Tagline>{ep.calendarEyebrow}</Tagline>
+          <div className="mt-3 md:mt-4">
+            <TwoHighlightHeading text={ep.calendarTitle} one={ep.calendarTitleHighlight} two={ep.calendarTitleHighlightTwo} />
+          </div>
+          <p className="mt-5 md:mt-6 text-base md:text-lg leading-[150%] text-black">{ep.calendarSubtitle}</p>
+        </div>
 
-          <div className="flex flex-wrap items-center gap-2 mb-8">
+        <div className="mt-20 flex flex-col gap-12">
+          <div className="flex flex-wrap">
             {chips.map((c) => (
               <button
                 key={c.label}
                 type="button"
                 onClick={() => setType(c.label)}
                 aria-pressed={c.label === type}
-                className={`text-xs px-4 py-2 rounded-md transition-colors ${
+                className={`h-11 px-4 rounded text-base leading-[150%] transition-colors ${
                   c.label === type
-                    ? 'bg-navy-900 text-white'
-                    : 'text-ink-600 hover:text-navy-900 hover:bg-navy-50'
+                    ? 'bg-navy-900 text-white font-medium outline outline-1 -outline-offset-1 outline-black/20'
+                    : 'text-black hover:bg-navy-50'
                 }`}
               >
                 {c.display}
@@ -463,84 +399,66 @@ export default function Events() {
             ))}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 lg:gap-8 items-start">
-            <EventCalendar
-              events={events}
-              selected={selectedDay}
-              onSelect={setSelectedDay}
-              initialDate={initialDate}
-            />
-
-            <div className="flex flex-col gap-4">
+          <div className="grid lg:grid-cols-[502px_1fr] gap-12 items-start">
+            <EventCalendar events={events} selected={selectedDay} onSelect={setSelectedDay} initialDate={initialDate} />
+            <div className="flex flex-col gap-8">
               {selectedDay && (
                 <button
                   type="button"
                   onClick={() => setSelectedDay(null)}
-                  className="self-start text-xs font-medium text-sky-600 hover:text-teal-600 transition-colors"
+                  className="self-start text-base leading-[150%] text-navy-900 underline underline-offset-2"
                 >
                   Clear date filter
                 </button>
               )}
               {visible.length > 0 ? (
-                visible.map((e, i) => (
-                  <EventRow key={e._id || e.title} e={e} defaultOpen={i === 0} />
-                ))
+                visible.map((e, i) => <EventCard key={e._id || `${e.title}-${e.date}`} e={e} defaultOpen={i === 0} />)
               ) : (
-                <p className="text-sm text-ink-600 py-8">
+                <p className="text-base leading-[150%] text-black py-8">
                   No events match this filter{selectedDay ? ' on the selected date' : ''}.
                 </p>
               )}
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Industry programmes */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {ep.industryEyebrow}
-          </span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3">
-            {ep.industryTitle}
-          </h2>
-          <p className="text-sm text-ink-600 max-w-lg mb-10">{ep.industrySubtitle}</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {programmes.map((p) => {
-              const imgUrl = p.image ? urlFor(p.image).width(700).url() : null;
-              return (
-                <div
-                  key={p._id || p.title}
-                  className="border border-navy-100 rounded-lg overflow-hidden flex flex-col"
-                >
-                  <div
-                    className="h-[150px] bg-gray-200 bg-cover bg-center"
-                    style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
-                  />
-                  <div className="p-5 flex flex-col flex-1">
-                    {p.badge && (
-                      <span className="inline-block w-fit text-[9px] font-semibold tracking-widest uppercase text-navy-900 bg-navy-50 px-2.5 py-1 rounded mb-3">
-                        {p.badge}
-                      </span>
-                    )}
-                    <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
+      {/* Industry programmes — three 405 cards (32 gaps): 270 photo, 24-padded
+          radius-4 tag, H5 title, copy, "Open ›". */}
+      <Section width={1280}>
+        <SectionTitle tagline={ep.industryEyebrow} title={ep.industryTitle} body={ep.industrySubtitle} />
+        <div className="mt-20 grid md:grid-cols-3 gap-8 items-start">
+          {programmes.map((p, i) => (
+            <div key={p._id || p.title} className="flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
+              <div
+                className="h-[250px] md:h-[270px] bg-navy-50 bg-cover bg-center"
+                style={{ backgroundImage: `url('${img(p.image, PROGRAMME_PHOTOS[i % 3], 810)}')` }}
+              />
+              <div className="p-6 flex flex-col gap-6">
+                <div className="flex flex-col gap-4">
+                  {p.badge && (
+                    <span className="w-fit px-2.5 py-1 rounded bg-navy-50 outline outline-1 -outline-offset-1 outline-black/20 text-sm leading-[150%] uppercase text-navy-900">
+                      {p.badge}
+                    </span>
+                  )}
+                  <div className="flex flex-col gap-2">
+                    <H5 as="h3" className="text-black max-md:text-[22px]">
                       {p.title}
-                    </h3>
-                    <p className="text-xs text-ink-600 leading-relaxed mb-4">{p.description}</p>
-                    <Link
-                      to={p.ctaUrl || '#'}
-                      className="text-xs font-medium text-navy-900 inline-flex items-center gap-1 mt-auto"
-                    >
-                      {p.ctaLabel || 'Open'} <ChevronRight size={13} />
-                    </Link>
+                    </H5>
+                    <p className="text-base leading-[150%] text-black">{p.description}</p>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+                <Link
+                  to={p.ctaUrl || '#'}
+                  className="w-fit inline-flex items-center gap-2 text-base leading-[150%] text-black hover:underline underline-offset-2"
+                >
+                  {p.ctaLabel || 'Open'} <ChevronRight size={24} strokeWidth={1.5} />
+                </Link>
+              </div>
+            </div>
+          ))}
         </div>
-      </section>
+      </Section>
     </div>
   );
 }
