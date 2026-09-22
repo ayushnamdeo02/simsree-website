@@ -1,6 +1,8 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Search } from 'lucide-react';
+import PageHero, { HeroButton } from '../components/PageHero';
+import { Section, SectionTitle } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { usePartnersData } from '../lib/usePartnersData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -18,7 +20,6 @@ const fallbackPage = {
   gridTitle: 'companies. Pick a sector.',
   gridTitleHighlight: 'Pick a sector.',
   gridSubtitle: 'Filter by industry — or move your cursor over the grid to bring any logo into focus.',
-  searchPlaceholder: 'Search for a company',
 
   ctaEyebrow: 'Want to Join This List?',
   ctaTitle: 'Tell us who you want to hire',
@@ -49,26 +50,6 @@ const fallbackPartners = [
   ['Asian Paints', 'Manufacturing'], ['Marico', 'FMCG'], ['Bajaj Finserv', 'BFSI'], ['L&T', 'Manufacturing'],
 ].map(([name, sector], i) => ({ name, sector, order: i + 1 }));
 
-function TitleWithHighlight({ text, highlight, className, prefix }) {
-  const idx = highlight ? (text || '').indexOf(highlight) : -1;
-  const body =
-    idx === -1 ? (
-      text
-    ) : (
-      <>
-        {text.slice(0, idx)}
-        <span className="text-teal-500">{highlight}</span>
-        {text.slice(idx + highlight.length)}
-      </>
-    );
-  return (
-    <h2 className={className}>
-      {prefix && <>{prefix} </>}
-      {body}
-    </h2>
-  );
-}
-
 export default function Partners() {
   const facts = useKeyFacts();
   const { data } = usePartnersData();
@@ -77,165 +58,88 @@ export default function Partners() {
   const ctaButtons = fillFactsDeep(pp.ctaButtons?.length ? pp.ctaButtons : fallbackPage.ctaButtons, facts);
 
   const [sector, setSector] = useState('All');
-  const [query, setQuery] = useState('');
+  const visible = useMemo(
+    () => partners.filter((p) => sector === 'All' || p.sector === sector),
+    [partners, sector],
+  );
 
-  const heroImageUrl = pp.heroImage ? urlFor(pp.heroImage).width(1600).url() : null;
-
-  // Only offer chips for sectors that actually have partners behind them.
-  const sectors = useMemo(() => {
-    const present = new Set(partners.map((p) => p.sector).filter(Boolean));
-    return ['All', ...SECTORS.filter((s) => present.has(s))];
-  }, [partners]);
-
-  const visible = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return partners.filter(
-      (p) =>
-        (sector === 'All' || p.sector === sector) &&
-        (!q || p.name.toLowerCase().includes(q))
-    );
-  }, [partners, sector, query]);
-
-  const count = `${partners.length}+`;
+  // The headline count is the institute's recruiter figure, not the number of cells.
+  const count = pp.companyCount || facts.recruiterCount || '120+';
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[520px] md:h-[620px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[60px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-5 flex items-center">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/placements" className="hover:text-white">Placement</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">Recruiting Partners</span>
-          </div>
-          <span className="text-[11px] font-semibold tracking-widest uppercase text-white/90 mb-4">
-            {pp.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-[56px] md:leading-[1.12] font-semibold mb-5 max-w-2xl">
-            {count}
-            <br />
-            {pp.heroTitle}
-          </h1>
-          <p className="max-w-lg text-sm text-white/85 leading-relaxed mb-7">
-            {count} {pp.heroDescription}
-          </p>
-          <a
-            href={pp.heroCtaUrl}
-            className="bg-sky-600 hover:bg-teal-600 transition-colors text-white font-medium px-5 py-3 rounded-md w-fit"
-          >
-            {pp.heroCtaLabel}
-          </a>
+      <PageHero
+        image={heroImage(pp.heroImage, '/images/placements/partners-hero.webp')}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Placement', to: '/placements' }, { label: 'Recruiting Partners' }]}
+        eyebrow={pp.heroEyebrow}
+        eyebrowUpper
+        title={`${count}\n${pp.heroTitle}`}
+        titleWidth={700}
+        description={`${count} ${pp.heroDescription}`}
+        descriptionWidth={628}
+        actions={[{ label: pp.heroCtaLabel, to: pp.heroCtaUrl, primary: true, icon: false }]}
+      />
+
+      {/* Partner grid — #12142e, 1312 column: title, 44px filter chips (8 apart,
+          Eastern Blue when active), then 8-up 155x148 white-hairline cells. */}
+      <Section bg="bg-navy-700">
+        <SectionTitle
+          dark
+          tagline={pp.gridEyebrow}
+          title={composeTitle(`${count} ${pp.gridTitle}`, pp.gridTitleHighlight)}
+          highlight={pp.gridTitleHighlight}
+          body={pp.gridSubtitle}
+          titleClass="text-white [&_span]:text-teal-400"
+        />
+        <div className="mt-20 flex flex-wrap gap-2">
+          {['All', ...SECTORS].map((s) => (
+            <button
+              key={s}
+              type="button"
+              onClick={() => setSector(s)}
+              aria-pressed={s === sector}
+              className={`h-11 px-4 rounded text-base leading-[150%] text-white transition-colors ${
+                s === sector ? 'bg-teal-500 font-medium outline outline-1 -outline-offset-1 outline-black/20' : 'hover:bg-white/10'
+              }`}
+            >
+              {s}
+            </button>
+          ))}
         </div>
-      </section>
-
-      {/* Partner grid */}
-      <section className="bg-navy-950 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-white">
-            {pp.gridEyebrow}
-          </span>
-          <TitleWithHighlight
-            prefix={count}
-            text={pp.gridTitle}
-            highlight={pp.gridTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-5 mb-4"
-          />
-          <p className="text-sm text-white/70 leading-relaxed max-w-lg mb-8">{pp.gridSubtitle}</p>
-
-          {/* Filter chips + search, one row above the grid */}
-          <div className="flex flex-wrap items-center gap-3 mb-10">
-            {sectors.map((s) => (
-              <button
-                key={s}
-                type="button"
-                onClick={() => setSector(s)}
-                aria-pressed={s === sector}
-                className={`text-sm px-4 py-2 rounded-md transition-colors ${
-                  s === sector
-                    ? 'bg-sky-600 text-white'
-                    : 'text-white/70 hover:text-white hover:bg-white/10'
-                }`}
-              >
-                {s}
-              </button>
-            ))}
-
-            <div className="relative ml-auto w-full sm:w-64">
-              <Search
-                size={14}
-                className="absolute left-3 top-1/2 -translate-y-1/2 text-white/40 pointer-events-none"
-              />
-              <input
-                type="search"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={pp.searchPlaceholder}
-                aria-label="Search recruiting partners"
-                className="w-full bg-white/[0.06] border border-white/15 rounded-md pl-9 pr-3 py-2 text-sm text-white placeholder:text-white/40 focus:outline-none focus:border-sky-500"
-              />
-            </div>
+        {visible.length > 0 ? (
+          // Figma's mobile frame crams all 8 columns into 33px cells, which overflows
+          // the names; 4 shorter columns keep the grid's height without the overflow.
+          <div className="mt-20 grid grid-cols-4 lg:grid-cols-8 gap-2.5 lg:gap-y-[30px]">
+            {visible.map((p, i) => {
+              const logoUrl = p.logo ? urlFor(p.logo).height(96).auto('format').url() : null;
+              return (
+                <div
+                  key={p._id || `${p.name}-${i}`}
+                  title={p.sector ? `${p.name} · ${p.sector}` : p.name}
+                  className="h-[78px] lg:h-[148px] rounded-xl outline outline-1 -outline-offset-1 outline-white flex items-center justify-center p-1.5 lg:p-6 text-center transition-colors hover:bg-white/10"
+                >
+                  {logoUrl ? (
+                    <img src={logoUrl} alt={p.name} className="max-h-12 max-w-full object-contain" />
+                  ) : (
+                    <span className="text-xs lg:text-sm leading-[150%] text-white">{p.name}</span>
+                  )}
+                </div>
+              );
+            })}
           </div>
+        ) : (
+          <p className="mt-20 text-base leading-[150%] text-white/70">No partners listed in {sector} yet.</p>
+        )}
+      </Section>
 
-          {visible.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-              {visible.map((p, i) => {
-                const logoUrl = p.logo ? urlFor(p.logo).width(200).url() : null;
-                return (
-                  <div
-                    key={p._id || `${p.name}-${i}`}
-                    title={p.sector ? `${p.name} · ${p.sector}` : p.name}
-                    className="h-[92px] rounded-md border border-white/15 bg-white/[0.03] hover:bg-white/10 hover:border-white/30 transition-colors flex items-center justify-center px-2"
-                  >
-                    {logoUrl ? (
-                      <img src={logoUrl} alt={p.name} className="max-h-9 max-w-full object-contain" />
-                    ) : (
-                      <span className="text-[11px] text-white/70 text-center leading-tight">
-                        {p.name}
-                      </span>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          ) : (
-            <p className="text-sm text-white/60 py-8">
-              No partners match that search{sector !== 'All' ? ` in ${sector}` : ''}.
-            </p>
-          )}
-        </div>
-      </section>
-
-      {/* Join CTA */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-white">
-            {pp.ctaEyebrow}
-          </span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-5 mb-4">{pp.ctaTitle}</h2>
-          <p className="text-sm text-white/75 mb-8">{pp.ctaSubtitle}</p>
-          <div className="flex flex-wrap gap-3">
+      {/* Join CTA — navy, 64 padding, left column, buttons 14 apart. */}
+      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+        <div className="max-w-[1280px] mx-auto">
+          <SectionTitle dark tagline={pp.ctaEyebrow} title={pp.ctaTitle} />
+          <p className="mt-6 max-w-[598px] text-base md:text-lg leading-[150%]">{pp.ctaSubtitle}</p>
+          <div className="mt-8 flex flex-col md:flex-row gap-3.5">
             {ctaButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-              </a>
+              <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} icon={false} />
             ))}
           </div>
         </div>
