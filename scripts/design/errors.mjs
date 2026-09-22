@@ -6,5 +6,5 @@ const b = await chromium.launch({ channel: 'msedge' });
 const p = await b.newPage();
 p.on('pageerror', (e) => console.log('PAGEERROR', e.message));
 p.on('console', (m) => m.type() === 'error' && console.log('CONSOLE', m.text().slice(0, 400)));
-await p.goto('http://localhost:5173' + route, { waitUntil: 'networkidle' });
+await p.goto((process.env.SITE_URL ?? 'https://simsree-website.vercel.app') + route, { waitUntil: 'networkidle' });
 await b.close();

@@ -16,7 +16,7 @@ import {chromium} from 'playwright-core'
 const args = process.argv.slice(2)
 const flags = Object.fromEntries(args.filter((a) => a.startsWith('--')).map((a) => [...a.slice(2).split('='), true].slice(0, 2)))
 const positional = args.filter((a) => !a.startsWith('--'))
-const base = flags.base ?? 'http://localhost:5173'
+const base = flags.base ?? process.env.SITE_URL ?? 'https://simsree-website.vercel.app'
 const outDir = path.resolve('design/shots')
 fs.mkdirSync(outDir, {recursive: true})
 

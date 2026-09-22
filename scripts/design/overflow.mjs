@@ -5,7 +5,7 @@ const route = process.argv[2] || '/';
 const width = Number(process.argv[3] || 375);
 const b = await chromium.launch({ channel: 'msedge' });
 const p = await b.newPage({ viewport: { width, height: 800 } });
-await p.goto('http://localhost:5173' + route, { waitUntil: 'networkidle' });
+await p.goto((process.env.SITE_URL ?? 'https://simsree-website.vercel.app') + route, { waitUntil: 'networkidle' });
 const hits = await p.evaluate((w) => {
   const out = [];
   for (const el of document.querySelectorAll('body *')) {
