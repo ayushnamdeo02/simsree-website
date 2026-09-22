@@ -35,12 +35,13 @@ import Simerations from './pages/Simerations';
 import Tedx from './pages/Tedx';
 import Flagship from './pages/Flagship';
 import DevProgrammes from './pages/DevProgrammes';
+import IndustryEvents from './pages/IndustryEvents';
 import News from './pages/News';
 import PageStub from './pages/PageStub';
 import { mainNav, utilityLinks } from './data/sitemap';
 
 // Routes with a real, built-out page (not a stub).
-const builtRoutes = new Set(['/', '/about', '/about/history', '/about/directors-message', '/about/rankings', '/about/campus-life', '/about/alumni', '/about/student-driven-system', '/alumni-portal', '/about/simarthan', '/placements', '/placements/why-recruit', '/placements/reports', '/placements/partners', '/placements/contact', '/placements/recruiter-engagement', '/academics', '/academics/mms', '/academics/msc-finance', '/academics/mfm', '/academics/mmm', '/academics/phd', '/academics/faculty', '/admissions', '/admissions/mms', '/admissions/msc-finance', '/admissions/mfm', '/admissions/mmm', '/admissions/phd', '/admissions/downloads', '/students', '/students/achievements', '/students/batch-profile', '/students/committees/placement', '/students/body-structure', '/students/life', '/contact', '/events', '/events/simerations', '/events/tedxsimsree', '/events/flagship', '/events/development-programmes', '/events/news']);
+const builtRoutes = new Set(['/', '/about', '/about/history', '/about/directors-message', '/about/rankings', '/about/campus-life', '/about/alumni', '/about/student-driven-system', '/alumni-portal', '/about/simarthan', '/placements', '/placements/why-recruit', '/placements/reports', '/placements/partners', '/placements/contact', '/placements/recruiter-engagement', '/academics', '/academics/mms', '/academics/msc-finance', '/academics/mfm', '/academics/mmm', '/academics/phd', '/academics/faculty', '/admissions', '/admissions/mms', '/admissions/msc-finance', '/admissions/mfm', '/admissions/mmm', '/admissions/phd', '/admissions/downloads', '/students', '/students/achievements', '/students/batch-profile', '/students/committees/placement', '/students/body-structure', '/students/life', '/contact', '/events', '/events/simerations', '/events/tedxsimsree', '/events/flagship', '/events/development-programmes', '/events/industry-events', '/events/news']);
 
 // Flatten every route (top-level + children + utility links) into a single list,
 // skipping routes that already have a real page.
@@ -106,6 +107,7 @@ export default function App() {
           <Route path="/events/tedxsimsree" element={<Tedx />} />
           <Route path="/events/flagship" element={<Flagship />} />
           <Route path="/events/development-programmes" element={<DevProgrammes />} />
+          <Route path="/events/industry-events" element={<IndustryEvents />} />
           <Route path="/events/news" element={<News />} />
           <Route path="/students/committees/:slug" element={<CommitteeDetail />} />
           <Route path="/admissions/:slug" element={<AdmissionDetail />} />

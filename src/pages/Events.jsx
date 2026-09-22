@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, ChevronRight, Minus, Plus } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import EventCalendar from '../components/EventCalendar';
+import SessionCard from '../components/SessionCard';
 import PageHero from '../components/PageHero';
 import { Section, SectionTitle, Tagline, H5, H6 } from '../components/ui';
 import { heroImage } from '../lib/heroImage';
@@ -19,9 +20,6 @@ const TYPES = [
   'Mrudgandha',
 ];
 
-const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const DAYS_SHORT = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const MONTHS_LONG = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 const fallbackPage = {
   heroEyebrow: 'Always Something Happening',
@@ -170,12 +168,6 @@ const COUNT_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seve
 
 const img = (image, fallback, w) => (image ? urlFor(image).width(w).auto('format').url() : fallback);
 
-const ordinal = (n) => {
-  const s = ['th', 'st', 'nd', 'rd'];
-  const v = n % 100;
-  return n + (s[(v - 20) % 10] || s[v] || s[0]);
-};
-
 // Figma H2 with two teal phrases ("Browse by date, filter by type.").
 function TwoHighlightHeading({ text = '', one, two }) {
   const parts = [];
@@ -196,93 +188,6 @@ function TwoHighlightHeading({ text = '', one, two }) {
     <h2 className="font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em] text-navy-900">
       {parts}
     </h2>
-  );
-}
-
-// Figma event card. Desktop: 32 padding, 168-wide navy date block (radius 16) with
-// day / 36px number / month, H5 title + 14/150 meta, a 32px plus. Open, a second
-// row holds a 168 square photo (radius 16), body, details and the navy button.
-// Mobile: a small "6th May" date pill, 22px title, a hairline, then the details
-// and a full-width 250px photo.
-function EventCard({ e, defaultOpen }) {
-  const [y, m, d] = (e.date || '').split('-').map(Number);
-  const date = y ? new Date(y, m - 1, d) : null;
-  const dayName = date ? DAYS_SHORT[date.getDay()] : '';
-  const photo = img(e.image, EVENT_PHOTO, 400);
-  const hasDetail = e.description || e.detailRows?.length > 0 || e.ctaLabel;
-
-  return (
-    <details
-      open={defaultOpen}
-      className="group bg-white outline outline-1 -outline-offset-1 outline-black/20 max-lg:shadow-small px-4 py-6 lg:p-8"
-    >
-      <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-        {/* Mobile header */}
-        <div className="lg:hidden flex flex-col gap-4">
-          <div className="flex justify-between gap-4">
-            <span className="p-2 rounded-lg bg-navy-900 text-xs leading-[150%] text-white">
-              {date ? `${ordinal(d)} ${MONTHS_LONG[m - 1]}` : ''}
-            </span>
-            <Plus size={24} strokeWidth={1.5} className="shrink-0 transition-transform group-open:rotate-45" />
-          </div>
-          <div className="flex flex-col gap-2">
-            <H6 as="h3" className="text-black">
-              {e.title}
-            </H6>
-            {e.meta && <p className="text-sm leading-[150%] text-black">{e.meta}</p>}
-          </div>
-        </div>
-        {/* Desktop header */}
-        <div className="max-lg:hidden flex items-stretch gap-8">
-          <div className="w-[168px] shrink-0 min-h-[127px] p-4 rounded-2xl bg-navy-900 text-white flex flex-col items-center justify-center text-center">
-            <span className="text-base leading-[150%]">{dayName}</span>
-            <span className="font-display font-medium text-[36px] leading-[130%] tracking-[-0.01em]">
-              {String(d || '').padStart(2, '0')}
-            </span>
-            <span className="text-base leading-[150%]">{m ? `${MONTHS_SHORT[m - 1]} ${y}` : ''}</span>
-          </div>
-          <div className="flex-1 min-w-0 py-8 flex flex-col justify-center">
-            <H5 as="h3" className="text-black">
-              {e.title}
-            </H5>
-            {e.meta && <p className="text-sm leading-[150%] text-black">{e.meta}</p>}
-          </div>
-          <span className="shrink-0 self-center">
-            <Plus size={32} strokeWidth={1.5} className="group-open:hidden" />
-            <Minus size={32} strokeWidth={1.5} className="hidden group-open:block" />
-          </span>
-        </div>
-      </summary>
-
-      {hasDetail && (
-        <div className="mt-8 max-lg:pt-8 max-lg:border-t max-lg:border-black/20 flex flex-col-reverse lg:flex-row gap-8">
-          <div
-            className="h-[250px] lg:w-[168px] lg:h-[168px] shrink-0 rounded-2xl bg-navy-50 bg-cover bg-center"
-            style={{ backgroundImage: `url('${photo}')` }}
-          />
-          <div className="flex-1 min-w-0 flex flex-col gap-4 lg:py-3.5">
-            {e.description && <p className="text-base leading-[150%] text-black">{e.description}</p>}
-            {e.detailRows?.length > 0 && (
-              <dl className="m-0 flex flex-col lg:flex-row gap-4 lg:gap-12">
-                {e.detailRows.map((r) => (
-                  <div key={r.label} className="text-sm leading-[150%] text-black">
-                    <dt className="inline font-semibold">{r.label}:</dt> <dd className="inline m-0">{r.value}</dd>
-                  </div>
-                ))}
-              </dl>
-            )}
-            {e.ctaLabel && (
-              <a
-                href={e.ctaUrl || '#'}
-                className="w-fit h-10 px-5 rounded-md bg-navy-900 hover:bg-navy-800 outline outline-1 -outline-offset-1 outline-black/20 text-white text-base leading-[150%] font-medium inline-flex items-center gap-2 transition-colors"
-              >
-                {e.ctaLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
-              </a>
-            )}
-          </div>
-        </div>
-      )}
-    </details>
   );
 }
 
@@ -412,7 +317,15 @@ export default function Events() {
                 </button>
               )}
               {visible.length > 0 ? (
-                visible.map((e, i) => <EventCard key={e._id || `${e.title}-${e.date}`} e={e} defaultOpen={i === 0} />)
+                visible.map((e, i) => (
+                  <SessionCard
+                    key={e._id || `${e.title}-${e.date}`}
+                    s={{ ...e, imageUrl: e.image && img(e.image, null, 400) }}
+                    fallbackImage={EVENT_PHOTO}
+                    desktopShadow={false}
+                    defaultOpen={i === 0}
+                  />
+                ))
               ) : (
                 <p className="text-base leading-[150%] text-black py-8">
                   No events match this filter{selectedDay ? ' on the selected date' : ''}.
