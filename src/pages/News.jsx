@@ -1,11 +1,21 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { AlertCircle, ArrowUpRight, CheckCircle2, Loader2, Mail, MapPin } from 'lucide-react';
+import { AlertCircle, ArrowUpRight, CheckCircle2, ChevronDown, Loader2, Mail, MapPin } from 'lucide-react';
+import { Breadcrumb, HeroButton } from '../components/PageHero';
+import { SocialLinks } from '../components/Footer';
+import { Section, SectionTitle, Tagline, Heading, H5, H6 } from '../components/ui';
 import { useNewsData } from '../lib/useNewsData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
 const TAGS = ['Placements', 'Appointment', 'Awards', 'Alumni', 'Events', 'Partnerships'];
+
+// Figma hero tag dots: navy, gold, red, Eastern Blue.
+const TAG_DOTS = ['bg-navy-900', 'bg-[#dfb400]', 'bg-[#d00416]', 'bg-teal-500'];
+// Mobile-only strip under the hero (Figma 375 frame).
+const FACT_STRIP = ['SIMSREE Mumbai', 'Student-run since 1983', 'Eight fests · One year', 'Flagship events'];
+// Figma photos (the hero collage repeats the Flagship Events one).
+const HERO_PHOTOS = [1, 2, 3, 4].map((n) => `/images/flagship/hero-${n}.webp`);
+const img = (image, fallback, w) => (image ? urlFor(image).width(w).auto('format').url() : fallback);
 
 const fallbackPage = {
   heroTitle: 'From the SIMSREE newsroom.',
@@ -27,7 +37,7 @@ const fallbackPage = {
     { value: '42 yrs', label: 'Since {{foundedYear}}', note: 'Autonomous under University of Mumbai · government-funded' },
     { value: '{{placementRate}}', label: 'placements · 14 years running', note: '2025-26 batch · final report · July 2026' },
     { value: '₹38.4 LPA', label: 'highest CTC offered · MMS 2026', note: 'Median: ₹18.2 LPA · all-round average up 11% YoY' },
-    { value: '8', label: 'flagship student-run programmes', note: 'Simerations · TEDxSIMSREE · Akiya · Sportzania · Pulse · others' },
+    { value: '8', label: 'flagship student-run programmes', note: 'Simerations · TEDxSIMSREE · Aikya · Sportzania · Pulse · others' },
     { value: '{{committeeCount}}', label: 'active student committees', note: 'Run the institute end-to-end · no faculty advisor curates fests' },
     { value: '12K +', label: 'alumni placed at Fortune 500 firms', note: 'McKinsey · Goldman · HUL · Asian Paints · Wipro · and more' },
   ],
@@ -41,7 +51,7 @@ const fallbackPage = {
   whyTitle: 'Why people choose SIMSREE',
   whyCards: [
     {
-      title: 'Government-funded · zero tuition for MMS',
+      title: 'Government-funded · zero tuition fee for MMS',
       description:
         'SIMSREE is an autonomous institute under the University of Mumbai. The MMS programme is fully government-funded; students pay only the standard university fee.',
     },
@@ -168,18 +178,6 @@ const PRESS_FIELDS = [
 
 const EMPTY = Object.fromEntries(PRESS_FIELDS.map((f) => [f.name, '']));
 
-function TitleWithHighlight({ text = '', highlight, className }) {
-  const idx = highlight ? text.indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
-  return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
-  );
-}
-
 function validate(values, consent) {
   const errors = {};
   for (const f of PRESS_FIELDS) {
@@ -214,7 +212,7 @@ export default function News() {
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle');
 
-  const collage = np.heroCollage?.length ? np.heroCollage : [null, null, null, null];
+  const collage = [0, 1, 2, 3].map((i) => img(np.heroCollage?.[i], HERO_PHOTOS[i], 900));
   // Real news documents may predate the `featured` field, so fall back to the
   // drafted featured story until an editor flags one. Live items always fill
   // the list below it.
@@ -222,8 +220,8 @@ export default function News() {
     news.find((n) => n.featured) || fillFactsDeep(fallbackNews.find((n) => n.featured), facts);
   const listItems = news.filter((n) => !n.featured);
 
-  const present = new Set(listItems.map((n) => n.tag).filter(Boolean));
-  const chips = ['All', ...TAGS.filter((t) => present.has(t))];
+  // Figma lists these categories whether or not a story is filed under one yet.
+  const chips = ['All', ...TAGS.filter((t) => t !== 'Appointment')];
   const visible = tag === 'All' ? listItems : listItems.filter((n) => n.tag === tag);
 
   const sending = status === 'sending';
@@ -297,314 +295,305 @@ export default function News() {
     );
   };
 
+  // Figma: 48px bordered inputs, 16/150 labels 8 above.
+  const inputCls = (err) =>
+    `w-full bg-white border px-3 text-base leading-[150%] text-black placeholder:text-black/60 focus:outline-none focus:ring-2 focus:ring-teal-500/40 ${
+      err ? 'border-red-500' : 'border-black'
+    }`;
+
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section className="pt-32 pb-12 lg:pt-36 lg:pb-16">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="text-xs text-ink-400 mb-6 flex items-center">
-            <Link to="/" className="hover:text-navy-900">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/events" className="hover:text-navy-900">Events</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-navy-900">News</span>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-            <div>
-              <h1 className="font-display text-4xl md:text-5xl font-semibold text-navy-900 mb-5">
-                {renderLine(line1)}
-                {line2 && (
-                  <>
-                    <br />
-                    {renderLine(line2)}
-                  </>
-                )}
-              </h1>
-              <p className="text-xs text-ink-600 leading-relaxed max-w-md mb-5">
-                {np.heroDescription}
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {heroTags.map((t) => (
-                  <span
-                    key={t}
-                    className="text-[10px] text-navy-900 border border-navy-100 rounded px-2.5 py-1"
-                  >
-                    {t}
-                  </span>
-                ))}
+      {/* Hero — white. 674 copy column (72px title, 18/150 body, dot tags) | 532
+          collage of four photos in two 12-gapped rows. */}
+      <section className="px-5 md:px-[55px] pt-[202px] lg:pt-[180px] pb-[72px]">
+        <div className="max-w-[1330px] mx-auto grid lg:grid-cols-[762px_532px] justify-between gap-9 items-center">
+          <div className="flex flex-col gap-4">
+            <Breadcrumb items={[{ label: 'Home', to: '/' }, { label: 'Events', to: '/events' }, { label: 'News' }]} className="!text-black" />
+            <div className="mt-6 lg:mt-10 max-w-[674px] flex flex-col gap-6 lg:gap-8">
+              <div className="flex flex-col gap-6">
+                <h1 className="font-display font-medium text-[36px] leading-[130%] md:text-[72px] md:leading-[120%] tracking-[-0.01em] text-navy-900">
+                  {/* Desktop breaks after "the"; the mobile frame just wraps. */}
+                  {renderLine(line1)}
+                  {line2 && (
+                    <>
+                      <br className="max-md:hidden" /> {renderLine(line2)}
+                    </>
+                  )}
+                </h1>
+                <p className="text-base md:text-lg leading-[150%] text-black">{np.heroDescription}</p>
               </div>
+              <ul className="list-none m-0 p-0 flex flex-wrap gap-4 max-w-[640px]">
+                {heroTags.map((t, i) => (
+                  <li
+                    key={t}
+                    className="flex items-center gap-2 px-2.5 py-1 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 text-sm leading-[150%] text-navy-900"
+                  >
+                    <span className={`w-1.5 h-1.5 rounded-full ${TAG_DOTS[i % TAG_DOTS.length]}`} aria-hidden="true" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
             </div>
-
-            <div className="grid grid-cols-2 gap-3">
-              {collage.map((img, i) => (
-                <div
-                  key={i}
-                  className="h-[110px] rounded bg-gray-200 bg-cover bg-center"
-                  style={img ? { backgroundImage: `url('${urlFor(img).width(500).url()}')` } : undefined}
-                />
-              ))}
+          </div>
+          <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-2 md:grid-cols-[194fr_326fr] gap-3 h-[304px]">
+              <div className="bg-navy-50 bg-cover bg-center" style={{ backgroundImage: `url('${collage[0]}')` }} />
+              <div className="bg-navy-50 bg-cover bg-center" style={{ backgroundImage: `url('${collage[1]}')` }} />
+            </div>
+            <div className="grid grid-cols-[129fr_194fr] md:grid-cols-[326fr_194fr] gap-3 h-[291px]">
+              <div className="bg-navy-50 bg-cover bg-center" style={{ backgroundImage: `url('${collage[2]}')` }} />
+              <div className="bg-navy-50 bg-cover bg-center" style={{ backgroundImage: `url('${collage[3]}')` }} />
             </div>
           </div>
         </div>
       </section>
 
-      {/* Featured story */}
-      {featured && (
-        <section className="pb-12 lg:pb-16">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-            <p className="text-[10px] font-semibold tracking-widest uppercase text-ink-400 mb-4">
-              {np.featuredEyebrow}
-            </p>
-            <div className="border border-navy-100 rounded-lg overflow-hidden flex flex-col lg:flex-row">
-              <div
-                className="lg:w-[38%] shrink-0 h-[220px] lg:h-auto bg-gray-200 bg-cover bg-center"
-                style={
-                  featured.image
-                    ? { backgroundImage: `url('${urlFor(featured.image).width(800).url()}')` }
-                    : undefined
-                }
-              />
-              <div className="flex-1 min-w-0 p-7">
-                {featured.featuredBadge && (
-                  <span className="inline-block text-[9px] font-semibold tracking-widest uppercase text-navy-900 bg-navy-50 px-2.5 py-1 rounded mb-4">
-                    {featured.featuredBadge}
-                  </span>
-                )}
-                <h2 className="font-display text-2xl font-semibold text-navy-900 mb-4 leading-snug">
-                  {featured.title}
-                </h2>
-                <p className="text-xs text-ink-600 leading-relaxed mb-5">{featured.summary}</p>
-                {featured.featuredRows?.length > 0 && (
-                  <dl className="m-0 border-t border-navy-100 pt-4">
-                    {featured.featuredRows.map((r) => (
-                      <div key={r.label} className="flex gap-3 text-[11px] py-1">
-                        <dt className="text-navy-900 font-medium w-[70px] shrink-0">{r.label}</dt>
-                        <dd className="text-ink-600 m-0">{r.value}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                )}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+      {/* Mobile only (Figma 375 frame): the navy fact strip under the hero. */}
+      <div className="md:hidden bg-navy-900 py-8 overflow-hidden">
+        <div className="flex w-max gap-20 animate-marquee">
+          {[...FACT_STRIP, ...FACT_STRIP].map((f, i) => (
+            <span key={i} aria-hidden={i >= FACT_STRIP.length ? 'true' : undefined} className="text-base leading-[150%] uppercase text-white whitespace-nowrap">
+              {f}
+            </span>
+          ))}
+        </div>
+      </div>
 
-      {/* SIMSREE in numbers */}
-      <section className="pb-12 lg:pb-16">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="bg-navy-900 text-white rounded-lg p-8 lg:p-10">
-            <h2 className="font-display text-2xl md:text-3xl font-semibold mb-8">
-              {np.numbersTitle}
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-8">
-              {numbers.map((n) => (
-                <div key={n.label} className="border-t border-white/20 pt-4">
-                  <p className="font-display text-3xl font-semibold mb-1">{n.value}</p>
-                  <p className="text-[11px] font-medium mb-2">{n.label}</p>
-                  <p className="text-[10px] text-white/55 leading-relaxed">{n.note}</p>
+      {/* Featured story + numbers — one 112/64 layout: tagline over a hairline, the
+          1312 story card (632 photo | 32-padded copy), then the navy numbers card. */}
+      <section className="px-5 py-16 md:px-16 md:py-28">
+        <div className="max-w-[1312px] mx-auto flex flex-col gap-20">
+          {featured && (
+            <div className="flex flex-col gap-12">
+              <div className="max-w-[972px] w-full mx-auto flex items-center gap-8">
+                <Tagline className="shrink-0 text-black">{np.featuredEyebrow}</Tagline>
+                <span className="flex-1 h-px bg-black/20" aria-hidden="true" />
+              </div>
+              <article className="flex flex-col lg:flex-row lg:items-center gap-12 rounded-2xl outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+                <div
+                  className="h-[357px] lg:h-[674px] lg:w-[632px] shrink-0 rounded-t-2xl lg:rounded-tr-none lg:rounded-l-2xl bg-navy-50 bg-cover bg-center"
+                  style={{ backgroundImage: `url('${img(featured.image, '/images/news/featured.webp', 1264)}')` }}
+                />
+                <div className="flex-1 min-w-0 px-4 pb-8 lg:p-8 flex flex-col gap-6">
+                  {featured.featuredBadge && (
+                    <span className="w-fit px-2.5 py-1 rounded-2xl bg-navy-900 text-sm leading-[150%] uppercase text-white">
+                      {featured.featuredBadge}
+                    </span>
+                  )}
+                  <Heading as="h2" text={featured.title} className="text-navy-900" />
+                  <p className="text-base md:text-lg leading-[150%] text-black">{featured.summary}</p>
+                  {featured.featuredRows?.length > 0 && (
+                    <dl className="m-0 pt-6 border-t border-black/20 flex flex-wrap gap-x-12 gap-y-3 text-sm leading-[150%] text-black">
+                      {featured.featuredRows.map((r) => (
+                        <div key={r.label}>
+                          <dt className="inline">{r.label}:</dt> <dd className="inline m-0">{r.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+                </div>
+              </article>
+            </div>
+          )}
+
+          {/* Numbers — navy radius-16 card; 3-up rows split by #eaeaf1 rules:
+              72px value, 16 semibold label, 18/150 note. */}
+          <div className="rounded-2xl bg-navy-900 text-white px-6 py-28 md:px-16">
+            <Heading text={np.numbersTitle} className="text-white" />
+            <div className="mt-20 flex flex-col gap-12">
+              {[numbers.slice(0, 3), numbers.slice(3, 6)].filter((r) => r.length).map((row, ri) => (
+                <div key={ri} className={`grid lg:grid-cols-3 gap-8 ${ri ? 'pt-12 border-t border-navy-50' : ''}`}>
+                  {row.map((n, i) => (
+                    <div
+                      key={n.label}
+                      className={`flex flex-col gap-4 ${i ? 'max-lg:pt-8 max-lg:border-t lg:pl-8 lg:border-l border-navy-50' : ''}`}
+                    >
+                      <span className="font-display font-medium text-[48px] leading-[120%] md:text-[72px] tracking-[-0.01em]">{n.value}</span>
+                      <div className="flex flex-col gap-6">
+                        <span className="text-base leading-[150%] font-semibold">{n.label}</span>
+                        <p className="text-base md:text-lg leading-[150%]">{n.note}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>
-            {np.numbersFootnote && (
-              <p className="text-[10px] text-white/45 leading-relaxed mt-8 pt-6 border-t border-white/15">
-                {np.numbersFootnote}
-              </p>
+            {np.numbersFootnote && <p className="mt-20 text-sm leading-[150%]">{np.numbersFootnote}</p>}
+          </div>
+        </div>
+      </section>
+
+      {/* News list — 768 header (tagline over a hairline, H2, "Filter by" + tabs),
+          then 1026 bar cards: outline tag + date, H5 title, 16/150 summary. */}
+      <section className="px-5 py-16 md:px-16 md:py-28">
+        <div className="max-w-[1026px] mx-auto flex flex-col gap-12">
+          <div className="max-w-[768px] w-full mx-auto flex flex-col gap-8">
+            <div className="flex items-center gap-8">
+              <Tagline className="shrink-0 text-black">{np.listEyebrow}</Tagline>
+              <span className="flex-1 h-px bg-black/20" aria-hidden="true" />
+            </div>
+            <Heading text={np.listTitle} className="text-navy-900" />
+            <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
+              <span className="text-sm leading-[150%] font-semibold uppercase text-black">{np.filterLabel}:</span>
+              <div className="flex flex-wrap">
+                {chips.map((c) => (
+                  <button
+                    key={c}
+                    type="button"
+                    onClick={() => setTag(c)}
+                    aria-pressed={c === tag}
+                    className={`h-11 px-4 rounded text-base leading-[150%] transition-colors ${
+                      c === tag ? 'bg-navy-900 text-white font-medium outline outline-1 -outline-offset-1 outline-black/20' : 'text-black hover:bg-navy-50'
+                    }`}
+                  >
+                    {c}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-8">
+            {visible.length > 0 ? (
+              visible.map((n) => {
+                const inner = (
+                  <>
+                    <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
+                    <div className="flex-1 min-w-0 py-8 pr-4 md:pr-0 flex flex-col gap-4">
+                      <div className="flex flex-wrap items-center gap-4 text-sm leading-[150%] font-semibold text-black">
+                        {n.tag && <span className="px-2.5 py-1 rounded outline outline-1 -outline-offset-1 outline-black/20 uppercase">{n.tag}</span>}
+                        <span>{n.date}</span>
+                      </div>
+                      <div className="flex flex-col gap-4">
+                        <H5 as="h3" className="text-black max-md:text-[22px]">
+                          {n.title}
+                        </H5>
+                        {n.summary && <p className="text-base leading-[150%] text-black">{n.summary}</p>}
+                      </div>
+                    </div>
+                  </>
+                );
+                const cls = 'flex gap-4 md:gap-8 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small';
+                return n.linkUrl ? (
+                  <a key={n._id || n.title + n.order} href={n.linkUrl} className={`${cls} hover:shadow-medium transition-shadow`}>
+                    {inner}
+                  </a>
+                ) : (
+                  <article key={n._id || n.title + n.order} className={cls}>
+                    {inner}
+                  </article>
+                );
+              })
+            ) : (
+              <p className="text-base leading-[150%] text-black">No stories in this category yet.</p>
             )}
           </div>
         </div>
       </section>
 
-      {/* News list */}
-      <section className="py-12 lg:py-16">
-        <div className="max-w-[900px] mx-auto px-6 lg:px-0">
-          <p className="text-[10px] font-semibold tracking-widest uppercase text-ink-400 mb-3 pb-3 border-b border-navy-100">
-            {np.listEyebrow}
-          </p>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mb-6">
-            {np.listTitle}
-          </h2>
-
-          <div className="flex flex-wrap items-center gap-2 mb-8">
-            <span className="text-[11px] text-ink-400 mr-1">{np.filterLabel}</span>
-            {chips.map((c) => (
-              <button
-                key={c}
-                type="button"
-                onClick={() => setTag(c)}
-                aria-pressed={c === tag}
-                className={`text-[11px] px-3.5 py-1.5 rounded transition-colors ${
-                  c === tag
-                    ? 'bg-navy-900 text-white'
-                    : 'text-ink-600 hover:text-navy-900 hover:bg-navy-50'
-                }`}
-              >
-                {c}
-              </button>
-            ))}
-          </div>
-
-          <div className="flex flex-col gap-3">
-            {visible.map((n) => (
-              <article
-                key={n._id || `${n.title}-${n.order}`}
-                className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-[9px] font-semibold tracking-widest uppercase text-navy-900 bg-navy-50 px-2 py-1 rounded">
-                    {n.tag}
-                  </span>
-                  <span className="text-[10px] text-ink-400">{n.date}</span>
-                </div>
-                <h3 className="font-display text-lg font-semibold text-navy-900 mb-2 leading-snug">
-                  {n.title}
-                </h3>
-                {n.summary && (
-                  <p className="text-[11px] text-ink-600 leading-relaxed">{n.summary}</p>
-                )}
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why people choose */}
-      <section className="bg-navy-900 text-white py-16 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mb-10">{np.whyTitle}</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+      {/* Why people choose — navy band; four 272 columns split by #eaeaf1 rules. */}
+      <section className="bg-navy-900 text-white px-5 py-16 md:px-16 md:py-28">
+        <div className="max-w-[1280px] mx-auto">
+          <Heading text={np.whyTitle} className="text-white" />
+          <div className="mt-20 pt-12 border-t border-navy-50 grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {whyCards.map((c, i) => (
-              <div key={c.title} className="border-t border-white/20 pt-4">
-                <span className="text-[10px] text-white/45 mb-2 block">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <h3 className="font-display text-base font-semibold mb-3">{c.title}</h3>
-                <p className="text-[11px] text-white/60 leading-relaxed">{c.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Recognition */}
-      <section className="py-16 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="text-center mb-10">
-            <TitleWithHighlight
-              text={np.recognitionTitle}
-              highlight={np.recognitionTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900"
-            />
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-            {recognitions.map((r) => (
               <div
-                key={r._id || `${r.title}-${r.year}`}
-                className="border border-navy-100 rounded-sm px-6 py-5"
+                key={c.title}
+                className={`flex flex-col gap-4 ${i ? 'max-md:pt-8 max-md:border-t lg:pl-8 lg:border-l border-navy-50' : ''}`}
               >
-                <p className="font-display text-xl font-semibold text-sky-600 mb-3">{r.year}</p>
-                <p className="text-sm font-medium text-navy-900 mb-1">{r.title}</p>
-                <p className="text-[11px] text-ink-600">{r.source}</p>
+                <Tagline className="text-white">{String(i + 1).padStart(2, '0')}</Tagline>
+                <H6 as="h3" className="text-white">
+                  {c.title}
+                </H6>
+                <p className="text-base md:text-lg leading-[150%]">{c.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Press contact */}
-      <section className="bg-navy-50 py-16 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
-            <div>
-              <span className="text-[10px] font-semibold tracking-widest uppercase text-ink-400 mb-4 block">
-                {np.pressEyebrow}
-              </span>
-              <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mb-5">
-                {np.pressTitle}
-              </h2>
-              <p className="text-xs text-ink-600 mb-6">{np.pressSubtitle}</p>
-              <div className="flex flex-col gap-3">
-                <a
-                  href={`mailto:${np.pressEmail}`}
-                  className="text-xs text-navy-900 hover:text-sky-600 transition-colors flex items-center gap-2.5"
-                >
-                  <Mail size={14} className="shrink-0" /> {np.pressEmail}
-                </a>
-                <p className="text-xs text-ink-600 flex items-center gap-2.5">
-                  <MapPin size={14} className="shrink-0" /> {np.pressAddress}
-                </p>
-              </div>
+      {/* Recognition — centred H2, four 296 hairline cards: navy year, black title. */}
+      <Section width={1280}>
+        <Heading text={np.recognitionTitle} highlight={np.recognitionTitleHighlight} className="text-navy-900 text-center" />
+        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {recognitions.map((r) => (
+            <div key={r._id || r.title + r.year} className="min-h-[212px] p-6 flex flex-col gap-2 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+              <H5 as="span">{r.year}</H5>
+              <H5 as="h3" className="text-black">
+                {r.title}
+                {r.source && (
+                  <>
+                    <br />
+                    {r.source}
+                  </>
+                )}
+              </H5>
             </div>
+          ))}
+        </div>
+      </Section>
 
-            {status === 'success' ? (
-              <div
-                role="status"
-                className="border border-emerald-200 bg-emerald-50 rounded-lg p-8 self-start"
-              >
-                <div className="flex items-start gap-3 mb-5">
-                  <CheckCircle2 size={20} className="text-emerald-600 shrink-0 mt-0.5" />
-                  <div>
-                    <h3 className="font-display text-lg font-semibold text-navy-900 mb-1">
-                      Enquiry sent.
-                    </h3>
-                    <p className="text-xs text-ink-600">
-                      The press team replies within 1 business day.
-                    </p>
+      {/* Press contact — #eaeaf1; 600 copy (title, mail + address rows, socials) | 600 form. */}
+      <Section bg="bg-navy-50" width={1280}>
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+          <div className="flex flex-col gap-8">
+            <SectionTitle tagline={np.pressEyebrow} title={np.pressTitle} body={np.pressSubtitle} width={600} />
+            <div className="py-2 flex flex-col gap-4 text-base leading-[150%] text-black">
+              <a href={`mailto:${np.pressEmail}`} className="flex items-center gap-4 hover:underline underline-offset-2">
+                <Mail size={24} strokeWidth={1.5} className="shrink-0" /> {np.pressEmail}
+              </a>
+              <p className="flex items-center gap-4">
+                <MapPin size={24} strokeWidth={1.5} className="shrink-0" /> {np.pressAddress}
+              </p>
+            </div>
+            <SocialLinks className="text-black" />
+          </div>
+
+          {status === 'success' ? (
+            <div role="status" className="self-start bg-white p-8 outline outline-1 -outline-offset-1 outline-black/20 flex flex-col gap-6">
+              <div className="flex items-start gap-3">
+                <CheckCircle2 size={24} className="text-emerald-600 shrink-0" />
+                <div>
+                  <H6 as="h3" className="text-black">
+                    Enquiry sent.
+                  </H6>
+                  <p className="text-base leading-[150%] text-black">The press team replies within 1 business day.</p>
+                </div>
+              </div>
+              <HeroButton label="Send another" onClick={() => setStatus('idle')} className="w-fit" />
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} noValidate>
+              {status === 'fail' && (
+                <div role="alert" className="mb-6 p-5 bg-white outline outline-1 -outline-offset-1 outline-red-300 flex items-start gap-3">
+                  <AlertCircle size={20} className="text-red-500 shrink-0 mt-0.5" />
+                  <div className="text-base leading-[150%] text-black">
+                    <p>That didn’t go through — your details are still here.</p>
+                    <a href={mailtoHref()} className="text-navy-900 underline underline-offset-2">
+                      Email {np.pressEmail} instead
+                    </a>
                   </div>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setStatus('idle')}
-                  className="border border-navy-100 bg-white hover:bg-navy-50 transition-colors text-navy-900 text-xs font-medium px-4 py-2.5 rounded-md"
-                >
-                  Send another
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} noValidate>
-                {status === 'fail' && (
-                  <div
-                    role="alert"
-                    className="border border-red-200 bg-red-50 rounded-lg p-5 mb-6 flex items-start gap-3"
-                  >
-                    <AlertCircle size={18} className="text-red-500 shrink-0 mt-0.5" />
-                    <div>
-                      <p className="text-xs text-ink-600 mb-2">
-                        That didn’t go through — your details are still here.
-                      </p>
-                      <a
-                        href={mailtoHref()}
-                        className="text-xs font-medium text-sky-600 hover:text-teal-600"
-                      >
-                        Email {np.pressEmail} instead
-                      </a>
-                    </div>
-                  </div>
-                )}
-
-                <fieldset disabled={sending} className="border-0 p-0 m-0 disabled:opacity-60">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-4">
-                    {PRESS_FIELDS.map((f) => {
-                      const err = fieldError(f.name);
-                      const base = `w-full bg-white border rounded px-3.5 py-2.5 text-xs text-navy-900 placeholder:text-ink-400 focus:outline-none transition-colors ${
-                        err ? 'border-red-400 focus:border-red-500' : 'border-navy-100 focus:border-sky-600'
-                      }`;
-                      return (
-                        <div key={f.name} className={f.full ? 'md:col-span-2' : ''}>
-                          <label htmlFor={`p-${f.name}`} className="block text-[11px] text-navy-900 mb-1.5">
-                            {f.label}
-                            {f.required && <span className="text-red-500 ml-0.5">*</span>}
-                          </label>
-                          {f.type === 'select' ? (
+              )}
+              <fieldset disabled={sending} className="border-0 p-0 m-0 disabled:opacity-60">
+                <div className="grid md:grid-cols-2 gap-6">
+                  {PRESS_FIELDS.map((f) => {
+                    const err = fieldError(f.name);
+                    return (
+                      <div key={f.name} className={`flex flex-col gap-2 ${f.full ? 'md:col-span-2' : ''}`}>
+                        <label htmlFor={`p-${f.name}`} className="text-base leading-[150%] text-black">
+                          {f.label}
+                          {f.required && '*'}
+                        </label>
+                        {f.type === 'select' ? (
+                          <div className="relative">
                             <select
                               id={`p-${f.name}`}
                               value={values[f.name]}
                               onChange={(e) => setField(f.name, e.target.value)}
                               onBlur={() => handleBlur(f.name)}
                               aria-invalid={!!err}
-                              className={`${base} ${values[f.name] ? '' : 'text-ink-400'}`}
+                              className={`${inputCls(err)} h-12 pr-10 appearance-none`}
                             >
                               <option value="">Select one...</option>
                               {orgOptions.map((o) => (
@@ -613,68 +602,64 @@ export default function News() {
                                 </option>
                               ))}
                             </select>
-                          ) : f.type === 'textarea' ? (
-                            <textarea
-                              id={`p-${f.name}`}
-                              rows={f.rows}
-                              value={values[f.name]}
-                              onChange={(e) => setField(f.name, e.target.value)}
-                              onBlur={() => handleBlur(f.name)}
-                              placeholder={f.placeholder}
-                              aria-invalid={!!err}
-                              className={`${base} resize-y`}
-                            />
-                          ) : (
-                            <input
-                              id={`p-${f.name}`}
-                              type={f.type || 'text'}
-                              value={values[f.name]}
-                              onChange={(e) => setField(f.name, e.target.value)}
-                              onBlur={() => handleBlur(f.name)}
-                              aria-invalid={!!err}
-                              className={base}
-                            />
-                          )}
-                          {err && <p className="text-[10px] text-red-500 mt-1">{err}</p>}
-                        </div>
-                      );
-                    })}
-                  </div>
+                            <ChevronDown size={24} strokeWidth={1.5} className="pointer-events-none absolute right-3 top-3" />
+                          </div>
+                        ) : f.type === 'textarea' ? (
+                          <textarea
+                            id={`p-${f.name}`}
+                            value={values[f.name]}
+                            onChange={(e) => setField(f.name, e.target.value)}
+                            onBlur={() => handleBlur(f.name)}
+                            placeholder={f.placeholder}
+                            aria-invalid={!!err}
+                            className={`${inputCls(err)} h-[180px] py-3 resize-y`}
+                          />
+                        ) : (
+                          <input
+                            id={`p-${f.name}`}
+                            type={f.type || 'text'}
+                            value={values[f.name]}
+                            onChange={(e) => setField(f.name, e.target.value)}
+                            onBlur={() => handleBlur(f.name)}
+                            aria-invalid={!!err}
+                            className={`${inputCls(err)} h-12`}
+                          />
+                        )}
+                        {err && <p className="text-sm text-red-600">{err}</p>}
+                      </div>
+                    );
+                  })}
+                </div>
 
-                  <label className="flex items-start gap-2.5 mt-5 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={consent}
-                      onChange={(e) => {
-                        setConsent(e.target.checked);
-                        if (e.target.checked) setErrors((er) => ({ ...er, consent: undefined }));
-                      }}
-                      onBlur={() => handleBlur('consent')}
-                      aria-invalid={!!fieldError('consent')}
-                      className="mt-0.5 w-3.5 h-3.5 shrink-0 accent-navy-900"
-                    />
-                    <span className="text-[10px] text-ink-600 leading-relaxed">
-                      {np.pressConsentLabel}
-                    </span>
-                  </label>
-                  {fieldError('consent') && (
-                    <p className="text-[10px] text-red-500 mt-1">Please accept to continue.</p>
-                  )}
+                <label className="mt-6 pb-4 flex items-start gap-6 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => {
+                      setConsent(e.target.checked);
+                      if (e.target.checked) setErrors((er) => ({ ...er, consent: undefined }));
+                    }}
+                    onBlur={() => handleBlur('consent')}
+                    aria-invalid={!!fieldError('consent')}
+                    className="mt-1 w-[18px] h-[18px] shrink-0 accent-navy-900"
+                  />
+                  <span className="text-base leading-[150%] text-black">{np.pressConsentLabel}</span>
+                </label>
+                {fieldError('consent') && <p className="text-sm text-red-600">Please accept to continue.</p>}
 
-                  <button
-                    type="submit"
-                    className="mt-5 bg-navy-900 hover:bg-navy-800 transition-colors text-white text-xs font-medium px-5 py-2.5 rounded inline-flex items-center gap-2"
-                  >
-                    {sending && <Loader2 size={13} className="animate-spin" />}
-                    {sending ? 'Sending…' : np.pressSubmitLabel}
-                    {!sending && <ArrowUpRight size={13} />}
-                  </button>
-                </fieldset>
-              </form>
-            )}
-          </div>
+                <button
+                  type="submit"
+                  className="mt-6 h-11 px-6 rounded-md bg-navy-900 hover:bg-navy-800 outline outline-1 -outline-offset-1 outline-navy-900 text-white text-base leading-[150%] font-medium inline-flex items-center gap-3 transition-colors"
+                >
+                  {sending && <Loader2 size={20} className="animate-spin" />}
+                  {sending ? 'Sending…' : np.pressSubmitLabel}
+                  {!sending && <ArrowUpRight size={24} strokeWidth={1.5} />}
+                </button>
+              </fieldset>
+            </form>
+          )}
         </div>
-      </section>
+      </Section>
     </div>
   );
 }

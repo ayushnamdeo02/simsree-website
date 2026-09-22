@@ -30,6 +30,17 @@ function SocialIcon({ name, size = 24 }) {
   );
 }
 
+// The five social icons in Figma order, 24px, 16 apart.
+export function SocialLinks({ className = '' }) {
+  return (
+    <div className={`flex gap-4 ${className}`}>
+      {['linkedin', 'facebook', 'instagram', 'x', 'youtube'].map((n) => (
+        <SocialIcon key={n} name={n} />
+      ))}
+    </div>
+  );
+}
+
 export default function Footer() {
   const settings = useSiteSettings();
   const footerColumns = settings?.footerColumns?.length ? settings.footerColumns : fallbackFooterColumns;
@@ -56,13 +67,7 @@ export default function Footer() {
             <div className="max-w-[390px] flex flex-col gap-5">
               <p className="text-lg leading-[150%] font-semibold">{addressLine1}</p>
               <p className="text-base leading-[150%]">{addressLine2}</p>
-              <div className="flex gap-4">
-                <SocialIcon name="linkedin" />
-                <SocialIcon name="facebook" />
-                <SocialIcon name="instagram" />
-                <SocialIcon name="x" />
-                <SocialIcon name="youtube" />
-              </div>
+              <SocialLinks />
             </div>
           </div>
 
