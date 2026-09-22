@@ -25,6 +25,7 @@ import Downloads from './pages/Downloads';
 import Students from './pages/Students';
 import Achievements from './pages/Achievements';
 import BatchProfile from './pages/BatchProfile';
+import Leadership from './pages/Leadership';
 import CommitteeDetail from './pages/CommitteeDetail';
 import BodyStructure from './pages/BodyStructure';
 import Life from './pages/Life';
@@ -96,6 +97,7 @@ export default function App() {
           <Route path="/students" element={<Students />} />
           <Route path="/students/achievements" element={<Achievements />} />
           <Route path="/students/batch-profile" element={<BatchProfile />} />
+          <Route path="/students/leadership" element={<Leadership />} />
           <Route path="/students/body-structure" element={<BodyStructure />} />
           <Route path="/students/life" element={<Life />} />
           <Route path="/contact" element={<Contact />} />
