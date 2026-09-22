@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Download } from 'lucide-react';
+import PageHero, { HeroButton } from '../components/PageHero';
+import { Section, SectionTitle, Tagline, Heading, H5, AccentCard } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { useDownloadsData } from '../lib/useDownloadsData';
-import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
 const CATEGORIES = ['Affidavits', 'Documents', 'Fee', 'Notifications'];
@@ -79,18 +81,6 @@ const fallbackFiles = [
   },
 ];
 
-function TitleWithHighlight({ text = '', highlight, className }) {
-  const idx = highlight ? text.indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
-  return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
-  );
-}
-
 export default function Downloads() {
   const facts = useKeyFacts();
   const { data } = useDownloadsData();
@@ -99,8 +89,6 @@ export default function Downloads() {
   const ctaButtons = fillFactsDeep(dp.ctaButtons?.length ? dp.ctaButtons : fallbackPage.ctaButtons, facts);
 
   const [category, setCategory] = useState('All');
-
-  const heroImageUrl = dp.heroImage ? urlFor(dp.heroImage).width(1600).url() : null;
 
   // Only offer chips for categories that actually have files behind them.
   const chips = useMemo(() => {
@@ -115,65 +103,37 @@ export default function Downloads() {
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[420px] md:h-[500px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[56px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-5 flex items-center">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/admissions" className="hover:text-white">Admissions</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">Downloads</span>
-          </div>
-          <span className="inline-block w-fit bg-navy-900 text-white text-[11px] font-semibold tracking-widest uppercase px-4 py-2.5 rounded-full mb-5">
-            {dp.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-4">{dp.heroTitle}</h1>
-          <p className="max-w-lg text-sm text-white/85 leading-relaxed mb-7">
-            {dp.heroDescription}
-          </p>
-          <a
-            href={dp.heroCtaUrl}
-            className="bg-white hover:bg-gray-100 transition-colors text-navy-900 text-sm font-medium px-5 py-3 rounded-md w-fit"
-          >
-            {dp.heroCtaLabel}
-          </a>
-        </div>
-      </section>
+      <PageHero
+        image={heroImage(dp.heroImage, '/images/admissions/downloads-hero.webp', { stretch: true })}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Admissions', to: '/admissions' }, { label: 'Downloads' }]}
+        eyebrow={dp.heroEyebrow}
+        eyebrowStyle="pill"
+        title={dp.heroTitle}
+        description={dp.heroDescription}
+        descriptionWidth={628}
+        actions={[{ label: dp.heroCtaLabel, to: dp.heroCtaUrl }]}
+      />
 
-      {/* Filter */}
-      <section className="py-16 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {dp.filterEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={dp.filterTitle}
-            highlight={dp.filterTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
-          />
-          <p className="text-sm text-ink-600 mb-10">{dp.filterSubtitle}</p>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="text-xs text-ink-600 mr-1">{dp.filterLabel}</span>
+      {/* Filter + files — one "Blog / 36 /" section: filter title, 45px chips,
+          files title, then 405x298 bar cards with a navy download button. */}
+      <Section width={1280}>
+        <SectionTitle
+          tagline={dp.filterEyebrow}
+          title={composeTitle(dp.filterTitle, dp.filterTitleHighlight)}
+          highlight={dp.filterTitleHighlight}
+          body={dp.filterSubtitle}
+        />
+        <div className="mt-20 flex flex-wrap items-center gap-4 md:gap-8">
+          <span className="text-base leading-[150%] font-semibold text-[#292929]">{dp.filterLabel}</span>
+          <div className="flex flex-wrap gap-3">
             {chips.map((c) => (
               <button
                 key={c}
                 type="button"
                 onClick={() => setCategory(c)}
                 aria-pressed={c === category}
-                className={`text-xs px-4 py-2.5 rounded-md border transition-colors ${
-                  c === category
-                    ? 'bg-navy-900 border-navy-900 text-white'
-                    : 'border-navy-100 text-navy-900 hover:bg-navy-50'
+                className={`h-[45px] px-3 text-sm leading-[150%] outline outline-1 -outline-offset-1 outline-black/20 transition-colors ${
+                  c === category ? 'bg-navy-900 text-hero' : 'bg-white text-black hover:bg-navy-50'
                 }`}
               >
                 {c}
@@ -181,85 +141,49 @@ export default function Downloads() {
             ))}
           </div>
         </div>
-      </section>
 
-      {/* Files */}
-      <section className="pb-16 lg:pb-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {dp.filesEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={dp.filesTitle}
-            highlight={dp.filesTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
-          />
-          <p className="text-sm text-ink-600 mb-10">{dp.filesSubtitle}</p>
-
-          {visible.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-              {visible.map((f) => {
-                const href = f.fileUrl || f.externalUrl;
-                return (
-                  <div
-                    key={f._id || f.title}
-                    className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-6 flex flex-col"
-                  >
-                    <h3 className="font-display text-xl font-semibold text-navy-900 mb-3">
-                      {f.title}
-                    </h3>
-                    <p className="text-sm text-ink-600 leading-relaxed mb-6">{f.description}</p>
-                    <a
-                      href={href || '#'}
-                      // Uploaded PDFs download rather than opening in a tab.
-                      {...(f.fileUrl ? { download: '' } : {})}
-                      {...(f.externalUrl ? { target: '_blank', rel: 'noreferrer' } : {})}
-                      aria-disabled={href ? undefined : 'true'}
-                      className={`text-sm font-medium px-4 py-2.5 rounded-md inline-flex items-center gap-2 w-fit mt-auto transition-colors ${
-                        href
-                          ? 'bg-navy-900 hover:bg-navy-800 text-white'
-                          : 'bg-navy-100 text-ink-400 cursor-not-allowed'
-                      }`}
-                    >
-                      {f.ctaLabel || 'Download'} <Download size={14} />
-                    </a>
+        <SectionTitle
+          className="mt-20"
+          tagline={dp.filesEyebrow}
+          title={composeTitle(dp.filesTitle, dp.filesTitleHighlight)}
+          highlight={dp.filesTitleHighlight}
+          body={dp.filesSubtitle}
+        />
+        <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {visible.map((f) => {
+            const href = f.fileUrl || f.externalUrl;
+            return (
+              <AccentCard key={f._id || f.title} className="min-h-[298px] [&>div]:flex [&>div]:flex-col">
+                <div className="flex-1 flex flex-col justify-between gap-6">
+                  <div className="flex flex-col gap-4">
+                    <H5 as="h3">{f.title}</H5>
+                    <p className="text-base leading-[150%] text-black">{f.description}</p>
                   </div>
-                );
-              })}
-            </div>
-          ) : (
-            <p className="text-sm text-ink-600 py-8">No files in this category yet.</p>
-          )}
+                  <a
+                    href={href || '#'}
+                    {...(f.fileUrl ? { download: '' } : {})}
+                    className="inline-flex items-center gap-3 w-fit h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors"
+                  >
+                    {f.ctaLabel || 'Download'} <Download size={24} strokeWidth={1.5} />
+                  </a>
+                </div>
+              </AccentCard>
+            );
+          })}
         </div>
-      </section>
+      </Section>
 
-      {/* Help CTA */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-sky-500">
-            {dp.ctaEyebrow}
-          </span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-5 mb-4">
-            {dp.ctaTitle}
-          </h2>
-          <p className="text-sm text-white/75 mb-8">{dp.ctaSubtitle}</p>
-          <div className="flex flex-wrap gap-3">
-            {ctaButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-              </a>
-            ))}
-          </div>
+      {/* Help CTA — navy, left column, Eastern Blue tagline. */}
+      <Section bg="bg-navy-900" width={1280} className="text-white border-t border-white/20">
+        <Tagline className="text-teal-400">{dp.ctaEyebrow}</Tagline>
+        <Heading text={dp.ctaTitle} className="text-white mt-4" />
+        <p className="mt-6 max-w-[504px] text-base md:text-lg leading-[150%]">{dp.ctaSubtitle}</p>
+        <div className="mt-8 flex flex-col md:flex-row gap-4">
+          {ctaButtons.map((b) => (
+            <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} icon={false} />
+          ))}
         </div>
-      </section>
+      </Section>
     </div>
   );
 }
