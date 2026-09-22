@@ -1,14 +1,19 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import StatCard from '../components/StatCard';
+import { StatGrid } from '../components/StatCard';
+import PageHero, { HeroButton } from '../components/PageHero';
+import CommitteeCard from '../components/CommitteeCard';
+import { Section, SectionTitle, Tagline, Heading, H6, AccentCard } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { useStudentSystemData } from '../lib/useStudentSystemData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 import { fallbackCommittees } from '../data/committees';
 
 const fallbackPage = {
-  heroEyebrow: 'The SIMSREE study works',
+  heroEyebrow: 'How SIMSREE really works',
   heroTitle: 'Run by students.',
   heroTitleLine2: 'Built for leaders.',
   heroDescription:
@@ -26,10 +31,9 @@ const fallbackPage = {
   ],
 
   philosophyEyebrow: 'The SIMSREE Philosophy',
-  philosophyQuote:
-    'Tell me and I will forget. Show me and I may remember. Involve me and I will understand.',
+  philosophyQuote: "Tell me and I'll forget. Show me and I may remember. Involve me and I'll understand.",
   philosophyAttribution: 'Chinese Proverb',
-  philosophyMeta: 'The guiding philosophy of SIMSREE since {{foundedYear}}',
+  philosophyMeta: 'The guiding philosophy at SIMSREE since {{foundedYear}}',
 
   systemEyebrow: 'The System',
   systemTitle: 'Not a student body. An engine.',
@@ -130,18 +134,13 @@ function imgUrl(image, width) {
   }
 }
 
-function TitleWithHighlight({ text, highlight, className, highlightClassName = 'text-sky-600' }) {
-  if (!highlight) return <h2 className={className}>{text}</h2>;
-  const idx = text.indexOf(highlight);
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
-  return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className={highlightClassName}>{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
-  );
-}
+// Figma photos for "Not a student body" (2x2 grid) and the leadership track.
+const ENGINE_FALLBACK = [1, 2, 3, 4].map((n) => `/images/student-system/engine-${n}.webp`);
+
+const outlineBtn =
+  'inline-flex items-center gap-2 h-11 px-6 rounded-md bg-white outline outline-1 -outline-offset-1 outline-black/20 text-base leading-[150%] font-medium text-black hover:bg-navy-50 transition-colors';
+const navyBtn =
+  'inline-flex items-center gap-3 h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors';
 
 export default function StudentSystem() {
   const facts = useKeyFacts();
@@ -153,308 +152,238 @@ export default function StudentSystem() {
   const [category, setCategory] = useState('All');
   const visible = category === 'All' ? committees : committees.filter((c) => c.category === category);
 
-  const heroImageUrl = imgUrl(sp.heroImage, 1600);
-  const trackImageUrl = imgUrl(sp.trackImage, 800);
+  const trackImageUrl = imgUrl(sp.trackImage, 1232) || '/images/student-system/track.webp';
+  const engineImages = (sp.systemImages?.length ? sp.systemImages.map((im) => imgUrl(im, 600)) : ENGINE_FALLBACK).slice(0, 4);
+  const [systemLead, ...systemRest] = (sp.systemBody || '').split('\n\n');
 
   return (
     <div>
-      {/* Hero */}
-      <section
-        className="min-h-[600px] md:h-[767px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/40 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[72px] md:h-full flex flex-col justify-end text-white">
-          <span className="inline-block w-fit bg-navy-900 text-white text-[18px] leading-[150%] px-4 py-2.5 rounded-full mb-9">
-            {sp.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-3 leading-tight">
-            {sp.heroTitle}
-            <br />
-            {sp.heroTitleLine2}
-          </h1>
-          <p className="max-w-xl text-white/85 mb-9">{sp.heroDescription}</p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href={sp.heroPrimaryCtaUrl}
-              className="bg-sky-600 hover:bg-teal-600 transition-colors text-white font-medium px-5 py-3 rounded-md flex items-center gap-2 w-fit"
-            >
-              {sp.heroPrimaryCtaLabel} <ArrowUpRight size={16} />
-            </a>
-            <Link
-              to={sp.heroSecondaryCtaUrl}
-              className="bg-white hover:bg-gray-100 transition-colors text-navy-900 font-medium px-5 py-3 rounded-md w-fit"
-            >
-              {sp.heroSecondaryCtaLabel}
-            </Link>
+      <PageHero
+        image={heroImage(sp.heroImage, '/images/student-system/hero.webp')}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'About Us', to: '/about' }, { label: 'Student-Driven' }]}
+        eyebrow={sp.heroEyebrow}
+        title={[sp.heroTitle, sp.heroTitleLine2].filter(Boolean).join('\n')}
+        titleWidth={900}
+        description={sp.heroDescription}
+        descriptionWidth={628}
+        actions={[
+          { label: sp.heroPrimaryCtaLabel, href: sp.heroPrimaryCtaUrl, primary: true },
+          { label: sp.heroSecondaryCtaLabel, to: sp.heroSecondaryCtaUrl },
+        ]}
+      />
+
+      <section className="px-5 py-16 md:p-16">
+        <StatGrid stats={sp.stats} />
+      </section>
+
+      {/* Philosophy — navy, centred 768: H2 52 quote, 96px portrait, H6 name, 16 meta. */}
+      <Section bg="bg-navy-900" width={768} className="text-center text-white">
+        <Tagline className="text-white">{sp.philosophyEyebrow}</Tagline>
+        <blockquote className="mt-4 font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em]">
+          &ldquo;{sp.philosophyQuote}&rdquo;
+        </blockquote>
+        <div className="mt-4 flex flex-col items-center gap-4">
+          <div
+            className="w-24 h-24 rounded-full bg-white/20 bg-cover bg-center"
+            style={{ backgroundImage: `url('${imgUrl(sp.philosophyPhoto, 192) || '/images/alumni/voice-1.webp'}')` }}
+          />
+          <div className="max-w-[300px]">
+            <H6 as="p" className="text-white">
+              — {sp.philosophyAttribution}
+            </H6>
+            <p className="text-base leading-[150%]">{sp.philosophyMeta}</p>
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Stats */}
-      <section className="max-w-[1408px] mx-auto px-6 lg:px-16 py-10 lg:py-16">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {(sp.stats || []).map((s) => (
-            <StatCard key={s.label} {...s} />
-          ))}
-        </div>
-      </section>
-
-      {/* Philosophy */}
-      <section className="bg-navy-900 text-white py-16 lg:py-28">
-        <div className="max-w-[768px] mx-auto px-6 text-center">
-          <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
-            {sp.philosophyEyebrow}
-          </span>
-          <blockquote className="font-display text-2xl md:text-3xl leading-relaxed mt-8 mb-10">
-            "{sp.philosophyQuote}"
-          </blockquote>
-          <p className="font-medium">— {sp.philosophyAttribution}</p>
-          <p className="text-sm text-white/70 mt-1">{sp.philosophyMeta}</p>
-        </div>
-      </section>
-
-      {/* The System */}
-      <section className="py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0 grid lg:grid-cols-2 gap-10 lg:gap-20 items-center">
-          <div>
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {sp.systemEyebrow}
-            </span>
-            <TitleWithHighlight
-              text={sp.systemTitle}
-              highlight={sp.systemTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
-            />
-            {(sp.systemBody || '').split('\n\n').map((para, i) => (
-              <p key={i} className="text-sm leading-relaxed text-ink-600 mb-4">
-                {para}
-              </p>
-            ))}
-            <div className="flex flex-wrap gap-3 mt-8">
-              <a
-                href={sp.systemPrimaryCtaUrl}
-                className="bg-navy-900 hover:bg-navy-800 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md flex items-center gap-2"
-              >
-                {sp.systemPrimaryCtaLabel} <ArrowUpRight size={14} />
+      {/* The System — 616 copy column (padded 32) beside a 2x2 grid of 300x317
+          photos (radius 16, 16 gaps), 80 apart. */}
+      <Section>
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="p-2 md:p-8 flex flex-col gap-8">
+            <Tagline>{sp.systemEyebrow}</Tagline>
+            <div className="flex flex-col gap-6">
+              <Heading text={composeTitle(sp.systemTitle, sp.systemTitleHighlight)} highlight={sp.systemTitleHighlight} />
+              <p className="font-display font-medium text-[22px] leading-[140%] tracking-[-0.01em] text-black">{systemLead}</p>
+              <div className="text-base md:text-lg leading-[150%] text-black whitespace-pre-line">{systemRest.join('\n')}</div>
+            </div>
+            <div className="flex flex-wrap gap-4 md:gap-8">
+              <a href={sp.systemPrimaryCtaUrl} className={navyBtn}>
+                {sp.systemPrimaryCtaLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
               </a>
-              <Link
-                to={sp.systemSecondaryCtaUrl}
-                className="border border-navy-100 hover:bg-navy-50 transition-colors text-navy-900 text-sm font-medium px-5 py-3 rounded-md"
-              >
+              <Link to={sp.systemSecondaryCtaUrl} className={outlineBtn}>
                 {sp.systemSecondaryCtaLabel}
               </Link>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            {[0, 1, 2, 3].map((i) => {
-              const img = imgUrl(sp.systemImages?.[i], 400);
-              return (
-                <div
-                  key={i}
-                  className="h-48 bg-gray-200 rounded-xl bg-cover bg-center"
-                  style={img ? { backgroundImage: `url('${img}')` } : undefined}
-                />
-              );
-            })}
+            {engineImages.map((src, i) => (
+              <div
+                key={i}
+                className="h-[200px] md:h-[317px] rounded-2xl bg-navy-50 bg-cover bg-center"
+                style={src ? { backgroundImage: `url('${src}')` } : undefined}
+              />
+            ))}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Leadership Track */}
-      <section className="bg-navy-50 py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0 grid lg:grid-cols-2 gap-10 lg:gap-20">
-          <div>
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {sp.trackEyebrow}
-            </span>
-            <TitleWithHighlight
-              text={sp.trackTitle}
+      {/* Leadership track — #eaeaf1: title + 616x362 photo beside a numbered timeline
+          (48px navy circles, 2px black/20 connectors, H6 22 steps); callout below. */}
+      <Section bg="bg-navy-50">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+          <div className="flex flex-col gap-[52px]">
+            <SectionTitle
+              tagline={sp.trackEyebrow}
+              title={composeTitle(sp.trackTitle, sp.trackTitleHighlight)}
               highlight={sp.trackTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
+              body={sp.trackBody}
+              width={616}
             />
-            <p className="text-sm leading-relaxed text-ink-600 mb-8">{sp.trackBody}</p>
             <div
-              className="h-64 bg-gray-200 rounded-xl bg-cover bg-center"
-              style={trackImageUrl ? { backgroundImage: `url('${trackImageUrl}')` } : undefined}
+              className="h-[220px] md:h-[362px] bg-navy-100 bg-cover bg-center"
+              style={{ backgroundImage: `url('${trackImageUrl}')` }}
             />
-            <div className="bg-white border-l-2 border-l-sky-600 rounded-md p-5 mt-8">
-              <p className="text-sm font-semibold text-navy-900 mb-1">{sp.trackCalloutTitle}</p>
-              <p className="text-[13px] leading-relaxed text-ink-600">{sp.trackCalloutBody}</p>
-            </div>
           </div>
-          <ol className="flex flex-col gap-4">
-            {(sp.trackSteps || []).map((step, i) => (
-              <li key={step.title} className="flex items-start gap-4 bg-white rounded-xl p-5">
-                <span className="w-8 h-8 shrink-0 rounded-full bg-navy-50 text-navy-900 text-xs font-semibold flex items-center justify-center">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <div>
-                  <p className="text-sm font-semibold text-navy-900">{step.title}</p>
-                  <p className="text-[13px] text-ink-600 mt-0.5">{step.description}</p>
+          <ol className="flex flex-col gap-1">
+            {(sp.trackSteps || []).map((step, i, all) => (
+              <li key={step.title} className="flex gap-10">
+                <div className="flex flex-col items-center gap-4 shrink-0">
+                  <span className="w-12 h-12 rounded-full bg-navy-900 text-white flex items-center justify-center text-lg leading-[150%]">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  {i < all.length - 1 && <span className="w-0.5 h-14 bg-black/20" aria-hidden="true" />}
+                </div>
+                <div className="flex flex-col gap-2 pt-0">
+                  <H6 as="h3">{step.title}</H6>
+                  <p className="text-base leading-[150%] text-black">{step.description}</p>
                 </div>
               </li>
             ))}
           </ol>
         </div>
-      </section>
+        <div className="mt-20">
+          <AccentCard className="[&>div]:py-4">
+            <div className="flex flex-col gap-2 py-4">
+              <H6 as="h3">{sp.trackCalloutTitle}</H6>
+              <p className="text-base leading-[150%] text-black">{sp.trackCalloutBody}</p>
+            </div>
+          </AccentCard>
+        </div>
+      </Section>
 
-      {/* Committee Directory */}
-      <section id="directory" className="py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {sp.directoryEyebrow}
-            </span>
-            <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6">
-              <span className="text-sky-600">{committees.length}</span> {sp.directoryTitle}
-            </h2>
-            <p className="text-sm text-ink-600">{sp.directorySubtitle}</p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-10 lg:mb-16">
-            <span className="text-xs font-medium text-ink-600 mr-2">Filter by</span>
-            {CATEGORIES.map((c) => (
+      {/* Directory — centred teal title, 45px filters, 4-up 284 cards (48 gaps). */}
+      <Section id="directory" width={1280} className="border-t border-white/20">
+        <SectionTitle
+          center
+          tagline={sp.directoryEyebrow}
+          title={`${committees.length} ${sp.directoryTitle}`}
+          titleClass="text-teal-500"
+          body={sp.directorySubtitle}
+        />
+        <div className="mt-20 flex flex-wrap items-center justify-center gap-4 md:gap-8">
+          <span className="text-base leading-[150%] font-semibold text-[#292929]">Filter by:</span>
+          <div className="flex flex-wrap items-center gap-3">
+            {CATEGORIES.map((cat) => (
               <button
-                key={c}
-                onClick={() => setCategory(c)}
-                className={`text-xs font-medium px-4 py-2 rounded-full border transition-colors ${
-                  category === c
-                    ? 'bg-navy-900 text-white border-navy-900'
-                    : 'border-navy-100 text-navy-900 hover:bg-navy-50'
+                key={cat}
+                onClick={() => setCategory(cat)}
+                className={`h-[45px] px-3 text-sm leading-[150%] outline outline-1 -outline-offset-1 outline-black/20 transition-colors ${
+                  category === cat ? 'bg-navy-900 text-hero' : 'bg-white text-black hover:bg-navy-50'
                 }`}
               >
-                {c}
+                {cat}
               </button>
             ))}
           </div>
+        </div>
+        {/* Mobile: one sideways-scrolling row of 284 cards (Figma); desktop: 4-up grid. */}
+        <div className="mt-20 -mx-5 px-5 lg:mx-0 lg:px-0 flex lg:grid lg:grid-cols-4 gap-12 overflow-x-auto lg:overflow-visible snap-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {visible.map((c) => (
+            <CommitteeCard
+              key={c._id || c.slug?.current || c.name}
+              committee={c}
+              className="w-[284px] shrink-0 snap-start lg:w-auto"
+            />
+          ))}
+        </div>
+      </Section>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
-            {visible.map((c) => {
-              const img = imgUrl(c.image, 400);
-              const card = (
-                <div className="flex flex-col h-full">
-                  <div
-                    className="h-40 bg-gray-200 rounded-xl bg-cover bg-center mb-4"
-                    style={img ? { backgroundImage: `url('${img}')` } : undefined}
-                  />
-                  <span className="inline-block w-fit text-[10px] uppercase tracking-wide text-teal-600 bg-sky-50 px-2 py-1 rounded font-semibold mb-2">
-                    {c.category}
-                  </span>
-                  <p className="text-sm font-semibold text-navy-900">{c.name}</p>
-                  <p className="text-xs text-ink-600 mt-1">{c.description}</p>
+      {/* Spotlight — #24295c, three 405x348 navy cards. */}
+      <Section bg="bg-navy-800" width={1280} className="border-t border-white/20">
+        <SectionTitle
+          center
+          dark
+          tagline={sp.spotlightEyebrow}
+          title={composeTitle(sp.spotlightTitle, sp.spotlightTitleHighlight)}
+          highlight={sp.spotlightTitleHighlight}
+          body={sp.spotlightSubtitle}
+          titleClass="text-white [&_span]:text-teal-400"
+        />
+        <div className="mt-20 grid md:grid-cols-3 gap-8">
+          {(sp.spotlightCards || []).map((c) => (
+            <div
+              key={c.title}
+              className="flex flex-col justify-center gap-4 min-h-[348px] p-8 rounded-2xl bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-white/20 shadow-small"
+            >
+              <span className="text-sm leading-[150%] text-teal-100">{c.label}</span>
+              <div className="flex flex-col gap-2">
+                <H6 as="h3" className="text-white">
+                  {c.title}
+                </H6>
+                <p className="text-sm leading-[150%] text-ink-50">{c.description}</p>
+              </div>
+              <Link to={c.linkUrl} className="flex items-center gap-2 w-fit text-sm leading-[150%] hover:underline underline-offset-2">
+                {c.linkLabel} <ArrowRight size={24} strokeWidth={1.5} />
+              </Link>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Impact numbers — centred title (teal), four 296 columns split by hairlines:
+          H2 52 value + 18/150 uppercase label on one line, 14/150 note under it. */}
+      <Section width={1280}>
+        <SectionTitle
+          center
+          tagline={sp.impactEyebrow}
+          title={composeTitle(sp.impactTitle, sp.impactTitleHighlight)}
+          highlight={sp.impactTitleHighlight}
+          body={sp.impactSubtitle}
+        />
+        <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:flex gap-8 lg:gap-4">
+          {(sp.impactStats || []).map((s, i) => (
+            <div key={s.label} className="flex lg:flex-1 gap-4">
+              {i > 0 && <span className="hidden lg:block w-px self-stretch bg-black/20" aria-hidden="true" />}
+              <div className="flex-1 flex flex-col items-center gap-6 text-center">
+                <div className="flex items-end justify-center gap-3">
+                  <span className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-navy-900">{s.value}</span>
+                  <span className="pb-2 text-lg leading-[150%] uppercase text-black">{s.label}</span>
                 </div>
-              );
-              const href = c.slug?.current
-                ? `/students/committees/${c.slug.current}`
-                : c.linkUrl;
-              return href ? (
-                <Link key={c._id || c.name} to={href} className="group">
-                  {card}
-                </Link>
-              ) : (
-                <div key={c._id || c.name}>{card}</div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Spotlight */}
-      <section className="bg-navy-900 text-white py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-20">
-            <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
-              {sp.spotlightEyebrow}
-            </span>
-            <TitleWithHighlight
-              text={sp.spotlightTitle}
-              highlight={sp.spotlightTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-6 mb-6"
-              highlightClassName="text-teal-400"
-            />
-            <p className="text-sm text-white/80">{sp.spotlightSubtitle}</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-            {(sp.spotlightCards || []).map((c) => (
-              <div key={c.title} className="bg-white/[0.07] rounded-2xl p-6 flex flex-col">
-                <span className="text-[10px] uppercase tracking-widest text-sky-300 font-semibold">
-                  {c.label}
-                </span>
-                <h4 className="font-display text-lg font-semibold mt-2 mb-3">{c.title}</h4>
-                <p className="text-[13px] leading-relaxed text-white/70 mb-4">{c.description}</p>
-                <Link
-                  to={c.linkUrl}
-                  className="text-[13px] font-medium text-white flex items-center gap-1 w-fit mt-auto"
-                >
-                  {c.linkLabel} <ArrowRight size={13} />
-                </Link>
+                <p className="max-w-[236px] text-sm leading-[150%] text-black">{s.description}</p>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Impact Numbers */}
-      <section className="py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-20">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {sp.impactEyebrow}
-            </span>
-            <TitleWithHighlight
-              text={sp.impactTitle}
-              highlight={sp.impactTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
+      {/* Apply — navy "CTA / 57 /": 64 padding, left 613 column, Eastern Blue tagline. */}
+      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+        <div className="max-w-[1280px] mx-auto">
+          <div className="max-w-[613px]">
+            <Tagline className="text-teal-400">{sp.ctaEyebrow}</Tagline>
+            <Heading
+              text={composeTitle(sp.ctaTitle, sp.ctaTitleHighlight)}
+              highlight={sp.ctaTitleHighlight}
+              className="text-white mt-4"
+              highlightClass="text-teal-400"
             />
-            <p className="text-sm text-ink-600">{sp.impactSubtitle}</p>
+            <p className="mt-6 max-w-[504px] text-base md:text-lg leading-[150%]">{sp.ctaSubtitle}</p>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
-            {(sp.impactStats || []).map((s) => (
-              <div key={s.label}>
-                <div className="font-display text-4xl font-semibold text-navy-900">{s.value}</div>
-                <p className="text-sm font-semibold text-navy-900 mt-2">{s.label}</p>
-                <p className="text-xs text-ink-600 mt-1">{s.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Apply CTA */}
-      <section className="bg-navy-800 text-white py-16 lg:py-28">
-        <div className="max-w-[768px] mx-auto px-6 text-center">
-          <span className="text-xs font-semibold tracking-widest uppercase text-white/70">{sp.ctaEyebrow}</span>
-          <TitleWithHighlight
-            text={sp.ctaTitle}
-            highlight={sp.ctaTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-6 mb-6"
-            highlightClassName="text-teal-400"
-          />
-          <p className="text-sm text-white/80 mb-10">{sp.ctaSubtitle}</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <Link
-              to={sp.ctaPrimaryUrl}
-              className="bg-sky-600 hover:bg-teal-600 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md"
-            >
-              {sp.ctaPrimaryLabel}
-            </Link>
-            <Link
-              to={sp.ctaSecondaryUrl}
-              className="bg-white hover:bg-gray-100 transition-colors text-navy-900 text-sm font-medium px-5 py-3 rounded-md"
-            >
-              {sp.ctaSecondaryLabel}
-            </Link>
-            <Link
-              to={sp.ctaTertiaryUrl}
-              className="border border-white/30 hover:bg-white/10 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md"
-            >
-              {sp.ctaTertiaryLabel}
-            </Link>
+          <div className="mt-8 flex flex-col md:flex-row gap-3.5">
+            <HeroButton label={sp.ctaPrimaryLabel} to={sp.ctaPrimaryUrl} primary icon={false} />
+            <HeroButton label={sp.ctaSecondaryLabel} to={sp.ctaSecondaryUrl} />
+            <HeroButton label={sp.ctaTertiaryLabel} href={sp.ctaTertiaryUrl} />
           </div>
         </div>
       </section>
