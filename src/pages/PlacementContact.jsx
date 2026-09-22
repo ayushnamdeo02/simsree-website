@@ -1,5 +1,8 @@
-import { Link } from 'react-router-dom';
 import { Mail, Phone } from 'lucide-react';
+import PageHero from '../components/PageHero';
+import { Section, SectionTitle, H5, AccentCard } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { usePlacementContactData } from '../lib/usePlacementContactData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -102,17 +105,11 @@ const fallbackMembers = [
   },
 ];
 
-function TitleWithHighlight({ text, highlight, className }) {
-  const idx = highlight ? (text || '').indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
-  return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
-  );
-}
+// Figma photos, in card order, for people without a photo in the Studio.
+const CONTACT_PHOTOS = [1, 2, 3, 4, 5].map((n) => `/images/placements/contact-${n}.webp`);
+const MEMBER_PHOTOS = [1, 2, 3, 4, 5, 6].map((n) => `/images/placements/team-${n}.webp`);
+
+const photo = (image, fallback, w) => (image ? urlFor(image).width(w).auto('format').url() : fallback);
 
 export default function PlacementContact() {
   const facts = useKeyFacts();
@@ -122,188 +119,112 @@ export default function PlacementContact() {
   const members = fillFactsDeep(data?.members?.length ? data.members : fallbackMembers, facts);
   const channelCards = fillFactsDeep(cp.channelCards?.length ? cp.channelCards : fallbackPage.channelCards, facts);
 
-  const heroImageUrl = cp.heroImage ? urlFor(cp.heroImage).width(1600).url() : null;
-
-  const italic = cp.heroTitleItalic;
-  const iIdx = italic ? (cp.heroTitle || '').indexOf(italic) : -1;
-
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[480px] md:h-[560px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[60px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-5 flex items-center">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/placements" className="hover:text-white">Placement</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">Contact</span>
-          </div>
-          <span className="text-[11px] font-semibold tracking-widest uppercase text-white/90 mb-4">
-            {cp.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-5">
-            {iIdx === -1 ? (
-              cp.heroTitle
-            ) : (
-              <>
-                {cp.heroTitle.slice(0, iIdx)}
-                <span className="italic">{italic}</span>
-                {cp.heroTitle.slice(iIdx + italic.length)}
-              </>
-            )}
-          </h1>
-          <p className="max-w-md text-sm text-white/85 leading-relaxed mb-7">{cp.heroDescription}</p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href={cp.heroPrimaryCtaUrl}
-              className="bg-sky-600 hover:bg-teal-600 transition-colors text-white font-medium px-5 py-3 rounded-md w-fit"
-            >
-              {cp.heroPrimaryCtaLabel}
-            </a>
-            <a
-              href={cp.heroSecondaryCtaUrl}
-              className="bg-white hover:bg-gray-100 transition-colors text-navy-900 font-medium px-5 py-3 rounded-md w-fit"
-            >
-              {cp.heroSecondaryCtaLabel}
-            </a>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        image={heroImage(cp.heroImage, '/images/placements/contact-hero.webp')}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Placement', to: '/placements' }, { label: 'Contact' }]}
+        eyebrow={cp.heroEyebrow}
+        eyebrowUpper
+        title={cp.heroTitle}
+        titleItalic={cp.heroTitleItalic}
+        description={cp.heroDescription}
+        descriptionWidth={628}
+        actions={[
+          { label: cp.heroPrimaryCtaLabel, href: cp.heroPrimaryCtaUrl, primary: true, icon: false },
+          { label: cp.heroSecondaryCtaLabel, href: cp.heroSecondaryCtaUrl },
+        ]}
+        mobileOverlay="gradient-tint"
+      />
 
-      {/* Quick contacts */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {cp.contactsEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={cp.contactsTitle}
-            highlight={cp.contactsTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
-          />
-          <p className="text-sm text-ink-600 mb-12">{cp.contactsSubtitle}</p>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8">
-            {contacts.map((c) => {
-              const photoUrl = c.photo ? urlFor(c.photo).width(400).url() : null;
-              return (
-                <div key={c._id || c.name} className="flex flex-col items-center text-center">
-                  <div
-                    className="w-[92px] h-[92px] rounded-full bg-gray-200 bg-cover bg-center mb-5"
-                    style={photoUrl ? { backgroundImage: `url('${photoUrl}')` } : undefined}
-                  />
-                  <p className="font-semibold text-navy-900 mb-1">{c.name}</p>
-                  {c.role && <p className="text-xs text-ink-600">{c.role} ·</p>}
-                  {c.phone && (
-                    <a
-                      href={telHref(c.phone)}
-                      className="text-xs text-ink-600 hover:text-sky-600 transition-colors"
-                    >
-                      {c.phone}
-                    </a>
-                  )}
-                  {c.email && (
-                    <a
-                      href={`mailto:${c.email}`}
-                      className="text-xs text-ink-600 hover:text-sky-600 transition-colors break-all"
-                    >
-                      {c.email}
-                    </a>
-                  )}
-                  {c.note && <p className="text-xs text-ink-600">· {c.note}</p>}
+      {/* Student contacts — left title; five 198px round portraits, SemiBold 22/150
+          name, 18/150 role · number, centred. */}
+      <Section width={1280}>
+        <SectionTitle
+          tagline={cp.contactsEyebrow}
+          title={composeTitle(cp.contactsTitle, cp.contactsTitleHighlight)}
+          highlight={cp.contactsTitleHighlight}
+          body={cp.contactsSubtitle}
+        />
+        <div className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-12">
+          {contacts.map((c, i) => {
+            const src = photo(c.photo, CONTACT_PHOTOS[i], 396);
+            const line = c.phone ? `${c.role} · ${c.phone}` : `${c.email} · ${c.note}`;
+            const href = c.phone ? telHref(c.phone) : `mailto:${c.email}`;
+            return (
+              <a key={c._id || c.name} href={href} className="group flex flex-col items-center gap-4 text-center">
+                <div
+                  className="w-[150px] h-[150px] md:w-[198px] md:h-[198px] rounded-full bg-navy-50 bg-cover bg-center"
+                  style={src ? { backgroundImage: `url('${src}')` } : undefined}
+                />
+                <div className="text-black max-w-[198px]">
+                  <p className="text-[22px] leading-[150%] font-semibold group-hover:underline underline-offset-4">{c.name}</p>
+                  <p className="text-base md:text-lg leading-[150%] break-words">{line}</p>
                 </div>
-              );
-            })}
-          </div>
+              </a>
+            );
+          })}
         </div>
-      </section>
+      </Section>
 
-      {/* Email vs WhatsApp */}
-      <section className="bg-navy-50 py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {cp.channelsEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={cp.channelsTitle}
-            highlight={cp.channelsTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
-          />
-          <p className="text-sm text-ink-600 mb-10">{cp.channelsSubtitle}</p>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-            {channelCards.map((c) => (
-              <div
-                key={c.title}
-                className="bg-white border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
-              >
-                <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">{c.title}</h3>
-                <p className="text-sm text-ink-600 leading-relaxed">{c.description}</p>
-              </div>
-            ))}
-          </div>
+      {/* Email vs WhatsApp — #eaeaf1, two 624x121 white bar cards (H5 + 14/150). */}
+      <Section bg="bg-navy-50" width={1280}>
+        <SectionTitle
+          tagline={cp.channelsEyebrow}
+          title={composeTitle(cp.channelsTitle, cp.channelsTitleHighlight)}
+          highlight={cp.channelsTitleHighlight}
+          body={cp.channelsSubtitle}
+        />
+        <div className="mt-20 grid md:grid-cols-2 gap-8">
+          {channelCards.map((c) => (
+            <AccentCard key={c.title} className="[&>div]:py-4">
+              <H5>{c.title}</H5>
+              <p className="mt-2 text-sm leading-[150%] text-black">{c.description}</p>
+            </AccentCard>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Meet the team */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-12">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {cp.teamEyebrow}
-            </span>
-            <TitleWithHighlight
-              text={cp.teamTitle}
-              highlight={cp.teamTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
-            />
-            <p className="text-sm text-ink-600">{cp.teamSubtitle}</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
-            {members.map((m) => {
-              const photoUrl = m.photo ? urlFor(m.photo).width(700).url() : null;
-              return (
-                <div key={m._id || m.name} className="flex flex-col">
-                  <div
-                    className="h-[260px] bg-gray-200 bg-cover bg-center mb-5"
-                    style={photoUrl ? { backgroundImage: `url('${photoUrl}')` } : undefined}
-                  />
-                  <p className="font-semibold text-navy-900 text-center mb-1">{m.name}</p>
-                  <p className="text-xs text-ink-600 text-center mb-4">{m.role}</p>
+      {/* Team — centred title; 395 cards: 395 square photo, centred name, role,
+          then email / phone rows with 24px icons. */}
+      <Section width={1280}>
+        <SectionTitle
+          center
+          tagline={cp.teamEyebrow}
+          title={composeTitle(cp.teamTitle, cp.teamTitleHighlight)}
+          highlight={cp.teamTitleHighlight}
+          body={cp.teamSubtitle}
+        />
+        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
+          {members.map((m, i) => {
+            const src = photo(m.photo, MEMBER_PHOTOS[i], 790);
+            return (
+              <div key={m._id || m.name} className="flex flex-col items-center gap-6 text-center text-black">
+                <div
+                  className="w-full aspect-square bg-navy-50 bg-cover bg-center"
+                  style={src ? { backgroundImage: `url('${src}')` } : undefined}
+                />
+                <div>
+                  <p className="text-[22px] leading-[150%] font-semibold">{m.name}</p>
+                  <p className="text-lg leading-[150%]">{m.role}</p>
+                </div>
+                <div className="flex flex-col items-center gap-3 text-base md:text-lg leading-[150%]">
                   {m.email && (
-                    <a
-                      href={`mailto:${m.email}`}
-                      className="text-xs text-ink-600 hover:text-sky-600 transition-colors flex items-center justify-center gap-2 mb-2"
-                    >
-                      <Mail size={13} className="shrink-0" />
-                      <span className="break-all">{m.email}</span>
+                    <a href={`mailto:${m.email}`} className="flex items-center gap-4 hover:underline underline-offset-2">
+                      <Mail size={24} strokeWidth={1.5} className="shrink-0" /> {m.email}
                     </a>
                   )}
                   {m.phone && (
-                    <a
-                      href={telHref(m.phone)}
-                      className="text-xs text-ink-600 hover:text-sky-600 transition-colors flex items-center justify-center gap-2"
-                    >
-                      <Phone size={13} className="shrink-0" />
-                      {m.phone}
+                    <a href={telHref(m.phone)} className="flex items-center gap-4 hover:underline underline-offset-2">
+                      <Phone size={24} strokeWidth={1.5} className="shrink-0" /> {m.phone}
                     </a>
                   )}
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
-      </section>
+      </Section>
     </div>
   );
 }
