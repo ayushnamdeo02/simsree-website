@@ -3,17 +3,19 @@ import { Link, useParams } from 'react-router-dom';
 import {
   ArrowUpRight,
   Check,
-  ChevronDown,
   ClipboardCheck,
-  Download,
   FileText,
   Info,
   ListChecks,
+  Minus,
+  Plus,
   Users,
 } from 'lucide-react';
-
+import PageHero, { HeroButton } from '../components/PageHero';
+import { Section, SectionTitle, Tagline, Heading, H5, H6, AccentCard } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { useAdmissionDetailData } from '../lib/useAdmissionDetailData';
-import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
 const STEP_ICONS = {
@@ -1010,15 +1012,39 @@ const sectionsFor = (shortName) => [
   { id: 'faq', label: 'FAQ' },
 ];
 
-function TitleWithHighlight({ text = '', highlight, className }) {
-  const idx = highlight ? text.indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
+// Figma section pills: yellow tint (dates, fees, documents, FAQ) or Eastern Blue
+// Lightest (eligibility, process); SemiBold 16/150 navy, radius 16.
+const PILL_TONES = {
+  yellow: 'bg-[#fffbec] text-navy-900',
+  sky: 'bg-sky-50 text-navy-900',
+  navy: 'bg-navy-50 text-navy-900',
+  teal: 'bg-sky-50 text-teal-500',
+};
+// Stat cards cycle cycle/applications/fees/status tag colours as in Figma.
+const STAT_TONES = ['yellow', 'teal', 'yellow', 'navy'];
+
+function Pill({ tone = 'yellow', small = false, children }) {
   return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
+    <span
+      className={`w-fit px-2.5 py-1 rounded-2xl uppercase ${
+        small ? 'text-xs leading-[150%]' : 'text-base leading-[150%] font-semibold'
+      } ${PILL_TONES[tone] || PILL_TONES.yellow}`}
+    >
+      {children}
+    </span>
+  );
+}
+
+// Section header with a pill instead of a plain tagline (Figma "Frame 2147230023").
+function PillHeader({ tone, pill, title = '', highlight, body }) {
+  return (
+    <div className="flex flex-col gap-4">
+      {pill && <Pill tone={tone}>{pill}</Pill>}
+      <div className="flex flex-col gap-6">
+        <Heading text={composeTitle(title, highlight)} highlight={highlight} />
+        {body && <p className="max-w-[847px] text-base md:text-lg leading-[150%] text-black">{body}</p>}
+      </div>
+    </div>
   );
 }
 
@@ -1070,7 +1096,6 @@ export default function AdmissionDetail() {
     );
   }
 
-  const heroImageUrl = ad.heroImage ? urlFor(ad.heroImage).width(1600).url() : null;
   const has = (k) => Array.isArray(ad[k]) && ad[k].length > 0;
 
   // A section only appears in the nav if the page actually has that content.
@@ -1086,456 +1111,327 @@ export default function AdmissionDetail() {
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[380px] md:h-[440px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-10 md:pb-[48px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-4 flex items-center">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/admissions" className="hover:text-white">Admissions</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">{ad.shortName}</span>
-          </div>
-          <span className="text-[11px] font-semibold tracking-widest uppercase text-white/90 mb-3">
-            {ad.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-4">{ad.heroTitle}</h1>
-          <p className="max-w-md text-sm text-white/85 leading-relaxed mb-7">{ad.heroDescription}</p>
-          <div className="flex flex-wrap gap-3">
-            {(ad.heroButtons || []).map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-5 py-3 rounded-md transition-colors flex items-center gap-2 w-fit ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-                {b.primary && <ArrowUpRight size={15} />}
-              </a>
+      <PageHero
+        image={heroImage(ad.heroImage, `/images/admissions/hero-${slug}.webp`)}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Admissions', to: '/admissions' }, { label: ad.shortName }]}
+        eyebrow={ad.heroEyebrow}
+        eyebrowUpper
+        title={ad.heroTitle}
+        titleWidth={900}
+        description={ad.heroDescription}
+        descriptionWidth={628}
+        actions={(ad.heroButtons || []).map((b) => ({ label: b.label, href: b.url, primary: b.primary }))}
+      />
+
+      {/* Stat bar cards — Figma: four 304x205, 32 gap; tag, H5 value, 16/150 note. */}
+      {has('stats') && (
+        <section className="px-5 py-16 md:p-16">
+          <div className="max-w-[1312px] mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {ad.stats.map((s, i) => (
+              <AccentCard key={s.label}>
+                <div className="flex flex-col gap-4">
+                  <Pill tone={STAT_TONES[i % STAT_TONES.length]} small>
+                    {s.label}
+                  </Pill>
+                  <div className="flex flex-col gap-3">
+                    <H5>{s.value}</H5>
+                    {s.note && <p className="text-base leading-[150%] text-black">{s.note}</p>}
+                  </div>
+                </div>
+              </AccentCard>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Stat cards */}
-      {has('stats') && (
-        <section className="py-10 lg:py-14">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
-              {ad.stats.map((s) => (
-                <div
-                  key={s.label}
-                  className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
-                >
-                  <span className="text-[10px] font-semibold tracking-widest uppercase text-ink-400">
-                    {s.label}
-                  </span>
-                  <p className="font-display text-2xl font-semibold text-navy-900 mt-2 mb-2">
-                    {s.value}
-                  </p>
-                  {s.note && <p className="text-[11px] text-ink-400 leading-relaxed">{s.note}</p>}
-                </div>
-              ))}
-            </div>
-          </div>
         </section>
       )}
 
-      {/* Steps band — optional navy strip of icon cards */}
+      {/* Optional navy band of icon steps (PhD). */}
       {ad.stepsBandTitle && has('stepsBand') && (
-        <section className="bg-navy-900 text-white py-14 lg:py-20">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-            <h2 className="font-display text-2xl md:text-3xl font-semibold mb-2">
-              {ad.stepsBandTitle}
-            </h2>
-            {ad.stepsBandSubtitle && (
-              <p className="text-sm text-white/70 mb-8">{ad.stepsBandSubtitle}</p>
-            )}
-            <div className="bg-white rounded-lg p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-              {ad.stepsBand.map((s, i) => {
-                const Icon = STEP_ICONS[s.icon] || FileText;
-                return (
-                  <div key={s.title} className="flex flex-col items-center text-center">
-                    <span className="w-14 h-14 rounded-full border border-navy-100 flex items-center justify-center mb-4">
-                      <Icon size={20} className="text-navy-900" />
-                    </span>
-                    <p className="text-sm font-medium text-navy-900 mb-1">
-                      {i + 1}. {s.title}
-                    </p>
-                    {s.note && <p className="text-[11px] text-ink-400">{s.note}</p>}
-                  </div>
-                );
-              })}
-            </div>
+        <Section bg="bg-navy-900" width={1280} className="text-white">
+          <SectionTitle dark title={ad.stepsBandTitle} body={ad.stepsBandSubtitle} />
+          <div className="mt-12 bg-white rounded-2xl p-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {ad.stepsBand.map((s, i) => {
+              const Icon = STEP_ICONS[s.icon] || FileText;
+              return (
+                <div key={s.title} className="flex flex-col items-center text-center gap-3 text-navy-900">
+                  <span className="w-14 h-14 rounded-full outline outline-1 -outline-offset-1 outline-navy-900 flex items-center justify-center">
+                    <Icon size={24} strokeWidth={1.5} />
+                  </span>
+                  <H6 as="p">
+                    {i + 1}. {s.title}
+                  </H6>
+                  {s.note && <p className="text-sm leading-[150%] text-black">{s.note}</p>}
+                </div>
+              );
+            })}
           </div>
-        </section>
+        </Section>
       )}
 
-      {/* Body — sticky nav beside the content */}
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-0 pb-16 lg:pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-10 lg:gap-16 items-start">
-          <nav
-            aria-label="On this page"
-            className="hidden lg:block sticky top-32 border border-navy-100 rounded-lg p-5"
-          >
-            <p className="text-sm font-medium text-navy-900 mb-4">On this page</p>
-            <ul className="space-y-1">
-              {navSections.map((s) => (
-                <li key={s.id}>
-                  <a
-                    href={`#${s.id}`}
-                    aria-current={activeId === s.id ? 'true' : undefined}
-                    className={`block text-xs py-1.5 pl-3 border-l-2 transition-colors ${
-                      activeId === s.id
-                        ? 'border-l-sky-600 text-navy-900 font-medium'
-                        : 'border-l-transparent text-ink-600 hover:text-navy-900'
-                    }`}
-                  >
-                    {s.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+      {/* Body — 274 "On this page" card, 80 gap, 958 column; sections 80 apart. */}
+      <section className="px-5 py-16 md:px-16 md:py-28">
+        <div className="max-w-[1312px] mx-auto flex flex-col lg:flex-row gap-12 lg:gap-20">
+          <aside className="hidden lg:block w-[274px] shrink-0">
+            <nav
+              aria-label="On this page"
+              className="sticky top-40 p-8 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+            >
+              <H6 as="p" className="text-black">
+                On this page
+              </H6>
+              <span className="block h-px bg-black/20 my-4" aria-hidden="true" />
+              <ul className="flex flex-col gap-1">
+                {navSections.map((s) => {
+                  const active = activeId === s.id;
+                  return (
+                    <li key={s.id}>
+                      <a
+                        href={`#${s.id}`}
+                        aria-current={active ? 'true' : undefined}
+                        className={`flex items-center min-h-12 pl-8 pr-1 border-l-[3px] text-base leading-[150%] whitespace-nowrap text-navy-900 ${
+                          active ? 'font-medium border-teal-500 shadow-small' : 'border-transparent'
+                        }`}
+                      >
+                        {s.label}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          </aside>
 
-          <div className="min-w-0">
-            {/* Key dates */}
+          <div className="flex-1 min-w-0 flex flex-col gap-20">
+            {/* Key dates — navy panel, radius 16, padding 48/64: month (Eastern Blue
+                Light), 60px #0d0f22 ring with Eastern Blue hairline, 14px labels. */}
             {has('timeline') && (
-              <section id="dates" className="scroll-mt-32 mb-16">
-                <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                  {ad.datesEyebrow}
-                </span>
-                <TitleWithHighlight
-                  text={ad.datesTitle}
-                  highlight={ad.datesTitleHighlight}
-                  className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
-                />
-                <p className="text-sm text-ink-600 mb-8">{ad.datesSubtitle}</p>
-
-                {/* Wide timeline scrolls inside its own container */}
+              <div id="dates" className="scroll-mt-40 flex flex-col gap-20">
+                <PillHeader tone="yellow" pill={ad.datesEyebrow} title={ad.datesTitle} highlight={ad.datesTitleHighlight} body={ad.datesSubtitle} />
                 <div className="overflow-x-auto">
-                  <ol className="bg-navy-900 rounded-lg p-7 flex gap-4 min-w-[720px] list-none m-0">
+                  <ol className="min-w-[720px] m-0 list-none flex justify-between gap-2 px-8 md:px-16 py-12 rounded-2xl bg-navy-900 text-white">
                     {ad.timeline.map((t, i) => (
-                      <li key={`${t.label}-${i}`} className="flex-1 flex flex-col">
-                        <span className="text-[9px] font-semibold tracking-widest uppercase text-white/50 mb-4">
-                          {t.month}
-                        </span>
+                      <li key={`${t.label}-${i}`} className="flex-1 flex flex-col items-center gap-4 text-center">
+                        <span className="text-base leading-[150%] uppercase text-teal-400">{t.month}</span>
                         <span
-                          className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-semibold mb-4 ${
-                            t.highlight ? 'bg-white text-navy-900' : 'bg-white/15 text-white'
+                          className={`w-[60px] h-[60px] rounded-full flex items-center justify-center font-display font-medium text-[22px] outline outline-1 -outline-offset-1 outline-teal-500 ${
+                            t.highlight ? 'bg-white text-navy-900' : 'bg-navy-950 text-white'
                           }`}
                         >
-                          {i + 1}
+                          {t.highlight ? <Check size={24} /> : i + 1}
                         </span>
-                        <span className="text-xs font-medium text-white mb-1">{t.label}</span>
-                        {t.note && <span className="text-[10px] text-white/50">{t.note}</span>}
+                        <span className="flex flex-col gap-2">
+                          <span className="font-display font-medium text-sm leading-[140%]">{t.label}</span>
+                          {t.note && <span className="text-xs leading-[150%] text-navy-50">{t.note}</span>}
+                        </span>
                       </li>
                     ))}
                   </ol>
                 </div>
-              </section>
+              </div>
             )}
 
-            {/* Eligibility */}
+            {/* Eligibility — three 303 bar cards per row: H5 number, H6 title,
+                16/150 copy, teal uppercase footnote; the warning card is yellow. */}
             {has('eligibilityCards') && (
-              <section id="eligibility" className="scroll-mt-32 mb-16">
-                <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                  {ad.eligibilityEyebrow}
-                </span>
-                <TitleWithHighlight
-                  text={ad.eligibilityTitle}
+              <div id="eligibility" className="scroll-mt-40 flex flex-col gap-20">
+                <PillHeader
+                  tone="sky"
+                  pill={ad.eligibilityEyebrow}
+                  title={ad.eligibilityTitle}
                   highlight={ad.eligibilityTitleHighlight}
-                  className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
+                  body={ad.eligibilitySubtitle}
                 />
-                <p className="text-sm text-ink-600 mb-8">{ad.eligibilitySubtitle}</p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {ad.eligibilityCards.map((c, i) => (
                     <div
                       key={c.title}
-                      className={`rounded-sm px-6 py-5 flex flex-col border border-l-2 ${
-                        c.warning
-                          ? 'bg-[#FBF7E8] border-[#E8DFC2] border-l-[#C9A227]'
-                          : 'border-navy-100 border-l-sky-600'
+                      className={`flex min-h-[378px] outline outline-1 -outline-offset-1 shadow-small ${
+                        c.warning ? 'bg-[#fffbec] outline-[#dfb400]' : 'bg-white outline-black/20'
                       }`}
                     >
-                      {c.warning ? (
-                        <span className="inline-block w-fit text-[9px] font-semibold tracking-widest uppercase text-[#8A6D0B] bg-[#F3E9C9] px-2 py-1 rounded mb-3">
-                          Important
-                        </span>
-                      ) : (
-                        <span className="text-[11px] font-semibold text-ink-400 mb-3">
-                          {String(i + 1).padStart(2, '0')}
-                        </span>
-                      )}
-                      <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                        {c.title}
-                      </h3>
-                      <p className="text-sm text-ink-600 leading-relaxed mb-4">{c.description}</p>
-                      {c.footnote && (
-                        <p
-                          className={`text-[10px] font-semibold tracking-widest uppercase mt-auto ${
-                            c.warning ? 'text-[#8A6D0B]' : 'text-sky-600'
-                          }`}
-                        >
-                          {c.footnote}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Process */}
-            {has('processSteps') && (
-              <section id="process" className="scroll-mt-32 mb-16">
-                <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                  {ad.processEyebrow}
-                </span>
-                <TitleWithHighlight
-                  text={ad.processTitle}
-                  highlight={ad.processTitleHighlight}
-                  className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
-                />
-                <p className="text-sm text-ink-600 mb-8">{ad.processSubtitle}</p>
-
-                <ol className="space-y-4 list-none m-0 p-0">
-                  {ad.processSteps.map((s, i) => (
-                    <li
-                      key={s.title}
-                      className={`flex gap-5 rounded-lg px-6 py-5 border ${
-                        s.complete
-                          ? 'bg-[#FBF7E8] border-[#E8DFC2]'
-                          : 'bg-white border-navy-100'
-                      }`}
-                    >
-                      <span
-                        className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-semibold ${
-                          s.complete ? 'bg-[#C9A227] text-white' : 'bg-navy-900 text-white'
-                        }`}
-                      >
-                        {s.complete ? <Check size={14} /> : String(i + 1).padStart(2, '0')}
-                      </span>
-                      <div className="min-w-0">
-                        <h3 className="font-display text-lg font-semibold text-navy-900 mb-1.5">
-                          {s.title}
-                        </h3>
-                        <p className="text-sm text-ink-600 leading-relaxed">{s.description}</p>
-                        {s.footnote && (
-                          <p
-                            className={`text-[10px] font-semibold tracking-widest uppercase mt-3 ${
-                              s.complete ? 'text-[#8A6D0B]' : 'text-sky-600'
-                            }`}
-                          >
-                            {s.footnote}
+                      <span className={`w-[3px] shrink-0 ${c.warning ? 'bg-[#dfb400]' : 'bg-teal-500'}`} aria-hidden="true" />
+                      <div className="flex-1 flex flex-col justify-between gap-12 py-8 pl-6 pr-6">
+                        <div className="flex flex-col gap-4">
+                          {c.warning ? (
+                            <Pill tone="yellow" small>
+                              Important
+                            </Pill>
+                          ) : (
+                            <H5 as="span">{String(i + 1).padStart(2, '0')}</H5>
+                          )}
+                          <H6 as="h3" className="text-black">
+                            {c.title}
+                          </H6>
+                          <p className="text-base leading-[150%] text-black">{c.description}</p>
+                        </div>
+                        {c.footnote && (
+                          <p className={`text-base leading-[150%] font-semibold uppercase ${c.warning ? 'text-[#dfb400]' : 'text-teal-500'}`}>
+                            {c.footnote}
                           </p>
                         )}
                       </div>
-                    </li>
-                  ))}
-                </ol>
-              </section>
-            )}
-
-            {/* Fees */}
-            {ad.feesTotalValue && (
-              <section id="fees" className="scroll-mt-32 mb-16">
-                <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                  {ad.feesEyebrow}
-                </span>
-                <TitleWithHighlight
-                  text={ad.feesTitle}
-                  highlight={ad.feesTitleHighlight}
-                  className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
-                />
-                <p className="text-sm text-ink-600 mb-8">{ad.feesSubtitle}</p>
-
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  <div className="bg-navy-900 text-white rounded-lg p-7">
-                    <span className="text-[10px] font-semibold tracking-widest uppercase text-white/60">
-                      {ad.feesTotalLabel}
-                    </span>
-                    <p className="font-display text-4xl font-semibold mt-2 mb-1">
-                      {ad.feesTotalValue}
-                    </p>
-                    {ad.feesTotalNote && (
-                      <p className="text-[11px] text-white/60 mb-6">{ad.feesTotalNote}</p>
-                    )}
-                    <dl className="space-y-0">
-                      {(ad.feesBreakdown || []).map((r) => (
-                        <div
-                          key={r.label}
-                          className="flex items-center justify-between gap-3 py-2.5 border-b border-white/10 last:border-b-0"
-                        >
-                          <dt className="text-xs text-white/70">{r.label}</dt>
-                          <dd className="text-xs font-medium text-white m-0">{r.value}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  </div>
-
-                  <div className="space-y-5">
-                    {(ad.feesPanels || []).map((f) => (
-                      <div
-                        key={f.label}
-                        className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
-                      >
-                        <span className="text-[10px] font-semibold tracking-widest uppercase text-ink-400">
-                          {f.label}
-                        </span>
-                        <p className="font-display text-xl font-semibold text-navy-900 mt-2 mb-1">
-                          {f.value}
-                        </p>
-                        {f.note && <p className="text-[11px] text-ink-400">{f.note}</p>}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {ad.feesFootnote && (
-                  <p
-                    className={`flex items-start gap-2.5 text-xs leading-relaxed border rounded-sm px-5 py-4 mt-6 ${
-                      ad.feesFootnoteHighlight
-                        ? 'bg-[#FBF7E8] border-[#E8DFC2] text-ink-600'
-                        : 'border-navy-100 text-ink-600'
-                    }`}
-                  >
-                    <Info
-                      size={14}
-                      className={`shrink-0 mt-0.5 ${
-                        ad.feesFootnoteHighlight ? 'text-[#C9A227]' : 'text-sky-600'
-                      }`}
-                    />
-                    <span>{ad.feesFootnote}</span>
-                  </p>
-                )}
-              </section>
-            )}
-
-            {/* Documents */}
-            {has('documentGroups') && (
-              <section id="documents" className="scroll-mt-32 mb-16">
-                <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                  {ad.documentsEyebrow}
-                </span>
-                <TitleWithHighlight
-                  text={ad.documentsTitle}
-                  highlight={ad.documentsTitleHighlight}
-                  className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-8"
-                />
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
-                  {ad.documentGroups.map((g) => (
-                    <div
-                      key={g.title}
-                      className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
-                    >
-                      <h3 className="font-display text-lg font-semibold text-navy-900 mb-4">
-                        {g.title}
-                      </h3>
-                      <ul className="space-y-2 list-none m-0 p-0">
-                        {(g.items || []).map((item) => (
-                          <li key={item} className="flex gap-2.5 text-sm text-ink-600">
-                            <span className="text-sky-600 shrink-0">•</span>
-                            <span>{item}</span>
-                          </li>
-                        ))}
-                      </ul>
                     </div>
                   ))}
                 </div>
-
-                {ad.documentsCtaLabel && (
-                  <a
-                    href={ad.documentsCtaUrl || '#'}
-                    className="bg-navy-900 hover:bg-navy-800 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md inline-flex items-center gap-2"
-                  >
-                    {ad.documentsCtaLabel} <Download size={14} />
-                  </a>
-                )}
-              </section>
+              </div>
             )}
 
-            {/* FAQ */}
-            {has('faqs') && (
-              <section id="faq" className="scroll-mt-32">
-                <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                  {ad.faqEyebrow}
-                </span>
-                <TitleWithHighlight
-                  text={ad.faqTitle}
-                  highlight={ad.faqTitleHighlight}
-                  className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-8"
-                />
+            {/* Process — #eaeaf1 cards (radius 16, #d5d6e3 hairline, padding 24) joined
+                by 56px connectors; 48px navy circles; the last step is yellow. */}
+            {has('processSteps') && (
+              <div id="process" className="scroll-mt-40 flex flex-col gap-20">
+                <PillHeader tone="sky" pill={ad.processEyebrow} title={ad.processTitle} highlight={ad.processTitleHighlight} body={ad.processSubtitle} />
+                <ol className="m-0 p-0 list-none flex flex-col">
+                  {ad.processSteps.map((s, i, all) => (
+                    <li key={s.title} className="flex flex-col">
+                      <div
+                        className={`flex gap-6 md:gap-10 p-6 rounded-2xl outline outline-1 -outline-offset-1 ${
+                          s.complete ? 'bg-[#fffbec] outline-[#dfb400]' : 'bg-navy-50 outline-navy-100'
+                        }`}
+                      >
+                        <span
+                          className={`w-12 h-12 shrink-0 rounded-full flex items-center justify-center text-lg leading-[150%] ${
+                            s.complete ? 'bg-teal-500 outline outline-4 -outline-offset-4 outline-white/0 text-white' : 'bg-navy-900 text-white'
+                          }`}
+                        >
+                          {s.complete ? <Check size={24} strokeWidth={2.5} /> : String(i + 1).padStart(2, '0')}
+                        </span>
+                        <div className="min-w-0 flex flex-col gap-6">
+                          <div className="flex flex-col gap-2">
+                            <H6 as="h3">{s.title}</H6>
+                            <p className="text-base leading-[150%] text-black">{s.description}</p>
+                          </div>
+                          {s.footnote && <p className="text-base leading-[150%] font-semibold uppercase text-teal-500">{s.footnote}</p>}
+                        </div>
+                      </div>
+                      {i < all.length - 1 && <span className="ml-11 w-0.5 h-14 bg-black/20" aria-hidden="true" />}
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            )}
 
-                <div>
+            {/* Fees — 463 navy total card (padding 48) | stacked bar panels. */}
+            {ad.feesTotalValue && (
+              <div id="fees" className="scroll-mt-40 flex flex-col gap-20">
+                <PillHeader tone="yellow" pill={ad.feesEyebrow} title={ad.feesTitle} highlight={ad.feesTitleHighlight} body={ad.feesSubtitle} />
+                <div className="flex flex-col gap-8">
+                  <div className="grid md:grid-cols-2 gap-8">
+                    <div className="flex flex-col gap-6 p-8 md:p-12 rounded-2xl bg-navy-900 text-white">
+                      <div className="flex flex-col gap-4">
+                        <Tagline className="text-teal-400">{ad.feesTotalLabel}</Tagline>
+                        <div className="flex flex-col gap-2">
+                          <span className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-teal-400">
+                            {ad.feesTotalValue}
+                          </span>
+                          {ad.feesTotalNote && <span className="text-base leading-[150%] text-navy-50">{ad.feesTotalNote}</span>}
+                        </div>
+                      </div>
+                      <dl className="flex flex-col border-t border-white/20">
+                        {(ad.feesBreakdown || []).map((r) => (
+                          <div key={r.label} className="flex justify-between gap-4 py-3 border-b border-white/20 last:border-b-0 text-sm leading-[150%]">
+                            <dt className="text-navy-50">{r.label}</dt>
+                            <dd className="m-0 text-teal-400">{r.value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </div>
+                    <div className="flex flex-col gap-4">
+                      {(ad.feesPanels || []).map((f) => (
+                        <AccentCard key={f.label} className="[&>div]:py-4">
+                          <div className="flex flex-col gap-3">
+                            <Tagline className="text-teal-500">{f.label}</Tagline>
+                            <div className="flex flex-col gap-2">
+                              <H5>{f.value}</H5>
+                              {f.note && <p className="text-base leading-[150%] text-black">{f.note}</p>}
+                            </div>
+                          </div>
+                        </AccentCard>
+                      ))}
+                    </div>
+                  </div>
+                  {ad.feesFootnote && (
+                    <p
+                      className={`flex items-start gap-3 p-6 rounded-2xl text-sm leading-[150%] text-black outline outline-1 -outline-offset-1 ${
+                        ad.feesFootnoteHighlight ? 'bg-[#fffbec] outline-[#dfb400]' : 'bg-white outline-black/20'
+                      }`}
+                    >
+                      <Info size={20} strokeWidth={1.5} className="shrink-0 text-[#dfb400]" />
+                      <span>{ad.feesFootnote}</span>
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Documents — two bar cards with 14/150 disc lists, navy CTA. */}
+            {has('documentGroups') && (
+              <div id="documents" className="scroll-mt-40 flex flex-col gap-20">
+                <PillHeader tone="yellow" pill={ad.documentsEyebrow} title={ad.documentsTitle} highlight={ad.documentsTitleHighlight} />
+                <div className="flex flex-col gap-8">
+                  <div className="grid md:grid-cols-2 gap-8">
+                    {ad.documentGroups.map((g) => (
+                      <AccentCard key={g.title}>
+                        <H6 as="h3">{g.title}</H6>
+                        <ul className="mt-4 list-disc pl-5 text-sm leading-[150%] text-black">
+                          {(g.items || []).map((item) => (
+                            <li key={item}>{item}</li>
+                          ))}
+                        </ul>
+                      </AccentCard>
+                    ))}
+                  </div>
+                  {ad.documentsCtaLabel && (
+                    <Link
+                      to={ad.documentsCtaUrl || '/admissions/downloads'}
+                      className="inline-flex items-center gap-3 w-fit h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors"
+                    >
+                      {ad.documentsCtaLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
+                    </Link>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* FAQ — radius-16 boxed items 24 apart; the open one is yellow-tinted. */}
+            {has('faqs') && (
+              <div id="faq" className="scroll-mt-40 flex flex-col gap-20">
+                <PillHeader tone="yellow" pill={ad.faqEyebrow} title={ad.faqTitle} highlight={ad.faqTitleHighlight} />
+                <div className="flex flex-col gap-6">
                   {ad.faqs.map((f, i) => (
                     <details
                       key={f.question}
                       open={i === 0}
-                      className={`group rounded-sm px-6 py-1 mb-3 border ${
-                        i === 0
-                          ? 'bg-[#FBF7E8] border-[#E8DFC2]'
-                          : 'bg-white border-navy-100'
-                      }`}
+                      className="group p-6 rounded-2xl outline outline-1 -outline-offset-1 outline-navy-100 bg-white open:bg-[#fffbec]"
                     >
-                      <summary className="flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                        <span className="text-sm font-medium text-navy-900">{f.question}</span>
-                        <ChevronDown
-                          size={16}
-                          className="shrink-0 text-ink-400 transition-transform group-open:rotate-180"
-                        />
+                      <summary className="flex items-center justify-between gap-6 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                        <H6 as="span">{f.question}</H6>
+                        <Plus size={20} className="shrink-0 group-open:hidden" />
+                        <Minus size={20} className="shrink-0 hidden group-open:block" />
                       </summary>
-                      {f.answer && (
-                        <p className="text-sm text-ink-600 leading-relaxed pb-4 pr-8">{f.answer}</p>
-                      )}
+                      {f.answer && <p className="mt-4 text-base leading-[150%] text-black">{f.answer}</p>}
                     </details>
                   ))}
                 </div>
-              </section>
+              </div>
             )}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Closing CTA */}
-      <section id="apply" className="bg-navy-900 text-white py-16 lg:py-24 scroll-mt-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-white/80">
-            {ad.ctaEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={ad.ctaTitle}
+      {/* Closing CTA — navy, left column, Eastern Blue tagline. */}
+      <section id="apply" className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20 scroll-mt-24">
+        <div className="max-w-[1280px] mx-auto">
+          <Tagline className="text-teal-400">{ad.ctaEyebrow}</Tagline>
+          <Heading
+            text={composeTitle(ad.ctaTitle, ad.ctaTitleHighlight)}
             highlight={ad.ctaTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-5 mb-4"
+            className="text-white mt-4"
+            highlightClass="text-teal-400"
           />
-          <p className="text-sm text-white/75 max-w-md mb-8">{ad.ctaSubtitle}</p>
-          <div className="flex flex-wrap gap-3">
+          <p className="mt-6 max-w-[598px] text-base leading-[150%]">{ad.ctaSubtitle}</p>
+          <div className="mt-8 flex flex-col md:flex-row gap-3.5">
             {(ad.ctaButtons || []).map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors flex items-center gap-2 ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-                {b.primary && <ArrowUpRight size={14} />}
-              </a>
+              <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} />
             ))}
           </div>
         </div>
