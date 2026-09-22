@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowUpRight, ChevronDown } from 'lucide-react';
-import StatCard from '../components/StatCard';
+import { StatGrid } from '../components/StatCard';
+import PageHero, { HeroButton } from '../components/PageHero';
+import { SectionTitle, Tagline, Heading, H5, H6, AccentCard } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { useProgrammeDetailData } from '../lib/useProgrammeDetailData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -578,53 +582,43 @@ const SECTIONS = [
   { id: 'voice', label: 'Student voice' },
 ];
 
-// Splits the title on `highlight` (rendered teal) and optionally forces a line
-// break after `breakAfter`, so a two-line heading stays CMS-controlled.
-function TitleWithHighlight({ text = '', highlight, breakAfter, className }) {
-  const bIdx = breakAfter ? text.indexOf(breakAfter) : -1;
-  const lines =
-    bIdx === -1
-      ? [text]
-      : [text.slice(0, bIdx + breakAfter.length), text.slice(bIdx + breakAfter.length).trim()];
-
-  const renderLine = (line) => {
-    const idx = highlight ? line.indexOf(highlight) : -1;
-    if (idx === -1) return line;
-    return (
-      <>
-        {line.slice(0, idx)}
-        <span className="text-teal-500">{highlight}</span>
-        {line.slice(idx + highlight.length)}
-      </>
-    );
-  };
-
+// Figma sets the admission authority in SemiBold wherever it appears.
+const BOLD_PHRASE = 'State CET Cell · Government of Maharashtra';
+function BoldLead({ text = '' }) {
+  const i = text.indexOf(BOLD_PHRASE);
+  if (i === -1) return text;
   return (
-    <h2 className={className}>
-      {lines.map((line, i) => (
-        <span key={line || i}>
-          {i > 0 && <br />}
-          {renderLine(line)}
-        </span>
-      ))}
-    </h2>
+    <>
+      {text.slice(0, i)}
+      <strong className="font-semibold">{BOLD_PHRASE}</strong>
+      {text.slice(i + BOLD_PHRASE.length)}
+    </>
   );
 }
 
 // Native <details> so the accordion works without JS and is keyboard-accessible.
+// Figma "Accordion Item": 72px rows, 1px black/20 rules, H6 22 title, chevron.
 function CurriculumRow({ item, defaultOpen }) {
   return (
-    <details open={defaultOpen} className="group border-b border-navy-100 last:border-b-0">
-      <summary className="flex items-center justify-between gap-4 py-4 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-        <span className="text-sm font-medium text-navy-900">{item.title}</span>
-        <ChevronDown
-          size={16}
-          className="shrink-0 text-ink-400 transition-transform group-open:rotate-180"
-        />
+    <details open={defaultOpen} className="group border-b border-black/20 last:border-b-0">
+      <summary className="flex items-center justify-between gap-6 min-h-[72px] py-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+        <H6 as="span" className="text-black">
+          {item.title}
+        </H6>
+        <ChevronDown size={32} strokeWidth={1.5} className="shrink-0 text-black transition-transform group-open:rotate-180" />
       </summary>
-      {item.body && <p className="text-sm text-ink-600 leading-relaxed pb-5 pr-8">{item.body}</p>}
+      {item.body && <p className="text-base leading-[150%] text-black pb-6 pr-8">{item.body}</p>}
     </details>
   );
+}
+
+// Shared section header — Figma: tagline, 16 gap, H2 52, 24 gap, 18/150 body.
+// `breakAfter` forces the design's line break after that word.
+function Header({ tagline, title = '', highlight, breakAfter, body }) {
+  const text =
+    breakAfter && title.includes(`${breakAfter} `) ? title.replace(`${breakAfter} `, `${breakAfter}
+`) : composeTitle(title, highlight);
+  return <SectionTitle tagline={tagline} title={text} highlight={highlight} body={body} width={958} />;
 }
 
 export default function ProgrammeDetail() {
@@ -676,8 +670,9 @@ export default function ProgrammeDetail() {
     );
   }
 
-  const heroImageUrl = pd.heroImage ? urlFor(pd.heroImage).width(1600).url() : null;
-  const voicePhotoUrl = pd.voicePhoto ? urlFor(pd.voicePhoto).width(200).url() : null;
+  const voicePhotoUrl = pd.voicePhoto
+    ? urlFor(pd.voicePhoto).width(120).auto('format').url()
+    : '/images/director/avatar.webp';
 
   const has = (k) => Array.isArray(pd[k]) && pd[k].length > 0;
   // A section only appears in the nav if the page actually has that content.
@@ -691,334 +686,240 @@ export default function ProgrammeDetail() {
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[420px] md:h-[480px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[56px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-5 flex items-center">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/academics" className="hover:text-white">Academics</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">{pd.shortName}</span>
-          </div>
-          <span className="text-[11px] font-semibold tracking-widest uppercase text-white/90 mb-4">
-            {pd.heroBadge}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-2 max-w-2xl">
-            {pd.heroTitle}
-          </h1>
-          {pd.heroSubtitle && <p className="text-sm text-white/80 mb-7">{pd.heroSubtitle}</p>}
-          <div className="flex flex-wrap gap-3">
-            {(pd.heroButtons || []).map((btn) => (
-              <a
-                key={btn.label}
-                href={btn.url || '#'}
-                className={`font-medium px-5 py-3 rounded-md transition-colors flex items-center gap-2 w-fit ${
-                  btn.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {btn.label}
-                {btn.primary && <ArrowUpRight size={16} />}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PageHero
+        image={heroImage(pd.heroImage, `/images/academics/hero-${slug}.webp`)}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Academics', to: '/academics' }, { label: pd.shortName }]}
+        eyebrow={pd.heroBadge}
+        eyebrowUpper
+        title={pd.heroTitle}
+        titleWidth={900}
+        description={pd.heroSubtitle}
+        actions={(pd.heroButtons || []).map((b) => ({ label: b.label, href: b.url, primary: b.primary }))}
+      />
 
-      {/* Stats */}
-      <section className="max-w-[1408px] mx-auto px-6 lg:px-16 py-10 lg:py-16">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {(pd.stats || []).map((s) => (
-            <StatCard key={s.label} {...s} />
-          ))}
-        </div>
-      </section>
+      {has('stats') && (
+        <section className="px-5 py-16 md:p-16">
+          <StatGrid stats={pd.stats} />
+        </section>
+      )}
 
-      {/* Body — sticky nav beside the content */}
-      <div className="max-w-[1280px] mx-auto px-6 lg:px-0 pb-16 lg:pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-10 lg:gap-16 items-start">
-          {/* On this page */}
-          <nav
-            aria-label="On this page"
-            className="hidden lg:block sticky top-32 border border-navy-100 rounded-lg p-5"
-          >
-            <p className="text-sm font-medium text-navy-900 mb-4">On this page</p>
-            <ul className="space-y-1">
-              {navSections.map((s) => (
-                <li key={s.id}>
-                  <a
-                    href={`#${s.id}`}
-                    aria-current={activeId === s.id ? 'true' : undefined}
-                    className={`block text-xs py-1.5 pl-3 border-l-2 transition-colors ${
-                      activeId === s.id
-                        ? 'border-l-sky-600 text-navy-900 font-medium'
-                        : 'border-l-transparent text-ink-600 hover:text-navy-900'
-                    }`}
-                  >
-                    {s.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
+      {/* Body — Figma: 274 "On this page" card, 80 gap, 958 content column whose
+          sections sit 80 apart (and 80 from their own header). */}
+      <section className="px-5 py-16 md:px-16 md:py-28">
+        <div className="max-w-[1312px] mx-auto flex flex-col lg:flex-row gap-12 lg:gap-20">
+          <aside className="hidden lg:block w-[274px] shrink-0">
+            <nav
+              aria-label="On this page"
+              className="sticky top-40 p-8 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+            >
+              <H6 as="p" className="text-black">
+                On this page
+              </H6>
+              <span className="block h-px bg-black/20 my-4" aria-hidden="true" />
+              <ul className="flex flex-col gap-1">
+                {navSections.map((s) => {
+                  const active = activeId === s.id;
+                  return (
+                    <li key={s.id}>
+                      <a
+                        href={`#${s.id}`}
+                        className={`flex items-center min-h-12 pl-8 pr-1 text-base leading-[150%] whitespace-nowrap text-navy-900 ${
+                          active ? 'font-medium border-l-[3px] border-teal-500 shadow-small' : 'border-l-[3px] border-transparent'
+                        }`}
+                      >
+                        {s.label}
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          </aside>
 
-          <div className="min-w-0">
-            {/* Overview */}
-            <section id="overview" ref={(el) => (sectionRefs.current.overview = el)} className="scroll-mt-32">
-              <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                Overview
-              </span>
-              <TitleWithHighlight
-                text={pd.overviewTitle}
+          <div className="flex-1 min-w-0 flex flex-col gap-20">
+            {/* Overview + at-a-glance box (#eaeaf1, 3px bar, 14/150 label/value rows). */}
+            <div id="overview" ref={(el) => (sectionRefs.current.overview = el)} className="scroll-mt-40 flex flex-col gap-20">
+              <Header
+                tagline="Overview"
+                title={pd.overviewTitle}
                 highlight={pd.overviewTitleHighlight}
                 breakAfter={pd.overviewTitleBreakAfter}
-                className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3 max-w-xl"
+                body={pd.overviewSubtitle}
               />
-              {pd.overviewSubtitle && (
-                <p className="text-sm text-ink-600 mb-8">{pd.overviewSubtitle}</p>
-              )}
-
               {has('glanceRows') && (
-                <div className="bg-navy-50 rounded-lg p-7 mb-16">
-                  <h3 className="font-display text-lg font-semibold text-navy-900 mb-5">
-                    {pd.glanceTitle}
-                  </h3>
-                  <dl className="space-y-0">
-                    {pd.glanceRows.map((r) => (
+                <AccentCard bg="bg-navy-50">
+                  <H5>{pd.glanceTitle}</H5>
+                  <span className="block h-px bg-black/20 my-4" aria-hidden="true" />
+                  <dl className="flex flex-col gap-4">
+                    {pd.glanceRows.map((r, i, all) => (
                       <div
                         key={r.label}
-                        className="flex flex-col sm:flex-row sm:gap-6 py-3 border-b border-navy-100 last:border-b-0"
+                        className={`flex flex-wrap gap-x-4 gap-y-1 text-sm leading-[150%] pb-1.5 ${
+                          i < all.length - 1 ? 'border-b border-black/20' : ''
+                        }`}
                       >
-                        <dt className="text-[10px] font-semibold tracking-widest uppercase text-ink-400 sm:w-[120px] shrink-0 pt-0.5">
-                          {r.label}
-                        </dt>
-                        <dd className="text-sm text-navy-900 m-0">{r.value}</dd>
+                        <dt className="uppercase text-ink-400">{r.label}</dt>
+                        <dd className="text-black">{r.value}</dd>
                       </div>
                     ))}
                   </dl>
-                </div>
+                </AccentCard>
               )}
-            </section>
+            </div>
 
-            {/* Specialisations */}
             {has('specialisations') && (
-              <section id="specialisations" className="scroll-mt-32 mb-16">
-                <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                  Specialisations
-                </span>
-                <TitleWithHighlight
-                  text={pd.specialisationsTitle}
+              <div id="specialisations" className="scroll-mt-40 flex flex-col gap-20">
+                <Header
+                  tagline="Specialisations"
+                  title={pd.specialisationsTitle}
                   highlight={pd.specialisationsTitleHighlight}
-                  className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
+                  body={pd.specialisationsSubtitle}
                 />
-                <p className="text-sm text-ink-600 mb-8">{pd.specialisationsSubtitle}</p>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="grid md:grid-cols-2 gap-8">
                   {pd.specialisations.map((s) => (
-                    <div
-                      key={s.title}
-                      className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
-                    >
-                      <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                        {s.title}
-                      </h3>
-                      <p className="text-sm text-ink-600 leading-relaxed">{s.description}</p>
-                    </div>
+                    <AccentCard key={s.title}>
+                      <H5>{s.title}</H5>
+                      <p className="mt-4 text-base leading-[150%] text-black">{s.description}</p>
+                    </AccentCard>
                   ))}
                 </div>
-              </section>
+              </div>
             )}
 
-            {/* Curriculum */}
             {has('curriculum') && (
-              <section id="curriculum" className="scroll-mt-32 mb-16">
-                <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                  Curriculum
-                </span>
-                <TitleWithHighlight
-                  text={pd.curriculumTitle}
+              <div id="curriculum" className="scroll-mt-40 flex flex-col gap-20">
+                <Header
+                  tagline="Curriculum"
+                  title={pd.curriculumTitle}
                   highlight={pd.curriculumTitleHighlight}
-                  className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
+                  body={pd.curriculumSubtitle}
                 />
-                <p className="text-sm text-ink-600 mb-8">{pd.curriculumSubtitle}</p>
-
-                <div className="border-t border-navy-100">
-                  {pd.curriculum.map((c, i) => (
-                    <CurriculumRow key={c.title} item={c} defaultOpen={i === 0} />
+                <div className="max-w-[768px] border-y border-black/20">
+                  {pd.curriculum.map((item, i) => (
+                    <CurriculumRow key={item.title} item={item} defaultOpen={i === 0} />
                   ))}
                 </div>
-
-                {pd.curriculumCallout?.title && (
-                  <div className="bg-navy-900 text-white rounded-lg p-7 mt-8">
-                    <h3 className="font-display text-lg font-semibold mb-3">
-                      {pd.curriculumCallout.title}
-                    </h3>
-                    <p className="text-sm text-white/80 leading-relaxed">
-                      {pd.curriculumCallout.description}
-                    </p>
-                  </div>
-                )}
-              </section>
+              </div>
             )}
 
-            {/* Eligibility */}
             {has('eligibilityCards') && (
-              <section id="eligibility" className="scroll-mt-32 mb-16">
-                <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                  Eligibility & Admission
-                </span>
-                <TitleWithHighlight
-                  text={pd.eligibilityTitle}
-                  highlight={pd.eligibilityTitleHighlight}
-                  className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-8"
-                />
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
-                  {pd.eligibilityCards.map((c) => (
-                    <div
-                      key={c.title}
-                      className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
+              <div id="eligibility" className="scroll-mt-40 flex flex-col gap-20">
+                <Header tagline="Eligibility & admission" title={pd.eligibilityTitle} highlight={pd.eligibilityTitleHighlight} />
+                <div className="flex flex-col gap-8">
+                  <div className="grid md:grid-cols-2 gap-8">
+                    {pd.eligibilityCards.map((c) => (
+                      <AccentCard key={c.title}>
+                        <H5>{c.title}</H5>
+                        <p className="mt-4 text-base leading-[150%] text-black">
+                          <BoldLead text={c.description} />
+                        </p>
+                      </AccentCard>
+                    ))}
+                  </div>
+                  {pd.eligibilityCtaLabel && (
+                    <Link
+                      to={pd.eligibilityCtaUrl || '/admissions'}
+                      className="inline-flex items-center gap-3 w-fit h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors"
                     >
-                      <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                        {c.title}
-                      </h3>
-                      <p className="text-sm text-ink-600 leading-relaxed">{c.description}</p>
-                    </div>
-                  ))}
+                      {pd.eligibilityCtaLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
+                    </Link>
+                  )}
                 </div>
-
-                {pd.eligibilityCtaLabel && (
-                  <a
-                    href={pd.eligibilityCtaUrl || '#'}
-                    className="bg-navy-900 hover:bg-navy-800 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md inline-flex items-center gap-2"
-                  >
-                    {pd.eligibilityCtaLabel} <ArrowUpRight size={14} />
-                  </a>
-                )}
-              </section>
+              </div>
             )}
 
-            {/* Placement & outcomes */}
-            <section id="outcomes" className="scroll-mt-32 mb-16">
-              <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                Placement & Outcomes
-              </span>
-              <TitleWithHighlight
-                text={pd.outcomesTitle}
-                highlight={pd.outcomesTitleHighlight}
-                className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-8"
-              />
-
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Outcomes — navy snapshot card | recruiter chips card, both 463. */}
+            <div id="outcomes" className="scroll-mt-40 flex flex-col gap-20">
+              <Header tagline="Placement & outcomes" title={pd.outcomesTitle} highlight={pd.outcomesTitleHighlight} />
+              <div className="grid md:grid-cols-2 gap-8">
                 {has('snapshotPoints') && (
-                  <div className="bg-navy-900 text-white rounded-lg p-7">
-                    <h3 className="font-display text-lg font-semibold mb-5">{pd.snapshotTitle}</h3>
-                    <ul className="space-y-2.5 mb-7">
-                      {pd.snapshotPoints.map((pt) => (
-                        <li key={pt} className="flex gap-2.5 text-sm text-white/85">
-                          <span className="text-sky-500 shrink-0">•</span>
-                          <span>{pt}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <a
-                      href={pd.snapshotCtaUrl || '#'}
-                      className="bg-sky-600 hover:bg-teal-600 transition-colors text-white text-sm font-medium px-4 py-2.5 rounded-md inline-flex items-center gap-2"
-                    >
-                      {pd.snapshotCtaLabel} <ArrowUpRight size={14} />
-                    </a>
-                  </div>
-                )}
-
-                {has('recruiters') && (
-                  <div className="border border-navy-100 rounded-lg p-7">
-                    <h3 className="font-display text-lg font-semibold text-navy-900 mb-5">
-                      {pd.recruitersTitle}
-                    </h3>
-                    <div className="flex flex-wrap gap-3 mb-7">
-                      {pd.recruiters.map((r) => (
-                        <span
-                          key={r}
-                          className="border border-navy-100 rounded-md px-4 py-2.5 text-xs text-navy-900"
-                        >
-                          {r}
-                        </span>
-                      ))}
+                  <AccentCard bg="bg-navy-900" className="text-white">
+                    <div className="flex flex-col gap-6">
+                      <H6 as="h3" className="text-teal-400">
+                        {pd.snapshotTitle}
+                      </H6>
+                      <ul className="list-disc pl-5 flex flex-col text-sm leading-[150%] text-navy-50">
+                        {pd.snapshotPoints.map((pt) => (
+                          <li key={pt}>{pt}</li>
+                        ))}
+                      </ul>
+                      {pd.snapshotCtaLabel && (
+                        <div>
+                          <HeroButton label={pd.snapshotCtaLabel} to={pd.snapshotCtaUrl} primary />
+                        </div>
+                      )}
                     </div>
-                    <a
-                      href={pd.recruitersCtaUrl || '#'}
-                      className="text-sm font-medium text-navy-900 hover:text-sky-600 transition-colors inline-flex items-center gap-2"
-                    >
-                      {pd.recruitersCtaLabel} <ArrowUpRight size={14} />
-                    </a>
-                  </div>
+                  </AccentCard>
+                )}
+                {has('recruiters') && (
+                  <AccentCard>
+                    <div className="flex flex-col gap-6">
+                      <H5>{pd.recruitersTitle}</H5>
+                      <div className="grid grid-cols-3 gap-2.5">
+                        {pd.recruiters.map((r) => (
+                          <span
+                            key={r}
+                            className="h-11 flex items-center justify-center px-2 rounded-lg outline outline-1 -outline-offset-1 outline-black text-sm leading-[150%] text-black text-center"
+                          >
+                            {r}
+                          </span>
+                        ))}
+                      </div>
+                      {pd.recruitersCtaLabel && (
+                        <Link
+                          to={pd.recruitersCtaUrl || '/placements/partners'}
+                          className="inline-flex items-center gap-3 w-fit h-11 px-6 text-base leading-[150%] font-medium text-black hover:underline underline-offset-2"
+                        >
+                          {pd.recruitersCtaLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
+                        </Link>
+                      )}
+                    </div>
+                  </AccentCard>
                 )}
               </div>
-            </section>
+            </div>
 
-            {/* Student voice */}
+            {/* Student voice — navy card, radius 16, padding 48/64: H6 quote, 60px avatar. */}
             {pd.voiceQuote && (
-              <section id="voice" className="scroll-mt-32">
-                <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                  Student Voice
-                </span>
-                <figure className="bg-navy-900 text-white rounded-lg p-8 mt-5 m-0">
-                  <blockquote className="font-display text-xl leading-relaxed mb-6">
+              <div id="voice" className="scroll-mt-40 flex flex-col gap-20">
+                <Tagline>Student voice</Tagline>
+                <figure className="m-0 -mt-12 px-6 py-8 md:px-16 md:py-12 rounded-2xl bg-navy-900 text-white flex flex-col gap-8">
+                  <blockquote className="max-w-[768px] font-display font-medium text-[22px] leading-[140%] md:text-[28px] tracking-[-0.01em]">
                     {pd.voiceQuote}
                   </blockquote>
-                  <figcaption className="flex items-center gap-4">
+                  <figcaption className="flex flex-wrap items-center gap-4">
                     <div
-                      className="w-10 h-10 rounded-full bg-white/20 bg-cover bg-center shrink-0"
-                      style={voicePhotoUrl ? { backgroundImage: `url('${voicePhotoUrl}')` } : undefined}
+                      className="w-[60px] h-[60px] rounded-full bg-white/20 bg-cover bg-center shrink-0"
+                      style={{ backgroundImage: `url('${voicePhotoUrl}')` }}
                     />
-                    <div>
-                      <p className="text-sm font-semibold">{pd.voiceName}</p>
-                      <p className="text-xs text-white/70">{pd.voiceMeta}</p>
-                    </div>
+                    <H6 as="span" className="text-white">
+                      {pd.voiceName}
+                    </H6>
+                    <span className="text-base leading-[150%]">{pd.voiceMeta}</span>
                   </figcaption>
                 </figure>
-              </section>
+              </div>
             )}
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Apply CTA */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-white/80">
-            {pd.ctaEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={pd.ctaTitle}
+      {/* Apply — navy, 64 padding, left column, Eastern Blue tagline, bold-lead copy. */}
+      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+        <div className="max-w-[1280px] mx-auto">
+          <Tagline className="text-teal-400">{pd.ctaEyebrow}</Tagline>
+          <Heading
+            text={composeTitle(pd.ctaTitle, pd.ctaTitleHighlight)}
             highlight={pd.ctaTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-5 mb-4"
+            className="text-white mt-4"
+            highlightClass="text-teal-400"
           />
-          <p className="text-sm text-white/75 max-w-lg mb-8">{pd.ctaSubtitle}</p>
-          <div className="flex flex-wrap gap-3">
+          <p className="mt-6 text-base leading-[150%]">
+            <BoldLead text={pd.ctaSubtitle} />
+          </p>
+          <div className="mt-8 flex flex-col md:flex-row gap-3.5">
             {(pd.ctaButtons || []).map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors flex items-center gap-2 ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-                {b.primary && <ArrowUpRight size={14} />}
-              </a>
+              <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} />
             ))}
           </div>
         </div>
