@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
+import { figmaWrap } from '../lib/text';
 
 // The full-bleed photo hero every inner page opens with (Figma "Frame 2147229563").
 //
@@ -25,9 +26,9 @@ function Slash() {
   );
 }
 
-export function Breadcrumb({ items }) {
+export function Breadcrumb({ items, className = '' }) {
   return (
-    <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1 text-base leading-[150%] text-hero">
+    <nav aria-label="Breadcrumb" className={`flex flex-wrap items-center gap-1 text-base leading-[150%] text-hero ${className}`}>
       {items.map((item, i) => {
         const last = i === items.length - 1;
         return (
@@ -119,7 +120,10 @@ export default function PageHero({
   // full width) or 'grid' (two per row; mark one action mobileLast to give it the
   // last row to itself).
   mobileActions = 'stack',
+  // 'center' stacks everything on the frame's centre line (Campus Life, Life).
+  align = 'left',
 }) {
+  const center = align === 'center';
   return (
     <section
       // mt-12: the photo starts below the 48px utility bar (Figma), while the
@@ -135,10 +139,14 @@ export default function PageHero({
       {mobileOverlay === 'gradient-tint' && <div className="absolute inset-0 md:hidden bg-black/20" />}
       <div className="absolute inset-0 hidden md:block" style={{ backgroundImage: GRADIENT_DESKTOP }} />
 
-      <div className="relative h-full max-w-[1440px] mx-auto px-5 md:px-[55px] pb-[72px] flex flex-col justify-end text-hero">
+      <div
+        className={`relative h-full max-w-[1440px] mx-auto px-5 md:px-[55px] pb-[72px] flex flex-col justify-end text-hero ${
+          center ? 'items-center text-center' : ''
+        }`}
+      >
         {breadcrumb?.length > 0 && (
           <>
-            <Breadcrumb items={breadcrumb} />
+            <Breadcrumb items={breadcrumb} className={center ? 'justify-center' : ''} />
             <div className="w-[277px] h-px bg-white/20 my-4" />
           </>
         )}
@@ -169,7 +177,7 @@ export default function PageHero({
           className={`font-display font-medium ${mobileTitle} tracking-[-0.01em] md:text-[72px] md:leading-[120%] whitespace-pre-line`}
           style={{ maxWidth: titleWidth }}
         >
-          {title}
+          {figmaWrap(title)}
         </h1>
 
         {description && (

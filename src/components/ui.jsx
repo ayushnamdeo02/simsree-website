@@ -1,3 +1,5 @@
+import { figmaWrap } from '../lib/text';
+
 // Shared building blocks taken 1:1 from the Figma design system, so every page
 // uses the same measurements. Desktop values first, mobile in the comments.
 
@@ -20,8 +22,10 @@ export function Tagline({ children, className = 'text-black', as: Tag = 'span' }
 }
 
 // Colours `highlight` teal inside `text`; appends it if it isn't part of the text.
+// Matching ignores the difference between plain and non-breaking spaces.
+const normSpaces = (s) => s.replace(/\u00a0/g, ' ');
 export function Highlighted({ text = '', highlight, highlightClass = 'text-teal-500' }) {
-  const idx = highlight ? text.indexOf(highlight) : -1;
+  const idx = highlight ? normSpaces(text).indexOf(normSpaces(highlight)) : -1;
   if (!highlight) return text;
   if (idx === -1)
     return (
@@ -44,7 +48,7 @@ export function Heading({ text, highlight, className = 'text-navy-900', as: Tag 
     <Tag
       className={`font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em] whitespace-pre-line ${className}`}
     >
-      <Highlighted text={text} highlight={highlight} highlightClass={highlightClass} />
+      <Highlighted text={figmaWrap(text)} highlight={highlight} highlightClass={highlightClass} />
     </Tag>
   );
 }
