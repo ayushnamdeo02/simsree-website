@@ -1,8 +1,4 @@
-import { useMemo, useState } from 'react';
 import {
-  ArrowLeft,
-  ArrowRight,
-  ArrowUpRight,
   Briefcase,
   ChevronRight,
   GraduationCap,
@@ -10,7 +6,12 @@ import {
   IdCard,
   Newspaper,
 } from 'lucide-react';
-import StatCard from '../components/StatCard';
+import { StatGrid } from '../components/StatCard';
+import PageHero, { HeroButton } from '../components/PageHero';
+import TestimonialCarousel from '../components/TestimonialCarousel';
+import { Section, SectionTitle, H5, H6 } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { useStudentsData } from '../lib/useStudentsData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -190,15 +191,45 @@ const fallbackTestimonials = [
   },
 ];
 
-function TitleWithHighlight({ text = '', highlight, className }) {
-  const idx = highlight ? text.indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
+// Figma photos for the seven explore cards (in order) and the three voices.
+const CARD_PHOTOS = [1, 2, 3, 4, 5, 6, 7].map((n) => `/images/students/card-${n}.webp`);
+const VOICE_PHOTOS = [1, 2, 3].map((n) => `/images/campus/voice-${n}.webp`);
+
+const img = (image, fallback, w) => (image ? urlFor(image).width(w).auto('format').url() : fallback);
+
+// Explore card — Figma: 405x506 hairline card, 270px photo, 24 padding: a
+// square-cornered #eaeaf1 tag, H5 28 black title, 16/150 copy, chevron link.
+function ExploreCard({ c, image, wide = false }) {
   return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
+    <a
+      href={c.url || '#'}
+      className={`group flex bg-white outline outline-1 -outline-offset-1 outline-black/20 hover:outline-navy-300 transition-colors ${
+        wide ? 'flex-col md:flex-row' : 'flex-col'
+      }`}
+    >
+      <div
+        className={`bg-navy-50 bg-cover bg-center shrink-0 ${wide ? 'h-[270px] md:h-auto md:w-1/2 md:min-h-[334px]' : 'h-[270px]'}`}
+        style={image ? { backgroundImage: `url('${image}')` } : undefined}
+      />
+      <div className={`flex-1 flex flex-col gap-6 p-6 ${wide ? 'md:justify-center' : ''}`}>
+        <div className="flex flex-col gap-4">
+          {c.badge && (
+            <span className="w-fit px-2.5 py-1 rounded bg-navy-50 outline outline-1 -outline-offset-1 outline-black/20 text-sm leading-[150%] uppercase text-navy-900">
+              {c.badge}
+            </span>
+          )}
+          <div className="flex flex-col gap-2">
+            <H5 as="h3" className="text-black">
+              {c.title}
+            </H5>
+            <p className="text-base leading-[150%] text-black">{c.description}</p>
+          </div>
+        </div>
+        <span className="flex items-center gap-2 w-fit text-base leading-[150%] text-black group-hover:underline underline-offset-2">
+          {c.ctaLabel || 'Open'} <ChevronRight size={24} strokeWidth={1.5} />
+        </span>
+      </div>
+    </a>
   );
 }
 
@@ -208,329 +239,117 @@ export default function Students() {
   const sp = fillFactsDeep({ ...fallbackPage, ...(data?.page || {}) }, facts);
   const paths = fillFactsDeep(data?.paths?.length ? data.paths : fallbackPaths, facts);
   const cards = fillFactsDeep(data?.cards?.length ? data.cards : fallbackCards, facts);
-  const testimonials = fillFactsDeep(
-    data?.testimonials?.length ? data.testimonials : fallbackTestimonials,
-    facts
+  const testimonials = fillFactsDeep(data?.testimonials?.length ? data.testimonials : fallbackTestimonials, facts).map(
+    (t, i) => ({
+      ...t,
+      meta: [t.meta, t.role].filter(Boolean).join('\n'),
+      photo: t.photo || VOICE_PHOTOS[i % VOICE_PHOTOS.length],
+    }),
   );
-  const heroButtons = fillFactsDeep(
-    sp.heroButtons?.length ? sp.heroButtons : fallbackPage.heroButtons,
-    facts
-  );
-  const ctaButtons = fillFactsDeep(
-    sp.ctaButtons?.length ? sp.ctaButtons : fallbackPage.ctaButtons,
-    facts
-  );
-
-  const heroImageUrl = sp.heroImage ? urlFor(sp.heroImage).width(1600).url() : null;
-
-  // Carousel shows three at a time on desktop; page through the rest.
-  const PER_PAGE = 3;
-  const pageCount = Math.max(1, Math.ceil(testimonials.length / PER_PAGE));
-  const [slide, setSlide] = useState(0);
-  const visibleQuotes = useMemo(
-    () => testimonials.slice(slide * PER_PAGE, slide * PER_PAGE + PER_PAGE),
-    [testimonials, slide]
-  );
-  const go = (dir) => setSlide((s) => (s + dir + pageCount) % pageCount);
+  const heroButtons = fillFactsDeep(sp.heroButtons?.length ? sp.heroButtons : fallbackPage.heroButtons, facts);
+  const ctaButtons = fillFactsDeep(sp.ctaButtons?.length ? sp.ctaButtons : fallbackPage.ctaButtons, facts);
 
   const wideCards = cards.filter((c) => c.wide);
   const gridCards = cards.filter((c) => !c.wide);
 
-  // Hero title: italic on one phrase, forced break after another.
+  // Hero title: forced line break after one phrase, italic on another.
   const title = sp.heroTitle || '';
   const brk = sp.heroTitleBreakAfter;
   const bIdx = brk ? title.indexOf(brk) : -1;
-  const line1 = bIdx === -1 ? title : title.slice(0, bIdx + brk.length);
-  const line2 = bIdx === -1 ? '' : title.slice(bIdx + brk.length).trim();
-  const renderLine = (line) => {
-    const it = sp.heroTitleItalic;
-    const iIdx = it ? line.indexOf(it) : -1;
-    if (iIdx === -1) return line;
-    return (
-      <>
-        {line.slice(0, iIdx)}
-        <span className="italic">{it}</span>
-        {line.slice(iIdx + it.length)}
-      </>
-    );
-  };
+  const heroTitle = bIdx === -1 ? title : `${title.slice(0, bIdx + brk.length)}\n${title.slice(bIdx + brk.length).trim()}`;
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[440px] md:h-[520px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[56px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-5 flex items-center">
-            <a href="/" className="hover:text-white">Home</a>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">Student&apos;s Corner</span>
-          </div>
-          <span className="text-[11px] font-semibold tracking-widest uppercase text-white/90 mb-4">
-            {sp.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-[52px] md:leading-[1.14] font-semibold mb-5">
-            {renderLine(line1)}
-            {line2 && (
-              <>
-                <br />
-                {renderLine(line2)}
-              </>
-            )}
-          </h1>
-          <p className="max-w-lg text-sm text-white/85 leading-relaxed mb-7">
-            {sp.heroDescription}
-          </p>
-          <div className="flex flex-wrap gap-3">
-            {heroButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-5 py-3 rounded-md transition-colors flex items-center gap-2 w-fit ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-                {b.primary && <ArrowUpRight size={15} />}
-              </a>
-            ))}
-          </div>
-        </div>
+      <PageHero
+        image={heroImage(sp.heroImage, '/images/students/hero.webp', { stretch: true })}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: "Student's Corner" }]}
+        eyebrow={sp.heroEyebrow}
+        eyebrowUpper
+        title={heroTitle}
+        titleItalic={sp.heroTitleItalic}
+        description={sp.heroDescription}
+        descriptionWidth={628}
+        actions={heroButtons.map((b) => ({ label: b.label, href: b.url, primary: b.primary }))}
+      />
+
+      <section className="px-5 py-16 md:p-16">
+        <StatGrid stats={sp.stats} />
       </section>
 
-      {/* Stats */}
-      <section className="max-w-[1408px] mx-auto px-6 lg:px-16 py-10 lg:py-14">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {(sp.stats || []).map((s) => (
-            <StatCard key={s.label} {...s} />
-          ))}
-        </div>
-      </section>
-
-      {/* Pick a path */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10">
-            <span className="text-xs text-white/70">{sp.pathsEyebrow}</span>
-            <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-4 mb-3">
-              {sp.pathsTitle}
-            </h2>
-            <p className="text-sm text-white/70">{sp.pathsSubtitle}</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
-            {paths.map((p) => {
-              const Icon = PATH_ICONS[p.icon] || IdCard;
-              return (
-                <a
-                  key={p.title}
-                  href={p.url || '#'}
-                  className="border border-white/20 hover:border-white/50 hover:bg-white/5 transition-colors rounded-sm p-6 flex flex-col"
-                >
-                  <Icon size={22} className="text-white mb-6" />
-                  <h3 className="font-display text-lg font-semibold mb-2">{p.title}</h3>
-                  <p className="text-xs text-white/60 leading-relaxed">{p.description}</p>
-                </a>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Explore */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-12">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {sp.exploreEyebrow}
-            </span>
-            <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3">
-              {cards.length} {sp.exploreTitle}
-            </h2>
-            <p className="text-sm text-ink-600">{sp.exploreSubtitle}</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {gridCards.map((c) => {
-              const imgUrl = c.image ? urlFor(c.image).width(700).url() : null;
-              return (
-                <a
-                  key={c.title}
-                  href={c.url || '#'}
-                  className="border border-navy-100 rounded-lg overflow-hidden flex flex-col hover:shadow-md transition-shadow"
-                >
-                  <div
-                    className="h-[180px] bg-gray-200 bg-cover bg-center"
-                    style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
-                  />
-                  <div className="p-6 flex flex-col flex-1">
-                    {c.badge && (
-                      <span className="inline-block w-fit text-[9px] font-semibold tracking-widest uppercase text-navy-900 bg-navy-50 px-2.5 py-1 rounded mb-4">
-                        {c.badge}
-                      </span>
-                    )}
-                    <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                      {c.title}
-                    </h3>
-                    <p className="text-sm text-ink-600 leading-relaxed mb-5">{c.description}</p>
-                    <span className="text-xs font-medium text-navy-900 inline-flex items-center gap-1 mt-auto">
-                      {c.ctaLabel || 'Open'} <ChevronRight size={13} />
-                    </span>
-                  </div>
-                </a>
-              );
-            })}
-          </div>
-
-          {/* Wide cards sit below the grid, image beside the text */}
-          {wideCards.map((c) => {
-            const imgUrl = c.image ? urlFor(c.image).width(900).url() : null;
+      {/* Pick a path — navy; five 237x224 cards, 1px #f2f2f2 border, 48px icon. */}
+      <Section bg="bg-navy-900" width={1280} className="text-white">
+        <SectionTitle
+          center
+          dark
+          tagline={sp.pathsEyebrow}
+          taglineClass="text-white normal-case"
+          title={sp.pathsTitle}
+          body={sp.pathsSubtitle}
+        />
+        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          {paths.map((p) => {
+            const Icon = PATH_ICONS[p.icon] || IdCard;
             return (
               <a
-                key={c.title}
-                href={c.url || '#'}
-                className="mt-6 lg:mt-8 border border-navy-100 rounded-lg overflow-hidden flex flex-col md:flex-row max-w-[820px] mx-auto hover:shadow-md transition-shadow"
+                key={p.title}
+                href={p.url || '#'}
+                className="flex flex-col justify-center gap-8 min-h-[224px] p-4 bg-navy-900 outline outline-1 -outline-offset-1 outline-ink-50 hover:bg-navy-800 transition-colors"
               >
-                <div
-                  className="h-[180px] md:h-auto md:w-[45%] shrink-0 bg-gray-200 bg-cover bg-center"
-                  style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
-                />
-                <div className="p-6 flex flex-col flex-1">
-                  {c.badge && (
-                    <span className="inline-block w-fit text-[9px] font-semibold tracking-widest uppercase text-navy-900 bg-navy-50 px-2.5 py-1 rounded mb-4">
-                      {c.badge}
-                    </span>
-                  )}
-                  <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                    {c.title}
-                  </h3>
-                  <p className="text-sm text-ink-600 leading-relaxed mb-5">{c.description}</p>
-                  <span className="text-xs font-medium text-navy-900 inline-flex items-center gap-1 mt-auto">
-                    {c.ctaLabel || 'Read'} <ChevronRight size={13} />
-                  </span>
-                </div>
+                <Icon size={48} strokeWidth={1.25} />
+                <span className="flex flex-col gap-2 text-hero">
+                  <H6 as="span" className="text-hero">
+                    {p.title}
+                  </H6>
+                  <span className="text-sm leading-[150%]">{p.description}</span>
+                </span>
               </a>
             );
           })}
         </div>
-      </section>
+      </Section>
 
-      {/* Voices */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {sp.voicesEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={sp.voicesTitle}
-            highlight={sp.voicesTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-3"
-          />
-          <p className="text-sm text-ink-600 mb-10">{sp.voicesSubtitle}</p>
-
-          <div
-            aria-live="polite"
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 border-t border-navy-100 pt-8"
-          >
-            {visibleQuotes.map((t) => {
-              const photoUrl = t.photo ? urlFor(t.photo).width(120).url() : null;
-              return (
-                <figure key={t.name} className="m-0 flex flex-col">
-                  <blockquote className="text-sm text-navy-900 leading-relaxed mb-6 flex-1">
-                    {t.quote}
-                  </blockquote>
-                  <figcaption className="flex items-center gap-3 pt-4 border-t border-navy-100">
-                    <span
-                      className="w-9 h-9 rounded-full bg-navy-100 bg-cover bg-center shrink-0"
-                      style={photoUrl ? { backgroundImage: `url('${photoUrl}')` } : undefined}
-                    />
-                    <span className="min-w-0">
-                      <span className="block text-xs font-semibold text-navy-900">
-                        {t.name}
-                        {t.programme && (
-                          <span className="font-normal text-ink-400"> ({t.programme})</span>
-                        )}
-                      </span>
-                      <span className="block text-[11px] text-ink-400">{t.meta}</span>
-                      <span className="block text-[11px] text-ink-400">{t.role}</span>
-                    </span>
-                  </figcaption>
-                </figure>
-              );
-            })}
-          </div>
-
-          {pageCount > 1 && (
-            <div className="flex items-center justify-between mt-8">
-              <div className="flex gap-2">
-                {Array.from({ length: pageCount }, (_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={() => setSlide(i)}
-                    aria-label={`Show testimonials ${i + 1} of ${pageCount}`}
-                    aria-current={i === slide ? 'true' : undefined}
-                    className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                      i === slide ? 'bg-navy-900' : 'bg-navy-100 hover:bg-navy-300'
-                    }`}
-                  />
-                ))}
-              </div>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => go(-1)}
-                  aria-label="Previous testimonials"
-                  className="w-9 h-9 rounded-md border border-navy-100 hover:bg-navy-50 transition-colors flex items-center justify-center"
-                >
-                  <ArrowLeft size={15} className="text-navy-900" />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => go(1)}
-                  aria-label="Next testimonials"
-                  className="w-9 h-9 rounded-md border border-navy-100 hover:bg-navy-50 transition-colors flex items-center justify-center"
-                >
-                  <ArrowRight size={15} className="text-navy-900" />
-                </button>
-              </div>
-            </div>
-          )}
+      {/* Explore — centred title; 3-up 405x506 cards, then the wide card centred. */}
+      <Section width={1280}>
+        <SectionTitle center tagline={sp.exploreEyebrow} title={sp.exploreTitle} body={sp.exploreSubtitle} />
+        <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {gridCards.map((c, i) => (
+            <ExploreCard key={c.title} c={c} image={img(c.image, CARD_PHOTOS[i], 810)} />
+          ))}
         </div>
-      </section>
-
-      {/* Apply CTA */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0 text-center">
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mb-4">{sp.ctaTitle}</h2>
-          <p className="text-sm text-white/75 mb-8 max-w-xl mx-auto">{sp.ctaSubtitle}</p>
-          <div className="flex flex-wrap justify-center gap-3">
-            {ctaButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors flex items-center gap-2 ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-                {b.primary && <ArrowUpRight size={14} />}
-              </a>
+        {wideCards.length > 0 && (
+          <div className="mt-8 flex flex-col items-center gap-8">
+            {wideCards.map((c, i) => (
+              <div key={c.title} className="w-full max-w-[918px]">
+                <ExploreCard c={c} image={img(c.image, CARD_PHOTOS[gridCards.length + i], 918)} wide />
+              </div>
             ))}
           </div>
+        )}
+      </Section>
+
+      {/* Voices — the Figma testimonial carousel. */}
+      <Section width={1280}>
+        <SectionTitle
+          tagline={sp.voicesEyebrow}
+          title={composeTitle(sp.voicesTitle, sp.voicesTitleHighlight)}
+          highlight={sp.voicesTitleHighlight}
+          body={sp.voicesSubtitle}
+          width={1280}
+        />
+        <div className="mt-20">
+          <TestimonialCarousel testimonials={testimonials} />
         </div>
-      </section>
+      </Section>
+
+      {/* Apply — navy, centred 768 column. */}
+      <Section bg="bg-navy-900" width={768} className="text-center">
+        <SectionTitle center dark title={sp.ctaTitle} body={sp.ctaSubtitle} />
+        <div className="mt-8 flex flex-wrap justify-center gap-4">
+          {ctaButtons.map((b) => (
+            <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} />
+          ))}
+        </div>
+      </Section>
     </div>
   );
 }
