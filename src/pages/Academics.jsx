@@ -1,4 +1,9 @@
-import { ArrowUpRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ArrowDown, ArrowUpRight, BriefcaseBusiness, Star, Target } from 'lucide-react';
+import PageHero, { HeroButton } from '../components/PageHero';
+import { Section, SectionTitle, Tagline, Heading, H5, H6 } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { useAcademicsData } from '../lib/useAcademicsData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -8,8 +13,8 @@ const fallbackPage = {
   heroTitle: 'Find the programme that fits your next move.',
   heroTitleBreakAfter: 'the',
   heroDescription:
-    'Full-time, executive, doctoral — five AICTE-approved degrees, one Churchgate campus.',
-  heroPrimaryCtaLabel: 'See all programmes',
+    'Full-time, executive, or doctoral — each built for India’s real business complexity. Compare them side-by-side, then open the one that fits.',
+  heroPrimaryCtaLabel: 'See all five programmes',
   heroPrimaryCtaUrl: '#full-time',
   heroSecondaryCtaLabel: 'Compare all five',
   heroSecondaryCtaUrl: '#compare',
@@ -25,7 +30,7 @@ const fallbackPage = {
     {
       title: 'Industry-led teaching',
       description:
-        'Learn every doctrine from someone who’s done the job — senior practitioners co-teach alongside doctoral faculty.',
+        'Learn every elective from someone who’s done the job — senior practitioners co-teach alongside doctoral faculty.',
     },
     {
       title: 'Case-based pedagogy',
@@ -107,11 +112,11 @@ const fallbackProgrammes = [
     tier: 'fullTime',
     badge: 'Full-time · 2 years · 120 seats',
     description:
-      'India’s longest-running MBA equivalent. Specialisations in Finance, HR, Marketing, Operations, Systems. Admission via Maharashtra CET.',
+      'India’s longest-running MBA-equivalent. Specialisations in Finance, HR, Marketing, Operations, Systems. Admission via Maharashtra CET.',
     points: [
       '5 specialisations · Finance · HR · Marketing · Operations · Systems',
       '2-year structure · 4 semesters + summer internship',
-      '₹4.5L total fees · 4 instalments',
+      '~₹4.5L total fees · 4 instalments',
       'State CET Cell · merit-only admission',
     ],
     primaryCtaLabel: 'See full MMS detail',
@@ -122,7 +127,7 @@ const fallbackProgrammes = [
     mode: 'Full-time on-campus',
     seats: '120',
     fees: '~₹4.5L',
-    admissionVia: 'Maharashtra CET (MMS-CMAT/CET) + GD + PI',
+    admissionVia: 'Maharashtra CET (MMS-CMAT/CET) → GD + PI',
     order: 1,
   },
   {
@@ -131,11 +136,11 @@ const fallbackProgrammes = [
     tier: 'fullTime',
     badge: 'Full-time · 2 years · 40 seats',
     description:
-      'Specialise in finance — capital markets, investment banking, equity research, derivatives, fintech — on a CFPP certification pathway.',
+      'Specialise in finance — capital markets, investment banking, equity research, derivatives, fintech — on a CFP® certification pathway.',
     points: [
-      'CFPP partnership · structured pathway to Financial Planner certification',
-      '40 seats · 2 years · 4 semesters + industry capstone',
-      '₹5.6L total fees',
+      'CFP® partnership · structured pathway to Financial Planner certification',
+      '2-year structure · 4 semesters + industry capstone',
+      '~₹3.8L total fees',
       'SIMSREE entrance · GD + PI',
     ],
     primaryCtaLabel: 'Programme detail',
@@ -145,20 +150,20 @@ const fallbackProgrammes = [
     duration: '2 years',
     mode: 'Full-time on-campus',
     seats: '40',
-    fees: '~₹5.6L',
-    admissionVia: 'SIMSREE entrance + GD + PI',
+    fees: '~₹3.8L',
+    admissionVia: 'SIMSREE entrance → GD + PI',
     order: 2,
   },
   {
     name: 'Master’s in Financial Management',
     shortName: 'MFM (Executive)',
     tier: 'executive',
-    badge: 'Executive · 3 years · Part-time',
+    badge: 'Executive · 3 yrs · Part-time',
     description:
       'Advance in finance — built for tomorrow’s CFOs, banking specialists, and treasury and FP&A leaders.',
     points: [
       'Weekend classes · Churchgate campus',
-      '₹3.2L total · paid by semester',
+      '~₹2.8L total · paid by semester',
       'Min 2 years finance work-ex + bachelor’s + employer NOC',
     ],
     primaryCtaLabel: 'See the MFM programme',
@@ -166,7 +171,7 @@ const fallbackProgrammes = [
     duration: '3 years',
     mode: 'Part-time · weekends',
     seats: '60',
-    fees: '~₹3.2L',
+    fees: '~₹2.8L',
     admissionVia: 'SIMSREE entrance + interview · 2 yr work-ex required',
     order: 3,
   },
@@ -174,12 +179,12 @@ const fallbackProgrammes = [
     name: 'Master’s in Marketing Management',
     shortName: 'MMM (Executive)',
     tier: 'executive',
-    badge: 'Executive · 3 years · Part-time',
+    badge: 'Executive · 3 yrs · Part-time',
     description:
       'Advance in marketing — built for brand managers, growth leads, sales heads, and agency strategists.',
     points: [
       'Weekend classes · Churchgate campus',
-      '₹3.2L total · paid by semester',
+      '~₹2.8L total · paid by semester',
       'Min 2 years marketing work-ex + bachelor’s + employer NOC',
     ],
     primaryCtaLabel: 'Open programme',
@@ -187,7 +192,7 @@ const fallbackProgrammes = [
     duration: '3 years',
     mode: 'Part-time · weekends',
     seats: '60',
-    fees: '~₹3.2L',
+    fees: '~₹2.8L',
     admissionVia: 'SIMSREE entrance + interview · 2 yr work-ex required',
     order: 4,
   },
@@ -201,7 +206,7 @@ const fallbackProgrammes = [
     points: [
       'Coursework + research proposal + thesis',
       'Master’s + min 55% + PET entrance + interview',
-      '₹1.5L per year · fellowship opportunities available',
+      '~₹1.5L per year · fellowship opportunities available',
       'Per Mumbai University / Dr Homi Bhabha SU schedule',
     ],
     primaryCtaLabel: 'See the PhD programme',
@@ -231,7 +236,7 @@ const fallbackDifferentiators = [
   {
     title: 'Active placement cell',
     description:
-      '{{placementRate}} placement · {{recruiterCount}} recruiters · {{placementRate}} placement record · transparent salary data.',
+      'Student-run · {{recruiterCount}} recruiters · {{placementRate}} placement record · transparent salary data.',
     order: 3,
   },
   {
@@ -241,7 +246,7 @@ const fallbackDifferentiators = [
     order: 4,
   },
   {
-    title: '{{noQuotaShort}}',
+    title: 'Zero management quota',
     description:
       'Pure merit · no paid seats · transparent admissions through CET / institute entrance.',
     order: 5,
@@ -254,88 +259,113 @@ const fallbackDifferentiators = [
   },
 ];
 
-function TitleWithHighlight({ text, highlight, className }) {
-  const idx = highlight ? (text || '').indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
+// Figma photos per programme and for the faculty cards.
+const PROGRAMME_PHOTOS = {
+  MMS: '/images/academics/mms.webp',
+  'M.Sc. Finance': '/images/academics/msc-finance.webp',
+  'MFM (Executive)': '/images/academics/mfm.webp',
+  'MMM (Executive)': '/images/academics/mmm.webp',
+  PhD: '/images/history/location.webp',
+};
+const FACULTY_PHOTOS = ['/images/academics/faculty-core.webp', '/images/academics/faculty-visiting.webp'];
+
+const APPROACH_ICONS = [Target, BriefcaseBusiness, Star];
+
+const img = (image, fallback, w) => (image ? urlFor(image).width(w).auto('format').url() : fallback);
+
+// Bullet list — Figma: 16/150 disc list; full-time cards set the lead phrase
+// (up to the first " · ") in SemiBold.
+function Points({ points = [], boldLead = false }) {
   return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
+    <ul className="list-disc pl-6 flex flex-col text-base leading-[150%] text-black">
+      {points.map((pt) => {
+        const i = pt.indexOf(' · ');
+        return (
+          <li key={pt}>
+            {boldLead && i > 0 ? (
+              <>
+                <strong className="font-semibold">{pt.slice(0, i)}</strong>
+                {pt.slice(i)}
+              </>
+            ) : (
+              pt
+            )}
+          </li>
+        );
+      })}
+    </ul>
   );
 }
 
-function ProgrammeCard({ p, wide = false }) {
-  const imgUrl = p.image ? urlFor(p.image).width(900).url() : null;
+function ProgrammeActions({ p }) {
   return (
-    <div
-      className={`border border-navy-100 rounded-lg overflow-hidden flex ${
-        wide ? 'flex-col lg:flex-row' : 'flex-col'
-      }`}
-    >
-      <div
-        className={`bg-gray-200 bg-cover bg-center shrink-0 ${
-          wide ? 'h-[240px] lg:h-auto lg:w-[42%]' : 'h-[240px]'
-        }`}
-        style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
-      />
-      <div className="p-7 flex flex-col flex-1">
-        {p.badge && (
-          <span className="inline-block w-fit text-[10px] font-semibold tracking-widest uppercase text-navy-900 bg-navy-50 px-3 py-1.5 rounded mb-4">
-            {p.badge}
-          </span>
-        )}
-        <h3 className="font-display text-xl font-semibold text-navy-900 mb-3">{p.name}</h3>
-        <p className="text-sm text-ink-600 leading-relaxed mb-5">{p.description}</p>
-
-        {p.points?.length > 0 && (
-          <ul className="space-y-2 mb-6">
-            {p.points.map((pt) => (
-              <li key={pt} className="flex gap-2.5 text-xs text-ink-600">
-                <span className="text-sky-600 shrink-0">•</span>
-                <span>{pt}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-
-        <div className="flex flex-wrap gap-3 mt-auto">
-          {p.primaryCtaLabel && (
-            <a
-              href={p.primaryCtaUrl || '#'}
-              className="bg-navy-900 hover:bg-navy-800 transition-colors text-white text-sm font-medium px-4 py-2.5 rounded-md flex items-center gap-2"
-            >
-              {p.primaryCtaLabel} <ArrowUpRight size={14} />
-            </a>
-          )}
-          {p.secondaryCtaLabel && (
-            <a
-              href={p.secondaryCtaUrl || '#'}
-              className="border border-navy-100 hover:bg-navy-50 transition-colors text-navy-900 text-sm font-medium px-4 py-2.5 rounded-md flex items-center gap-2"
-            >
-              {p.secondaryCtaLabel} <ArrowUpRight size={14} />
-            </a>
-          )}
-        </div>
-      </div>
+    <div className="flex flex-wrap gap-4">
+      {p.primaryCtaLabel && (
+        <Link
+          to={p.primaryCtaUrl || '#'}
+          className="inline-flex items-center gap-3 h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors"
+        >
+          {p.primaryCtaLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
+        </Link>
+      )}
+      {p.secondaryCtaLabel && <HeroButton label={p.secondaryCtaLabel} to={p.secondaryCtaUrl || '#'} />}
     </div>
   );
 }
 
-function TierHeading({ eyebrow, title, highlight, subtitle }) {
+// Figma programme card: 624 wide, radius 16, hairline + "small" shadow, padded 32;
+// 560x490 photo (radius 16), yellow-tint tag, H5 navy name, 18/150 copy, bullets.
+function ProgrammeCard({ p }) {
+  const src = img(p.image, PROGRAMME_PHOTOS[p.shortName], 1120);
   return (
-    <>
-      <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-        {eyebrow}
-      </span>
-      <TitleWithHighlight
-        text={title}
-        highlight={highlight}
-        className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
+    <div className="flex flex-col gap-6 p-6 md:p-8 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+      <div
+        className="h-[260px] md:h-[490px] rounded-2xl bg-navy-50 bg-cover bg-center"
+        style={src ? { backgroundImage: `url('${src}')` } : undefined}
       />
-      <p className="text-sm text-ink-600 max-w-2xl mb-10">{subtitle}</p>
-    </>
+      {p.badge && (
+        <span
+          className={`w-fit px-4 py-1 rounded-2xl text-navy-900 text-sm leading-[150%] uppercase ${
+            p.tier === 'executive' ? 'bg-navy-50' : 'bg-[#fffbec]'
+          }`}
+        >
+          {p.badge}
+        </span>
+      )}
+      <div className="flex flex-col gap-3">
+        <H5>{p.name}</H5>
+        <p className="text-base md:text-lg leading-[150%] text-black">{p.description}</p>
+        <Points points={p.points} boldLead={p.tier === 'fullTime'} />
+      </div>
+      <ProgrammeActions p={p} />
+    </div>
+  );
+}
+
+// PhD card — Figma: 1280 row, 616x657 photo (radius 16 on the left) beside a
+// padded 32 column with a navy pill tag and an H2 name.
+function DoctoralCard({ p }) {
+  const src = img(p.image, PROGRAMME_PHOTOS[p.shortName], 1232);
+  return (
+    <div className="grid lg:grid-cols-2 lg:items-center gap-8 lg:gap-12 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small overflow-hidden">
+      <div
+        className="h-[280px] lg:h-[657px] bg-navy-50 bg-cover bg-center rounded-t-2xl lg:rounded-none lg:rounded-l-2xl"
+        style={src ? { backgroundImage: `url('${src}')` } : undefined}
+      />
+      <div className="p-6 md:p-8 flex flex-col gap-8">
+        {p.badge && (
+          <span className="w-fit px-8 py-2.5 rounded-[32px] bg-navy-900 text-hero text-base md:text-lg leading-[150%] uppercase outline outline-1 -outline-offset-1 outline-black/20">
+            {p.badge}
+          </span>
+        )}
+        <div className="flex flex-col gap-6">
+          <Heading text={p.name} as="h3" />
+          <p className="text-base md:text-lg leading-[150%] text-black">{p.description}</p>
+          <Points points={p.points} />
+        </div>
+        <ProgrammeActions p={p} />
+      </div>
+    </div>
   );
 }
 
@@ -346,13 +376,11 @@ export default function Academics() {
   const programmes = fillFactsDeep(data?.programmes?.length ? data.programmes : fallbackProgrammes, facts);
   const differentiators = fillFactsDeep(
     data?.differentiators?.length ? data.differentiators : fallbackDifferentiators,
-    facts
+    facts,
   );
   const approachCards = fillFactsDeep(ap.approachCards?.length ? ap.approachCards : fallbackPage.approachCards, facts);
   const facultyCards = fillFactsDeep(ap.facultyCards?.length ? ap.facultyCards : fallbackPage.facultyCards, facts);
   const ctaButtons = fillFactsDeep(ap.ctaButtons?.length ? ap.ctaButtons : fallbackPage.ctaButtons, facts);
-
-  const heroImageUrl = ap.heroImage ? urlFor(ap.heroImage).width(1600).url() : null;
 
   const byTier = (tier) => programmes.filter((p) => p.tier === tier);
   const fullTime = byTier('fullTime');
@@ -363,281 +391,213 @@ export default function Academics() {
   const title = ap.heroTitle || '';
   const brk = ap.heroTitleBreakAfter;
   const bIdx = brk ? title.indexOf(brk) : -1;
-  const line1 = bIdx === -1 ? title : title.slice(0, bIdx + brk.length);
-  const line2 = bIdx === -1 ? '' : title.slice(bIdx + brk.length).trim();
+  const heroTitle = bIdx === -1 ? title : `${title.slice(0, bIdx + brk.length)}\n${title.slice(bIdx + brk.length).trim()}`;
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[520px] md:h-[620px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[60px] md:h-full flex flex-col justify-end text-white">
-          <span className="inline-block w-fit bg-navy-900 text-white text-[11px] font-semibold tracking-widest uppercase px-4 py-2 rounded-full mb-6">
-            {ap.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-[56px] md:leading-[1.12] font-semibold mb-5">
-            {line1}
-            {line2 && (
-              <>
-                <br />
-                {line2}
-              </>
-            )}
-          </h1>
-          <p className="max-w-lg text-sm text-white/85 leading-relaxed mb-8">{ap.heroDescription}</p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href={ap.heroPrimaryCtaUrl}
-              className="bg-sky-600 hover:bg-teal-600 transition-colors text-white font-medium px-5 py-3 rounded-md flex items-center gap-2 w-fit"
-            >
-              {ap.heroPrimaryCtaLabel} <ArrowUpRight size={16} />
-            </a>
-            <a
-              href={ap.heroSecondaryCtaUrl}
-              className="bg-white hover:bg-gray-100 transition-colors text-navy-900 font-medium px-5 py-3 rounded-md w-fit"
-            >
-              {ap.heroSecondaryCtaLabel}
-            </a>
-            <a
-              href={ap.heroTertiaryCtaUrl}
-              className="border border-white/40 hover:bg-white/10 transition-colors text-white font-medium px-5 py-3 rounded-md w-fit"
-            >
-              {ap.heroTertiaryCtaLabel}
-            </a>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        image={heroImage(ap.heroImage, '/images/academics/hero.webp', { stretch: true })}
+        eyebrow={ap.heroEyebrow}
+        eyebrowStyle="pill"
+        title={heroTitle}
+        titleWidth={652}
+        description={ap.heroDescription}
+        descriptionWidth={628}
+        actions={[
+          { label: ap.heroPrimaryCtaLabel, href: ap.heroPrimaryCtaUrl, primary: true },
+          { label: ap.heroSecondaryCtaLabel, href: ap.heroSecondaryCtaUrl },
+          { label: ap.heroTertiaryCtaLabel, to: ap.heroTertiaryCtaUrl },
+        ]}
+        mobileOverlay="gradient-tint"
+      />
 
-      {/* Approach */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {ap.approachEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={ap.approachTitle}
-            highlight={ap.approachTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4 max-w-2xl"
-          />
-          <p className="text-sm text-ink-600 max-w-2xl mb-10">{ap.approachSubtitle}</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6">
-            {approachCards.map((c) => (
-              <div
-                key={c.title}
-                className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
-              >
-                <h3 className="font-semibold text-navy-900 mb-2">{c.title}</h3>
-                <p className="text-sm text-ink-600 leading-relaxed">{c.description}</p>
+      {/* Approach — title, then three 405x155 bar cards with a 44px #eaeaf1 icon tile. */}
+      <Section width={1280}>
+        <SectionTitle
+          tagline={ap.approachEyebrow}
+          title={composeTitle(ap.approachTitle, ap.approachTitleHighlight)}
+          highlight={ap.approachTitleHighlight}
+          body={ap.approachSubtitle}
+        />
+        <div className="mt-20 grid md:grid-cols-3 gap-8">
+          {approachCards.map((c, i) => {
+            const Icon = APPROACH_ICONS[i % APPROACH_ICONS.length];
+            return (
+              <div key={c.title} className="flex min-h-[155px] outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+                <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
+                <div className="flex gap-6 py-4 pl-8 pr-8">
+                  <span className="w-11 h-11 shrink-0 rounded-xl bg-navy-50 flex items-center justify-center text-navy-900">
+                    <Icon size={24} strokeWidth={1.5} />
+                  </span>
+                  <div className="flex flex-col gap-2">
+                    <H6 as="h3">{c.title}</H6>
+                    <p className="text-sm leading-[150%] text-black">{c.description}</p>
+                  </div>
+                </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
-      </section>
+      </Section>
 
-      {/* Full-time */}
-      <section id="full-time" className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <TierHeading
-            eyebrow={ap.fullTimeEyebrow}
-            title={ap.fullTimeTitle}
-            highlight={ap.fullTimeTitleHighlight}
-            subtitle={ap.fullTimeSubtitle}
-          />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-            {fullTime.map((p) => (
-              <ProgrammeCard key={p._id || p.shortName} p={p} />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Executive */}
-      <section className="bg-navy-50 py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <TierHeading
-            eyebrow={ap.executiveEyebrow}
-            title={ap.executiveTitle}
-            highlight={ap.executiveTitleHighlight}
-            subtitle={ap.executiveSubtitle}
-          />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-            {executive.map((p) => (
-              <div key={p._id || p.shortName} className="bg-white rounded-lg">
-                <ProgrammeCard p={p} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Doctoral */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <TierHeading
-            eyebrow={ap.doctoralEyebrow}
-            title={ap.doctoralTitle}
-            highlight={ap.doctoralTitleHighlight}
-            subtitle={ap.doctoralSubtitle}
-          />
-          {doctoral.map((p) => (
-            <ProgrammeCard key={p._id || p.shortName} p={p} wide />
+      {/* Full-time — two 624 programme cards. */}
+      <Section id="full-time" width={1280}>
+        <SectionTitle
+          tagline={ap.fullTimeEyebrow}
+          title={composeTitle(ap.fullTimeTitle, ap.fullTimeTitleHighlight)}
+          highlight={ap.fullTimeTitleHighlight}
+          width={881}
+        />
+        <p className="mt-5 md:mt-6 max-w-[678px] text-base md:text-lg leading-[150%] text-black">{ap.fullTimeSubtitle}</p>
+        <div className="mt-20 grid md:grid-cols-2 gap-8 items-start">
+          {fullTime.map((p) => (
+            <ProgrammeCard key={p._id || p.name} p={p} />
           ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Comparison table */}
-      <section id="compare" className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {ap.compareEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={ap.compareTitle}
-            highlight={ap.compareTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
-          />
-          <p className="text-sm text-ink-600 mb-10">{ap.compareSubtitle}</p>
+      {/* Executive — #eaeaf1 band, two cards. */}
+      <Section bg="bg-navy-50" width={1280}>
+        <SectionTitle
+          tagline={ap.executiveEyebrow}
+          title={composeTitle(ap.executiveTitle, ap.executiveTitleHighlight)}
+          highlight={ap.executiveTitleHighlight}
+          body={ap.executiveSubtitle}
+        />
+        <div className="mt-20 grid md:grid-cols-2 gap-8 items-start">
+          {executive.map((p) => (
+            <ProgrammeCard key={p._id || p.name} p={p} />
+          ))}
+        </div>
+      </Section>
 
-          {/* Wide table scrolls inside its own container rather than the page */}
-          <div className="overflow-x-auto rounded-lg border border-navy-100">
-            <table className="w-full min-w-[860px] border-collapse text-left">
-              <thead>
-                <tr className="bg-navy-900 text-white">
-                  {['Programme', 'Duration', 'Mode', 'Seats', 'Fees', 'Admission via'].map((h) => (
-                    <th
-                      key={h}
-                      scope="col"
-                      className="text-[10px] font-semibold tracking-widest uppercase px-5 py-4 whitespace-nowrap"
-                    >
+      {/* Doctoral — one wide card. */}
+      <Section width={1280}>
+        <SectionTitle
+          tagline={ap.doctoralEyebrow}
+          title={composeTitle(ap.doctoralTitle, ap.doctoralTitleHighlight)}
+          highlight={ap.doctoralTitleHighlight}
+          body={ap.doctoralSubtitle}
+        />
+        <div className="mt-12 flex flex-col gap-12">
+          {doctoral.map((p) => (
+            <DoctoralCard key={p._id || p.name} p={p} />
+          ))}
+        </div>
+      </Section>
+
+      {/* Compare — navy header row, 64px rows alternating white / #eaeaf1. */}
+      <Section id="compare" width={1280}>
+        <SectionTitle
+          tagline={ap.compareEyebrow}
+          title={composeTitle(ap.compareTitle, ap.compareTitleHighlight)}
+          highlight={ap.compareTitleHighlight}
+          body={ap.compareSubtitle}
+        />
+        <div className="mt-12 overflow-x-auto">
+          <table className="w-full min-w-[900px] border-collapse text-left">
+            <thead>
+              <tr className="bg-navy-900 text-hero h-16">
+                {['Programme', 'Duration', 'Mode', 'Seats', 'Fees', 'Admission via'].map((h, i) => (
+                  <th key={h} className="px-4 text-base leading-[150%] font-semibold uppercase first:pl-6">
+                    <span className="flex items-center gap-2">
                       {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {programmes.map((p) => (
-                  <tr key={p._id || p.shortName} className="border-t border-navy-100">
-                    <th scope="row" className="text-sm font-medium text-navy-900 px-5 py-4 whitespace-nowrap">
-                      {p.shortName}
-                    </th>
-                    <td className="text-sm text-ink-600 px-5 py-4 whitespace-nowrap">{p.duration}</td>
-                    <td className="text-sm text-ink-600 px-5 py-4 whitespace-nowrap">{p.mode}</td>
-                    <td className="text-sm text-ink-600 px-5 py-4 whitespace-nowrap">{p.seats}</td>
-                    <td className="text-sm text-ink-600 px-5 py-4 whitespace-nowrap">{p.fees}</td>
-                    <td className="text-sm text-ink-600 px-5 py-4">{p.admissionVia}</td>
-                  </tr>
+                      {i === 0 && <ArrowDown size={20} strokeWidth={1.5} />}
+                    </span>
+                  </th>
                 ))}
-              </tbody>
-            </table>
-          </div>
+              </tr>
+            </thead>
+            <tbody>
+              {programmes.map((p, i) => (
+                <tr key={p._id || p.name} className={`h-16 text-black ${i % 2 ? 'bg-navy-50' : 'bg-white'}`}>
+                  <td className="pl-6 pr-4 text-base leading-[150%] font-medium">{p.shortName}</td>
+                  <td className="px-4 text-sm leading-[150%]">{p.duration}</td>
+                  <td className="px-4 text-sm leading-[150%]">{p.mode}</td>
+                  <td className="px-4 text-sm leading-[150%]">{p.seats}</td>
+                  <td className="px-4 text-sm leading-[150%]">{p.fees}</td>
+                  <td className="px-4 text-sm leading-[150%]">{p.admissionVia}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      </section>
+      </Section>
 
-      {/* Differentiators */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {ap.differentiatorsEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={ap.differentiatorsTitle}
-            highlight={ap.differentiatorsTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4 max-w-lg"
-          />
-          <p className="text-sm text-ink-600 mb-10">{ap.differentiatorsSubtitle}</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {differentiators.map((d, i) => (
-              <div key={d._id || d.title} className="border border-navy-100 rounded-lg p-6">
-                <span className="block font-display text-2xl font-semibold text-navy-100 mb-4">
-                  {String(d.order ?? i + 1).padStart(2, '0')}
-                </span>
-                <h3 className="font-semibold text-navy-900 mb-2">{d.title}</h3>
-                <p className="text-sm text-ink-600 leading-relaxed">{d.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Faculty */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-            <div>
-              <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                {ap.facultyEyebrow}
+      {/* Differentiators — six 405x221 cards: H4 36 number, H6 title, 14/150 copy. */}
+      <Section width={1280}>
+        <SectionTitle
+          tagline={ap.differentiatorsEyebrow}
+          title={composeTitle(ap.differentiatorsTitle, ap.differentiatorsTitleHighlight)}
+          highlight={ap.differentiatorsTitleHighlight}
+        />
+        <p className="mt-5 md:mt-6 max-w-[678px] text-base md:text-lg leading-[150%] text-black">{ap.differentiatorsSubtitle}</p>
+        <div className="mt-20 grid md:grid-cols-3 gap-8">
+          {differentiators.map((d, i) => (
+            <div
+              key={d._id || d.title}
+              className="flex flex-col justify-center gap-2 min-h-[221px] p-8 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+            >
+              <span className="font-display font-medium text-[36px] leading-[130%] tracking-[-0.01em] text-navy-900">
+                {String(d.order ?? i + 1).padStart(2, '0')}
               </span>
-              <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4">
-                {ap.facultyTitle}
-              </h2>
-              <p className="text-sm text-ink-600 max-w-md">{ap.facultySubtitle}</p>
+              <H6 as="h3" className="text-black">
+                {d.title}
+              </H6>
+              <p className="text-sm leading-[150%] text-black">{d.description}</p>
             </div>
+          ))}
+        </div>
+      </Section>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {facultyCards.map((c) => {
-                const imgUrl = c.image ? urlFor(c.image).width(600).url() : null;
-                return (
-                  <div key={c.title} className="border border-navy-100 rounded-lg overflow-hidden">
-                    <div
-                      className="h-[150px] bg-gray-200 bg-cover bg-center"
-                      style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
-                    />
-                    <div className="p-5">
-                      <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                        {c.title}
-                      </h3>
-                      <p className="text-xs text-ink-600 leading-relaxed mb-4">{c.description}</p>
-                      {c.ctaLabel && (
-                        <a
-                          href={c.ctaUrl || '#'}
-                          className="bg-navy-900 hover:bg-navy-800 transition-colors text-white text-xs font-medium px-4 py-2.5 rounded-md inline-flex items-center gap-2"
-                        >
-                          {c.ctaLabel} <ArrowUpRight size={13} />
-                        </a>
-                      )}
-                    </div>
+      {/* Faculty — 600 title (bottom-aligned) beside two staggered 292 photo cards. */}
+      <Section width={1280}>
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-end">
+          <SectionTitle className="lg:pb-2" tagline={ap.facultyEyebrow} title={ap.facultyTitle} body={ap.facultySubtitle} width={600} />
+          <div className="grid sm:grid-cols-2 gap-4 items-start">
+            {facultyCards.map((c, i) => {
+              const src = img(c.image, FACULTY_PHOTOS[i], 584);
+              return (
+                <div key={c.title} className="flex flex-col gap-4 rounded-b-2xl outline outline-1 -outline-offset-1 outline-black/20">
+                  <div
+                    className={`${i === 0 ? 'h-[336px]' : 'h-[463px]'} rounded-t-2xl bg-navy-50 bg-cover bg-center outline outline-1 -outline-offset-1 outline-black/20 shadow-small`}
+                    style={src ? { backgroundImage: `url('${src}')` } : undefined}
+                  />
+                  <div className="flex flex-col gap-4 p-6 pt-2">
+                    <H5 as="h3" className="text-black">
+                      {c.title}
+                    </H5>
+                    <p className="text-base leading-[150%] text-black">{c.description}</p>
+                    <Link
+                      to={c.ctaUrl}
+                      className="inline-flex items-center gap-3 w-fit h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium whitespace-nowrap hover:bg-navy-800 transition-colors"
+                    >
+                      {c.ctaLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
+                    </Link>
                   </div>
-                );
-              })}
-            </div>
+                </div>
+              );
+            })}
           </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Apply CTA */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-white">
-            {ap.ctaEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={ap.ctaTitle}
-            highlight={ap.ctaTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-5 mb-4"
-          />
-          <p className="text-sm text-white/75 max-w-md mb-8">{ap.ctaSubtitle}</p>
-          <div className="flex flex-wrap gap-3">
+      {/* Apply — navy, 64 padding, left column, Eastern Blue tagline. */}
+      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+        <div className="max-w-[1280px] mx-auto">
+          <div className="max-w-[613px]">
+            <Tagline className="text-teal-400">{ap.ctaEyebrow}</Tagline>
+            <Heading
+              text={composeTitle(ap.ctaTitle, ap.ctaTitleHighlight)}
+              highlight={ap.ctaTitleHighlight}
+              className="text-white mt-4"
+              highlightClass="text-teal-400"
+            />
+            <p className="mt-6 max-w-[504px] text-base md:text-lg leading-[150%]">{ap.ctaSubtitle}</p>
+          </div>
+          <div className="mt-8 flex flex-col md:flex-row gap-3.5">
             {ctaButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-              </a>
+              <HeroButton key={b.label} label={b.label} to={b.url} primary={b.primary} />
             ))}
           </div>
         </div>
