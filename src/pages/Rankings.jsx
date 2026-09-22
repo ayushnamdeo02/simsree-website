@@ -229,7 +229,7 @@ export default function Rankings() {
                 className="flex flex-col gap-6 md:p-8 md:rounded-2xl md:outline md:outline-1 md:-outline-offset-1 md:outline-black/20 md:shadow-small"
               >
                 <div
-                  className="h-[300px] lg:h-[490px] rounded-2xl bg-navy-100 bg-cover bg-center shrink-0"
+                  className="h-[490px] rounded-2xl bg-navy-100 bg-cover bg-center shrink-0"
                   style={img ? { backgroundImage: `url('${img}')` } : undefined}
                 />
                 <Tag className="w-fit bg-[#fffbec] text-navy-900 text-xs outline-0">{h.date}</Tag>

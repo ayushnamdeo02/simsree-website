@@ -204,7 +204,7 @@ function AdmissionCard({ image, eyebrow, title, summary, url }) {
   return (
     <div className="flex flex-col rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small overflow-hidden">
       <div
-        className="h-[260px] md:h-[490px] bg-navy-50 bg-cover bg-center rounded-t-2xl"
+        className="h-[490px] bg-navy-50 bg-cover bg-center rounded-t-2xl"
         style={image ? { backgroundImage: `url('${image}')` } : undefined}
       />
       <div className="flex-1 flex flex-col gap-6 px-8 py-6">

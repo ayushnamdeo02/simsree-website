@@ -146,7 +146,7 @@ export default function PlacementContact() {
           highlight={cp.contactsTitleHighlight}
           body={cp.contactsSubtitle}
         />
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-12">
+        <div className="mt-20 grid md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-12">
           {contacts.map((c, i) => {
             const src = photo(c.photo, CONTACT_PHOTOS[i], 396);
             const line = c.phone ? `${c.role} · ${c.phone}` : `${c.email} · ${c.note}`;
@@ -154,7 +154,7 @@ export default function PlacementContact() {
             return (
               <a key={c._id || c.name} href={href} className="group flex flex-col items-center gap-4 text-center">
                 <div
-                  className="w-[150px] h-[150px] md:w-[198px] md:h-[198px] rounded-full bg-navy-50 bg-cover bg-center"
+                  className="w-[198px] h-[198px] rounded-full bg-navy-50 bg-cover bg-center"
                   style={src ? { backgroundImage: `url('${src}')` } : undefined}
                 />
                 <div className="text-black max-w-[198px]">
