@@ -1,8 +1,9 @@
-import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
 import BreakdownPanel from '../components/BreakdownPanel';
+import PageHero, { HeroButton } from '../components/PageHero';
+import { Section, SectionTitle, H6 } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { useWhyRecruitData } from '../lib/useWhyRecruitData';
-import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
 const fallbackPage = {
@@ -92,18 +93,6 @@ const fallbackReasons = [
   },
 ];
 
-function TitleWithHighlight({ text, highlight, className }) {
-  const idx = highlight ? (text || '').indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
-  return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
-  );
-}
-
 export default function WhyRecruit() {
   const facts = useKeyFacts();
   const { data } = useWhyRecruitData();
@@ -112,153 +101,80 @@ export default function WhyRecruit() {
   const breakdowns = fillFactsDeep(wp.breakdowns?.length ? wp.breakdowns : fallbackPage.breakdowns, facts);
   const ctaButtons = fillFactsDeep(wp.ctaButtons?.length ? wp.ctaButtons : fallbackPage.ctaButtons, facts);
 
-  const heroImageUrl = wp.heroImage ? urlFor(wp.heroImage).width(1600).url() : null;
-
-  // Hero title: italic serif on one phrase, forced line break after another.
+  // The title breaks after one phrase ("practitioners.") onto a second line.
   const title = wp.heroTitle || '';
   const brk = wp.heroTitleBreakAfter;
   const bIdx = brk ? title.indexOf(brk) : -1;
-  const line1 = bIdx === -1 ? title : title.slice(0, bIdx + brk.length);
-  const line2 = bIdx === -1 ? '' : title.slice(bIdx + brk.length).trim();
-
-  const renderLine = (line) => {
-    const it = wp.heroTitleItalic;
-    const iIdx = it ? line.indexOf(it) : -1;
-    if (iIdx === -1) return line;
-    return (
-      <>
-        {line.slice(0, iIdx)}
-        <span className="italic">{it}</span>
-        {line.slice(iIdx + it.length)}
-      </>
-    );
-  };
+  const heroTitle = bIdx === -1 ? title : `${title.slice(0, bIdx + brk.length)}\n${title.slice(bIdx + brk.length).trim()}`;
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[520px] md:h-[578px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[60px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-5 flex items-center">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/placements" className="hover:text-white">Placement</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">Why Recruit</span>
-          </div>
-          <span className="text-[11px] font-semibold tracking-widest uppercase text-white/90 mb-4">
-            {wp.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-[56px] md:leading-[1.12] font-semibold mb-5">
-            {renderLine(line1)}
-            {line2 && (
-              <>
-                <br />
-                {renderLine(line2)}
-              </>
-            )}
-          </h1>
-          <p className="max-w-lg text-sm text-white/85 leading-relaxed mb-7">{wp.heroDescription}</p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href={wp.heroPrimaryCtaUrl}
-              className="bg-sky-600 hover:bg-teal-600 transition-colors text-white font-medium px-5 py-3 rounded-md flex items-center gap-2 w-fit"
-            >
-              {wp.heroPrimaryCtaLabel} <ArrowUpRight size={16} />
-            </a>
-            <a
-              href={wp.heroSecondaryCtaUrl}
-              className="bg-white hover:bg-gray-100 transition-colors text-navy-900 font-medium px-5 py-3 rounded-md w-fit"
-            >
-              {wp.heroSecondaryCtaLabel}
-            </a>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        image={heroImage(wp.heroImage, '/images/placements/why-recruit-hero.webp')}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Placement', to: '/placements' }, { label: 'Why Recruit' }]}
+        eyebrow={wp.heroEyebrow}
+        eyebrowUpper
+        title={heroTitle}
+        titleItalic={wp.heroTitleItalic}
+        description={wp.heroDescription}
+        descriptionWidth={628}
+        actions={[
+          { label: wp.heroPrimaryCtaLabel, href: wp.heroPrimaryCtaUrl, primary: true },
+          { label: wp.heroSecondaryCtaLabel, href: wp.heroSecondaryCtaUrl },
+        ]}
+        mobileOverlay="gradient-tint"
+      />
 
-      {/* Six reasons */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {wp.reasonsEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={wp.reasonsTitle}
-            highlight={wp.reasonsTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
-          />
-          <p className="text-sm text-ink-600 mb-10">{wp.reasonsSubtitle}</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-            {reasons.map((r, i) => (
-              <div
-                key={r._id || r.title}
-                className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
-              >
-                <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">
-                  <span className="text-ink-400">
-                    {String(r.order ?? i + 1).padStart(2, '0')}
-                  </span>
-                  <span className="text-ink-400 mx-2">·</span>
-                  {r.title}
-                </h3>
-                <p className="text-sm text-ink-600 leading-relaxed">{r.description}</p>
+      {/* Six reasons — left title (30 gap to the grid in Figma), 405x128 bar cards:
+          H6 22 "NN · title" in navy over 16/150 copy. */}
+      <Section width={1280}>
+        <SectionTitle
+          tagline={wp.reasonsEyebrow}
+          title={composeTitle(wp.reasonsTitle, wp.reasonsTitleHighlight)}
+          highlight={wp.reasonsTitleHighlight}
+          body={wp.reasonsSubtitle}
+        />
+        <div className="mt-[30px] grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {reasons.map((r, i) => (
+            <div key={r._id || r.title} className="flex min-h-32 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+              <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
+              <div className="flex flex-col justify-center gap-2 py-4 pl-8 pr-6">
+                <H6 as="h3">
+                  {String(r.order ?? i + 1).padStart(2, '0')} · {r.title}
+                </H6>
+                <p className="text-base leading-[150%] text-black">{r.description}</p>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Batch outcomes */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {wp.outcomesEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={wp.outcomesTitle}
-            highlight={wp.outcomesTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
-          />
-          <p className="text-sm text-ink-600 mb-12">{wp.outcomesSubtitle}</p>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
-            {breakdowns.map((b) => (
-              <BreakdownPanel key={b.title} title={b.title} rows={b.rows || []} />
-            ))}
-          </div>
+      {/* Batch outcomes — 1312 title, two 640x336 breakdown cards, 32 apart. */}
+      <Section>
+        <SectionTitle
+          tagline={wp.outcomesEyebrow}
+          title={composeTitle(wp.outcomesTitle, wp.outcomesTitleHighlight)}
+          highlight={wp.outcomesTitleHighlight}
+          body={wp.outcomesSubtitle}
+          width={1312}
+        />
+        <div className="mt-20 grid lg:grid-cols-2 gap-8">
+          {breakdowns.map((b) => (
+            <BreakdownPanel key={b.title} title={b.title} rows={b.rows || []} />
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Start hiring CTA */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-white">
-            {wp.ctaEyebrow}
-          </span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-5 mb-4">{wp.ctaTitle}</h2>
-          <p className="text-sm text-white/75 mb-8">{wp.ctaSubtitle}</p>
-          <div className="flex flex-wrap gap-3">
+      {/* Hiring CTA — navy, 64 padding, left 723 column, three buttons 14 apart. */}
+      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+        <div className="max-w-[1280px] mx-auto">
+          <div className="max-w-[723px]">
+            <SectionTitle dark tagline={wp.ctaEyebrow} title={wp.ctaTitle} width={723} />
+            <p className="mt-6 max-w-[598px] text-base md:text-lg leading-[150%]">{wp.ctaSubtitle}</p>
+          </div>
+          <div className="mt-8 flex flex-col md:flex-row flex-wrap gap-3.5">
             {ctaButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors ${
-                  b.primary
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-              </a>
+              <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} icon={false} />
             ))}
           </div>
         </div>
