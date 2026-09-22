@@ -54,7 +54,7 @@ export function Breadcrumb({ items, className = '' }) {
 // One hero action. `to` is an in-app route, `href` an external/mailto/tel/PDF link.
 // Figma: 44px tall, padding 10/24, radius 6, Inter Medium 16/24. Primary is Eastern
 // Blue with a 12px icon gap and arrow; secondary is white with a 20% black hairline.
-export function HeroButton({ label, to, href, primary = false, icon = primary, download, className = '' }) {
+export function HeroButton({ label, to, href, onClick, pressed, primary = false, icon = primary, download, className = '' }) {
   const cls = `${className} inline-flex items-center justify-center h-11 px-6 rounded-md text-base leading-[150%] font-medium whitespace-nowrap transition-colors ${
     primary
       ? 'gap-3 bg-teal-500 outline outline-1 -outline-offset-1 outline-teal-500 text-white hover:bg-teal-600'
@@ -66,6 +66,12 @@ export function HeroButton({ label, to, href, primary = false, icon = primary, d
       {icon && <ArrowUpRight size={24} strokeWidth={1.5} className="shrink-0" />}
     </>
   );
+  if (onClick)
+    return (
+      <button type="button" onClick={onClick} aria-pressed={pressed} className={cls}>
+        {content}
+      </button>
+    );
   if (to) return <Link to={to} className={cls}>{content}</Link>;
   const external = href && /^https?:/.test(href);
   return (

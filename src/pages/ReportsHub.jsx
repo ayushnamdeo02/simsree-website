@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Download, FileText } from 'lucide-react';
-import StatCard from '../components/StatCard';
+import { StatGrid } from '../components/StatCard';
+import PageHero from '../components/PageHero';
+import { Section, SectionTitle, Tagline, AccentCard } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import BreakdownPanel from '../components/BreakdownPanel';
 import { useReportsHubData } from '../lib/useReportsHubData';
 import { urlFor } from '../lib/sanity';
@@ -107,15 +110,29 @@ const fallbackTabs = [
   },
 ];
 
-function TitleWithHighlight({ text, highlight, className }) {
-  const idx = highlight ? (text || '').indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
+// Figma logo files for recruiters without a logo set in the Studio.
+const LOGO_FALLBACK = {
+  Deloitte: 'deloitte',
+  HSBC: 'hsbc',
+  Citibank: 'citibank',
+  NVIDIA: 'nvidia',
+  Microsoft: 'microsoft',
+  Oracle: 'oracle',
+};
+
+function PdfIcon() {
+  return <FileText size={36} strokeWidth={1.25} className="shrink-0" aria-hidden="true" />;
+}
+
+// Outlined download button — Figma: 40 tall, padding 8/20, navy hairline and text.
+function DownloadButton({ href, label = 'Download' }) {
   return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
+    <a
+      href={href || '#'}
+      className="inline-flex items-center gap-3 h-10 px-5 rounded-md shrink-0 bg-white outline outline-1 -outline-offset-1 outline-navy-900 text-base leading-[150%] font-medium text-navy-900 hover:bg-navy-50 transition-colors"
+    >
+      {label} <Download size={24} strokeWidth={1.5} />
+    </a>
   );
 }
 
@@ -127,14 +144,11 @@ export default function ReportsHub() {
   const [active, setActive] = useState(0);
   const tab = tabs[Math.min(active, tabs.length - 1)] || {};
 
-  const heroImageUrl = rp.heroImage ? urlFor(rp.heroImage).width(1600).url() : null;
-
   // Hero title takes a forced line break after a configurable phrase.
   const title = rp.heroTitle || '';
   const brk = rp.heroTitleBreakAfter;
   const bIdx = brk ? title.indexOf(brk) : -1;
-  const line1 = bIdx === -1 ? title : title.slice(0, bIdx + brk.length);
-  const line2 = bIdx === -1 ? '' : title.slice(bIdx + brk.length).trim();
+  const heroTitle = bIdx === -1 ? title : `${title.slice(0, bIdx + brk.length)}\n${title.slice(bIdx + brk.length).trim()}`;
 
   const hasChart = tab.chartPanel?.rows?.length;
   const hasLogos = tab.logoPanel?.logos?.length;
@@ -144,220 +158,157 @@ export default function ReportsHub() {
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[520px] md:h-[620px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[60px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-5 flex items-center">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/placements" className="hover:text-white">Placement</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">Placements Reports Hub</span>
-          </div>
-          <span className="text-[11px] font-semibold tracking-widest uppercase text-white/90 mb-4">
-            {rp.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-[56px] md:leading-[1.12] font-semibold mb-5">
-            {line1}
-            {line2 && (
-              <>
-                <br />
-                {line2}
-              </>
-            )}
-          </h1>
-          <p className="max-w-lg text-sm text-white/85 leading-relaxed mb-7">{rp.heroDescription}</p>
+      <PageHero
+        image={heroImage(rp.heroImage, '/images/committees/hero-placement.webp')}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Placement', to: '/placements' }, { label: 'Placements Reports Hub' }]}
+        eyebrow={rp.heroEyebrow}
+        eyebrowUpper
+        title={heroTitle}
+        description={rp.heroDescription}
+        descriptionWidth={628}
+        // The pills pick the same report as the tab row below.
+        actions={tabs.map((t, i) => ({
+          label: t.pillLabel,
+          onClick: () => setActive(i),
+          pressed: i === active,
+          primary: i === active,
+          icon: false,
+        }))}
+      />
 
-          {/* Hero pills select the same tab as the tab row below */}
-          <div className="flex flex-wrap gap-3">
-            {tabs.map((t, i) => (
-              <button
-                key={t._id || t.pillLabel}
-                type="button"
-                onClick={() => setActive(i)}
-                aria-pressed={i === active}
-                className={`font-medium px-5 py-3 rounded-md transition-colors ${
-                  i === active
-                    ? 'bg-sky-600 hover:bg-teal-600 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {t.pillLabel}
-              </button>
-            ))}
-          </div>
-        </div>
+      <section className="px-5 py-16 md:p-16">
+        <StatGrid stats={rp.stats} />
       </section>
 
-      {/* Stats */}
-      <section className="max-w-[1408px] mx-auto px-6 lg:px-16 py-10 lg:py-16">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {(rp.stats || []).map((s) => (
-            <StatCard key={s.label} {...s} />
+      <Section className="border-t border-white/20" width={1280}>
+        {/* Tabs — Figma "Filters": 818 wide, centred; active tab navy Medium with a
+            3px Eastern Blue underline, others #6c709d. */}
+        <div role="tablist" aria-label="Placement reports" className="flex flex-wrap justify-center">
+          {tabs.map((t, i) => (
+            <button
+              key={t._id || t.tabLabel}
+              type="button"
+              role="tab"
+              aria-selected={i === active}
+              onClick={() => setActive(i)}
+              className={`px-4 py-2.5 text-base leading-[150%] rounded ${
+                i === active ? 'font-medium text-navy-900' : 'text-navy-600 hover:text-navy-900'
+              }`}
+            >
+              <span className={`block pb-1 border-b-[3px] ${i === active ? 'border-teal-500' : 'border-transparent'}`}>
+                {t.tabLabel}
+              </span>
+            </button>
           ))}
         </div>
-      </section>
 
-      {/* Tab row */}
-      <section className="pt-8 lg:pt-12">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div
-            role="tablist"
-            aria-label="Placement reports"
-            className="flex flex-wrap justify-center gap-6 lg:gap-10"
-          >
-            {tabs.map((t, i) => (
-              <button
-                key={t._id || t.tabLabel}
-                type="button"
-                role="tab"
-                aria-selected={i === active}
-                onClick={() => setActive(i)}
-                className={`text-sm pb-2 border-b-2 transition-colors ${
-                  i === active
-                    ? 'border-sky-600 text-navy-900 font-semibold'
-                    : 'border-transparent text-ink-400 hover:text-ink-600'
-                }`}
-              >
-                {t.tabLabel}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Active tab body */}
-      <section className="py-12 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {tab.eyebrow}
-          </span>
-          <TitleWithHighlight
-            text={tab.title}
+        <div className="mt-16 flex flex-col gap-12">
+          <SectionTitle
+            tagline={tab.eyebrow}
+            title={composeTitle(tab.title, tab.titleHighlight)}
             highlight={tab.titleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
+            body={tab.subtitle}
           />
-          <p className="text-sm text-ink-600 mb-8">{tab.subtitle}</p>
 
-          {/* Report file banner */}
+          {/* Report file bar — navy, radius 16, padding 24; 36px PDF icon, 18/150
+              title over 14/150 meta, outlined download button. */}
           {tab.fileTitle && (
-            <div className="bg-navy-900 text-white rounded-lg px-6 py-5 flex flex-wrap items-center gap-4 mb-8">
-              <FileText size={28} className="shrink-0 text-white/80" />
-              <div className="min-w-0 flex-1">
-                <p className="font-medium">{tab.fileTitle}</p>
-                <p className="text-xs text-white/70 mt-1">{tab.fileMeta}</p>
+            <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-8 p-6 rounded-2xl bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20">
+              <div className="flex-1 min-w-0 flex items-center gap-4">
+                <PdfIcon />
+                <div className="flex flex-col gap-1">
+                  <p className="text-lg leading-[150%]">{tab.fileTitle}</p>
+                  <p className="text-sm leading-[150%]">{tab.fileMeta}</p>
+                </div>
               </div>
-              <a
-                href={tab.fileUrl || '#'}
-                className="bg-white hover:bg-gray-100 transition-colors text-navy-900 text-sm font-medium px-4 py-2.5 rounded-md flex items-center gap-2 shrink-0"
-              >
-                {tab.fileCtaLabel || 'Download'} <Download size={14} />
-              </a>
+              <DownloadButton href={tab.fileUrl} label={tab.fileCtaLabel || 'Download the full report (PDF)'} />
             </div>
           )}
 
-          {/* Panels — chart beside either a logo wall or a hero number */}
+          {/* Panels — 700 chart | 548 logo wall or stat, both with the 3px bar. */}
           {(hasChart || hasLogos || hasStat) && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+            <div className="grid lg:grid-cols-[700px_1fr] gap-8">
               {hasChart && (
-                <BreakdownPanel accent title={tab.chartPanel.title} rows={tab.chartPanel.rows} />
+                <BreakdownPanel accent title={tab.chartPanel.title} rows={tab.chartPanel.rows} titleClass="text-navy-900" />
               )}
-
               {hasLogos && (
-                <div className="border border-navy-100 border-l-2 border-l-sky-600 rounded-lg p-8">
-                  <h3 className="font-display text-2xl font-semibold text-navy-900 mb-8">
-                    {tab.logoPanel.title}
-                  </h3>
-                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 items-center">
-                    {tab.logoPanel.logos.map((l) => {
-                      const logoUrl = l.logo ? urlFor(l.logo).width(240).url() : null;
-                      return (
-                        <div key={l.name} className="h-10 flex items-center justify-center">
-                          {logoUrl ? (
-                            <img
-                              src={logoUrl}
-                              alt={l.name}
-                              className="max-h-8 max-w-full object-contain"
-                            />
-                          ) : (
-                            <span className="text-xs text-ink-600 text-center">{l.name}</span>
-                          )}
-                        </div>
-                      );
-                    })}
+                <AccentCard>
+                  <div className="flex flex-col gap-6">
+                    <h3 className="font-display font-medium text-[28px] leading-[140%] md:text-[36px] md:leading-[130%] tracking-[-0.01em] text-navy-900">
+                      {tab.logoPanel.title}
+                    </h3>
+                    <div className="grid grid-cols-3 gap-x-5 gap-y-4">
+                      {tab.logoPanel.logos.map((l) => {
+                        const logoUrl = l.logo
+                          ? urlFor(l.logo).width(296).auto('format').url()
+                          : LOGO_FALLBACK[l.name] && `/images/recruiters/${LOGO_FALLBACK[l.name]}.webp`;
+                        return (
+                          <div key={l.name} className="h-[72px] flex items-center justify-center">
+                            {logoUrl ? (
+                              <img src={logoUrl} alt={l.name} className="max-h-full max-w-full object-contain" />
+                            ) : (
+                              <span className="text-sm leading-[150%] text-black text-center">{l.name}</span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
+                </AccentCard>
               )}
-
               {hasStat && (
-                <div className="border border-navy-100 border-l-2 border-l-sky-600 rounded-lg p-8">
-                  <h3 className="font-display text-2xl font-semibold text-navy-900 mb-6">
-                    {tab.statPanel.title}
-                  </h3>
-                  <p className="text-sm text-ink-600 leading-relaxed mb-8">
-                    {tab.statPanel.description}
-                  </p>
-                  <p className="font-display text-5xl font-semibold text-navy-900">
-                    {tab.statPanel.value}
-                  </p>
-                </div>
+                <AccentCard>
+                  <div className="flex flex-col gap-6">
+                    <h3 className="font-display font-medium text-[28px] leading-[140%] md:text-[36px] md:leading-[130%] tracking-[-0.01em] text-navy-900">
+                      {tab.statPanel.title}
+                    </h3>
+                    <p className="text-base leading-[150%] text-black">{tab.statPanel.description}</p>
+                    <p className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-navy-900">
+                      {tab.statPanel.value}
+                    </p>
+                  </div>
+                </AccentCard>
               )}
             </div>
           )}
 
-          {/* Metric cards */}
           {hasMetrics && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
               {tab.metricCards.map((m) => (
-                <div
-                  key={m.label}
-                  className="border border-navy-100 border-l-2 border-l-sky-600 rounded-sm px-6 py-5"
-                >
-                  <p className="font-display text-2xl font-semibold text-navy-900 mb-2">{m.value}</p>
-                  <p className="text-sm text-ink-600">{m.label}</p>
-                </div>
+                <AccentCard key={m.label}>
+                  <p className="font-display font-medium text-[28px] leading-[140%] tracking-[-0.01em] text-navy-900">{m.value}</p>
+                  <p className="mt-2 text-base leading-[150%] text-black">{m.label}</p>
+                </AccentCard>
               ))}
             </div>
           )}
 
-          {/* Archive */}
+          {/* Archive — tagline, then 102px hairline rows (24 apart): PDF icon, 18/150
+              title, 14/150 meta, outlined download. */}
           {hasArchive && (
-            <div className="mt-14">
-              <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                {tab.archiveTitle}
-              </span>
-              <div className="flex flex-col gap-4 mt-6">
+            <div className="flex flex-col gap-12">
+              <Tagline>{tab.archiveTitle}</Tagline>
+              <div className="flex flex-col gap-6">
                 {tab.archive.map((a) => (
                   <div
                     key={a.title}
-                    className="border border-navy-100 rounded-lg px-6 py-4 flex flex-wrap items-center gap-4"
+                    className="flex flex-col md:flex-row md:items-center gap-6 p-6 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
                   >
-                    <FileText size={22} className="shrink-0 text-ink-400" />
-                    <div className="min-w-0 flex-1">
-                      <p className="text-sm font-medium text-navy-900">{a.title}</p>
-                      <p className="text-xs text-ink-400 mt-1">{a.meta}</p>
+                    <div className="flex-1 min-w-0 flex items-center gap-4">
+                      <PdfIcon />
+                      <div className="flex flex-col gap-1.5 text-black">
+                        <p className="text-lg leading-[150%]">{a.title}</p>
+                        <p className="text-sm leading-[150%]">{a.meta}</p>
+                      </div>
                     </div>
-                    <a
-                      href={a.fileUrl || '#'}
-                      className="border border-navy-100 hover:bg-navy-50 transition-colors text-navy-900 text-sm font-medium px-4 py-2 rounded-md flex items-center gap-2 shrink-0"
-                    >
-                      Download <Download size={14} />
-                    </a>
+                    <DownloadButton href={a.fileUrl} />
                   </div>
                 ))}
               </div>
             </div>
           )}
         </div>
-      </section>
+      </Section>
     </div>
   );
 }

@@ -5,7 +5,7 @@
 // rests on colour alone. Bar length is the value relative to the largest row.
 //
 // `dark` renders on navy with a lighter pair, since #238bbc reaches only 2.95:1 there.
-export default function BreakdownPanel({ title, rows = [], accent = false, dark = false, className = '' }) {
+export default function BreakdownPanel({ title, rows = [], accent = false, dark = false, titleClass, className = '' }) {
   const max = Math.max(...rows.map((r) => r.value), 1);
 
   const series = dark
@@ -21,7 +21,7 @@ export default function BreakdownPanel({ title, rows = [], accent = false, dark 
       {title && (
         <figcaption
           className={`font-display font-medium text-[28px] leading-[140%] md:text-[36px] md:leading-[130%] tracking-[-0.01em] pb-4 border-b ${
-            dark ? 'text-white border-white/20' : 'text-black border-transparent'
+            dark ? 'text-white border-white/20' : `${titleClass || 'text-black'} border-transparent`
           }`}
         >
           {title}
