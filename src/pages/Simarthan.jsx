@@ -1,5 +1,8 @@
-import { Link } from 'react-router-dom';
-import { ArrowUpRight, Globe, Mail, Building2 } from 'lucide-react';
+import { Globe, Mail, Building2 } from 'lucide-react';
+import PageHero from '../components/PageHero';
+import { Section, SectionTitle, Tagline, Heading, H5, H6 } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { useSimarthanData } from '../lib/useSimarthanData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -52,17 +55,24 @@ const fallbackActivities = [
   { title: 'Events', description: 'Seminars, MDPs, conferences alongside academic calendar.', order: 6 },
 ];
 
-function TitleWithHighlight({ text, highlight, className }) {
-  const idx = highlight ? (text || '').indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
+// One term of the name equation — Figma: 64px hairline box, 3px Eastern Blue bar,
+// 32 inset, H6 22 navy.
+function EqBox({ children, className = '' }) {
   return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
+    <div className={`flex items-center min-h-16 outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${className}`}>
+      <span className="w-[3px] self-stretch shrink-0 bg-teal-500" aria-hidden="true" />
+      <span className="px-8 py-4 font-display font-medium text-[22px] leading-[140%] tracking-[-0.01em] text-navy-900">
+        {children}
+      </span>
+    </div>
   );
 }
+
+const EqSign = ({ children }) => (
+  <span className="font-display font-medium text-[52px] leading-[120%] text-navy-900 text-center shrink-0" aria-hidden="true">
+    {children}
+  </span>
+);
 
 export default function Simarthan() {
   const facts = useKeyFacts();
@@ -73,149 +83,118 @@ export default function Simarthan() {
   const eq = sp.whyEquation || fallbackPage.whyEquation;
   const contactCards = fillFactsDeep(sp.contactCards?.length ? sp.contactCards : fallbackPage.contactCards, facts);
 
-  const heroImageUrl = sp.heroImage ? urlFor(sp.heroImage).width(1600).url() : null;
-  const whyImageUrl = sp.whyImage ? urlFor(sp.whyImage).width(1400).url() : null;
+  const whyImageUrl = sp.whyImage ? urlFor(sp.whyImage).width(1400).auto('format').url() : '/images/simarthan/campus.webp';
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[560px] md:h-[660px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/40 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[72px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-6 flex items-center">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/about" className="hover:text-white">About Us</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">Simarthan</span>
+      <PageHero
+        image={heroImage(sp.heroImage, '/images/simarthan/hero.webp')}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'About Us', to: '/about' }, { label: 'Simarthan' }]}
+        eyebrow={sp.heroEyebrow}
+        title={sp.heroTitle}
+        description={sp.heroDescription}
+        descriptionWidth={628}
+        actions={[
+          { label: sp.heroPrimaryCtaLabel, href: sp.heroPrimaryCtaUrl, primary: true },
+          { label: sp.heroSecondaryCtaLabel, href: sp.heroSecondaryCtaUrl },
+        ]}
+      />
+
+      {/* Why Simarthan exists — 1312 column (32 gaps): tagline, title + body, second
+          paragraph, the name equation, then a 1312x449 photo 80 below. */}
+      <Section>
+        <div className="flex flex-col gap-8">
+          <Tagline>{sp.whyEyebrow}</Tagline>
+          <div className="flex flex-col gap-6">
+            <Heading text={sp.whyTitle} />
+            {body[0] && <p className="text-base md:text-lg leading-[150%] text-black">{body[0]}</p>}
           </div>
-          <p className="text-sm text-white/85 mb-4">{sp.heroEyebrow}</p>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-5">{sp.heroTitle}</h1>
-          <p className="max-w-xl text-sm text-white/85 leading-relaxed mb-8">{sp.heroDescription}</p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href={sp.heroPrimaryCtaUrl}
-              className="bg-sky-600 hover:bg-teal-600 transition-colors text-white font-medium px-5 py-3 rounded-md flex items-center gap-2 w-fit"
-            >
-              {sp.heroPrimaryCtaLabel} <ArrowUpRight size={16} />
-            </a>
-            <a
-              href={sp.heroSecondaryCtaUrl}
-              className="bg-white hover:bg-gray-100 transition-colors text-navy-900 font-medium px-5 py-3 rounded-md w-fit"
-            >
-              {sp.heroSecondaryCtaLabel}
-            </a>
+          {body.slice(1).map((p, i) => (
+            <p key={i} className="text-base md:text-lg leading-[150%] text-black">
+              {p}
+            </p>
+          ))}
+          <div className="flex flex-col lg:flex-row lg:items-center gap-4 lg:gap-8">
+            <div className="flex flex-col md:flex-row md:items-center gap-4">
+              <EqBox>{eq.first}</EqBox>
+              <EqSign>+</EqSign>
+              <EqBox>{eq.second}</EqBox>
+            </div>
+            <div className="flex flex-col md:flex-row md:items-center gap-4 lg:flex-1">
+              <EqSign>=</EqSign>
+              <EqBox className="lg:flex-1">{eq.result}</EqBox>
+            </div>
           </div>
         </div>
-      </section>
+        <div
+          className="mt-20 h-[240px] md:h-[449px] rounded-2xl bg-navy-50 bg-cover bg-center"
+          style={{ backgroundImage: `url('${whyImageUrl}')` }}
+        />
+      </Section>
 
-      {/* Why Simarthan exists */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {sp.whyEyebrow}
-          </span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-8">
-            {sp.whyTitle}
-          </h2>
-          <div className="space-y-5 mb-10">
-            {body.map((p, i) => (
-              <p key={i} className="text-sm text-ink-600 leading-relaxed max-w-[1100px]">{p}</p>
-            ))}
-          </div>
-
-          {/* Name equation */}
-          <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 mb-14">
-            <div className="flex-1 border border-navy-100 border-l-2 border-l-teal-500 rounded-md px-5 py-4 text-sm text-navy-900">
-              {eq.first}
-            </div>
-            <span className="text-navy-600 text-lg text-center shrink-0">+</span>
-            <div className="flex-1 border border-navy-100 border-l-2 border-l-teal-500 rounded-md px-5 py-4 text-sm text-navy-900">
-              {eq.second}
-            </div>
-            <span className="text-navy-600 text-lg text-center shrink-0">=</span>
-            <div className="flex-[1.4] border border-navy-100 border-l-2 border-l-teal-500 rounded-md px-5 py-4 text-sm text-navy-900">
-              {eq.result}
-            </div>
-          </div>
-
-          {/* Section image */}
-          <div
-            className="h-[280px] md:h-[420px] rounded-xl bg-gray-200 bg-cover bg-center"
-            style={whyImageUrl ? { backgroundImage: `url('${whyImageUrl}')` } : undefined}
-          />
-        </div>
-      </section>
-
-      {/* What Simarthan does */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-white">
-            {sp.doesEyebrow}
-          </span>
-          <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-6 mb-4">{sp.doesTitle}</h2>
-          <p className="text-sm text-white/75 mb-12">{sp.doesSubtitle}</p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {activities.map((a, i) => (
-              <div key={a._id || a.title} className="bg-white rounded-xl p-6 flex flex-col">
-                <span className="w-9 h-9 rounded-full border border-navy-100 flex items-center justify-center text-xs font-semibold text-navy-600 mb-5">
+      {/* What Simarthan does — navy; 405x255 white cards (radius 16, padding 24):
+          48px numbered circle, H5 28, #eaeaf1 rule, 16/150 copy; 48 gaps. */}
+      <Section bg="bg-navy-900">
+        <SectionTitle dark tagline={sp.doesEyebrow} title={sp.doesTitle} body={sp.doesSubtitle} width={1312} />
+        <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+          {activities.map((a, i) => (
+            <div key={a._id || a.title} className="flex flex-col gap-10 p-6 rounded-2xl bg-white">
+              <div className="flex flex-col gap-4">
+                <span className="w-12 h-12 rounded-full bg-white outline outline-1 -outline-offset-1 outline-navy-900 flex items-center justify-center text-lg leading-[150%] text-navy-900">
                   {String(a.order ?? i + 1).padStart(2, '0')}
                 </span>
-                <h3 className="font-display text-xl font-semibold text-navy-900 mb-4">{a.title}</h3>
-                <span className="block h-px bg-navy-100 mb-4" />
-                <p className="text-sm text-ink-600 leading-relaxed">{a.description}</p>
+                <H5>{a.title}</H5>
+                <span className="block h-px bg-navy-50" aria-hidden="true" />
               </div>
-            ))}
-          </div>
+              <p className="text-base leading-[150%] text-black">{a.description}</p>
+            </div>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      {/* Get in touch */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-12">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {sp.contactEyebrow}
-            </span>
-            <TitleWithHighlight
-              text={sp.contactTitle}
-              highlight={sp.contactTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-4"
-            />
-            <p className="text-sm text-ink-600">{sp.contactSubtitle}</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-            {contactCards.map((c) => {
-              const Icon = ICONS[c.icon] || Globe;
-              const inner = (
-                <>
-                  <Icon size={22} className="text-white mb-8" />
-                  <h3 className="font-display text-xl font-semibold text-white mb-2">{c.title}</h3>
-                  <p className="text-sm text-white/75">{c.value}</p>
-                </>
-              );
-              const cls =
-                'bg-navy-900 border-l-2 border-l-sky-500 rounded-sm p-6 h-[150px] flex flex-col justify-center';
-              return c.url ? (
-                <a key={c.title} href={c.url} className={`${cls} hover:bg-navy-800 transition-colors`}>
-                  {inner}
-                </a>
-              ) : (
-                <div key={c.title} className={cls}>{inner}</div>
-              );
-            })}
-          </div>
+      {/* Partner — centred title (678 body), three 405x188 navy cards with a 3px
+          Eastern Blue bar and 48px icon. */}
+      <Section width={1280}>
+        <SectionTitle
+          center
+          tagline={sp.contactEyebrow}
+          title={composeTitle(sp.contactTitle, sp.contactTitleHighlight)}
+          highlight={sp.contactTitleHighlight}
+        />
+        <p className="mt-5 md:mt-6 max-w-[678px] mx-auto text-center text-base md:text-lg leading-[150%] text-black">
+          {sp.contactSubtitle}
+        </p>
+        <div className="mt-20 grid md:grid-cols-3 gap-8">
+          {contactCards.map((c) => {
+            const Icon = ICONS[c.icon] || Globe;
+            const inner = (
+              <>
+                <span className="w-[3px] self-stretch shrink-0 bg-teal-500" aria-hidden="true" />
+                <span className="flex flex-col gap-4 py-8 px-8">
+                  <Icon size={48} strokeWidth={1.25} className="text-white" />
+                  <span className="flex flex-col gap-2">
+                    <H6 as="span" className="text-white">
+                      {c.title}
+                    </H6>
+                    <span className="text-sm leading-[150%] text-navy-50">{c.value}</span>
+                  </span>
+                </span>
+              </>
+            );
+            const cls =
+              'flex min-h-[188px] bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small';
+            return c.url ? (
+              <a key={c.title} href={c.url} className={`${cls} hover:bg-navy-800 transition-colors`}>
+                {inner}
+              </a>
+            ) : (
+              <div key={c.title} className={cls}>
+                {inner}
+              </div>
+            );
+          })}
         </div>
-      </section>
+      </Section>
     </div>
   );
 }
