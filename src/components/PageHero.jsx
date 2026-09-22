@@ -106,6 +106,8 @@ export default function PageHero({
   description,
   descriptionWidth = 803,
   actions = [],
+  // Extra block between the description and the actions (Director credentials).
+  details,
   children,
   height = 'h-[767px]',
   mobileOverlay = 'gradient',
@@ -151,6 +153,12 @@ export default function PageHero({
               {eyebrow}
               <span className="block w-11 md:w-20 h-px bg-white" />
             </span>
+          ) : eyebrowStyle === 'rule-left' ? (
+            // Director: a single 80px rule before the tagline.
+            <span className="flex items-center gap-8 text-base leading-[150%] font-semibold uppercase mb-4">
+              <span className="block w-11 md:w-20 h-px bg-white shrink-0" />
+              {eyebrow}
+            </span>
           ) : (
             <span className="text-base md:text-lg leading-[150%] mb-4">{eyebrow}</span>
           ))}
@@ -167,6 +175,8 @@ export default function PageHero({
             {description}
           </p>
         )}
+
+        {details && <div className="mt-8">{details}</div>}
 
         {actions.length > 0 && (
           <div

@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { useDirectorPageData } from '../lib/useDirectorPageData';
+import PageHero from '../components/PageHero';
+import { Section, Heading, Highlighted } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { keepTogether } from '../lib/text';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
@@ -166,42 +170,57 @@ function MailUnread({ size = 24, className = '' }) {
   );
 }
 
-function DirectorSection({ number, title, titleHighlight, body, boldClosing, pills }) {
+// One numbered part of the letter. Figma "Content Left": padding 32, 16 gap —
+// a 12/150 white pill, an H2 52 title in #EAEAF1 with an italic Eastern Blue Light
+// highlight, then 18/150 white copy (24 gap). The first part opens with a teal 52px
+// drop cap and a Playfair H6 22 lead paragraph.
+function DirectorSection({ number, title, titleHighlight, body, boldClosing, pills, lead = false }) {
+  const paras = (body || '').split('\n\n');
+  const first = paras[0] || '';
+  const rest = lead ? paras.slice(1) : paras;
   return (
-    <div className="p-8 flex flex-col gap-4">
-      {/* Figma: 34x26 white pill, radius 16, padding 10/4. */}
-      <span className="inline-flex w-fit items-center justify-center rounded-2xl bg-white px-2.5 py-1 text-navy-900 text-sm leading-[150%]">
+    <div className="p-6 md:p-8 flex flex-col gap-4">
+      <span className="inline-flex w-fit items-center rounded-2xl bg-white px-2.5 py-1 text-navy-900 text-xs leading-[150%]">
         {number}
       </span>
-      {/* Figma: Heading/H2 52/120 italic, Colour/Eastern Blue/Light. */}
-      <TitleWithHighlight
-        text={title}
-        highlight={titleHighlight}
-        className="font-display text-4xl md:text-[52px] md:leading-[120%] font-medium text-white"
-        highlightClassName="text-teal-400 italic"
-      />
-      {body.split('\n\n').map((para, i) => (
-        <p
-          key={i}
-          className={
-            i === 0
-              ? 'font-display text-xl md:text-[22px] md:leading-[140%] text-white'
-              : 'text-sm leading-[150%] text-ink-50'
-          }
-        >
-          {para}
-        </p>
-      ))}
-      {boldClosing && <p className="text-sm leading-[150%] font-semibold text-white">{boldClosing}</p>}
-      {pills?.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {pills.map((p) => (
-            <span key={p} className="text-sm leading-[150%] bg-white text-navy-900 px-2.5 py-1 rounded-2xl">
-              {p}
+      <div className="flex flex-col gap-6">
+        <Heading
+          text={title}
+          highlight={titleHighlight}
+          className="text-navy-50"
+          highlightClass="text-teal-400 italic"
+        />
+        {lead && first && (
+          <p className="flex gap-2 font-display font-medium text-[22px] leading-[140%] tracking-[-0.01em] text-white">
+            <span className="text-[52px] leading-[120%] text-teal-400 shrink-0" aria-hidden="true">
+              {first[0]}
             </span>
-          ))}
-        </div>
-      )}
+            <span>
+              <span className="sr-only">{first[0]}</span>
+              {first.slice(1)}
+            </span>
+          </p>
+        )}
+        {(rest.length > 0 || boldClosing) && (
+          <div className="text-base md:text-lg leading-[150%] text-white">
+            {rest.map((para, i) => (
+              <p key={i} className={i > 0 ? 'mt-[1.5em]' : undefined}>
+                {para}
+              </p>
+            ))}
+            {boldClosing && <p className="font-semibold">{boldClosing}</p>}
+          </div>
+        )}
+        {pills?.length > 0 && (
+          <div className="flex flex-wrap gap-6">
+            {pills.map((pl) => (
+              <span key={pl} className="text-xs leading-[150%] bg-white text-navy-900 px-2.5 py-1 rounded-2xl">
+                {pl}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
@@ -248,139 +267,120 @@ export default function DirectorMessage() {
   const dp = fillFactsDeep({ ...fallbackDirectorPage, ...(data?.directorPage || {}) }, facts);
   const sections = fillFactsDeep(data?.sections?.length ? data.sections : fallbackSections, facts);
 
-  const heroImageUrl = imgUrl(dp.heroImage, 1600);
-  const quotePhotoUrl = imgUrl(dp.quotePhoto, 144);
-  const portraitImageUrl = imgUrl(dp.portraitImage, 1216);
+  const quotePhotoUrl = imgUrl(dp.quotePhoto, 192) || '/images/director/avatar.webp';
+  const portraitImageUrl = imgUrl(dp.portraitImage, 1216) || '/images/director/portrait.webp';
   const signatureUrl = imgUrl(dp.signatureImage, 390);
 
   return (
     <div>
-      {/* Hero */}
-      <section
-        className="min-h-[600px] md:h-[767px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : "linear-gradient(180deg, #8a8f9e, #cfd3da)",
-        }}
-      >
-        {/* Figma: linear gradient layer at 30% over the image. */}
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage:
-              'linear-gradient(25deg, rgba(0,0,0,0.3) 0%, rgba(51,51,51,0.3) 51%, rgba(102,102,102,0.3) 99%)',
-          }}
-        />
-        {/* Figma: 1440 frame, 64px horizontal padding. */}
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-16 h-full flex flex-col justify-start text-white pt-56 pb-16">
-          {/* Figma: 649.13 x 464.55 content block, gap 32, padding 0. */}
-          <div className="flex flex-col gap-8 max-w-[650px]">
-          {/* Figma: a 64px rule, 32px gap, then the label at 16/150. */}
-          <span className="flex w-fit items-center gap-8 text-base leading-[150%] font-semibold uppercase text-white">
-            <span className="h-px w-16 bg-white/70" aria-hidden="true" />
-            {dp.heroEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={dp.heroTitle}
-            highlight={dp.heroTitleHighlight}
-            className="font-display text-4xl md:text-[72px] md:leading-[120%] font-semibold max-w-[650px]"
-            highlightClassName=""
-          />
-          {/* Figma: Body medium Normal 18/150, W 649.13. */}
-          {/* Figma: Body medium Normal 18/150, W 628. */}
-          <p className="max-w-[628px] text-lg leading-[150%] text-white">{dp.heroDescription}</p>
-
-          {/* Figma: a rule above, then three 204x68 columns split by vertical rules. */}
-          {/* Figma: 649.13 x 81.5 credentials row, 20px gap between columns, with a
-              #FFFFFF 70% rule beneath it. */}
-          <div className="w-fit">
-            <div className="h-px bg-white/70 mb-2" aria-hidden="true" />
-            <div className="flex items-stretch gap-5">
-              <div className="flex flex-col gap-2 whitespace-nowrap">
-                <p className="font-display text-2xl md:text-[28px] md:leading-[140%] font-medium">{dp.heroName}</p>
-                <p className="text-sm leading-[150%] uppercase text-white whitespace-nowrap">{dp.heroRole}</p>
+      <PageHero
+        image={heroImage(dp.heroImage, '/images/director/hero.webp')}
+        eyebrow={dp.heroEyebrow}
+        eyebrowStyle="rule-left"
+        title={keepTogether(dp.heroTitle, 'the Director.')}
+        titleWidth={649}
+        description={dp.heroDescription}
+        descriptionWidth={649}
+        details={
+          // Figma: 649 wide, white/70 rules above and below (12 gap), three columns
+          // split by white/70 rules with 20 gaps; H6 22 / H5 28 in Eastern Blue
+          // Lightest over 14/150 uppercase labels.
+          <div className="w-fit max-w-full flex flex-col gap-3">
+            <div className="h-px bg-white/70" aria-hidden="true" />
+            <div className="flex flex-wrap items-center gap-5">
+              <div className="flex flex-col gap-2">
+                <p className="font-display font-medium text-[22px] leading-[140%] tracking-[-0.01em] text-sky-50">{dp.heroName}</p>
+                <p className="text-sm leading-[150%] uppercase">{dp.heroRole}</p>
               </div>
-              {(dp.heroStats || []).map((s) => (
-                <div key={s.label} className="pl-5 border-l border-white/70 flex flex-col gap-2 whitespace-nowrap">
-                  <p className="font-display text-2xl md:text-[28px] md:leading-[140%] font-medium">{s.value}</p>
-                  <p className="text-sm leading-[150%] uppercase text-white whitespace-nowrap">{s.label}</p>
+              {(dp.heroStats || []).map((st, i) => (
+                <div key={st.label} className="flex items-center gap-5">
+                  <span className="self-stretch w-px min-h-[81px] bg-white/70" aria-hidden="true" />
+                  <div className="flex flex-col gap-2">
+                    <p
+                      className={`font-display font-medium tracking-[-0.01em] text-sky-50 ${
+                        i === 0 ? 'text-[28px] leading-[140%]' : 'text-[22px] leading-[140%]'
+                      }`}
+                    >
+                      {st.value}
+                    </p>
+                    <p className="text-sm leading-[150%] uppercase">{st.label}</p>
+                  </div>
                 </div>
               ))}
             </div>
-            <div className="h-px bg-white/70 mt-2" aria-hidden="true" />
+            <div className="h-px bg-white/70" aria-hidden="true" />
           </div>
+        }
+        actions={[
+          { label: dp.heroPrimaryCtaLabel, href: dp.heroPrimaryCtaUrl, primary: true },
+          { label: dp.heroSecondaryCtaLabel, href: dp.heroSecondaryCtaUrl },
+        ]}
+        height="h-[960px] md:h-[767px]"
+        mobileOverlay="dark"
+        mobileTitle="text-[40px] leading-[120%]"
+        mobileActions="full"
+      />
 
-          <div className="flex flex-wrap gap-3">
-            <a href={dp.heroPrimaryCtaUrl} className="bg-sky-600 outline outline-1 outline-sky-600 hover:bg-sky-500 transition-colors text-white text-base leading-[150%] font-medium px-6 py-2.5 rounded-md flex items-center gap-3 w-fit">
-              {dp.heroPrimaryCtaLabel} <ArrowUpRight size={16} />
-            </a>
-            <a href={dp.heroSecondaryCtaUrl} className="bg-white hover:bg-gray-100 transition-colors text-ink-900 text-base leading-[150%] font-medium px-6 py-2.5 rounded-md w-fit">
-              {dp.heroSecondaryCtaLabel}
-            </a>
-          </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pull quote */}
-      <section className="bg-navy-900 py-16">
-        <div className="max-w-[768px] mx-auto px-6 md:px-0 text-center">
-          <TitleWithHighlight
-            text={`"${dp.quoteText}"`}
-            highlight={dp.quoteHighlight}
-            className="font-display text-3xl md:text-[36px] md:leading-[130%] font-medium text-white mb-8"
-            highlightClassName="text-teal-400"
+      {/* Pull quote — Figma: navy, 112 padding, 768 column, 32 gap; quote H4 36/130,
+          96px avatar, H6 22 name over 16/150 meta. */}
+      <Section bg="bg-navy-900" width={768} className="text-center text-white">
+        <blockquote className="font-display font-medium text-[28px] leading-[140%] md:text-[36px] md:leading-[130%] tracking-[-0.01em]">
+          &ldquo;
+          <Highlighted
+            text={keepTogether(dp.quoteText, 'something beyond', 'degree —')}
+            highlight={keepTogether(dp.quoteHighlight || '', 'something beyond')}
+            highlightClass="text-teal-400"
           />
-          {/* Figma: 72px avatar above the attribution. */}
+          &rdquo;
+        </blockquote>
+        <div className="mt-8 flex flex-col items-center gap-4">
           <div
-            className="w-[72px] h-[72px] rounded-full bg-white/20 mx-auto mb-4 bg-cover bg-center"
-            style={quotePhotoUrl ? { backgroundImage: `url('${quotePhotoUrl}')` } : undefined}
+            className="w-24 h-24 rounded-full bg-white/20 bg-cover bg-center"
+            style={{ backgroundImage: `url('${quotePhotoUrl}')` }}
           />
-          {/* Figma: Text/Medium/Normal 18/150 name, Text/Small 14/150 meta. */}
-          <p className="text-lg leading-[150%] font-medium text-white">{dp.quoteName}</p>
-          <p className="text-sm leading-[150%] text-ink-50">{dp.quoteMeta}</p>
+          <div>
+            <p className="font-display font-medium text-[22px] leading-[140%] tracking-[-0.01em]">{dp.quoteName}</p>
+            <p className="text-base leading-[150%]">{dp.quoteMeta}</p>
+          </div>
         </div>
-      </section>
+      </Section>
 
-      {/* Signature portrait + numbered message */}
-      <section className="bg-gray-50 py-16">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          {/* Figma: 608x702 portrait beside a 608-wide signature card, 32px gap. */}
-          <div className="relative z-0 grid lg:grid-cols-2 gap-8 items-start lg:[&>*:last-child]:mt-[180px]">
-            <div
-              className="h-[400px] lg:h-[702px] bg-contain bg-no-repeat bg-bottom"
-              style={portraitImageUrl ? { backgroundImage: `url('${portraitImageUrl}')` } : undefined}
-            />
-            {/* Figma: 608x342 card, padding 32, gap 16, white fill. */}
-            {/* Figma: no fill; the block sits on the section background. Gap 12. */}
-            <div className="flex flex-col gap-3 p-8">
-              {/* Figma: signature image 195x130. */}
-              {signatureUrl && <img src={signatureUrl} alt="" className="w-[195px] h-[130px] object-contain object-left" />}
-              <p className="font-display text-3xl md:text-[36px] md:leading-[130%] font-medium text-navy-900">
+      {/* Portrait + letter — Figma "Blog / 36 /" on #eaeaf1. A 1280 row (608 photo,
+          64 gap, 608 content padded 32), then the navy letter card, pulled up 154px
+          so it overlaps the portrait. */}
+      <Section bg="bg-navy-50" width={1280}>
+        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+          <div
+            className="h-[420px] lg:h-[702px] rounded-2xl bg-cover bg-top"
+            style={{ backgroundImage: `url('${portraitImageUrl}')` }}
+          />
+          <div className="flex flex-col gap-4 p-2 lg:p-8 lg:pb-[186px]">
+            {signatureUrl && (
+              <img src={signatureUrl} alt="" className="w-[195px] h-[130px] object-contain object-left" />
+            )}
+            <div className="flex flex-col gap-3">
+              <p className="font-display font-medium text-[36px] leading-[130%] tracking-[-0.01em] text-navy-900">
                 {dp.portraitName}
               </p>
-              <p className="text-lg leading-[150%] text-black">{dp.portraitRole}</p>
-              <div className="flex flex-wrap gap-6 text-sm leading-[150%] text-black">
-                <p className="flex items-center gap-2">
-                  <PhoneCalling size={20} className="text-navy-900 shrink-0" /> {dp.portraitPhone}
-                </p>
-                <p className="flex items-center gap-2">
-                  <MailUnread size={20} className="text-navy-900 shrink-0" /> {dp.portraitEmail}
-                </p>
-              </div>
+              <p className="text-lg md:text-[22px] leading-[150%] text-black">{dp.portraitRole}</p>
+            </div>
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm leading-[150%] text-black">
+              <p className="flex items-center gap-4">
+                <PhoneCalling size={24} className="text-navy-900 shrink-0" /> {dp.portraitPhone}
+              </p>
+              <p className="flex items-center gap-4">
+                <MailUnread size={24} className="text-navy-900 shrink-0" /> {dp.portraitEmail}
+              </p>
             </div>
           </div>
-
-          {/* Figma: 1280 letter body, radius 16, Astronaut/Base, 24px gap. It is
-              layered over the portrait so the figure is cropped by the card. */}
-          <div id="message" className="relative z-10 -mt-16 lg:-mt-24 bg-navy-900 rounded-2xl flex flex-col gap-6">
-            {sections.map((s) => (
-              <DirectorSection key={s._id || s.number} {...s} />
-            ))}
-          </div>
         </div>
-      </section>
+
+        <div id="message" className="relative z-10 mt-8 lg:-mt-[154px] bg-navy-900 rounded-2xl flex flex-col gap-6">
+          {sections.map((sec, i) => (
+            <DirectorSection key={sec._id || sec.number} {...sec} lead={i === 0} />
+          ))}
+        </div>
+      </Section>
 
       {/* Get in Touch — 1280 section, 80px gap, 405.33x222 cards (Figma) */}
       <section className="bg-navy-800 py-16 lg:py-28">
