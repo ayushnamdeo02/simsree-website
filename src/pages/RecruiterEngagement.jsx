@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import PageHero from '../components/PageHero';
+import { SectionTitle } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { AlertCircle, CheckCircle2, Loader2 } from 'lucide-react';
 import { useRecruiterEngagementData } from '../lib/useRecruiterEngagementData';
-import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
 const fallbackPage = {
@@ -50,18 +53,19 @@ const fallbackPage = {
   ],
 };
 
+// Figma tag colours per state; every card carries the same Eastern Blue bar.
 const TONE_CLASSES = {
   idle: 'bg-navy-50 text-navy-900',
-  sending: 'bg-amber-50 text-amber-700',
-  success: 'bg-emerald-50 text-emerald-700',
-  fail: 'bg-red-50 text-red-600',
+  sending: 'bg-[#ffdb43]/10 text-[#dfb400]',
+  success: 'bg-[#1fc16b]/10 text-[#1fc16b]',
+  fail: 'bg-[#d00416]/10 text-[#d00416]',
 };
 
 const STATE_ACCENT = {
-  idle: 'border-l-navy-900',
-  sending: 'border-l-amber-500',
-  success: 'border-l-emerald-500',
-  fail: 'border-l-red-500',
+  idle: 'border-l-teal-500',
+  sending: 'border-l-teal-500',
+  success: 'border-l-teal-500',
+  fail: 'border-l-teal-500',
 };
 
 const FIELDS = [
@@ -78,18 +82,6 @@ const FIELDS = [
 ];
 
 const EMPTY = Object.fromEntries(FIELDS.map((f) => [f.name, '']));
-
-function TitleWithHighlight({ text, highlight, className }) {
-  const idx = highlight ? (text || '').indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
-  return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
-  );
-}
 
 function validate(values, consent) {
   const errors = {};
@@ -120,9 +112,6 @@ export default function RecruiterEngagement() {
   // idle | sending | success | fail
   const [status, setStatus] = useState('idle');
 
-  const heroImageUrl = rp.heroImage ? urlFor(rp.heroImage).width(1600).url() : null;
-  const italic = rp.heroTitleItalic;
-  const iIdx = italic ? (rp.heroTitle || '').indexOf(italic) : -1;
 
   const sending = status === 'sending';
 
@@ -189,54 +178,27 @@ export default function RecruiterEngagement() {
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[420px] md:h-[480px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[56px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-5 flex items-center">
-            <Link to="/" className="hover:text-white">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/placements" className="hover:text-white">Placement</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-white">Recruiter Engagement</span>
-          </div>
-          <span className="text-[11px] font-semibold tracking-widest uppercase text-white/90 mb-4">
-            {rp.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-4">
-            {iIdx === -1 ? (
-              rp.heroTitle
-            ) : (
-              <>
-                {rp.heroTitle.slice(0, iIdx)}
-                <span className="italic">{italic}</span>
-                {rp.heroTitle.slice(iIdx + italic.length)}
-              </>
-            )}
-          </h1>
-          <p className="max-w-md text-sm text-white/85 leading-relaxed">{rp.heroDescription}</p>
-        </div>
-      </section>
+      <PageHero
+        image={heroImage(rp.heroImage, '/images/placements/engagement-hero.webp')}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Placement', to: '/placements' }, { label: 'Recruiter Engagement' }]}
+        eyebrow={rp.heroEyebrow}
+        eyebrowUpper
+        title={rp.heroTitle}
+        titleItalic={rp.heroTitleItalic}
+        description={rp.heroDescription}
+        descriptionWidth={628}
+      />
 
       {/* Form */}
-      <section className="py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {rp.formEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={rp.formTitle}
+      <section className="px-5 py-16 md:px-16 md:py-28">
+        <div className="max-w-[1280px] mx-auto">
+          <SectionTitle
+            tagline={rp.formEyebrow}
+            title={composeTitle(rp.formTitle, rp.formTitleHighlight)}
             highlight={rp.formTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
+            body={rp.formSubtitle}
+            className="mb-20"
           />
-          <p className="text-sm text-ink-600 mb-10">{rp.formSubtitle}</p>
 
           {/* Success replaces the form; failure sits above it with values intact */}
           {status === 'success' ? (
@@ -270,7 +232,7 @@ export default function RecruiterEngagement() {
               </div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} noValidate className="max-w-[820px]">
+            <form onSubmit={handleSubmit} noValidate className="max-w-[814px]">
               {status === 'fail' && (
                 <div
                   role="alert"
@@ -291,19 +253,20 @@ export default function RecruiterEngagement() {
               )}
 
               <fieldset disabled={sending} className="border-0 p-0 m-0 disabled:opacity-60">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {FIELDS.map((f) => {
                     const err = fieldError(f.name);
-                    const base = `w-full border rounded-md px-4 py-3 text-sm text-navy-900 placeholder:text-ink-400 focus:outline-none transition-colors ${
+                    // Figma "Text input": 48 tall, padding 12, 1px black border, square, 16/150.
+                    const base = `w-full min-h-12 border p-3 text-base leading-[150%] text-black placeholder:text-black/60 focus:outline-none transition-colors ${
                       err
-                        ? 'border-red-400 focus:border-red-500'
-                        : 'border-navy-100 focus:border-sky-600'
+                        ? 'border-red-500'
+                        : 'border-black focus:border-teal-500'
                     }`;
                     return (
                       <div key={f.name} className={f.full ? 'md:col-span-2' : ''}>
                         <label
                           htmlFor={f.name}
-                          className="block text-sm text-navy-900 mb-2"
+                          className="block text-base leading-[150%] text-black mb-2"
                         >
                           {f.label}
                           {f.required && <span className="text-red-500 ml-1">*</span>}
@@ -370,7 +333,7 @@ export default function RecruiterEngagement() {
                     aria-invalid={!!fieldError('consent')}
                     className="mt-0.5 w-4 h-4 shrink-0 accent-navy-900"
                   />
-                  <span className="text-sm text-ink-600">{rp.consentLabel}</span>
+                  <span className="text-sm leading-[150%] text-black">{rp.consentLabel}</span>
                 </label>
                 {fieldError('consent') && (
                   <p className="text-xs text-red-500 mt-1.5">
@@ -380,48 +343,46 @@ export default function RecruiterEngagement() {
 
                 <button
                   type="submit"
-                  className="mt-8 bg-navy-900 hover:bg-navy-800 disabled:hover:bg-navy-900 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md flex items-center gap-2"
+                  className="mt-6 h-11 bg-navy-900 hover:bg-navy-800 disabled:hover:bg-navy-900 transition-colors text-white text-base leading-[150%] font-medium px-6 rounded-md flex items-center gap-2"
                 >
                   {sending && <Loader2 size={15} className="animate-spin" />}
                   {sending ? 'Sending…' : rp.submitLabel}
                 </button>
               </fieldset>
 
-              <p className="text-xs text-ink-400 mt-4">{rp.formFootnote}</p>
+              <p className="text-sm leading-[150%] text-black mt-6">{rp.formFootnote}</p>
             </form>
           )}
         </div>
       </section>
 
       {/* State machine */}
-      <section className="bg-navy-50 py-16 lg:py-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-            {rp.statesEyebrow}
-          </span>
-          <TitleWithHighlight
-            text={rp.statesTitle}
+      <section className="bg-navy-50 px-5 py-16 md:px-16 md:py-28">
+        <div className="max-w-[1280px] mx-auto">
+          <SectionTitle
+            tagline={rp.statesEyebrow}
+            title={composeTitle(rp.statesTitle, rp.statesTitleHighlight)}
             highlight={rp.statesTitleHighlight}
-            className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
           />
-          <p className="text-sm text-ink-600 max-w-lg mb-10">{rp.statesSubtitle}</p>
+          <p className="mt-6 max-w-[598px] text-base md:text-lg leading-[150%] text-black">{rp.statesSubtitle}</p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
+          {/* Figma: 624x100 white bar cards, 32 gap; tag over an H6 22 line. */}
+          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-8 gap-y-6">
             {stateCards.map((c) => (
               <div
                 key={c.label}
-                className={`bg-white border border-navy-100 border-l-2 rounded-sm px-6 py-5 ${
+                className={`bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small border-l-[3px] min-h-[100px] flex flex-col justify-center gap-2 px-3 py-4 ${
                   STATE_ACCENT[c.tone] || STATE_ACCENT.idle
                 }`}
               >
                 <span
-                  className={`inline-block text-[10px] font-semibold tracking-widest uppercase px-2 py-1 rounded mb-3 ${
+                  className={`w-fit text-sm leading-[150%] uppercase px-2.5 py-1 rounded-2xl ${
                     TONE_CLASSES[c.tone] || TONE_CLASSES.idle
                   }`}
                 >
                   {c.label}
                 </span>
-                <p className="font-display text-lg text-navy-900">{c.description}</p>
+                <p className="font-display font-medium text-[22px] leading-[140%] tracking-[-0.01em] text-navy-900">{c.description}</p>
               </div>
             ))}
           </div>
