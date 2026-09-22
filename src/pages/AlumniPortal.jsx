@@ -1,13 +1,16 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, ArrowUpRight } from 'lucide-react';
-import StatCard from '../components/StatCard';
+import { ArrowRight, ChevronRight, Mail, MapPin, Phone } from 'lucide-react';
+import { StatGrid } from '../components/StatCard';
+import PageHero, { HeroButton } from '../components/PageHero';
+import { Section, SectionTitle, Tagline, Heading, H5, H6 } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
+import { composeTitle } from '../lib/text';
 import { useAlumniPortalData } from '../lib/useAlumniPortalData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
 const fallbackPage = {
-  heroEyebrow: "SIMAA · Est. 1989 · 5,000+ members",
+  heroEyebrow: 'SIMAA · Est. 1985 · 5,000+ members',
   heroTitle: 'Alumni Portal.',
   heroDescription:
     'Stay connected, give back, keep growing. Your official home for batchmeets, mentorship, city chapters, and everything SIMAA runs.',
@@ -26,7 +29,7 @@ const fallbackPage = {
   ],
 
   calendarEyebrow: 'Upcoming for Alumni',
-  calendarTitle: 'What is on the SIMAA calendar.',
+  calendarTitle: "What's on the SIMAA calendar.",
   calendarTitleHighlight: 'SIMAA calendar.',
   calendarSubtitle: 'Batchmeets, sector panels, mentorship sessions — open to all registered alumni.',
 
@@ -83,7 +86,7 @@ const fallbackPage = {
 
   voicesEyebrow: 'The Voices',
   voicesTitle: 'Eight talks worth your afternoon.',
-  voicesSubtitle: 'A curated feed. The full library lives on YouTube @TEDxSIMSREE.',
+  voicesSubtitle: 'A curated start. The full library lives at YouTube/@TEDxSIMSREE',
 
   ctaEyebrow: 'Become a SIMAA member',
   ctaTitle: 'Register on the Gateway.',
@@ -106,50 +109,62 @@ const fallbackPage = {
   ],
 };
 
+// Defaults below follow the Figma "Alumni Portal" frame (copy and photos).
 const fallbackEvents = [
-  { day: 'Sat', date: '22', month: 'Feb 2026', category: 'Flagship', title: 'SIMAA Annual Batchmeet 2026', description: 'Cross-batch reunion · Churchgate campus · all batches welcome · drinks, panels, awards.', ctaLabel: 'RSVP' },
-  { day: 'Sat', date: '08', month: 'Mar 2026', category: 'Networking · Chapter', title: 'BFSI Networking Evening · Whitefield', description: 'Open bar · 60+ alumni confirmed · SIMAA address shared on RSVP.', ctaLabel: 'RSVP' },
-  { day: 'Sat', date: '02', month: 'Jun 2026', category: 'Mentorship', title: 'Mock GDPI Panel for MMS 2026 cohort', description: 'Volunteer slot · 2-hour commitment · panel materials provided.', ctaLabel: 'Volunteer' },
-  { day: 'Sat', date: '14', month: 'Aug 2026', category: 'Sector · Panel', title: 'Independence-eve dinner · Khan Market', description: 'Casual evening · spouses welcome · pay reservation closes 10 Aug.', ctaLabel: 'RSVP' },
-  { day: 'Sat', date: '28', month: 'Sep 2026', category: 'Sector evening', title: 'Consulting Sector Roundtable', description: 'Partners + Principals from MBB, Big Four, boutique firms · invite only.', ctaLabel: 'Apply' },
-  { day: 'Sat', date: '12', month: 'Nov 2026', category: 'Recognition', title: 'Alumnus of the Year Awards', description: 'Annual recognition night · nominations close 30 Sep · black tie.', ctaLabel: 'Nominate' },
+  { day: 'Sat', date: '22', month: 'Nov 2026', category: 'Flagship', title: 'SIMAA Annual Batchmeet 2026', description: 'Cross-batch reunion · Churchgate campus · all batches welcome · dinner, panels, awards.', ctaLabel: 'RSVP' },
+  { day: 'Sat', date: '18', month: 'Jun 2026', category: 'Bengaluru chapter', title: 'BFSI Networking Evening · Whitefield', description: 'Open bar · 60+ alumni confirmed · UB City address shared on RSVP.', ctaLabel: 'RSVP' },
+  { day: 'Sat', date: '02', month: 'Jul 2026', category: 'Mentorship', title: 'Mock GDPI Panel for MMS 2026 cohort', description: 'Volunteer slot · 2-hour panel · Churchgate · 30 alumni interviewers needed.', ctaLabel: 'Volunteer' },
+  { day: 'Sat', date: '14', month: 'Aug 2026', category: 'Delhi NCR chapter', title: 'Independence-eve dinner · Khan Market', description: 'Casual evening · spouses welcome · pre-pay reservation closes 10 Aug.', ctaLabel: 'Reserve' },
+  { day: 'Sat', date: '28', month: 'Sep 2026', category: 'Sector evening', title: 'Consulting Sector Roundtable', description: 'Partners + Principals from MBB, Big Four, boutique firms · invite-only.', ctaLabel: 'Apply' },
 ];
 
 const fallbackServices = [
-  { title: 'Annual Batchmeets', description: 'Cross-batch reunions in Mumbai, Bengaluru, Delhi, Pune, Hyderabad, Singapore. November every year.', meta: '6 cities · Free for SIMAA members', category: 'Networking' },
-  { title: 'Sector Evenings', description: 'Industry-specific networking nights — BFSI, Consulting, FMCG, Media, Tech, Public Service.', meta: '6 sector tracks · 2-4 per year each', category: 'Networking' },
-  { title: 'City Chapter Meetups', description: 'Hyper-local meet-ups run by city chapter conveners · monthly evenings, casual format.', meta: 'Run by chapter conveners', category: 'Networking' },
-  { title: 'Referral Network', description: 'Internal job board · 120+ alumni companies post openings · referrals prioritised.', meta: 'Avg 24 open roles at any time', category: 'Careers' },
-  { title: 'Resume + LinkedIn clinics', description: 'Quarterly clinics with senior alumni recruiters · feedback on profile, positioning, talking points.', meta: 'Open to MBA 15 onwards', category: 'Careers' },
-  { title: 'Reverse mentoring', description: 'Younger alumni offer current-tools mentorship to senior alumni navigating digital-first transitions.', meta: 'Pairs · 60 alumni per quarter', category: 'Mentorship' },
-  { title: 'Faculty Masterclasses', description: 'Faculty-led deep-dives · finance, analytics, strategy · alumni only · livestream + replay.', meta: '1 masterclass a month', category: 'Learning' },
-  { title: 'Library + JSTOR access', description: 'Lifetime library card · digital JSTOR + EBSCO access · alumni log-in via Gateway.', meta: 'Lifetime · free', category: 'Learning' },
-  { title: 'Mock GDPI Panels', description: 'Volunteer to sit on selection panels for the incoming cohort · 2-hour panels each Saturday in October.', meta: '120 alumni volunteers', category: 'Mentorship' },
-  { title: '1:1 Student Mentorship', description: 'Sector-matched pairs · alumni mentor pairs with a current student · 30 min/month commitment.', meta: '290 active mentor pairings', category: 'Mentorship' },
-  { title: 'Student Scholarships', description: 'Alumni-funded need-based scholarships · 12 students every year routed via Simarthan trust.', meta: '₹0 disbursed in 2025', category: 'Recognition' },
-  { title: 'Recognition Awards', description: 'Alumni-funded student of the year, best assembly, and research thesis awards.', meta: 'Awarded · Convocation Day', category: 'Recognition' },
-];
+  ['Networking', 'Annual Batchmeets', 'Cross-batch reunions in Mumbai, Bangalore, Delhi, Pune, Hyderabad, Singapore. November every year.', '6 cities · Free for SIMAA members'],
+  ['Networking', 'Sector Evenings', 'Industry-specific networking nights · BFSI, Consulting, FMCG, Media, Tech, Public Service.', '6 sector tracks · 2× a year per sector'],
+  ['Networking', 'City Chapter Meetups', 'Hyper-local meet-ups run by city chapter conveners · monthly evenings, casual format.', 'Run by chapter conveners'],
+  ['Career', 'Referral Network', 'Internal job board · 120+ alumni-companies post openings · referrals routed via Gateway.', 'Avg 24 open roles at any time'],
+  ['Career', 'Resume + LinkedIn clinics', 'Quarterly clinics with senior alumni recruiters · feedback on profile, positioning, talking points.', "Open to MMS '13 onwards"],
+  ['Career', 'Reverse mentoring', 'Younger alumni offer current-tools mentorship to senior alumni navigating digital-first transitions.', 'Pairs ~30 alumni per quarter'],
+  ['Learning', 'Faculty Masterclasses', 'Faculty-led deep-dives · finance, marketing, ops · alumni-only · livestream + replay.', '1 masterclass a month'],
+  ['Learning', 'Library + JSTOR access', 'Lifetime library card · digital JSTOR + EBSCO access · alumni log-in via Gateway.', 'Renewed annually'],
+  ['Mentorship', 'Mock GDPI Panels', 'Alumni interview MMS aspirants · pre-placement rehearsal · 2-hour panels each Saturday in October.', '~120 alumni interviewers/yr'],
+  ['Mentorship', '1:1 Student Mentorship', 'Sector-matched pairs · alumni mentor pairs with a current student · 30 min/month commitment.', '280 active mentor pairings'],
+  ['Giving back', 'Student Scholarships', 'Alumni-funded need-based scholarships · 12 students every year · routed via Simarthan trust.', '₹6L disbursed in 2025'],
+  ['Giving back', 'Recognition Awards', 'Alumni-funded student of the year, best committee, best research thesis awards.', '3 awards · Convocation Day'],
+].map(([category, title, description, meta], i) => ({
+  category,
+  title,
+  description,
+  meta,
+  image: `/images/alumni-portal/service-${String(i + 1).padStart(2, '0')}.webp`,
+}));
 
 const fallbackChapters = [
-  { city: 'Mumbai', memberCount: '2,400+ alumni', convener: "Convener · Karan Mehta · MMS '09", meetInfo: 'Next meetup · 14 Feb 2026 · Bandra Kurla Complex' },
-  { city: 'Bengaluru', memberCount: '1,400+ alumni', convener: "Convener · Nisha Rao · MMS '12", meetInfo: 'Next meetup · 08 Mar 2026 · Whitefield' },
-  { city: 'Delhi NCR', memberCount: '1,100+ alumni', convener: "Convener · Aditya Nair · MFM '10", meetInfo: 'Next meetup · 14 Aug 2026 · Khan Market' },
-  { city: 'Pune', memberCount: '550+ alumni', convener: "Convener · Sneha Kulkarni · MMM '14", meetInfo: 'Next meetup · 21 Jun 2026 · Koregaon Park' },
-  { city: 'Hyderabad', memberCount: '480+ alumni', convener: "Convener · Rahul Iyer · MMS '11", meetInfo: 'Next meetup · 05 Jul 2026 · HITEC City' },
-  { city: 'Singapore', memberCount: '180+ alumni', convener: "Convener · Priya Menon · MMS '08", meetInfo: 'Next meetup · 19 Sep 2026 · Raffles Place' },
-];
+  ['Mumbai', '2,400+ alumni', "Aarav Mehta · MMS '08", 'Sat 12 Jul · BSE Café', 'mumbai'],
+  ['Bengaluru', '2,400+ alumni', "Meera Nair · MMS '14", 'Wed 18 Jun · UB City', 'bengaluru'],
+  ['Delhi NCR', '2,400+ alumni', "Tanvi Sharma · MMS '12", 'Thu 14 Aug · Khan Market', 'delhi-ncr'],
+  ['Pune', '310+ alumni', "Aryan Saxena · MMM '10", 'Fri 25 Jul · Koregaon Park', 'pune'],
+  ['Hyderabad', '180+ alumni', "Rishi Bhatnagar · MFM '09", 'Sat 09 Aug · HITEC City', 'hyderabad'],
+  ['Singapore', '140+ alumni', "Ananya Kapoor · MMS '13", 'Sun 20 Jul · Marina One', 'singapore'],
+].map(([city, memberCount, convener, meetInfo, slug]) => ({
+  city,
+  memberCount,
+  convener: `Convener · ${convener}`,
+  meetInfo: `Next meetup · ${meetInfo}`,
+  image: `/images/alumni-portal/chapter-${slug}.webp`,
+}));
 
-const fallbackTalks = [
-  { name: 'Kavya Singh', tag: 'Founder · Funding', meta: "MMS '15 · 21 minutes", description: 'Fintech closed its Series A · R&D vs led by Lightbox · grateful to the SIMSREE network for early intros.' },
-  { name: 'Rohit Joshi', tag: 'Founder · Funding', meta: "MMS '11 · 18 minutes", description: 'Fintech closed its Series A · R&D vs led by Lightbox · grateful to the SIMSREE network for early intros.' },
-  { name: 'Sneha Patel', tag: 'Founder · Funding', meta: "MMS '13 · 24 minutes", description: 'Fintech closed its Series A · R&D vs led by Lightbox · grateful to the SIMSREE network for early intros.' },
-  { name: 'Ishaan Modi', tag: 'Founder · Funding', meta: "MMS '16 · 19 minutes", description: 'Fintech closed its Series A · R&D vs led by Lightbox · grateful to the SIMSREE network for early intros.' },
-];
-
-const SERVICE_CATEGORIES = ['All', 'Networking', 'Mentorship', 'Learning', 'Recognition', 'Careers'];
+const fallbackTalks = ['Kavya Singh', 'Rohit Joshi', 'Sneha Patel', 'Ishaan Modi'].map((name, i) => ({
+  name,
+  tag: 'Founder · Funding',
+  meta: "MMS '15 · 2 weeks ago",
+  description: 'FinSure closed its Series A · ₹40 cr led by Lightbox · grateful to the SIMSREE network for early intros.',
+  image: `/images/alumni-portal/talk-${i + 1}.webp`,
+}));
 
 function imgUrl(image, width) {
   if (!image) return undefined;
+  if (typeof image === 'string') return image;
   try {
     return urlFor(image).width(width).auto('format').url();
   } catch {
@@ -157,16 +172,14 @@ function imgUrl(image, width) {
   }
 }
 
-function TitleWithHighlight({ text, highlight, className, highlightClassName = 'text-sky-600' }) {
-  if (!highlight) return <h2 className={className}>{text}</h2>;
-  const idx = text.indexOf(highlight);
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
+// "Label · rest" → bold label, as in the Figma chapter cards.
+function LabelLine({ text = '' }) {
+  const [label, ...rest] = text.split(' · ');
   return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className={highlightClassName}>{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
+    <p className="text-base leading-[150%]">
+      <span className="font-semibold">{label}</span>
+      {rest.length > 0 && ` · ${rest.join(' · ')}`}
+    </p>
   );
 }
 
@@ -180,334 +193,258 @@ export default function AlumniPortal() {
   const chapters = fillFactsDeep(data?.chapters?.length ? data.chapters : fallbackChapters, facts);
   const talks = fillFactsDeep(data?.talks?.length ? data.talks : fallbackTalks, facts);
 
-  const [category, setCategory] = useState('All');
-  const visibleServices =
-    category === 'All' ? services : services.filter((s) => s.category === category);
-
-  const heroImageUrl = imgUrl(pp.heroImage, 1600);
+  const contactIcons = [MapPin, Mail, Phone];
 
   return (
     <div>
-      {/* Hero */}
-      <section
-        className="min-h-[600px] md:h-[767px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/40 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[72px] md:h-full flex flex-col justify-end text-white">
-          <div className="text-xs text-white/70 mb-6">
-            <Link to="/about" className="hover:text-white">About Us</Link>
-            <span className="mx-1.5">/</span>
-            <span>Alumni Portal</span>
-          </div>
-          <span className="inline-block w-fit bg-navy-900 text-white text-[18px] leading-[150%] px-4 py-2.5 rounded-full mb-9">
-            {pp.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-3">{pp.heroTitle}</h1>
-          <p className="max-w-xl text-white/85 mb-9">{pp.heroDescription}</p>
-          <div className="flex flex-wrap gap-3">
-            <a
-              href={pp.heroPrimaryCtaUrl}
-              className="bg-sky-600 hover:bg-teal-600 transition-colors text-white font-medium px-5 py-3 rounded-md flex items-center gap-2 w-fit"
-            >
-              {pp.heroPrimaryCtaLabel} <ArrowUpRight size={16} />
-            </a>
-            <a
-              href={pp.heroSecondaryCtaUrl}
-              className="bg-white hover:bg-gray-100 transition-colors text-navy-900 font-medium px-5 py-3 rounded-md w-fit"
-            >
-              {pp.heroSecondaryCtaLabel}
-            </a>
-            <a
-              href={pp.heroTertiaryCtaUrl}
-              className="border border-white/40 hover:bg-white/10 transition-colors text-white font-medium px-5 py-3 rounded-md w-fit"
-            >
-              {pp.heroTertiaryCtaLabel}
-            </a>
-          </div>
-        </div>
+      <PageHero
+        image={heroImage(pp.heroImage, '/images/alumni-portal/hero.webp')}
+        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'About Us', to: '/about' }, { label: 'Alumni Portal' }]}
+        eyebrow={pp.heroEyebrow}
+        title={pp.heroTitle}
+        description={pp.heroDescription}
+        descriptionWidth={628}
+        actions={[
+          { label: pp.heroPrimaryCtaLabel, href: pp.heroPrimaryCtaUrl, primary: true },
+          { label: pp.heroSecondaryCtaLabel, href: pp.heroSecondaryCtaUrl },
+          { label: pp.heroTertiaryCtaLabel, href: pp.heroTertiaryCtaUrl },
+        ]}
+      />
+
+      <section className="px-5 py-16 md:p-16">
+        <StatGrid stats={pp.stats} />
       </section>
 
-      {/* Stats */}
-      <section className="max-w-[1408px] mx-auto px-6 lg:px-16 py-10 lg:py-16">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {(pp.stats || []).map((s) => (
-            <StatCard key={s.label} {...s} />
+      {/* Calendar — centred title, five 230x466 hairline cards: 111x127 navy date
+          tile, category, H6 title, 14/150 copy, outlined 37px button at the foot. */}
+      <Section width={1280}>
+        <SectionTitle
+          center
+          tagline={pp.calendarEyebrow}
+          title={composeTitle(pp.calendarTitle, pp.calendarTitleHighlight)}
+          highlight={pp.calendarTitleHighlight}
+          body={pp.calendarSubtitle}
+        />
+        <div className="mt-12 flex lg:grid lg:grid-cols-5 gap-8 overflow-x-auto lg:overflow-visible -mx-5 px-5 lg:mx-0 lg:px-0 [scrollbar-width:none]">
+          {events.map((e) => (
+            <div
+              key={e._id || e.title}
+              className="w-[230px] shrink-0 lg:w-auto min-h-[466px] flex flex-col gap-8 px-8 py-4 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+            >
+              <div className="w-fit min-w-[106px] h-[127px] px-4 rounded-2xl bg-navy-900 text-white flex flex-col items-center justify-center text-center">
+                <span className="text-base leading-[150%]">{e.day}</span>
+                <span className="font-display font-medium text-[36px] leading-[130%] tracking-[-0.01em]">{e.date}</span>
+                <span className="text-base leading-[150%] uppercase">{e.month}</span>
+              </div>
+              <div className="flex-1 flex flex-col justify-between gap-4">
+                <div className="flex flex-col gap-4">
+                  <span className="text-sm leading-[150%] text-navy-900">{e.category}</span>
+                  <div className="flex flex-col gap-2">
+                    <H6 as="h3" className="text-black">
+                      {e.title}
+                    </H6>
+                    <p className="text-sm leading-[150%] text-black">{e.description}</p>
+                  </div>
+                </div>
+                <a
+                  href={e.ctaUrl || '#register'}
+                  className="w-fit h-[37px] px-5 inline-flex items-center rounded-md bg-white outline outline-1 -outline-offset-1 outline-black/20 text-sm leading-[150%] text-navy-900 hover:bg-navy-50 transition-colors"
+                >
+                  {e.ctaLabel}
+                </a>
+              </div>
+            </div>
           ))}
         </div>
-      </section>
+      </Section>
 
-      {/* SIMAA Calendar */}
-      <section className="py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-20">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {pp.calendarEyebrow}
-            </span>
-            <TitleWithHighlight
-              text={pp.calendarTitle}
-              highlight={pp.calendarTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
-            />
-            <p className="text-sm text-ink-600">{pp.calendarSubtitle}</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
-            {events.map((e) => (
-              <div key={e._id || e.title} className="flex flex-col">
-                <div className="bg-navy-900 text-white rounded-xl py-4 flex flex-col items-center mb-4">
-                  <span className="text-[11px]">{e.day}</span>
-                  <span className="text-2xl font-display font-semibold leading-tight">{e.date}</span>
-                  <span className="text-[10px] uppercase tracking-wide">{e.month}</span>
-                </div>
-                <span className="text-[10px] uppercase tracking-wide text-sky-600 font-semibold mb-1">
-                  {e.category}
-                </span>
-                <p className="text-sm font-semibold text-navy-900">{e.title}</p>
-                <p className="text-xs text-ink-600 mt-1 mb-3">{e.description}</p>
-                {e.ctaLabel && (
-                  <a
-                    href={e.ctaUrl || '#'}
-                    className="text-xs font-medium text-navy-900 flex items-center gap-1 w-fit mt-auto"
-                  >
-                    {e.ctaLabel} <ArrowRight size={12} />
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Services */}
-      <section id="services" className="py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {pp.servicesEyebrow}
-            </span>
-            <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6">
-              <span className="text-sky-600">{services.length}</span> {pp.servicesTitle}
-            </h2>
-            <p className="text-sm text-ink-600">{pp.servicesSubtitle}</p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-10 lg:mb-16">
-            <span className="text-xs font-medium text-ink-600 mr-2">Filter by</span>
-            {SERVICE_CATEGORIES.map((c) => (
-              <button
-                key={c}
-                onClick={() => setCategory(c)}
-                className={`text-xs font-medium px-4 py-2 rounded-full border transition-colors ${
-                  category === c
-                    ? 'bg-navy-900 text-white border-navy-900'
-                    : 'border-navy-100 text-navy-900 hover:bg-navy-50'
-                }`}
+      {/* Services — centred title with the count in teal; 405x623 cards: 341x320
+          photo, yellow-tint tag, H5 28 navy, 18/150 copy, 14/150 navy footnote. */}
+      <Section id="services" width={1280}>
+        <SectionTitle
+          center
+          tagline={pp.servicesEyebrow}
+          title={`${services.length} ${pp.servicesTitle}`}
+          highlight={String(services.length)}
+          body={pp.servicesSubtitle}
+        />
+        <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8 gap-y-12">
+          {services.map((s) => {
+            const img = imgUrl(s.image, 682);
+            return (
+              <div
+                key={s._id || s.title}
+                className="flex flex-col gap-6 p-6 md:p-8 rounded-2xl outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
               >
-                {c}
-              </button>
-            ))}
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {visibleServices.map((s) => {
-              const img = imgUrl(s.image, 500);
-              return (
                 <div
-                  key={s._id || s.title}
-                  className="flex flex-col bg-white border border-navy-100 rounded-xl overflow-hidden"
-                >
-                  <div
-                    className="h-40 bg-gray-200 bg-cover bg-center shrink-0"
-                    style={img ? { backgroundImage: `url('${img}')` } : undefined}
-                  />
-                  <div className="flex flex-col flex-1 p-5">
-                    <span className="text-[10px] uppercase tracking-wide text-sky-600 font-semibold">
-                      {s.category}
-                    </span>
-                    <h4 className="font-display text-lg font-semibold text-navy-900 mt-1 mb-2">
-                      {s.title}
-                    </h4>
-                    <p className="text-[13px] leading-relaxed text-ink-600 mb-3">{s.description}</p>
-                    {s.meta && <p className="text-xs text-ink-400 mt-auto">{s.meta}</p>}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* City Chapters */}
-      <section id="chapters" className="py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-20">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {pp.chaptersEyebrow}
-            </span>
-            <TitleWithHighlight
-              text={pp.chaptersTitle}
-              highlight={pp.chaptersTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
-            />
-            <p className="text-sm text-ink-600">{pp.chaptersSubtitle}</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {chapters.map((c) => {
-              const img = imgUrl(c.image, 600);
-              return (
-                <div
-                  key={c._id || c.city}
-                  className="relative h-64 rounded-xl overflow-hidden bg-gray-200 bg-cover bg-center"
+                  className="h-[320px] rounded-2xl bg-navy-50 bg-cover bg-center"
                   style={img ? { backgroundImage: `url('${img}')` } : undefined}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/30 to-transparent" />
-                  <div className="relative h-full flex flex-col justify-end p-5 text-white">
-                    {c.memberCount && (
-                      <span className="absolute top-4 left-4 text-[10px] font-semibold bg-white/20 backdrop-blur px-2.5 py-1 rounded-full">
-                        {c.memberCount}
-                      </span>
-                    )}
-                    <p className="font-display text-xl font-semibold">{c.city}</p>
-                    <p className="text-xs text-white/80 mt-1">{c.convener}</p>
-                    <p className="text-xs text-white/60 mt-0.5">{c.meetInfo}</p>
+                />
+                <span className="w-fit px-2.5 py-1 rounded-2xl bg-[#fffbec] text-navy-900 text-xs leading-[150%]">{s.category}</span>
+                <div className="flex flex-col gap-3">
+                  <H5>{s.title}</H5>
+                  <p className="text-base md:text-lg leading-[150%] text-black">{s.description}</p>
+                  <p className="text-sm leading-[150%] text-navy-900">{s.meta}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </Section>
+
+      {/* City chapters — 405x554 photo cards (radius 16), copy on a dark fade at
+          the foot: navy member pill, H5 city, bold-label lines, contact link. */}
+      <Section id="chapters" width={1280}>
+        <SectionTitle
+          center
+          tagline={pp.chaptersEyebrow}
+          title={composeTitle(pp.chaptersTitle, pp.chaptersTitleHighlight)}
+          highlight={pp.chaptersTitleHighlight}
+          body={pp.chaptersSubtitle}
+        />
+        <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {chapters.map((c) => {
+            const img = imgUrl(c.image, 810);
+            return (
+              <div
+                key={c._id || c.city}
+                className="relative h-[554px] rounded-2xl overflow-hidden bg-navy-950 bg-cover bg-center outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+                style={img ? { backgroundImage: `url('${img}')` } : undefined}
+              >
+                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
+                <div className="relative h-full p-6 flex flex-col justify-end gap-3 text-white">
+                  <span className="w-fit h-11 px-4 inline-flex items-center rounded-[32px] bg-navy-900 outline outline-1 -outline-offset-1 outline-black/20 text-base leading-[150%] font-medium">
+                    {c.memberCount}
+                  </span>
+                  <div className="flex flex-col gap-1">
+                    <H5 as="h3" className="text-white">
+                      {c.city}
+                    </H5>
+                    <LabelLine text={c.convener} />
+                    <LabelLine text={c.meetInfo} />
+                  </div>
+                  <a href={c.contactUrl || 'mailto:simaa@simsree.org'} className="flex items-center gap-2 w-fit text-base leading-[150%] hover:underline underline-offset-2">
+                    Contact convener <ChevronRight size={24} strokeWidth={1.5} />
+                  </a>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        <div className="mt-8 flex justify-center">
+          <HeroButton label={pp.chaptersCtaLabel} href={pp.chaptersCtaUrl} primary />
+        </div>
+      </Section>
+
+      {/* Give back — #24295c, four 296x264 navy cards. */}
+      <Section bg="bg-navy-800" width={1280} className="border-t border-white/20">
+        <SectionTitle
+          center
+          dark
+          tagline={pp.giveBackEyebrow}
+          title={composeTitle(pp.giveBackTitle, pp.giveBackTitleHighlight)}
+          highlight={pp.giveBackTitleHighlight}
+          body={pp.giveBackSubtitle}
+          titleClass="text-white [&_span]:text-teal-400"
+        />
+        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {(pp.giveBackCards || []).map((c) => (
+            <div
+              key={c.title}
+              className="flex flex-col justify-center gap-4 min-h-[264px] p-8 rounded-2xl bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-white/20 shadow-small"
+            >
+              <span className="text-sm leading-[150%] text-teal-100">{c.label}</span>
+              <div className="flex flex-col gap-2">
+                <H6 as="h3" className="text-white">
+                  {c.title}
+                </H6>
+                <p className="text-sm leading-[150%] text-ink-50">{c.description}</p>
+              </div>
+              <Link to={c.linkUrl} className="flex items-center gap-2 w-fit text-sm leading-[150%] hover:underline underline-offset-2">
+                {c.linkLabel} <ArrowRight size={24} strokeWidth={1.5} />
+              </Link>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      {/* Talks — four 308 cards: 372px photo (radius 16 top) over 24-padded copy. */}
+      <Section width={1280}>
+        <SectionTitle center tagline={pp.voicesEyebrow} title={pp.voicesTitle} body={pp.voicesSubtitle} />
+        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {talks.map((t) => {
+            const img = imgUrl(t.image, 616);
+            return (
+              <div
+                key={t._id || t.name}
+                className="flex flex-col gap-4 rounded-b-2xl outline outline-1 -outline-offset-1 outline-black/20"
+              >
+                <div
+                  className="h-[372px] rounded-t-2xl bg-navy-50 bg-cover bg-center outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+                  style={img ? { backgroundImage: `url('${img}')` } : undefined}
+                />
+                <div className="flex flex-col gap-2 p-6 pt-2">
+                  <span className="text-base leading-[150%] font-semibold text-black">{t.tag}</span>
+                  <div className="flex flex-col gap-4 pb-4">
+                    <div className="flex flex-col gap-1">
+                      <H5 as="h3" className="text-black">
+                        {t.name}
+                      </H5>
+                      <p className="text-base leading-[150%] text-ink-400">{t.meta}</p>
+                    </div>
+                    <p className="text-base leading-[150%] text-black">{t.description}</p>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-          {pp.chaptersCtaLabel && (
-            <div className="text-center mt-10 lg:mt-16">
-              <a
-                href={pp.chaptersCtaUrl || '#'}
-                className="inline-flex items-center gap-2 bg-navy-900 hover:bg-navy-800 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md"
-              >
-                {pp.chaptersCtaLabel} <ArrowRight size={14} />
-              </a>
-            </div>
-          )}
-        </div>
-      </section>
-
-      {/* Give Back */}
-      <section className="bg-navy-900 text-white py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-20">
-            <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
-              {pp.giveBackEyebrow}
-            </span>
-            <TitleWithHighlight
-              text={pp.giveBackTitle}
-              highlight={pp.giveBackTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-6 mb-6"
-              highlightClassName="text-teal-400"
-            />
-            <p className="text-sm text-white/80">{pp.giveBackSubtitle}</p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {(pp.giveBackCards || []).map((c) => (
-              <div key={c.title} className="bg-white/[0.07] rounded-2xl p-6 flex flex-col">
-                <span className="text-[10px] uppercase tracking-widest text-sky-300 font-semibold">
-                  {c.label}
-                </span>
-                <h4 className="font-display text-lg font-semibold mt-2 mb-3">{c.title}</h4>
-                <p className="text-[13px] leading-relaxed text-white/70 mb-4">{c.description}</p>
-                <Link
-                  to={c.linkUrl}
-                  className="text-[13px] font-medium text-white flex items-center gap-1 w-fit mt-auto"
-                >
-                  {c.linkLabel} <ArrowRight size={13} />
-                </Link>
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
-      </section>
+      </Section>
 
-      {/* The Voices */}
-      <section className="py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-20">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {pp.voicesEyebrow}
-            </span>
-            <TitleWithHighlight
-              text={pp.voicesTitle}
-              highlight={pp.voicesTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6 mb-6"
-            />
-            <p className="text-sm text-ink-600">{pp.voicesSubtitle}</p>
-          </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {talks.map((t) => {
-              const img = imgUrl(t.image, 500);
-              return (
-                <div key={t._id || t.name} className="flex flex-col">
-                  <div
-                    className="h-64 bg-gray-200 rounded-xl bg-cover bg-center mb-4"
-                    style={img ? { backgroundImage: `url('${img}')` } : undefined}
-                  />
-                  <span className="text-[10px] uppercase tracking-wide text-sky-600 font-semibold">
-                    {t.tag}
-                  </span>
-                  <p className="text-sm font-semibold text-navy-900 mt-1">{t.name}</p>
-                  <p className="text-xs text-ink-400 mt-0.5">{t.meta}</p>
-                  <p className="text-xs text-ink-600 mt-2">{t.description}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Register CTA */}
-      <section id="register" className="bg-navy-800 text-white py-16 lg:py-28">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0 grid lg:grid-cols-2 gap-10 lg:gap-20">
-          <div>
-            <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
-              {pp.ctaEyebrow}
-            </span>
-            <TitleWithHighlight
-              text={pp.ctaTitle}
-              highlight={pp.ctaTitleHighlight}
-              className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-6 mb-6"
-              highlightClassName="text-teal-400"
-            />
-            <p className="text-sm text-white/80 mb-8">{pp.ctaSubtitle}</p>
-            <div className="flex flex-wrap gap-3">
-              <a
-                href={pp.ctaPrimaryUrl || '#'}
-                className="bg-sky-600 hover:bg-teal-600 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md"
-              >
-                {pp.ctaPrimaryLabel}
-              </a>
-              <a
-                href={pp.ctaSecondaryUrl || '#'}
-                className="border border-white/30 hover:bg-white/10 transition-colors text-white text-sm font-medium px-5 py-3 rounded-md"
-              >
-                {pp.ctaSecondaryLabel}
-              </a>
-            </div>
-          </div>
+      {/* Register — navy, 64 padding: 567 copy column | facts split by 2px rules and
+          contact lines with 16px icons, 80 apart. */}
+      <section id="register" className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+        <div className="max-w-[1280px] mx-auto grid lg:grid-cols-[567px_1fr] gap-12 lg:gap-20 items-center">
           <div className="flex flex-col gap-8">
-            <div className="grid grid-cols-3 gap-6">
-              {(pp.ctaFacts || []).map((f) => (
-                <div key={f.label}>
-                  <div className="font-display text-2xl font-semibold">{f.value}</div>
-                  <p className="text-xs text-white/70 mt-1">{f.label}</p>
+            <div className="flex flex-col gap-4">
+              <Tagline className="text-teal-400">{pp.ctaEyebrow}</Tagline>
+              <Heading
+                text={composeTitle(pp.ctaTitle, pp.ctaTitleHighlight)}
+                highlight={pp.ctaTitleHighlight}
+                className="text-white"
+                highlightClass="text-teal-400"
+              />
+              <p className="max-w-[504px] text-base md:text-lg leading-[150%]">{pp.ctaSubtitle}</p>
+            </div>
+            <div className="flex flex-wrap gap-3.5">
+              <HeroButton label={pp.ctaPrimaryLabel} href={pp.ctaPrimaryUrl} primary icon={false} />
+              <HeroButton label={pp.ctaSecondaryLabel} href={pp.ctaSecondaryUrl} />
+            </div>
+          </div>
+          <div className="flex flex-col gap-10 lg:gap-20 lg:items-end">
+            <div className="flex flex-wrap gap-[22px]">
+              {(pp.ctaFacts || []).map((f, i) => (
+                <div key={f.label} className="flex gap-[22px]">
+                  {i > 0 && <span className="w-0.5 self-stretch min-h-[108px] bg-navy-50" aria-hidden="true" />}
+                  <div className="flex flex-col gap-3">
+                    <H5 as="p" className="text-white">
+                      {f.value}
+                    </H5>
+                    <p className="text-lg leading-[150%]">{f.label}</p>
+                  </div>
                 </div>
               ))}
             </div>
-            <div className="flex flex-col gap-2 border-t border-white/20 pt-6">
-              {(pp.ctaContact || []).map((line) => (
-                <p key={line} className="text-sm text-white/80">
-                  {line}
-                </p>
-              ))}
-            </div>
+            <ul className="flex flex-col gap-2 lg:w-[528px]">
+              {(pp.ctaContact || []).map((line, i) => {
+                const Icon = contactIcons[i] || MapPin;
+                return (
+                  <li key={line} className="flex items-center gap-2 text-lg leading-[150%]">
+                    <Icon size={16} className="shrink-0" /> {line}
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </div>
       </section>
