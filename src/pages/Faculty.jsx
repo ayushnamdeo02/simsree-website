@@ -1,5 +1,8 @@
 import { useMemo, useState } from 'react';
-import StatCard from '../components/StatCard';
+import { StatGrid } from '../components/StatCard';
+import PageHero from '../components/PageHero';
+import { Section, SectionTitle, H5, H6 } from '../components/ui';
+import { heroImage } from '../lib/heroImage';
 import { useFacultyData } from '../lib/useFacultyData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -39,7 +42,7 @@ const fallbackPage = {
 };
 
 const fallbackCore = [
-  ['Dr. Anand Mehta', 'Professor & Head, Finance', 'Finance', 'PhD · IIM Ahmedabad', 'Capital markets · corporate finance', '19 years at SIMSREE'],
+  ['Dr. Anand Mehta', 'Professor & Head, Finance', 'Finance', 'PhD · IIM Ahmedabad', 'Capital markets · corporate finance', '18 years at SIMSREE'],
   ['Dr. Priya Iyer', 'Associate Professor', 'Finance', 'PhD · JBIMS Mumbai', 'Derivatives · fintech · valuation', '11 years at SIMSREE'],
   ['Dr. Rohan Deshpande', 'Assistant Professor', 'Finance', 'PhD · IIT Bombay (SJMSOM)', 'Banking · risk management · FPSB', '8 years at SIMSREE'],
   ['Dr. Kavita Rao', 'Professor & Head, Marketing', 'Marketing', 'PhD · Mumbai University', 'Brand · consumer behaviour · retail', '16 years at SIMSREE'],
@@ -59,9 +62,9 @@ const fallbackCore = [
 
 const fallbackVisiting = [
   ['Aarav Mehta', 'Finance', 'MD, Global Markets · Barclays', 'Teaches: Trading Floor Realities', "Visiting since 2019 · SIMSREE alum '08"],
-  ['Sneha Patel', 'Marketing', 'CMO · Hindustan Unilever', 'Teaches: Brand at Scale', "Visiting since 2021 · SIMSREE alum '05"],
-  ['Aditya Verma', 'Strategy', 'Partner · McKinsey & Co', 'Teaches: Strategy in Practice', "Visiting since 2020 · SIMSREE alum '11"],
-  ['Priya Sharma', 'Finance', 'CFO · ICICI Bank', 'Teaches: Banking Capstone', "Visiting since 2017 · SIMSREE alum '03"],
+  ['Sneha Patel', 'Marketing', 'CMO · Hindustan Unilever', 'Teaches: Brand at Scale', "Visiting since 2021 · SIMSREE alum '10"],
+  ['Aditya Verma', 'Strategy', 'Partner · McKinsey & Co', 'Teaches: Strategy in Practice', "Visiting since 2020 · SIMSREE alum '09"],
+  ['Priya Sharma', 'Finance', 'CFO · ICICI Bank', 'Teaches: Banking Capstone', "Visiting since 2017 · SIMSREE alum '02"],
   ['Karthik Rao', 'Marketing', 'Brand Director, Asia · P&G', 'Teaches: Consumer Insights Lab', "Visiting since 2022 · SIMSREE alum '10"],
   ['Kavya Singh', 'Operations', 'Co-founder & CEO · FinSure', 'Teaches: Founder Stories', "Visiting since 2023 · SIMSREE alum '15"],
   ['Pooja Desai', 'HR & OB', 'Director · EY Parthenon', 'Teaches: Consulting Casework', "Visiting since 2020 · SIMSREE alum '09"],
@@ -77,17 +80,10 @@ const fallbackClusters = [
   ['Economics & Policy', 'Indian economy, public policy, development, financial markets.', 'Dr. Patil · Dr. Chaudhary'],
 ].map(([title, description, leads], i) => ({ title, description, leads, order: i + 1 }));
 
-function TitleWithHighlight({ text = '', highlight, className }) {
-  const idx = highlight ? text.indexOf(highlight) : -1;
-  if (idx === -1) return <h2 className={className}>{text}</h2>;
-  return (
-    <h2 className={className}>
-      {text.slice(0, idx)}
-      <span className="text-teal-500">{highlight}</span>
-      {text.slice(idx + highlight.length)}
-    </h2>
-  );
-}
+// Figma photos used when a person has no Sanity photo.
+const CORE_PHOTOS = Array.from({ length: 14 }, (_, i) => `/images/faculty/core-${i + 1}.webp`);
+const VISIT_PHOTOS = Array.from({ length: 8 }, (_, i) => `/images/faculty/visit-${i + 1}.webp`);
+const img = (image, fallback, w) => (image ? urlFor(image).width(w).auto('format').url() : fallback);
 
 export default function Faculty() {
   const facts = useKeyFacts();
@@ -99,9 +95,6 @@ export default function Faculty() {
   const heroButtons = fillFactsDeep(fp.heroButtons?.length ? fp.heroButtons : fallbackPage.heroButtons, facts);
 
   const [discipline, setDiscipline] = useState('All');
-
-  const heroImageUrl = fp.heroImage ? urlFor(fp.heroImage).width(1600).url() : null;
-  const researchImageUrl = fp.researchImage ? urlFor(fp.researchImage).width(900).url() : null;
 
   // Chips carry a live count, and only appear for disciplines that have faculty.
   const chips = useMemo(() => {
@@ -117,216 +110,154 @@ export default function Faculty() {
 
   const visibleCore = useMemo(
     () => (discipline === 'All' ? core : core.filter((f) => f.discipline === discipline)),
-    [core, discipline]
+    [core, discipline],
   );
 
   const title = fp.heroTitle || '';
   const brk = fp.heroTitleBreakAfter;
   const bIdx = brk ? title.indexOf(brk) : -1;
-  const line1 = bIdx === -1 ? title : title.slice(0, bIdx + brk.length);
-  const line2 = bIdx === -1 ? '' : title.slice(bIdx + brk.length).trim();
+  const heroTitle = bIdx === -1 ? title : `${title.slice(0, bIdx + brk.length)}\n${title.slice(bIdx + brk.length).trim()}`;
 
   return (
     <div className="bg-white">
-      {/* Hero */}
-      <section
-        className="min-h-[440px] md:h-[520px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
-        style={{
-          backgroundImage: heroImageUrl
-            ? `url('${heroImageUrl}')`
-            : 'linear-gradient(180deg, #8a8f9e, #cfd3da)',
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-[55px] pt-32 pb-12 md:pb-[56px] md:h-full flex flex-col justify-end text-white">
-          <span className="inline-block w-fit bg-navy-900 text-white text-[11px] font-semibold tracking-widest uppercase px-4 py-2 rounded mb-6">
-            {fp.heroEyebrow}
-          </span>
-          <h1 className="font-display text-4xl md:text-5xl font-semibold mb-5">
-            {line1}
-            {line2 && (
-              <>
-                <br />
-                {line2}
-              </>
-            )}
-          </h1>
-          <p className="max-w-lg text-sm text-white/85 leading-relaxed mb-8">{fp.heroDescription}</p>
+      <PageHero
+        image={heroImage(fp.heroImage, '/images/faculty/hero.webp', { stretch: true })}
+        eyebrow={fp.heroEyebrow}
+        eyebrowStyle="pill"
+        title={heroTitle}
+        description={fp.heroDescription}
+        descriptionWidth={628}
+        actions={heroButtons.map((b) => ({ label: b.label, href: b.url, primary: b.primary }))}
+      />
+
+      <section className="px-5 py-16 md:p-16">
+        <StatGrid stats={fp.stats || []} />
+      </section>
+
+      {/* Core faculty — centred title; square-cornered 45px outline chips (navy when
+          picked); 405 cards (32 gaps): 341x320 photo (radius 16), yellow-tint tag,
+          H5 navy name, 18/150 navy role, 16/150 grey details. */}
+      <Section id="core" width={1280} className="scroll-mt-24">
+        <SectionTitle center tagline={fp.coreEyebrow} title={fp.coreTitle} highlight={fp.coreTitleHighlight || 'faculty.'} body={fp.coreSubtitle} />
+        <div className="mt-20 flex flex-col md:flex-row md:items-center md:justify-center gap-4 md:gap-8">
+          <span className="text-base leading-[150%] font-semibold text-[#292929]">{fp.filterLabel}</span>
           <div className="flex flex-wrap gap-3">
-            {heroButtons.map((b) => (
-              <a
-                key={b.label}
-                href={b.url || '#'}
-                className={`font-medium px-5 py-3 rounded-md transition-colors w-fit ${
-                  b.primary
-                    ? 'bg-navy-900 hover:bg-navy-800 text-white'
-                    : 'bg-white hover:bg-gray-100 text-navy-900'
-                }`}
-              >
-                {b.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats */}
-      <section className="max-w-[1408px] mx-auto px-6 lg:px-16 py-10 lg:py-16">
-        <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-          {(fp.stats || []).map((s) => (
-            <StatCard key={s.label} {...s} />
-          ))}
-        </div>
-      </section>
-
-      {/* Core faculty */}
-      <section id="core" className="py-16 lg:py-24 scroll-mt-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {fp.coreEyebrow}
-            </span>
-            <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4">
-              {fp.coreTitle}
-            </h2>
-            <p className="text-sm text-ink-600">{fp.coreSubtitle}</p>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
-            <span className="text-xs text-ink-400 mr-1">{fp.filterLabel}</span>
             {chips.map((c) => (
               <button
                 key={c.label}
                 type="button"
                 onClick={() => setDiscipline(c.label)}
                 aria-pressed={c.label === discipline}
-                className={`text-xs px-3.5 py-2 rounded-md transition-colors ${
-                  c.label === discipline
-                    ? 'bg-sky-600 text-white'
-                    : 'text-ink-600 hover:text-navy-900 hover:bg-navy-50'
+                className={`h-[45px] px-3 text-sm leading-[150%] outline outline-1 -outline-offset-1 outline-black/20 transition-colors ${
+                  c.label === discipline ? 'bg-navy-900 text-white' : 'text-black hover:bg-navy-50'
                 }`}
               >
                 {c.label} ({c.count})
               </button>
             ))}
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {visibleCore.map((f) => {
-              const photoUrl = f.photo ? urlFor(f.photo).width(600).url() : null;
-              return (
+        </div>
+        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          {visibleCore.map((f) => {
+            const i = core.indexOf(f);
+            return (
+              <div key={f._id || f.name} className="p-6 md:p-8 flex flex-col gap-6 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
                 <div
-                  key={f._id || f.name}
-                  className="border border-navy-100 rounded-lg overflow-hidden flex flex-col"
-                >
-                  <div
-                    className="h-[220px] bg-gray-200 bg-cover bg-center"
-                    style={photoUrl ? { backgroundImage: `url('${photoUrl}')` } : undefined}
-                  />
-                  <div className="p-5 flex flex-col flex-1">
-                    {f.discipline && (
-                      <span className="text-[10px] font-semibold tracking-widest uppercase text-sky-600 mb-2">
-                        {f.discipline}
-                      </span>
-                    )}
-                    <h3 className="font-display text-lg font-semibold text-navy-900 mb-1">
-                      {f.name}
-                    </h3>
-                    <p className="text-xs text-ink-600 mb-3">{f.role}</p>
-                    <div className="space-y-0.5 mt-auto">
-                      {f.qualification && <p className="text-[11px] text-ink-400">{f.qualification}</p>}
-                      {f.specialism && <p className="text-[11px] text-ink-400">{f.specialism}</p>}
-                      {f.tenure && <p className="text-[11px] text-ink-400">{f.tenure}</p>}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Visiting faculty */}
-      <section id="visiting" className="py-16 lg:py-24 scroll-mt-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10">
-            <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-              {fp.visitingEyebrow}
-            </span>
-            <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4">
-              {fp.visitingTitle}
-            </h2>
-            <p className="text-sm text-ink-600">{fp.visitingSubtitle}</p>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
-            {visiting.map((v) => {
-              const photoUrl = v.photo ? urlFor(v.photo).width(500).url() : null;
-              return (
-                <div key={v._id || v.name} className="flex flex-col">
-                  <div
-                    className="h-[220px] bg-gray-200 bg-cover bg-center mb-4"
-                    style={photoUrl ? { backgroundImage: `url('${photoUrl}')` } : undefined}
-                  />
-                  {v.tag && (
-                    <span className="text-[10px] font-semibold tracking-widest uppercase text-sky-600 mb-2">
-                      {v.tag}
-                    </span>
+                  className="h-[320px] rounded-2xl bg-navy-50 bg-cover bg-center"
+                  style={{ backgroundImage: `url('${img(f.photo, CORE_PHOTOS[i % CORE_PHOTOS.length], 682)}')` }}
+                />
+                <div className="flex flex-col gap-3">
+                  {f.discipline && (
+                    <span className="w-fit px-2.5 py-1 rounded-2xl bg-[#ffdb43]/10 text-xs leading-[150%] text-navy-900">{f.discipline}</span>
                   )}
-                  <h3 className="font-display text-lg font-semibold text-navy-900 mb-2">{v.name}</h3>
-                  <div className="space-y-0.5">
-                    {v.role && <p className="text-[11px] text-ink-600">{v.role}</p>}
-                    {v.teaches && <p className="text-[11px] text-ink-400">{v.teaches}</p>}
-                    {v.since && <p className="text-[11px] text-ink-400">{v.since}</p>}
+                  <div className="flex flex-col gap-3">
+                    <div>
+                      <H5 as="h3">{f.name}</H5>
+                      <p className="text-lg leading-[150%] text-navy-900">{f.role}</p>
+                    </div>
+                    <p className="text-base leading-[150%] text-[#4c4c4c]">
+                      {[f.qualification, f.specialism, f.tenure].filter(Boolean).map((l, li) => (
+                        <span key={li} className="block">
+                          {l}
+                        </span>
+                      ))}
+                    </p>
                   </div>
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
-      </section>
+      </Section>
 
-      {/* Research areas */}
-      <section id="research" className="bg-navy-50 py-16 lg:py-24 scroll-mt-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
-            <div>
-              <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
-                {fp.researchEyebrow}
-              </span>
-              <TitleWithHighlight
-                text={fp.researchTitle}
-                highlight={fp.researchTitleHighlight}
-                className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-5 mb-4"
-              />
-              <p className="text-sm text-ink-600 max-w-md mb-8">{fp.researchSubtitle}</p>
+      {/* Visiting faculty — centred title; 308 cards (16 gaps): a 463 photo (top
+          radius 16), then a 24-padded Eastern Blue tag, H5 name and three lines. */}
+      <Section id="visiting" width={1280} className="scroll-mt-24">
+        <SectionTitle center tagline={fp.visitingEyebrow} title={fp.visitingTitle} body={fp.visitingSubtitle} />
+        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4 lg:gap-y-20">
+          {visiting.map((v, i) => (
+            <div key={v._id || v.name} className="flex flex-col gap-4 rounded-b-2xl outline outline-1 -outline-offset-1 outline-black/20">
               <div
-                className="h-[260px] rounded-lg bg-gray-200 bg-cover bg-center"
-                style={researchImageUrl ? { backgroundImage: `url('${researchImageUrl}')` } : undefined}
+                className="h-[463px] rounded-t-2xl bg-navy-50 bg-cover bg-center shadow-small"
+                style={{ backgroundImage: `url('${img(v.photo, VISIT_PHOTOS[i % VISIT_PHOTOS.length], 616)}')` }}
               />
+              <div className="p-6 pt-2 flex flex-col gap-2">
+                {v.tag && <span className="w-fit px-2.5 py-1 rounded-2xl bg-sky-50 text-sm leading-[150%] text-sky-600">{v.tag}</span>}
+                <div className="flex flex-col gap-4">
+                  <H5 as="h3" className="text-black">
+                    {v.name}
+                  </H5>
+                  <p className="text-base leading-[150%] text-black">
+                    {[v.role, v.teaches, v.since].filter(Boolean).map((l, li) => (
+                      <span key={li} className="block">
+                        {l}
+                      </span>
+                    ))}
+                  </p>
+                </div>
+              </div>
             </div>
+          ))}
+        </div>
+      </Section>
 
-            <div className="space-y-6">
-              {clusters.map((c, i) => (
-                <div key={c._id || c.title} className="flex gap-5">
-                  <span className="shrink-0 w-9 h-9 rounded-full bg-navy-900 text-white flex items-center justify-center text-xs font-semibold">
+      {/* Research areas — #eaeaf1; 616 title + photo | 616 numbered timeline
+          (48px navy circles, 2px connectors, H6 navy, copy + leads). */}
+      <Section id="research" bg="bg-navy-50" className="scroll-mt-24">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
+          <div className="flex flex-col gap-[52px]">
+            <SectionTitle tagline={fp.researchEyebrow} title={fp.researchTitle} highlight={fp.researchTitleHighlight} body={fp.researchSubtitle} width={616} />
+            <div
+              className="h-[300px] lg:h-[475px] bg-navy-100 bg-cover bg-center"
+              style={{ backgroundImage: `url('${img(fp.researchImage, '/images/faculty/research.webp', 1232)}')` }}
+            />
+          </div>
+          <ol className="list-none m-0 p-0 flex flex-col gap-1">
+            {clusters.map((c, i) => (
+              <li key={c._id || c.title} className="flex gap-6 md:gap-10 min-h-[120px]">
+                <div className="flex flex-col items-center gap-4 shrink-0">
+                  <span className="w-12 h-12 rounded-full bg-navy-900 text-white flex items-center justify-center text-lg leading-[150%]">
                     {String(c.order ?? i + 1).padStart(2, '0')}
                   </span>
-                  <div className="min-w-0">
-                    <h3 className="font-display text-lg font-semibold text-sky-600 mb-1.5">
-                      {c.title}
-                    </h3>
-                    {c.description && (
-                      <p className="text-sm text-ink-600 leading-relaxed mb-1.5">{c.description}</p>
-                    )}
-                    {c.leads && <p className="text-xs text-ink-400">{c.leads}</p>}
-                  </div>
+                  {i < clusters.length - 1 && <span className="flex-1 w-0.5 bg-black/20" aria-hidden="true" />}
                 </div>
-              ))}
-            </div>
-          </div>
+                <div className="flex-1 min-w-0 pb-6 flex flex-col gap-2">
+                  <H6 as="h3">{c.title}</H6>
+                  <p className="text-base leading-[150%] text-black">
+                    {c.description}
+                    {c.leads && (
+                      <>
+                        <br />
+                        {c.leads}
+                      </>
+                    )}
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ol>
         </div>
-      </section>
+      </Section>
     </div>
   );
 }
