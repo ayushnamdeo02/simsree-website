@@ -1,4 +1,5 @@
 import Navbar from './Navbar';
+import ScrollProgress from './ScrollProgress';
 import Footer from './Footer';
 import { useRevealOnScroll } from '../lib/useRevealOnScroll';
 
@@ -8,6 +9,7 @@ export default function Layout({ children }) {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollProgress />
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />

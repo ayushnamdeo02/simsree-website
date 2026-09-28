@@ -32,7 +32,7 @@ const easeOut = (t) => 1 - (1 - t) ** 3;
  * that isn't a number (or is a year) is rendered unchanged, as is the final
  * value for visitors who prefer reduced motion.
  */
-export default function CountUp({ value, duration = 1400, className }) {
+export default function CountUp({ value, duration = 1200, className }) {
   const parsed = parse(value);
   const ref = useRef(null);
   const [shown, setShown] = useState(() => (parsed ? 0 : null));
@@ -76,12 +76,14 @@ export default function CountUp({ value, duration = 1400, className }) {
 
   if (!parsed) return <span className={className}>{value}</span>;
 
+  // Whole numbers tick up as whole numbers, as they do in the prototype.
+  const rounded = parsed.decimals === 0 ? Math.floor(shown) : Number(shown.toFixed(parsed.decimals));
   const text = parsed.grouped
-    ? shown.toLocaleString(parsed.locale, {
+    ? rounded.toLocaleString(parsed.locale, {
         minimumFractionDigits: parsed.decimals,
         maximumFractionDigits: parsed.decimals,
       })
-    : shown.toFixed(parsed.decimals);
+    : rounded.toFixed(parsed.decimals);
 
   return (
     <span ref={ref} className={className}>

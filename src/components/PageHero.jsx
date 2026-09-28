@@ -2,6 +2,7 @@ import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { useFigmaWrap } from '../lib/useFigmaWrap';
+import { useParallax } from '../lib/useParallax';
 import { Highlighted } from './ui';
 
 // The full-bleed photo hero every inner page opens with (Figma "Frame 2147229563").
@@ -133,14 +134,22 @@ export default function PageHero({
   align = 'left',
 }) {
   const figmaWrap = useFigmaWrap();
+  const photoRef = useParallax();
   const center = align === 'center';
   return (
     <section
       // mt-12: the photo starts below the 48px utility bar (Figma), while the
       // transparent main nav row still overlays its top.
-      className={`relative mt-12 overflow-hidden bg-navy-950 bg-cover ${height}`}
-      style={image ? { backgroundImage: `url('${image}')`, backgroundPosition: imagePosition } : undefined}
+      className={`relative mt-12 overflow-hidden bg-navy-950 ${height}`}
     >
+      {image && (
+        <div
+          ref={photoRef}
+          data-no-reveal
+          className="absolute inset-0 bg-cover will-change-transform"
+          style={{ backgroundImage: `url('${image}')`, backgroundPosition: imagePosition }}
+        />
+      )}
       {mobileOverlay === 'dark' ? (
         <div className="absolute inset-0 md:hidden bg-black/40" />
       ) : (
@@ -150,7 +159,7 @@ export default function PageHero({
       <div className="absolute inset-0 hidden md:block" style={{ backgroundImage: GRADIENT_DESKTOP }} />
 
       <div
-        className={`relative h-full max-w-[1440px] mx-auto px-5 md:px-[55px] pb-[72px] flex flex-col justify-end text-hero ${
+        className={`hero-enter relative h-full max-w-[1440px] mx-auto px-5 md:px-[55px] pb-[72px] flex flex-col justify-end text-hero ${
           center ? 'items-center text-center' : ''
         }`}
       >

@@ -31,6 +31,10 @@ function mark(root) {
     const r = el.getBoundingClientRect();
     if (r.height < MIN_SIDE || r.width < MIN_SIDE) return;
     el.setAttribute('data-reveal', kind);
+    // A card you can click lifts on hover, as the prototype's cards do.
+    if ((el.tagName === 'A' || el.tagName === 'BUTTON') && !el.hasAttribute('data-lift')) {
+      el.setAttribute('data-lift', '');
+    }
     seen.add(el);
   };
 
@@ -57,10 +61,11 @@ export function useRevealOnScroll() {
           if (!entry.isIntersecting) continue;
           const el = entry.target;
           io.unobserve(el);
-          // Stagger a row of cards so they arrive one after another.
+          // Stagger a row of cards so they arrive one after another, the
+          // prototype's 60ms step cycling every sixth card.
           const siblings = [...(el.parentElement?.children || [])].filter((n) => n.hasAttribute('data-reveal'));
-          const index = Math.min(siblings.indexOf(el), 5);
-          el.style.setProperty('--reveal-delay', `${Math.max(index, 0) * 70}ms`);
+          const index = Math.max(siblings.indexOf(el), 0) % 6;
+          el.style.setProperty('--reveal-delay', `${index * 60}ms`);
           el.classList.add('is-revealed');
           // Drop the hooks once the animation has played, so nothing keeps a
           // compositor layer or re-animates on the next pass.
@@ -70,10 +75,10 @@ export function useRevealOnScroll() {
             el.style.removeProperty('--reveal-delay');
           };
           el.addEventListener('transitionend', clean, { once: true });
-          setTimeout(clean, 1600);
+          setTimeout(clean, 1800);
         }
       },
-      { rootMargin: '0px 0px -8% 0px', threshold: 0.04 },
+      { rootMargin: '0px 0px -40px 0px', threshold: 0.12 },
     );
 
     let frame = 0;

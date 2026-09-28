@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react';
+
 // Horizontal magnitude bars — Figma "Card" (By sector / By role / Academic
 // background): 32 padding, a hairline box, H4 36 title, then rows of 16/150 label ·
 // 48 gap · 7px bar on an #eaeaf1 track (radius 16) · value. Every bar is labelled
@@ -20,6 +22,29 @@ export default function BreakdownPanel({
   titleClass,
   className = '',
 }) {
+  const ref = useRef(null);
+  // Bars grow from zero the first time the panel is seen (prototype behaviour).
+  const [grown, setGrown] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return undefined;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+      setGrown(true);
+      return undefined;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        requestAnimationFrame(() => setGrown(true));
+      },
+      { threshold: 0.4 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
   const max = Math.max(...rows.map((r) => r.value), 1);
   const fill = (i) => (mono ? (dark ? TEAL : NAVY) : dark ? ['var(--color-chart-dark-1)', 'var(--color-chart-dark-2)'][i % 2] : [NAVY, '#238bbc'][i % 2]);
   const track = dark && !mono ? 'var(--color-chart-dark-track)' : '#eaeaf1';
@@ -27,6 +52,7 @@ export default function BreakdownPanel({
 
   return (
     <figure
+      ref={ref}
       className={`rounded-xl m-0 p-8 flex flex-col gap-6 outline outline-1 -outline-offset-1 outline-black/20 ${dark ? 'bg-navy-900' : 'bg-white'} ${
         accent ? 'border-l-[3px] border-l-teal-500' : ''
       } ${className}`}
@@ -46,8 +72,8 @@ export default function BreakdownPanel({
             <span className={`shrink-0 text-base leading-[150%] ${upperLabels ? 'uppercase' : ''} ${text}`}>{r.label}</span>
             <div className="flex-1 h-[7px] rounded-2xl overflow-hidden" style={{ backgroundColor: track }}>
               <div
-                className="h-full rounded-2xl transition-[width] duration-500"
-                style={{ width: `${(r.value / max) * 100}%`, background: fill(i) }}
+                className="h-full rounded-2xl bar-grow"
+                style={{ width: grown ? `${(r.value / max) * 100}%` : '0%', background: fill(i) }}
               />
             </div>
             <span className={`shrink-0 text-base leading-[150%] tabular-nums ${text}`}>{r.value}%</span>
