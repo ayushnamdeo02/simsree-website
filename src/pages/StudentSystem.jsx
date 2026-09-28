@@ -11,6 +11,7 @@ import { useStudentSystemData } from '../lib/useStudentSystemData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 import { fallbackCommittees } from '../data/committees';
+import CountUp from '../components/CountUp';
 
 const fallbackPage = {
   heroEyebrow: 'How SIMSREE really works',
@@ -288,7 +289,7 @@ export default function StudentSystem() {
               <button
                 key={cat}
                 onClick={() => setCategory(cat)}
-                className={`h-[45px] px-3 text-sm leading-[150%] outline outline-1 -outline-offset-1 outline-black/20 transition-colors ${
+                className={`rounded h-[45px] px-3 text-sm leading-[150%] outline outline-1 -outline-offset-1 outline-black/20 transition-colors ${
                   category === cat ? 'bg-navy-900 text-hero' : 'bg-white text-black hover:bg-navy-50'
                 }`}
               >
@@ -357,7 +358,7 @@ export default function StudentSystem() {
               {i > 0 && <span className="hidden lg:block w-px self-stretch bg-black/20" aria-hidden="true" />}
               <div className="flex-1 flex flex-col items-center gap-6 text-center">
                 <div className="flex items-end justify-center gap-3">
-                  <span className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-navy-900">{s.value}</span>
+                  <span className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-navy-900"><CountUp value={s.value} /></span>
                   <span className="pb-2 text-lg leading-[150%] uppercase text-black">{s.label}</span>
                 </div>
                 <p className="max-w-[236px] text-sm leading-[150%] text-black">{s.description}</p>

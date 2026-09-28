@@ -229,7 +229,7 @@ export default function AlumniPortal() {
           {events.map((e) => (
             <div
               key={e._id || e.title}
-              className="w-[230px] shrink-0 lg:w-auto min-h-[466px] flex flex-col gap-8 px-8 py-4 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+              className="rounded-xl w-[230px] shrink-0 lg:w-auto min-h-[466px] flex flex-col gap-8 px-8 py-4 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
             >
               <div className="w-fit min-w-[106px] h-[127px] px-4 rounded-2xl bg-navy-900 text-white flex flex-col items-center justify-center text-center">
                 <span className="text-base leading-[150%]">{e.day}</span>

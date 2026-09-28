@@ -87,3 +87,25 @@ body {
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee { animation: none; }
 }
+
+/* Scroll reveal. useRevealOnScroll tags boxes and images with data-reveal, then
+   adds .is-revealed as each one enters the viewport; both are removed once the
+   transition has played. Nothing is hidden when the visitor prefers less motion,
+   or before the script runs — the styles only apply to tagged elements. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+  [data-reveal='up'] { transform: translate3d(0, 24px, 0); }
+  [data-reveal='left'] { transform: translate3d(-24px, 0, 0); }
+  [data-reveal='right'] { transform: translate3d(24px, 0, 0); }
+
+  [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.6s ease-out var(--reveal-delay, 0ms),
+      transform 0.6s cubic-bezier(0.22, 0.61, 0.36, 1) var(--reveal-delay, 0ms);
+  }
+}

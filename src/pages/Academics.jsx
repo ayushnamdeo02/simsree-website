@@ -423,7 +423,7 @@ export default function Academics() {
           {approachCards.map((c, i) => {
             const Icon = APPROACH_ICONS[i % APPROACH_ICONS.length];
             return (
-              <div key={c.title} className="flex min-h-[155px] outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+              <div key={c.title} className="rounded-lg overflow-hidden rounded-lg overflow-hidden flex min-h-[155px] outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
                 <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
                 <div className="flex gap-6 py-4 pl-8 pr-8">
                   <span className="w-11 h-11 shrink-0 rounded-xl bg-navy-50 flex items-center justify-center text-navy-900">
@@ -494,7 +494,7 @@ export default function Academics() {
           highlight={ap.compareTitleHighlight}
           body={ap.compareSubtitle}
         />
-        <div className="mt-12 overflow-x-auto">
+        <div className="mt-12 overflow-x-auto rounded-lg">
           <table className="w-full min-w-[900px] border-collapse text-left">
             <thead>
               <tr className="bg-navy-900 text-hero h-16">

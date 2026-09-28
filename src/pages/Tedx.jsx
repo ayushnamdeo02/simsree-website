@@ -3,6 +3,7 @@ import { ArrowUpRight, ChevronRight, Play } from 'lucide-react';
 import { useTedxData } from '../lib/useTedxData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
+import CountUp from '../components/CountUp';
 
 const fallbackPage = {
   heroEyebrow: 'TEDxSIMSREE',
@@ -426,7 +427,7 @@ export default function Tedx() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {reachStats.map((s) => (
               <div key={s.label} className="border-t border-white/20 pt-5">
-                <p className="font-display text-4xl font-semibold mb-2">{s.value}</p>
+                <p className="font-display text-4xl font-semibold mb-2"><CountUp value={s.value} /></p>
                 <p className="text-xs font-medium mb-2">{s.label}</p>
                 <p className="text-[11px] text-white/55 leading-relaxed">{s.note}</p>
               </div>

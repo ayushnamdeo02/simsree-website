@@ -245,7 +245,7 @@ const EMPTY = Object.fromEntries(FIELDS.map((f) => [f.name, '']));
 // from it with 16 top/bottom and 32 right: H5 navy title over the details.
 function BarCard({ title, children, className = '' }) {
   return (
-    <div className={`flex gap-4 md:gap-8 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${className}`}>
+    <div className={`rounded-lg overflow-hidden rounded-lg overflow-hidden flex gap-4 md:gap-8 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${className}`}>
       <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
       <div className="flex-1 min-w-0 py-4 pr-4 md:pr-6 flex flex-col gap-4">
         <H5 as="h3" className="max-md:text-[22px]">{title}</H5>
@@ -343,13 +343,13 @@ export default function Contact() {
 
   // Figma inputs: 48px, 1px black border, 12 padding, 16/150; labels 16/150 8 above.
   const inputCls = (err) =>
-    `w-full bg-white border px-3 text-base leading-[150%] text-black placeholder:text-black/60 focus:outline-none focus:ring-2 focus:ring-teal-500/40 ${
+    `w-full rounded bg-white border px-3 text-base leading-[150%] text-black placeholder:text-black/60 focus:outline-none focus:ring-2 focus:ring-teal-500/40 ${
       err ? 'border-red-500' : 'border-black'
     }`;
 
   const renderForm = (submitLabel, footnote) =>
     status === 'success' ? (
-      <div role="status" className="max-w-[814px] p-8 bg-white outline outline-1 -outline-offset-1 outline-black/20 flex flex-col gap-6">
+      <div role="status" className="rounded-xl max-w-[814px] p-8 bg-white outline outline-1 -outline-offset-1 outline-black/20 flex flex-col gap-6">
         <div className="flex items-start gap-3">
           <CheckCircle2 size={24} className="text-emerald-600 shrink-0" />
           <div>
@@ -364,7 +364,7 @@ export default function Contact() {
     ) : (
       <form onSubmit={handleSubmit} noValidate className="max-w-[814px]">
         {status === 'fail' && (
-          <div role="alert" className="mb-6 p-5 outline outline-1 -outline-offset-1 outline-red-300 flex items-start gap-3">
+          <div role="alert" className="rounded-lg mb-6 p-5 outline outline-1 -outline-offset-1 outline-red-300 flex items-start gap-3">
             <AlertCircle size={20} className="text-red-500 shrink-0 mt-0.5" />
             <div className="text-base leading-[150%] text-black">
               <p className="font-semibold">{cp.failTitle}</p>
@@ -497,7 +497,7 @@ export default function Contact() {
                 type="button"
                 onClick={() => setRoleIndex(active ? null : i)}
                 aria-pressed={active}
-                className={`text-left p-6 flex flex-col gap-6 transition-colors outline outline-1 -outline-offset-1 ${
+                className={`rounded-lg text-left p-6 flex flex-col gap-6 transition-colors outline outline-1 -outline-offset-1 ${
                   active ? 'bg-navy-900 outline-navy-900 shadow-large text-white' : 'bg-white outline-black/20 shadow-small hover:bg-navy-50'
                 }`}
               >
@@ -692,7 +692,7 @@ export default function Contact() {
         </div>
         <div className="mt-12 grid md:grid-cols-3 gap-8">
           {(cp.disclosureCards || []).map((c) => (
-            <div key={c.title} className="min-h-[128px] py-4 px-8 flex flex-col justify-center gap-2 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+            <div key={c.title} className="rounded-lg min-h-[128px] py-4 px-8 flex flex-col justify-center gap-2 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
               <H6 as="h3">{c.title}</H6>
               <p className="text-base leading-[150%] text-black">{c.body}</p>
             </div>

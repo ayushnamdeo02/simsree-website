@@ -5,6 +5,7 @@ import { Section, Tagline, Heading, H5 } from '../components/ui';
 import { useFlagshipData } from '../lib/useFlagshipData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
+import CountUp from '../components/CountUp';
 
 const fallbackPage = {
   heroEyebrow: 'Flagship Events',
@@ -315,7 +316,7 @@ export default function Flagship() {
                     <div key={s.label} className="md:min-w-[105px] flex flex-col-reverse gap-2">
                       <dt className="text-base leading-[150%] md:font-semibold uppercase text-black">{s.label}</dt>
                       <dd className="m-0 font-display font-medium text-[28px] leading-[140%] md:text-[36px] md:leading-[130%] tracking-[-0.01em] text-black">
-                        {s.value}
+                        <CountUp value={s.value} />
                       </dd>
                     </div>
                   ))}
@@ -490,7 +491,7 @@ export default function Flagship() {
         <Heading text={fp.processTitle} className="text-navy-900 text-center" />
         <div className="mt-20 grid md:grid-cols-3 gap-8">
           {processSteps.map((s, i) => (
-            <div key={s.title} className="p-6 flex flex-col gap-2 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+            <div key={s.title} className="rounded-lg p-6 flex flex-col gap-2 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
               <H5 as="span">{pad(i + 1)}</H5>
               <H5 as="h3" className="text-black">
                 {s.title}

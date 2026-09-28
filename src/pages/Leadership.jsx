@@ -187,7 +187,7 @@ export default function Leadership() {
             <Tabs active="election" tabs={tabs} className="max-lg:hidden" />
             <div className="flex flex-col gap-12">
               {lp.steps.map((s, i) => (
-                <details key={s.title} open={i === 0} className="group bg-white outline outline-1 -outline-offset-1 outline-black/20">
+                <details key={s.title} open={i === 0} className="rounded-lg group bg-white outline outline-1 -outline-offset-1 outline-black/20">
                   <summary className="flex items-center gap-8 p-8 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                     <div className="flex-1 min-w-0 flex flex-col gap-6">
                       <H5 as="h3" className="text-black">

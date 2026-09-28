@@ -4,7 +4,7 @@ import { Download, ArrowRight } from 'lucide-react';
 // The 192px image column is flush to the edge and fills the full card height.
 export default function NewsCard({ tag, title, date, image, actionLabel = 'Read more', download = false }) {
   return (
-    <div className="flex bg-white border border-black/15 shadow-sm overflow-hidden md:h-[328px]">
+    <div className="rounded-lg flex bg-white border border-black/15 shadow-sm overflow-hidden md:h-[328px]">
       <div className="w-28 md:w-[192px] shrink-0 bg-gray-100 overflow-hidden">
         {image && <img src={image} alt="" className="w-full h-full object-cover" />}
       </div>

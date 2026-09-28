@@ -7,6 +7,7 @@ import { heroImage } from '../lib/heroImage';
 import { useDevProgrammesData } from '../lib/useDevProgrammesData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
+import CountUp from '../components/CountUp';
 
 const fallbackPage = {
   heroEyebrow: 'For Working Professionals',
@@ -133,7 +134,7 @@ const CALENDAR_PHOTO = '/images/events/dev-mdp.webp';
 // Figma bar card: hairline + "small" shadow, 3px Eastern Blue bar, content 32 from it.
 function BarCard({ children }) {
   return (
-    <div className="flex gap-4 md:gap-8 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+    <div className="rounded-lg overflow-hidden rounded-lg overflow-hidden flex gap-4 md:gap-8 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
       <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
       <div className="flex-1 min-w-0 py-4 pr-4 flex flex-col gap-2">{children}</div>
     </div>
@@ -206,7 +207,7 @@ export default function DevProgrammes() {
             <div className="flex flex-col gap-12">
               <SectionTitle tagline={dp.mdpEyebrow} title={dp.mdpTitle} body={dp.mdpSubtitle} />
               {/* Figma table: navy 64px header (14/150 white uppercase), 64px white rows. */}
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto rounded-lg">
                 <table className="w-full min-w-[900px] border-collapse text-left">
                   <thead>
                     <tr className="bg-navy-900 text-white">
@@ -256,8 +257,8 @@ export default function DevProgrammes() {
               </div>
               <div className="grid md:grid-cols-3 gap-8">
                 {outcomes.map((o) => (
-                  <div key={o.value} className="p-6 flex flex-col gap-2 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
-                    <H5 as="p">{o.value}</H5>
+                  <div key={o.value} className="rounded-lg p-6 flex flex-col gap-2 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+                    <H5 as="p"><CountUp value={o.value} /></H5>
                     <p className="text-base leading-[150%] text-black">{o.description}</p>
                   </div>
                 ))}
@@ -316,7 +317,7 @@ export default function DevProgrammes() {
           <Tagline>{dp.faqEyebrow}</Tagline>
           <Heading text={dp.faqTitle} className="mt-3 md:mt-4 text-navy-900" />
         </div>
-        <div className="mt-20 border border-black/20">
+        <div className="rounded-lg overflow-hidden rounded-lg overflow-hidden mt-20 border border-black/20">
           {faqs.map((f, i) => (
             <details key={f.question} open={i === 0} className="group">
               <summary className="flex items-center gap-6 py-5 border-b border-black/20 cursor-pointer list-none [&::-webkit-details-marker]:hidden">

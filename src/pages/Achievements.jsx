@@ -7,6 +7,7 @@ import { composeTitle } from '../lib/text';
 import { useAchievementsData } from '../lib/useAchievementsData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
+import CountUp from '../components/CountUp';
 
 const CATEGORIES = [
   'Case Competitions',
@@ -161,7 +162,7 @@ const img = (image, fallback, w) =>
 // (#d8d8d8 hairline), H5 28 black title, 16/150 summary, 32px plus.
 function AchievementRow({ a, photo, defaultOpen }) {
   return (
-    <details open={defaultOpen} className="group flex bg-white outline outline-1 -outline-offset-1 outline-black/20">
+    <details open={defaultOpen} className="rounded-lg overflow-hidden rounded-lg overflow-hidden group flex bg-white outline outline-1 -outline-offset-1 outline-black/20">
       <summary className="flex items-stretch cursor-pointer list-none [&::-webkit-details-marker]:hidden">
         <div
           className="w-[110px] md:w-48 shrink-0 min-h-[140px] md:min-h-48 bg-navy-50 bg-cover bg-center group-open:md:min-h-[329px]"
@@ -308,7 +309,7 @@ export default function Achievements() {
             <div className="grid grid-cols-3 gap-6">
               {submitStats.map((s) => (
                 <div key={s.label} className="flex flex-col gap-4 px-4 py-8">
-                  <span className="font-display font-medium text-[36px] md:text-[44px] leading-[120%] tracking-[-0.01em]">{s.value}</span>
+                  <span className="font-display font-medium text-[36px] md:text-[44px] leading-[120%] tracking-[-0.01em]"><CountUp value={s.value} /></span>
                   <span className="text-sm leading-[150%] uppercase">{s.label}</span>
                 </div>
               ))}

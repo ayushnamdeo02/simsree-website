@@ -348,7 +348,7 @@ export default function Alumni() {
                 <button
                   key={s}
                   onClick={() => setSector(s)}
-                  className={`h-[45px] px-3 text-sm leading-[150%] outline outline-1 -outline-offset-1 outline-black/20 transition-colors ${
+                  className={`rounded h-[45px] px-3 text-sm leading-[150%] outline outline-1 -outline-offset-1 outline-black/20 transition-colors ${
                     sector === s ? 'bg-navy-900 text-hero' : 'bg-white text-black hover:bg-navy-50'
                   }`}
                 >

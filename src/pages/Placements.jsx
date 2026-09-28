@@ -254,7 +254,7 @@ export default function Placements() {
         />
         <div className="mt-20 grid lg:grid-cols-2 gap-10 lg:gap-20">
           {recruiter && (
-            <div className="flex items-center p-8 bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+            <div className="rounded-xl flex items-center p-8 bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
               <div className="flex flex-col gap-8">
                 <div className="flex flex-col gap-4">
                   <Tagline className="text-white">{recruiter.label}</Tagline>
@@ -371,7 +371,7 @@ export default function Placements() {
             const img = r.image ? urlFor(r.image).width(810).auto('format').url() : REPORT_FALLBACK[i];
             const fileUrl = r.file?.asset?.url || r.fileUrl;
             return (
-              <div key={r._id || r.title} className="flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
+              <div key={r._id || r.title} className="rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
                 <div className="h-[270px] bg-navy-50 bg-cover bg-center" style={img ? { backgroundImage: `url('${img}')` } : undefined} />
                 <div className="flex-1 flex flex-col gap-6 p-6">
                   <div className="flex flex-col gap-4">

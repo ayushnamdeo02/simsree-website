@@ -113,7 +113,7 @@ export function SectionTitle({
 // 1px black/20 hairline, "small" shadow, content inset 32 from the bar.
 export function AccentCard({ accent = 'bg-teal-500', bg = 'bg-white', className = '', children }) {
   return (
-    <div className={`relative flex ${bg} outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${className}`}>
+    <div className={`rounded-lg overflow-hidden relative flex ${bg} outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${className}`}>
       <span className={`w-[3px] shrink-0 ${accent}`} aria-hidden="true" />
       <div className="flex-1 min-w-0 py-8 pl-8 pr-8">{children}</div>
     </div>

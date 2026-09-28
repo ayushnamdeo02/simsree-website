@@ -169,7 +169,7 @@ const COUNT_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seve
 // from the bar (16 on mobile) with 16/0 padding: H5 navy title over 16/150 copy.
 function BarCard({ title, body, bar = 'bg-teal-500', className = '' }) {
   return (
-    <div className={`flex gap-4 md:gap-8 outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${className}`}>
+    <div className={`rounded-lg overflow-hidden rounded-lg overflow-hidden flex gap-4 md:gap-8 outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${className}`}>
       <span className={`w-[3px] shrink-0 ${bar}`} aria-hidden="true" />
       <div className="flex-1 min-w-0 py-4 pr-4 flex flex-col gap-2">
         <H5 as="h3">{title}</H5>
@@ -268,7 +268,7 @@ export default function Simerations() {
               return (
                 <div
                   key={e._id || e.year}
-                  className={`${i >= 2 ? 'lg:min-h-[398px]' : ''} flex flex-col lg:flex-row bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small`}
+                  className={`${i >= 2 ? 'lg:min-h-[398px]' : ''} rounded-xl overflow-hidden flex flex-col lg:flex-row bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small`}
                 >
                   <div
                     className={`${i < 2 ? 'h-[380px]' : 'h-[199px]'} lg:h-auto lg:w-[240px] shrink-0 bg-navy-50 bg-cover bg-center`}
@@ -350,7 +350,7 @@ export default function Simerations() {
             {archive.map((e) => {
               const src = photo(e.archiveImage || e.image, ARCHIVE_PHOTOS, e.year, 810);
               return (
-                <div key={e._id || e.year} className="flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
+                <div key={e._id || e.year} className="rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
                   <div
                     className="h-[223px] md:h-[270px] bg-navy-50 bg-cover bg-center"
                     style={src ? { backgroundImage: `url('${src}')` } : undefined}

@@ -6,6 +6,7 @@ import { Section, SectionTitle, Tagline, Heading, H5, H6 } from '../components/u
 import { useNewsData } from '../lib/useNewsData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
+import CountUp from '../components/CountUp';
 
 const TAGS = ['Placements', 'Appointment', 'Awards', 'Alumni', 'Events', 'Partnerships'];
 
@@ -297,7 +298,7 @@ export default function News() {
 
   // Figma: 48px bordered inputs, 16/150 labels 8 above.
   const inputCls = (err) =>
-    `w-full bg-white border px-3 text-base leading-[150%] text-black placeholder:text-black/60 focus:outline-none focus:ring-2 focus:ring-teal-500/40 ${
+    `w-full rounded bg-white border px-3 text-base leading-[150%] text-black placeholder:text-black/60 focus:outline-none focus:ring-2 focus:ring-teal-500/40 ${
       err ? 'border-red-500' : 'border-black'
     }`;
 
@@ -408,7 +409,7 @@ export default function News() {
                       key={n.label}
                       className={`flex flex-col gap-4 ${i ? 'max-lg:pt-8 max-lg:border-t lg:pl-8 lg:border-l border-navy-50' : ''}`}
                     >
-                      <span className="font-display font-medium text-[48px] leading-[120%] md:text-[72px] tracking-[-0.01em]">{n.value}</span>
+                      <span className="font-display font-medium text-[48px] leading-[120%] md:text-[72px] tracking-[-0.01em]"><CountUp value={n.value} /></span>
                       <div className="flex flex-col gap-6">
                         <span className="text-base leading-[150%] font-semibold">{n.label}</span>
                         <p className="text-base md:text-lg leading-[150%]">{n.note}</p>
@@ -473,7 +474,7 @@ export default function News() {
                     </div>
                   </>
                 );
-                const cls = 'flex gap-4 md:gap-8 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small';
+                const cls = 'rounded-lg overflow-hidden rounded-lg overflow-hidden flex gap-4 md:gap-8 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small';
                 return n.linkUrl ? (
                   <a key={n._id || n.title + n.order} href={n.linkUrl} className={`${cls} hover:shadow-medium transition-shadow`}>
                     {inner}
@@ -517,7 +518,7 @@ export default function News() {
         <Heading text={np.recognitionTitle} highlight={np.recognitionTitleHighlight} className="text-navy-900 text-center" />
         <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {recognitions.map((r) => (
-            <div key={r._id || r.title + r.year} className="min-h-[212px] p-6 flex flex-col gap-2 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+            <div key={r._id || r.title + r.year} className="rounded-lg min-h-[212px] p-6 flex flex-col gap-2 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
               <H5 as="span">{r.year}</H5>
               <H5 as="h3" className="text-black">
                 {r.title}
@@ -550,7 +551,7 @@ export default function News() {
           </div>
 
           {status === 'success' ? (
-            <div role="status" className="self-start bg-white p-8 outline outline-1 -outline-offset-1 outline-black/20 flex flex-col gap-6">
+            <div role="status" className="rounded-xl self-start bg-white p-8 outline outline-1 -outline-offset-1 outline-black/20 flex flex-col gap-6">
               <div className="flex items-start gap-3">
                 <CheckCircle2 size={24} className="text-emerald-600 shrink-0" />
                 <div>
@@ -565,7 +566,7 @@ export default function News() {
           ) : (
             <form onSubmit={handleSubmit} noValidate>
               {status === 'fail' && (
-                <div role="alert" className="mb-6 p-5 bg-white outline outline-1 -outline-offset-1 outline-red-300 flex items-start gap-3">
+                <div role="alert" className="rounded-lg mb-6 p-5 bg-white outline outline-1 -outline-offset-1 outline-red-300 flex items-start gap-3">
                   <AlertCircle size={20} className="text-red-500 shrink-0 mt-0.5" />
                   <div className="text-base leading-[150%] text-black">
                     <p>That didn’t go through — your details are still here.</p>

@@ -27,7 +27,7 @@ export default function BreakdownPanel({
 
   return (
     <figure
-      className={`m-0 p-8 flex flex-col gap-6 outline outline-1 -outline-offset-1 outline-black/20 ${dark ? 'bg-navy-900' : 'bg-white'} ${
+      className={`rounded-xl m-0 p-8 flex flex-col gap-6 outline outline-1 -outline-offset-1 outline-black/20 ${dark ? 'bg-navy-900' : 'bg-white'} ${
         accent ? 'border-l-[3px] border-l-teal-500' : ''
       } ${className}`}
     >

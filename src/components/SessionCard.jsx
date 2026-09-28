@@ -74,7 +74,7 @@ export default function SessionCard({ s, defaultOpen, wide = false, fallbackImag
   return (
     <details
       open={defaultOpen}
-      className={`group bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${desktopShadow ? '' : 'lg:shadow-none'} px-4 py-6 lg:p-8`}
+      className={`rounded-xl group bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${desktopShadow ? '' : 'lg:shadow-none'} px-4 py-6 lg:p-8`}
     >
       <summary className="cursor-pointer list-none [&::-webkit-details-marker]:hidden">
         {/* Mobile header */}

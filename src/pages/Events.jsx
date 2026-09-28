@@ -261,7 +261,7 @@ export default function Events() {
                 </div>
               </>
             );
-            const cls = 'flex flex-col gap-6 bg-white outline outline-1 -outline-offset-1 outline-black/20';
+            const cls = 'rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col gap-6 bg-white outline outline-1 -outline-offset-1 outline-black/20';
             return f.linkUrl ? (
               <Link key={f._id || f.title} to={f.linkUrl} className={`${cls} hover:shadow-medium transition-shadow`}>
                 {inner}
@@ -342,7 +342,7 @@ export default function Events() {
         <SectionTitle tagline={ep.industryEyebrow} title={ep.industryTitle} body={ep.industrySubtitle} />
         <div className="mt-20 grid md:grid-cols-3 gap-8 items-start">
           {programmes.map((p, i) => (
-            <div key={p._id || p.title} className="flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
+            <div key={p._id || p.title} className="rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
               <div
                 className="h-[250px] md:h-[270px] bg-navy-50 bg-cover bg-center"
                 style={{ backgroundImage: `url('${img(p.image, PROGRAMME_PHOTOS[i % 3], 810)}')` }}

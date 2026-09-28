@@ -257,7 +257,7 @@ export default function RecruiterEngagement() {
                   {FIELDS.map((f) => {
                     const err = fieldError(f.name);
                     // Figma "Text input": 48 tall, padding 12, 1px black border, square, 16/150.
-                    const base = `w-full min-h-12 border p-3 text-base leading-[150%] text-black placeholder:text-black/60 focus:outline-none transition-colors ${
+                    const base = `rounded w-full min-h-12 border p-3 text-base leading-[150%] text-black placeholder:text-black/60 focus:outline-none transition-colors ${
                       err
                         ? 'border-red-500'
                         : 'border-black focus:border-teal-500'
@@ -371,7 +371,7 @@ export default function RecruiterEngagement() {
             {stateCards.map((c) => (
               <div
                 key={c.label}
-                className={`bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small border-l-[3px] min-h-[100px] flex flex-col justify-center gap-2 px-3 py-4 ${
+                className={`rounded-lg overflow-hidden rounded-lg overflow-hidden bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small border-l-[3px] min-h-[100px] flex flex-col justify-center gap-2 px-3 py-4 ${
                   STATE_ACCENT[c.tone] || STATE_ACCENT.idle
                 }`}
               >

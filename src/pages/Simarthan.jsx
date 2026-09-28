@@ -59,7 +59,7 @@ const fallbackActivities = [
 // 32 inset, H6 22 navy.
 function EqBox({ children, className = '' }) {
   return (
-    <div className={`flex items-center min-h-16 outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${className}`}>
+    <div className={`rounded overflow-hidden rounded overflow-hidden flex items-center min-h-16 outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${className}`}>
       <span className="w-[3px] self-stretch shrink-0 bg-teal-500" aria-hidden="true" />
       <span className="px-8 py-4 font-display font-medium text-[22px] leading-[140%] tracking-[-0.01em] text-navy-900">
         {children}
@@ -182,7 +182,7 @@ export default function Simarthan() {
               </>
             );
             const cls =
-              'flex min-h-[188px] bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small';
+              'rounded-lg overflow-hidden flex min-h-[188px] bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small';
             return c.url ? (
               <a key={c.title} href={c.url} className={`${cls} hover:bg-navy-800 transition-colors`}>
                 {inner}

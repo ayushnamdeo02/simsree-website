@@ -189,7 +189,7 @@ export default function BatchProfile() {
               id="cohort"
               value={index}
               onChange={(e) => setIndex(Number(e.target.value))}
-              className="w-full max-w-[416px] h-12 border border-black px-3 text-base leading-[150%] text-black bg-white focus:outline-none focus:border-teal-500"
+              className="rounded w-full max-w-[416px] h-12 border border-black px-3 text-base leading-[150%] text-black bg-white focus:outline-none focus:border-teal-500"
             >
               {cohorts.map((c, i) => (
                 <option key={c._id || c.name} value={i}>
@@ -214,7 +214,7 @@ export default function BatchProfile() {
               <BreakdownPanel key={p.title} title={p.title} rows={p.rows || []} dark={p.dark} mono upperLabels />
             ))}
             {cohort.profileRows?.length > 0 && (
-              <div className="p-8 flex flex-col gap-6 bg-white outline outline-1 -outline-offset-1 outline-black/20">
+              <div className="rounded-xl p-8 flex flex-col gap-6 bg-white outline outline-1 -outline-offset-1 outline-black/20">
                 <h3 className="pb-4 border-b border-black/20 font-display font-medium text-[28px] leading-[140%] md:text-[36px] md:leading-[130%] tracking-[-0.01em] text-black">
                   {cohort.profileTitle}
                 </h3>

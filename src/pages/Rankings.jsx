@@ -267,7 +267,7 @@ export default function Rankings() {
             <a
               key={a._id || a.title}
               href={a.linkUrl || '#'}
-              className="flex min-h-[251px] bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small hover:bg-navy-800 transition-colors"
+              className="rounded-xl overflow-hidden rounded-xl overflow-hidden flex min-h-[251px] bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small hover:bg-navy-800 transition-colors"
             >
               <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
               <span className="flex flex-col gap-4 py-8 pl-8 pr-8">

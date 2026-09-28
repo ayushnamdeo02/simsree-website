@@ -292,7 +292,7 @@ export default function ReportsHub() {
                 {tab.archive.map((a) => (
                   <div
                     key={a.title}
-                    className="flex flex-col md:flex-row md:items-center gap-6 p-6 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+                    className="rounded-lg flex flex-col md:flex-row md:items-center gap-6 p-6 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
                   >
                     <div className="flex-1 min-w-0 flex items-center gap-4">
                       <PdfIcon />

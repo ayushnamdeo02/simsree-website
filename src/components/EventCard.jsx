@@ -8,7 +8,7 @@ export default function EventCard({ day, date, month, year, title, meta, cta, li
 
   return (
     // Figma: 624x191 card, radius 0, stroke Border Outside 1, small shadow, padding 32, gap 32.
-    <div className="flex items-start gap-8 bg-white outline outline-1 outline-black/15 shadow-sm p-8 min-w-0">
+    <div className="rounded-xl flex items-start gap-8 bg-white outline outline-1 outline-black/15 shadow-sm p-8 min-w-0">
       <div className="bg-navy-900 text-white rounded-2xl w-[104px] py-4 flex flex-col items-center justify-center shrink-0">
         <span className="text-base leading-[150%]">{day}</span>
         {/* Figma: Heading/H4 36/130, Colour/Neutral/White. */}

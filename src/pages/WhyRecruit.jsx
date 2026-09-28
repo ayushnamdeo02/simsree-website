@@ -136,7 +136,7 @@ export default function WhyRecruit() {
         />
         <div className="mt-[30px] grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {reasons.map((r, i) => (
-            <div key={r._id || r.title} className="flex min-h-32 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+            <div key={r._id || r.title} className="rounded-lg overflow-hidden rounded-lg overflow-hidden flex min-h-32 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
               <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
               <div className="flex flex-col justify-center gap-2 py-4 pl-8 pr-6">
                 <H6 as="h3">

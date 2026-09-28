@@ -203,7 +203,7 @@ function ExploreCard({ c, image, wide = false }) {
   return (
     <a
       href={c.url || '#'}
-      className={`group flex bg-white outline outline-1 -outline-offset-1 outline-black/20 hover:outline-navy-300 transition-colors ${
+      className={`rounded-lg overflow-hidden rounded-lg overflow-hidden group flex bg-white outline outline-1 -outline-offset-1 outline-black/20 hover:outline-navy-300 transition-colors ${
         wide ? 'flex-col md:flex-row' : 'flex-col'
       }`}
     >
@@ -293,7 +293,7 @@ export default function Students() {
               <a
                 key={p.title}
                 href={p.url || '#'}
-                className="flex flex-col justify-center gap-8 min-h-[224px] p-4 bg-navy-900 outline outline-1 -outline-offset-1 outline-ink-50 hover:bg-navy-800 transition-colors"
+                className="rounded-lg flex flex-col justify-center gap-8 min-h-[224px] p-4 bg-navy-900 outline outline-1 -outline-offset-1 outline-ink-50 hover:bg-navy-800 transition-colors"
               >
                 <Icon size={48} strokeWidth={1.25} />
                 <span className="flex flex-col gap-2 text-hero">

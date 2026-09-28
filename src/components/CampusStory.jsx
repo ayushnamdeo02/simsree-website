@@ -95,7 +95,7 @@ export default function CampusStory({
               {(cp.numbersStats || []).map((s) => (
                 <div
                   key={s.label}
-                  className="flex flex-col justify-center gap-4 min-h-[150px] md:h-[190px] p-4 md:p-8 bg-white outline outline-1 -outline-offset-1 outline-black/20"
+                  className="rounded-lg flex flex-col justify-center gap-4 min-h-[150px] md:h-[190px] p-4 md:p-8 bg-white outline outline-1 -outline-offset-1 outline-black/20"
                 >
                   <div className="font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em] text-black">
                     {s.value}

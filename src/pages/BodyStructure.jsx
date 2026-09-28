@@ -122,7 +122,7 @@ function CommitteeTile({ c, ctaLabel }) {
       </div>
     </>
   );
-  const cls = 'group flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20';
+  const cls = 'rounded-xl overflow-hidden rounded-xl overflow-hidden group flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20';
   return href ? (
     <Link to={href} className={cls}>
       {inner}

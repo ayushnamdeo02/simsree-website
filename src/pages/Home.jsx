@@ -236,7 +236,7 @@ export default function Home() {
               const Icon = ICONS[c.icon] || GraduationCap;
               // Figma: card radius 0, gap 32 between icon and text
               return (
-                <div key={c._id || c.title} className="border border-black/15 shadow-sm p-6 flex gap-5 items-start">
+                <div key={c._id || c.title} className="rounded-lg border border-black/15 shadow-sm p-6 flex gap-5 items-start">
                   {/* Figma: 36x36 tile, radius 0 */}
                   <span className="shrink-0 w-9 h-9 bg-navy-50 flex items-center justify-center">
                     <Icon className="text-navy-900" size={22} strokeWidth={1.5} />
@@ -253,7 +253,7 @@ export default function Home() {
             })}
           </div>
           {/* 1280 x 117, 24px padding, 16px radius, 1px inside border (Figma) */}
-          <div className="bg-navy-900 border border-black/15 text-white p-6 flex flex-wrap items-center gap-8 justify-between text-left">
+          <div className="rounded-lg bg-navy-900 border border-black/15 text-white p-6 flex flex-wrap items-center gap-8 justify-between text-left">
             <div className="flex flex-col items-start gap-[11px]">
               <span className="bg-navy-50 text-navy-900 text-sm px-5 py-2 rounded-full uppercase shrink-0">Admission Alert</span>
               {/* Figma: Body medium Normal 18/150 */}
@@ -283,7 +283,7 @@ export default function Home() {
               const factorImg = imgUrl(f.image, 500);
               // Figma: radius 0, stroke Color Scheme 1/Border, Position Outside, weight 1.
               return (
-                <div key={f._id || f.title} className="flex flex-col bg-white outline outline-1 outline-black/15 overflow-hidden">
+                <div key={f._id || f.title} className="rounded-xl flex flex-col bg-white outline outline-1 outline-black/15 overflow-hidden">
                   <div
                     className="h-[277px] bg-gray-200 bg-cover bg-center shrink-0"
                     style={factorImg ? { backgroundImage: `url('${factorImg}')` } : undefined}
@@ -492,7 +492,7 @@ export default function Home() {
               return (
                 <div
                   key={f._id || f.title}
-                  className="flex flex-col bg-white outline outline-1 outline-black/15 overflow-hidden"
+                  className="rounded-xl flex flex-col bg-white outline outline-1 outline-black/15 overflow-hidden"
                 >
                   <div
                     className="h-[285px] bg-gray-200 bg-cover bg-center shrink-0"

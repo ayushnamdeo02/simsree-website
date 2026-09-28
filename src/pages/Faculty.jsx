@@ -148,7 +148,7 @@ export default function Faculty() {
                 type="button"
                 onClick={() => setDiscipline(c.label)}
                 aria-pressed={c.label === discipline}
-                className={`h-[45px] px-3 text-sm leading-[150%] outline outline-1 -outline-offset-1 outline-black/20 transition-colors ${
+                className={`rounded h-[45px] px-3 text-sm leading-[150%] outline outline-1 -outline-offset-1 outline-black/20 transition-colors ${
                   c.label === discipline ? 'bg-navy-900 text-white' : 'text-black hover:bg-navy-50'
                 }`}
               >

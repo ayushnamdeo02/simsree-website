@@ -17,6 +17,7 @@ import { heroImage } from '../lib/heroImage';
 import { composeTitle } from '../lib/text';
 import { useAdmissionDetailData } from '../lib/useAdmissionDetailData';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
+import CountUp from '../components/CountUp';
 
 const STEP_ICONS = {
   form: FileText,
@@ -1134,7 +1135,7 @@ export default function AdmissionDetail() {
                     {s.label}
                   </Pill>
                   <div className="flex flex-col gap-3">
-                    <H5>{s.value}</H5>
+                    <H5><CountUp value={s.value} /></H5>
                     {s.note && <p className="text-base leading-[150%] text-black">{s.note}</p>}
                   </div>
                 </div>
@@ -1244,7 +1245,7 @@ export default function AdmissionDetail() {
                   {ad.eligibilityCards.map((c, i) => (
                     <div
                       key={c.title}
-                      className={`flex min-h-[378px] outline outline-1 -outline-offset-1 shadow-small ${
+                      className={`rounded-xl overflow-hidden rounded-xl overflow-hidden flex min-h-[378px] outline outline-1 -outline-offset-1 shadow-small ${
                         c.warning ? 'bg-[#fffbec] outline-[#dfb400]' : 'bg-white outline-black/20'
                       }`}
                     >

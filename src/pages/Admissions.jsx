@@ -295,7 +295,7 @@ export default function Admissions() {
       {/* Eligibility — #eaeaf1; navy header row, 64px zebra rows. */}
       <Section bg="bg-navy-50" width={1280}>
         <SectionTitle tagline={ap.eligibilityEyebrow} title={ap.eligibilityTitle} body={ap.eligibilitySubtitle} />
-        <div className="mt-12 overflow-x-auto">
+        <div className="mt-12 overflow-x-auto rounded-lg">
           <table className="w-full min-w-[820px] border-collapse text-left">
             <thead>
               <tr className="bg-navy-900 text-hero h-16">

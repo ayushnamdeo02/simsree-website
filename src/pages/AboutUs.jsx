@@ -111,7 +111,7 @@ function CampusCard({ image, badge, title, description, linkUrl }) {
   return (
     <Link
       to={linkUrl || '#'}
-      className="flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20 hover:outline-navy-300 transition-colors"
+      className="rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20 hover:outline-navy-300 transition-colors"
     >
       <div
         className="h-[223px] md:h-[270px] shrink-0 bg-navy-50 bg-cover bg-center"
@@ -159,7 +159,7 @@ function NewsRow({ date, title, isDownload, actionLabel, fileUrl, url }) {
   const label = actionLabel || (isDownload ? 'PDF' : 'Read');
   const href = fileUrl || url;
   return (
-    <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-20 min-h-20 px-8 py-5 outline outline-1 -outline-offset-1 outline-black/20">
+    <div className="rounded flex flex-col gap-4 md:flex-row md:items-center md:gap-20 min-h-20 px-8 py-5 outline outline-1 -outline-offset-1 outline-black/20">
       <span className="md:w-28 shrink-0 text-base leading-[150%] font-semibold uppercase text-teal-500">{date}</span>
       <p className="flex-1 min-w-0 text-base leading-[150%] text-black">{title}</p>
       <a

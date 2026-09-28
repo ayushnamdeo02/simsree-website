@@ -195,7 +195,7 @@ export default function IndustryEvents() {
       <Section id={archive.id} width={1280} className="scroll-mt-24">
         <Tabs active={archive.id} onSelect={select} />
         <SectionTitle className="mt-12" tagline={archive.eyebrow} title={archive.title} body={archive.body} />
-        <div className="mt-12 overflow-x-auto">
+        <div className="mt-12 overflow-x-auto rounded-lg">
           <table className="w-full min-w-[1000px] border-collapse text-left">
             <thead>
               <tr className="bg-navy-900 text-white">

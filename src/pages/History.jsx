@@ -7,6 +7,7 @@ import { ArrowRight } from 'lucide-react';
 import { useHistoryPageData } from '../lib/useHistoryPageData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
+import CountUp from '../components/CountUp';
 
 const fallbackHistoryPage = {
   heroEyebrow: 'Established · 1983',
@@ -292,13 +293,13 @@ export default function History() {
             <div className="flex flex-wrap gap-5">
               {(hp.locationStats || []).map((s) => (
                 <div key={s.label} className="flex flex-col gap-2">
-                  <H5 as="div">{s.value}</H5>
+                  <H5 as="div"><CountUp value={s.value} /></H5>
                   <div className="text-base leading-[150%] text-black">{s.label}</div>
                 </div>
               ))}
             </div>
             {/* Figma: 64 tall hairline box, 3px Eastern Blue bar, 32 inset, H6 22 navy. */}
-            <blockquote className="flex items-stretch outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+            <blockquote className="rounded-lg overflow-hidden rounded-lg overflow-hidden flex items-stretch outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
               <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
               <span className="py-4 px-8 font-display font-medium text-[22px] leading-[140%] tracking-[-0.01em] text-navy-900">
                 &ldquo;{hp.locationQuote}&rdquo;
@@ -348,7 +349,7 @@ export default function History() {
         </p>
 
         <div className="mt-20 grid lg:grid-cols-2 gap-10 lg:gap-20">
-          <div className="bg-navy-900 text-white p-8 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+          <div className="rounded-xl bg-navy-900 text-white p-8 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
             <div className="flex items-center gap-8">
               <Tagline className="text-white shrink-0">{hp.visionLabel}</Tagline>
               <span className="h-px flex-1 bg-white/20" aria-hidden="true" />
@@ -380,7 +381,7 @@ export default function History() {
               {commitments.map((c, i) => (
                 <div
                   key={i}
-                  className="flex items-center gap-5 px-4 py-2 min-h-[47px] outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+                  className="rounded flex items-center gap-5 px-4 py-2 min-h-[47px] outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
                 >
                   <span className="font-display font-medium text-[22px] leading-[140%] text-teal-500 shrink-0">{i + 1}</span>
                   <span className="text-sm leading-[150%] text-black">{c}</span>
