@@ -1,6 +1,6 @@
 export default {
   name: 'whySimsreeFactor',
-  title: 'Why SIMSREE — Factor',
+  title: 'Why SIMSREE - Factor',
   type: 'document',
   fields: [
     {

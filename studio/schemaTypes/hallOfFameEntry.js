@@ -1,6 +1,6 @@
 export default {
   name: 'hallOfFameEntry',
-  title: 'Alumni — Hall of Fame',
+  title: 'Alumni - Hall of Fame',
   type: 'document',
   fields: [
     {

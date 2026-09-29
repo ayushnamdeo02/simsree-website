@@ -12,7 +12,7 @@ const fallbackPage = {
   heroTitleItalic: 'practitioners.',
   heroTitleBreakAfter: 'practitioners.',
   heroDescription:
-    "SIMSREE students don't just learn management — they practise it for two years before you meet them. Six proof points.",
+    "SIMSREE students don't just learn management - they practise it for two years before you meet them. Six proof points.",
   heroPrimaryCtaLabel: 'Book a campus visit',
   heroPrimaryCtaUrl: '/placements/contact',
   heroSecondaryCtaLabel: 'Download the recruiter brochure (PDF)',
@@ -68,17 +68,17 @@ const fallbackReasons = [
   },
   {
     title: 'Real management experience',
-    description: 'Every student runs a real committee — budgets, vendors, stakeholders, outcomes.',
+    description: 'Every student runs a real committee - budgets, vendors, stakeholders, outcomes.',
     order: 2,
   },
   {
     title: 'Churchgate advantage',
-    description: "Steps from Mumbai's banking and corporate core — live exposure from week one.",
+    description: "Steps from Mumbai's banking and corporate core - live exposure from week one.",
     order: 3,
   },
   {
     title: 'Strong alumni network',
-    description: 'Active alumni across 200+ firms — most placement leads route through them.',
+    description: 'Active alumni across 200+ firms - most placement leads route through them.',
     order: 4,
   },
   {
@@ -158,7 +158,7 @@ export default function WhyRecruit() {
           body={wp.outcomesSubtitle}
           width={1312}
         />
-        <div className="mt-20 grid lg:grid-cols-2 gap-8">
+        <div className="mt-10 md:mt-12 grid lg:grid-cols-2 gap-8">
           {breakdowns.map((b) => (
             <BreakdownPanel key={b.title} title={b.title} rows={b.rows || []} />
           ))}
@@ -166,7 +166,7 @@ export default function WhyRecruit() {
       </Section>
 
       {/* Hiring CTA — navy, 64 padding, left 723 column, three buttons 14 apart. */}
-      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+      <section className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20">
         <div className="max-w-[1280px] mx-auto">
           <div className="max-w-[723px]">
             <SectionTitle dark tagline={wp.ctaEyebrow} title={wp.ctaTitle} width={723} />

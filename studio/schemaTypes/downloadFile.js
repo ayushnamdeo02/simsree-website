@@ -1,6 +1,6 @@
 export default {
   name: 'downloadFile',
-  title: 'Admissions — Download',
+  title: 'Admissions - Download',
   type: 'document',
   description: 'A downloadable PDF shown on the Downloads & Affidavits page',
   fields: [

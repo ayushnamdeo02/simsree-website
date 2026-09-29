@@ -18,7 +18,7 @@ const fallbackPage = {
   heroTitle: 'Run by students.',
   heroTitleLine2: 'Built for leaders.',
   heroDescription:
-    'Thirteen student-run committees handle placements, flagship events, and industry relations. Not as extracurriculars — as the operational core of the institute.',
+    'Thirteen student-run committees handle placements, flagship events, and industry relations. Not as extracurriculars - as the operational core of the institute.',
   heroPrimaryCtaLabel: 'See all 13 committees',
   heroPrimaryCtaUrl: '#directory',
   heroSecondaryCtaLabel: 'Meet student leaders',
@@ -40,7 +40,7 @@ const fallbackPage = {
   systemTitle: 'Not a student body. An engine.',
   systemTitleHighlight: 'An engine.',
   systemBody:
-    'SIMSREE runs largely on student initiative. Committees are not clubs — they are the operational core of the institute.\n\nStudents negotiate with corporates, manage real budgets, coordinate large-scale events, and drive the entire placement process. By the time SIMSREE students graduate, they have not just studied management. They have practised it — for two full years, at scale, with real consequences.\n\nThis is what makes the SIMSREE graduate different. Other MBA programmes teach about leadership. SIMSREE assigns it.',
+    'SIMSREE runs largely on student initiative. Committees are not clubs - they are the operational core of the institute.\n\nStudents negotiate with corporates, manage real budgets, coordinate large-scale events, and drive the entire placement process. By the time SIMSREE students graduate, they have not just studied management. They have practised it - for two full years, at scale, with real consequences.\n\nThis is what makes the SIMSREE graduate different. Other MBA programmes teach about leadership. SIMSREE assigns it.',
   systemPrimaryCtaLabel: 'See all committees',
   systemPrimaryCtaUrl: '#directory',
   systemSecondaryCtaLabel: 'How to get involved',
@@ -50,7 +50,7 @@ const fallbackPage = {
   trackTitle: 'Your two-year leadership track.',
   trackTitleHighlight: 'two-year',
   trackBody:
-    'Every student at SIMSREE follows the same arc — arriving as a learner, leaving as a proven leader with 24 months of hands-on management experience.',
+    'Every student at SIMSREE follows the same arc - arriving as a learner, leaving as a proven leader with 24 months of hands-on management experience.',
   trackSteps: [
     { title: 'Induction', description: 'Orientation & committee selection process.' },
     { title: 'Join a Committee', description: 'Apply for committee roles via internal selection.' },
@@ -77,7 +77,7 @@ const fallbackPage = {
       label: 'Spotlight 01',
       title: 'Placement Committee',
       description:
-        'The Placement Committee does not just schedule interviews. It manages the entire student-to-recruiter pipeline — JD curation, company relations, offer tracking, salary data. Students who run this committee graduate with negotiation, project management, and stakeholder management skills that most MBAs only learn in their first job.',
+        'The Placement Committee does not just schedule interviews. It manages the entire student-to-recruiter pipeline - JD curation, company relations, offer tracking, salary data. Students who run this committee graduate with negotiation, project management, and stakeholder management skills that most MBAs only learn in their first job.',
       linkLabel: 'Meet the Placement Committee',
       linkUrl: '/placements',
     },
@@ -85,7 +85,7 @@ const fallbackPage = {
       label: 'Spotlight 02',
       title: 'Entrepreneurship Cell',
       description:
-        'Ideas are cheap. Execution is the curriculum. The E-Cell runs pitch competitions, startup bootcamps, and connects student founders with industry mentors. It is the reason SIMSREE has been called an institute that does not just teach entrepreneurship — it creates entrepreneurs.',
+        'Ideas are cheap. Execution is the curriculum. The E-Cell runs pitch competitions, startup bootcamps, and connects student founders with industry mentors. It is the reason SIMSREE has been called an institute that does not just teach entrepreneurship - it creates entrepreneurs.',
       linkLabel: 'See E-Cell activities',
       linkUrl: '/events',
     },
@@ -114,7 +114,7 @@ const fallbackPage = {
   ctaTitle: 'Apply to MMS 2026–28.',
   ctaTitleHighlight: 'MMS 2026–28.',
   ctaSubtitle:
-    'Committee selection happens during induction week. Your first responsibility starts sooner than you think — that is the point.',
+    'Committee selection happens during induction week. Your first responsibility starts sooner than you think - that is the point.',
   ctaPrimaryLabel: 'Start your application',
   ctaPrimaryUrl: '/admissions/mms',
   ctaSecondaryLabel: 'Talk to a current student',
@@ -173,7 +173,7 @@ export default function StudentSystem() {
         ]}
       />
 
-      <section className="px-5 py-16 md:p-16">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <StatGrid stats={sp.stats} />
       </section>
 
@@ -190,7 +190,7 @@ export default function StudentSystem() {
           />
           <div className="max-w-[300px]">
             <H6 as="p" className="text-white">
-              — {sp.philosophyAttribution}
+              - {sp.philosophyAttribution}
             </H6>
             <p className="text-base leading-[150%]">{sp.philosophyMeta}</p>
           </div>
@@ -263,7 +263,7 @@ export default function StudentSystem() {
             ))}
           </ol>
         </div>
-        <div className="mt-20">
+        <div className="mt-10 md:mt-12">
           <AccentCard className="[&>div]:py-4">
             <div className="flex flex-col gap-2 py-4">
               <H6 as="h3">{sp.trackCalloutTitle}</H6>
@@ -282,7 +282,7 @@ export default function StudentSystem() {
           titleClass="text-teal-500"
           body={sp.directorySubtitle}
         />
-        <div className="mt-20 flex flex-wrap items-center justify-center gap-4 md:gap-8">
+        <div className="mt-10 md:mt-12 flex flex-wrap items-center justify-center gap-4 md:gap-8">
           <span className="text-base leading-[150%] font-semibold text-[#292929]">Filter by:</span>
           <div className="flex flex-wrap items-center gap-3">
             {CATEGORIES.map((cat) => (
@@ -299,7 +299,7 @@ export default function StudentSystem() {
           </div>
         </div>
         {/* Mobile: one sideways-scrolling row of 284 cards (Figma); desktop: 4-up grid. */}
-        <div className="mt-20 -mx-5 px-5 lg:mx-0 lg:px-0 flex lg:grid lg:grid-cols-4 gap-12 overflow-x-auto lg:overflow-visible snap-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mt-10 md:mt-12 -mx-5 px-5 lg:mx-0 lg:px-0 flex lg:grid lg:grid-cols-4 gap-12 overflow-x-auto lg:overflow-visible snap-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {visible.map((c) => (
             <CommitteeCard
               key={c._id || c.slug?.current || c.name}
@@ -321,7 +321,7 @@ export default function StudentSystem() {
           body={sp.spotlightSubtitle}
           titleClass="text-white [&_span]:text-teal-400"
         />
-        <div className="mt-20 grid md:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {(sp.spotlightCards || []).map((c) => (
             <div
               key={c.title}
@@ -352,7 +352,7 @@ export default function StudentSystem() {
           highlight={sp.impactTitleHighlight}
           body={sp.impactSubtitle}
         />
-        <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:flex gap-8 lg:gap-4">
+        <div className="mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:flex gap-8 lg:gap-4">
           {(sp.impactStats || []).map((s, i) => (
             <div key={s.label} className="flex lg:flex-1 gap-4">
               {i > 0 && <span className="hidden lg:block w-px self-stretch bg-black/20" aria-hidden="true" />}
@@ -369,7 +369,7 @@ export default function StudentSystem() {
       </Section>
 
       {/* Apply — navy "CTA / 57 /": 64 padding, left 613 column, Eastern Blue tagline. */}
-      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+      <section className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20">
         <div className="max-w-[1280px] mx-auto">
           <div className="max-w-[613px]">
             <Tagline className="text-teal-400">{sp.ctaEyebrow}</Tagline>

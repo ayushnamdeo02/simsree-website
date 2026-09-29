@@ -12,7 +12,7 @@ import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 const fallbackAboutPage = {
   heroEyebrow: 'About SIMSREE · Established 1983',
   heroTitle: 'Forty years of distinctive management education.',
-  heroDescription: "SIMSREE was born in 1983 from a conviction that great management education belongs at the centre of commerce — not on its periphery. Located at Churchgate, in the heart of Mumbai's financial district, that belief has shaped everything we do.",
+  heroDescription: "SIMSREE was born in 1983 from a conviction that great management education belongs at the centre of commerce - not on its periphery. Located at Churchgate, in the heart of Mumbai's financial district, that belief has shaped everything we do.",
   heroPrimaryCtaLabel: 'Read our history',
   heroPrimaryCtaUrl: '/about/history',
   heroDirectorLinkLabel: "Read the Director's message",
@@ -29,7 +29,7 @@ const fallbackAboutPage = {
   storyEyebrow: 'Our Story',
   storyTitle: 'A legacy built over',
   storyTitleHighlight: 'four decades.',
-  storyBody: "Founded in 1983 as a natural extension of Sydenham College of Commerce — one of Mumbai's most celebrated institutions — the Sydenham Institute of Management Studies, Research and Entrepreneurship Education (SIMSREE) inherited a proven tradition of high-quality education.\n\nAt Churchgate, in the heart of India's financial capital, SIMSREE draws the finest industry talent and eminent faculty — and gives students unparalleled access to corporate India.\n\nFour decades on, SIMSREE ranks among India's premier management institutes — still driven by its founding commitment to academic rigour, entrepreneurial spirit, and a student driven culture.",
+  storyBody: "Founded in 1983 as a natural extension of Sydenham College of Commerce - one of Mumbai's most celebrated institutions - the Sydenham Institute of Management Studies, Research and Entrepreneurship Education (SIMSREE) inherited a proven tradition of high-quality education.\n\nAt Churchgate, in the heart of India's financial capital, SIMSREE draws the finest industry talent and eminent faculty - and gives students unparalleled access to corporate India.\n\nFour decades on, SIMSREE ranks among India's premier management institutes - still driven by its founding commitment to academic rigour, entrepreneurial spirit, and a student driven culture.",
   storyLinkLabel: 'Read the full history',
   storyLinkUrl: '/about/history',
 
@@ -37,7 +37,7 @@ const fallbackAboutPage = {
   leadershipTitle: 'From the',
   leadershipTitleHighlight: "Director's",
   leadershipTitleSuffix: 'desk.',
-  leadershipQuote: 'SIMSREE has always stood for something beyond a degree — for character forged through initiative, responsibility, and a deep engagement with the world of business.',
+  leadershipQuote: 'SIMSREE has always stood for something beyond a degree - for character forged through initiative, responsibility, and a deep engagement with the world of business.',
   leadershipName: 'Dr. Shriniwas Dhure',
   leadershipRole: 'Director, SIMSREE',
   leadershipLinkLabel: 'Read the full message',
@@ -54,11 +54,11 @@ const fallbackAboutPage = {
   campusEyebrow: 'Campus & Culture',
   campusTitle: 'Where learning goes',
   campusTitleHighlight: 'beyond the classroom.',
-  campusBody: "The campus isn't a backdrop — it's part of the curriculum. From day one you lead, organise, connect, and create, with 13 student run committees running the institute.",
+  campusBody: "The campus isn't a backdrop - it's part of the curriculum. From day one you lead, organise, connect, and create, with 13 student run committees running the institute.",
 
   alumniEyebrow: 'Alumni Network',
   alumniTitle: '5,000+ alumni worldwide.',
-  alumniBody: 'From senior bankers to founders and public servants, thousands of SIMSREE alumni across India and the world carry the institute’s values — initiative, rigour, and integrity — into every role.',
+  alumniBody: 'From senior bankers to founders and public servants, thousands of SIMSREE alumni across India and the world carry the institute’s values - initiative, rigour, and integrity - into every role.',
 
   newsEyebrow: 'News & Announcements',
   newsTitle: 'Just',
@@ -76,16 +76,16 @@ const fallbackAboutPage = {
 };
 
 const fallbackCampusCards = [
-  { badge: 'New', title: 'Facilities', description: 'Auditorium · library · computer lab · seminar hall · cafeteria · recreation.', linkUrl: '/about/campus-life' },
+  { title: 'Facilities', description: 'Auditorium · library · computer lab · seminar hall · cafeteria · recreation.', linkUrl: '/about/campus-life' },
   { badge: null, title: 'Student-Driven System', description: 'See how 13 committees actually run the institute · 2 year leadership ladder.', linkUrl: '/about/student-driven-system' },
   { badge: null, title: 'Life @ SIMSREE', description: 'A day in the life · gallery · student voices.', linkUrl: '/students/life' },
 ];
 
 const fallbackAlumniCards = [
-  { badge: 'New', title: 'Illustrious Alumni', description: 'Notable graduates across BFSI, media, consulting, public service.', linkUrl: '/about/alumni' },
+  { title: 'Illustrious Alumni', description: 'Notable graduates across BFSI, media, consulting, public service.', linkUrl: '/about/alumni' },
   { badge: null, title: 'SIMAA', description: 'SIMSREE Management Alumni Association · Batchmeets · mentorship.', linkUrl: '/alumni-portal' },
-  { badge: 'New', title: 'Alumni Gateway', description: 'Digital alumni portal · register · update milestones · find batchmates.', linkUrl: '/alumni-portal' },
-  { badge: 'New', title: 'Simarthan', description: 'Independent not for profit · advancing education, research, scholarships.', linkUrl: '/about/simarthan' },
+  { title: 'Alumni Gateway', description: 'Digital alumni portal · register · update milestones · find batchmates.', linkUrl: '/alumni-portal' },
+  { title: 'Simarthan', description: 'Independent not for profit · advancing education, research, scholarships.', linkUrl: '/about/simarthan' },
 ];
 
 const fallbackNews = [
@@ -172,12 +172,12 @@ function NewsRow({ date, title, isDownload, actionLabel, fileUrl, url }) {
   );
 }
 
-// "Event / 4 /" block: tagline, H2, copy and a button inside a 32px-padded column.
+// "Event / 4 /" block: tagline, H2, copy and a button, inset 32 at the sides.
 // Figma: 32 gaps desktop (24 mobile), 24 between title and copy; mobile insets 8.
 function StoryBlock({ tagline, children, action }) {
   return (
-    <section className="px-5 py-16 md:px-16 md:py-28">
-      <div className="max-w-[1312px] mx-auto px-2 py-8 md:p-8 flex flex-col gap-6 md:gap-8">
+    <section className="px-5 py-12 md:px-16 md:py-20">
+      <div className="max-w-[1312px] mx-auto px-2 md:px-8 flex flex-col gap-6 md:gap-8">
         <Tagline>{tagline}</Tagline>
         <div className="flex flex-col gap-6">{children}</div>
         {action}
@@ -224,7 +224,7 @@ export default function AboutUs() {
       />
 
       {/* Stats — Figma "Layout / 396": 64 padding, 296x300 cards, 32 gap (2x2 on mobile). */}
-      <section className="px-5 py-16 md:p-16">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <StatGrid stats={ap.heroStats} />
       </section>
 
@@ -263,7 +263,7 @@ export default function AboutUs() {
         />
         <blockquote className={lead}>&ldquo;{ap.leadershipQuote}&rdquo;</blockquote>
         <p className="text-lg leading-[150%] text-black">
-          — {ap.leadershipName} · {ap.leadershipRole}
+          - {ap.leadershipName} · {ap.leadershipRole}
         </p>
       </StoryBlock>
 
@@ -291,7 +291,7 @@ export default function AboutUs() {
           highlight={ap.campusTitleHighlight}
           body={ap.campusBody}
         />
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
           {campusCards.map((c) => (
             <CampusCard key={c._id || c.title} {...c} />
           ))}
@@ -304,7 +304,7 @@ export default function AboutUs() {
         <p className="mt-5 md:mt-6 max-w-[678px] mx-auto text-center text-base md:text-lg leading-[150%] text-black">
           {ap.alumniBody}
         </p>
-        <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="mt-10 md:mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {alumniCards.map((c) => (
             <AlumniCard key={c._id || c.title} {...c} />
           ))}
@@ -320,12 +320,12 @@ export default function AboutUs() {
           highlight={ap.newsTitleHighlight}
           body={ap.newsSubtitle}
         />
-        <div className="mt-20 flex flex-col gap-2">
+        <div className="mt-10 md:mt-12 flex flex-col gap-2">
           {news.map((n) => (
             <NewsRow key={n._id || n.title} {...n} />
           ))}
         </div>
-        <Link to="/events/news" className={`${navyBtn} mt-20 mx-auto md:mx-0`}>
+        <Link to="/events/news" className={`${navyBtn} mt-10 md:mt-12 mx-auto md:mx-0`}>
           {ap.newsLinkLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
         </Link>
       </Section>

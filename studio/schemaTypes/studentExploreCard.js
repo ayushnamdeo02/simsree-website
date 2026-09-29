@@ -1,6 +1,6 @@
 export default {
   name: 'studentExploreCard',
-  title: "Student's Corner — Explore Card",
+  title: "Student's Corner - Explore Card",
   type: 'document',
   description: 'The "places to start" grid. The count in the heading follows this list.',
   fields: [

@@ -27,7 +27,7 @@ export default {
 
     // Approach
     {name: 'approachEyebrow', title: 'Eyebrow', type: 'string', group: 'approach', initialValue: 'Why SIMSREE Academics'},
-    {name: 'approachTitle', title: 'Title', type: 'string', group: 'approach', initialValue: 'Practise management — don’t just study it.'},
+    {name: 'approachTitle', title: 'Title', type: 'string', group: 'approach', initialValue: 'Practise management - don’t just study it.'},
     {name: 'approachTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'approach', initialValue: 'Practise'},
     {name: 'approachSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'approach'},
     {
@@ -67,13 +67,13 @@ export default {
     {name: 'compareEyebrow', title: 'Eyebrow', type: 'string', group: 'compare', initialValue: 'Compare'},
     {name: 'compareTitle', title: 'Title', type: 'string', group: 'compare', initialValue: 'Compare all five in one view.'},
     {name: 'compareTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'compare', initialValue: 'all five'},
-    {name: 'compareSubtitle', title: 'Subtitle', type: 'string', group: 'compare', initialValue: 'Duration, mode, intake, admission path and approximate fees — all at a glance.'},
+    {name: 'compareSubtitle', title: 'Subtitle', type: 'string', group: 'compare', initialValue: 'Duration, mode, intake, admission path and approximate fees - all at a glance.'},
 
     // Differentiators
     {name: 'differentiatorsEyebrow', title: 'Eyebrow', type: 'string', group: 'differentiators', initialValue: 'Why SIMSREE Academics'},
     {name: 'differentiatorsTitle', title: 'Title', type: 'string', group: 'differentiators', initialValue: 'Five things other B-schools can’t give you.'},
     {name: 'differentiatorsTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'differentiators', initialValue: 'B-schools can’t give you.'},
-    {name: 'differentiatorsSubtitle', title: 'Subtitle', type: 'string', group: 'differentiators', initialValue: 'Beyond the curriculum — what sets your degree apart.'},
+    {name: 'differentiatorsSubtitle', title: 'Subtitle', type: 'string', group: 'differentiators', initialValue: 'Beyond the curriculum - what sets your degree apart.'},
 
     // Faculty
     {name: 'facultyEyebrow', title: 'Eyebrow', type: 'string', group: 'faculty', initialValue: 'Faculty'},

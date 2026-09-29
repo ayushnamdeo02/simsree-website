@@ -7,13 +7,13 @@ const fallbackPage = {
   heroTitle: "It's not a building. It's a rhythm.",
   heroTitleBreakAfter: 'building.',
   heroDescription:
-    'Scroll through a day in our life at Churchgate — from 6am laps at Marine Drive to midnight committee huddles in the canteen.',
+    'Scroll through a day in our life at Churchgate - from 6am laps at Marine Drive to midnight committee huddles in the canteen.',
 
   numbersEyebrow: 'The Numbers',
   numbersTitle: 'A campus that punches above its postcode.',
   numbersTitleHighlight: 'above its postcode.',
   numbersBody:
-    'SIMSREE sits inside a 1936 heritage block of Sydenham College — 2.4 acres in Churchgate, walking distance from the BSE, NSE, RBI, and the head offices of half the Nifty 50.',
+    'SIMSREE sits inside a 1936 heritage block of Sydenham College - 2.4 acres in Churchgate, walking distance from the BSE, NSE, RBI, and the head offices of half the Nifty 50.',
   stats: [
     { label: 'Founded', value: '{{foundedYear}}', dark: true },
     { label: 'Campus', value: '2.4ac', dark: false },
@@ -51,7 +51,7 @@ const fallbackFeatures = [
   {
     title: 'A 1936 heritage block.',
     body: [
-      'SIMSREE shares its building with Sydenham College of Commerce — India’s oldest commerce college (est. 1913) and one of Mumbai’s listed Grade-II heritage structures. Stone arches, mosaic flooring, four-metre ceilings.',
+      'SIMSREE shares its building with Sydenham College of Commerce - India’s oldest commerce college (est. 1913) and one of Mumbai’s listed Grade-II heritage structures. Stone arches, mosaic flooring, four-metre ceilings.',
       'The 2.4-acre campus is fully walkable in 6 minutes: inside, 14 classrooms, two auditoriums, a library, the placement floor, three labs, two canteens.',
     ],
     order: 2,
@@ -59,7 +59,7 @@ const fallbackFeatures = [
   {
     title: 'Five minutes to the sea.',
     body: [
-      'Walk out the back gate, cross one signal, and you’re at Marine Drive — the Queen’s Necklace, three kilometres of unbroken Arabian Sea promenade. 6am runs. 11pm walks. The decompression chamber of SIMSREE.',
+      'Walk out the back gate, cross one signal, and you’re at Marine Drive - the Queen’s Necklace, three kilometres of unbroken Arabian Sea promenade. 6am runs. 11pm walks. The decompression chamber of SIMSREE.',
       'Approximately every successful piece of student work since 1983 has its conception story on that promenade.',
     ],
     order: 3,
@@ -111,7 +111,7 @@ const fallbackVoices = [
   },
   {
     quote:
-      '"You can be in a guest lecture with a CXO at 1pm and at the BSE for a live market visit at 3pm. That collapse of distance — that’s the campus’s real magic."',
+      '"You can be in a guest lecture with a CXO at 1pm and at the BSE for a live market visit at 3pm. That collapse of distance - that’s the campus’s real magic."',
     name: 'Aniket Kapoor',
     programme: 'MFM',
     meta: 'Batch 2023-25',

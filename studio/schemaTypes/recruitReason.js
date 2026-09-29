@@ -1,6 +1,6 @@
 export default {
   name: 'recruitReason',
-  title: 'Why Recruit — Reason',
+  title: 'Why Recruit - Reason',
   type: 'document',
   fields: [
     {name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()},

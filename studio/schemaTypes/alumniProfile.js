@@ -1,6 +1,6 @@
 export default {
   name: 'alumniProfile',
-  title: 'Alumni — Directory Profile',
+  title: 'Alumni - Directory Profile',
   type: 'document',
   fields: [
     {name: 'name', title: 'Name', type: 'string', validation: (Rule) => Rule.required()},

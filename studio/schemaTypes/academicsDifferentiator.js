@@ -1,6 +1,6 @@
 export default {
   name: 'academicsDifferentiator',
-  title: 'Academics — Differentiator',
+  title: 'Academics - Differentiator',
   type: 'document',
   description: 'The numbered "Five things other B-schools cannot give you" cards',
   fields: [

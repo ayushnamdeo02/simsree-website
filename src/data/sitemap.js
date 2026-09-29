@@ -16,7 +16,6 @@ export const mainNav = [
     label: 'About Us',
     path: '/about',
     children: [
-      { label: 'About Us Landing', path: '/about' },
       { label: 'History', path: '/about/history' },
       { label: "Director's Message", path: '/about/directors-message' },
       { label: 'Rankings & Accreditations', path: '/about/rankings' },
@@ -44,7 +43,6 @@ export const mainNav = [
     label: 'Admissions',
     path: '/admissions',
     children: [
-      { label: 'Admissions Landing', path: '/admissions' },
       { label: 'MMS Admissions', path: '/admissions/mms' },
       { label: 'M.Sc. Finance Admissions', path: '/admissions/msc-finance' },
       { label: 'MFM Admissions', path: '/admissions/mfm' },
@@ -57,7 +55,6 @@ export const mainNav = [
     label: "Student's Corner",
     path: '/students',
     children: [
-      { label: "Student's Corner Landing", path: '/students' },
       { label: 'Achievements', path: '/students/achievements' },
       { label: 'Batch Profile', path: '/students/batch-profile' },
       { label: 'Leadership Directory', path: '/students/leadership' },
@@ -82,7 +79,6 @@ export const mainNav = [
     label: 'Placements',
     path: '/placements',
     children: [
-      { label: 'Landing', path: '/placements' },
       { label: 'Why Recruit', path: '/placements/why-recruit' },
       { label: 'Placement Reports Hub', path: '/placements/reports' },
       { label: 'Recruiting Partners', path: '/placements/partners' },

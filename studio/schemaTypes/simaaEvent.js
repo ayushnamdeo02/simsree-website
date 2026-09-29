@@ -1,6 +1,6 @@
 export default {
   name: 'simaaEvent',
-  title: 'Alumni Portal — SIMAA Event',
+  title: 'Alumni Portal - SIMAA Event',
   type: 'document',
   fields: [
     {name: 'day', title: 'Day of week', description: 'e.g. "Sat"', type: 'string'},

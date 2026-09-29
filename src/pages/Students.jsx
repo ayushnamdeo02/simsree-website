@@ -30,7 +30,7 @@ const fallbackPage = {
   heroTitleItalic: 'attend.',
   heroTitleBreakAfter: 'attend.',
   heroDescription:
-    'Everything you see at SIMSREE — Simerations, Mrudgandha, the Placement Cell — is conceived, funded and delivered by students. Welcome to where leadership is practised, not taught.',
+    'Everything you see at SIMSREE - Simerations, Mrudgandha, the Placement Cell - is conceived, funded and delivered by students. Welcome to where leadership is practised, not taught.',
   heroButtons: [
     { label: "See who's in the batch", url: '/students/batch-profile', primary: true },
     { label: 'See all {{committeeCount}} committees', url: '/students/body-structure', primary: false },
@@ -47,7 +47,7 @@ const fallbackPage = {
   pathsSubtitle: 'Pick your role · we surface the page built for you.',
   exploreEyebrow: 'Explore',
   exploreTitle: 'places to start',
-  exploreSubtitle: 'Every card opens a full page — dive into what matters to you.',
+  exploreSubtitle: 'Every card opens a full page - dive into what matters to you.',
   voicesEyebrow: 'Voices',
   voicesTitle: '"It wasn’t extracurricular. It was the curriculum."',
   voicesTitleHighlight: 'curriculum',
@@ -55,7 +55,7 @@ const fallbackPage = {
     'Three current students share what running a SIMSREE committee actually taught them.',
   ctaTitle: 'Apply to SIMSREE.',
   ctaSubtitle:
-    'MMS 2026-28 admissions are open — via Maharashtra CET, {{noQuotaShort}}.',
+    'MMS 2026-28 admissions are open - via Maharashtra CET, {{noQuotaShort}}.',
   ctaButtons: [
     { label: 'Start your MMS application', url: '/admissions/mms', primary: true },
     { label: 'Talk to a Student', url: '/contact', primary: false },
@@ -73,7 +73,7 @@ const fallbackPaths = [
   },
   {
     title: 'Recruiter',
-    description: 'Pull the Batch Profile — diversity, work-ex, specialisations.',
+    description: 'Pull the Batch Profile - diversity, work-ex, specialisations.',
     icon: 'recruiter',
     url: '/students/batch-profile',
     order: 2,
@@ -104,7 +104,7 @@ const fallbackPaths = [
 const fallbackCards = [
   {
     title: 'Student Achievements',
-    description: 'Filter wins by type — competitions, scholarships, publications, sports.',
+    description: 'Filter wins by type - competitions, scholarships, publications, sports.',
     badge: 'Enhanced',
     ctaLabel: 'Open',
     url: '/students/achievements',
@@ -112,7 +112,7 @@ const fallbackCards = [
   },
   {
     title: 'Batch Profile',
-    description: 'See the academic split, work-ex and diversity — download the PDF.',
+    description: 'See the academic split, work-ex and diversity - download the PDF.',
     badge: 'Enhanced',
     ctaLabel: 'View',
     url: '/students/batch-profile',
@@ -128,7 +128,7 @@ const fallbackCards = [
   },
   {
     title: 'General Secretaries',
-    description: "Meet this year's GS team — the apex student leadership.",
+    description: "Meet this year's GS team - the apex student leadership.",
     badge: 'Enhanced',
     ctaLabel: 'Meet GS',
     url: '/students/leadership',
@@ -144,7 +144,7 @@ const fallbackCards = [
   },
   {
     title: 'Life @ SIMSREE',
-    description: 'See a day on campus — fests, facilities, student voices.',
+    description: 'See a day on campus - fests, facilities, student voices.',
     badge: 'Enhanced',
     ctaLabel: 'Explore',
     url: '/students/life',
@@ -152,7 +152,7 @@ const fallbackCards = [
   },
   {
     title: 'How SIMSREE Really Works',
-    description: 'The Student-Driven System — 2-year leadership track explained.',
+    description: 'The Student-Driven System - 2-year leadership track explained.',
     badge: 'Enhanced',
     ctaLabel: 'Read',
     url: '/about/student-driven-system',
@@ -272,7 +272,7 @@ export default function Students() {
         actions={heroButtons.map((b) => ({ label: b.label, href: b.url, primary: b.primary }))}
       />
 
-      <section className="px-5 py-16 md:p-16">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <StatGrid stats={sp.stats} />
       </section>
 
@@ -286,7 +286,7 @@ export default function Students() {
           title={sp.pathsTitle}
           body={sp.pathsSubtitle}
         />
-        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="mt-10 md:mt-12 grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {paths.map((p) => {
             const Icon = PATH_ICONS[p.icon] || IdCard;
             return (
@@ -311,7 +311,7 @@ export default function Students() {
       {/* Explore — centred title; 3-up 405x506 cards, then the wide card centred. */}
       <Section width={1280}>
         <SectionTitle center tagline={sp.exploreEyebrow} title={sp.exploreTitle} body={sp.exploreSubtitle} />
-        <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {gridCards.map((c, i) => (
             <ExploreCard key={c.title} c={c} image={img(c.image, CARD_PHOTOS[i], 810)} />
           ))}
@@ -336,7 +336,7 @@ export default function Students() {
           body={sp.voicesSubtitle}
           width={1280}
         />
-        <div className="mt-20">
+        <div className="mt-10 md:mt-12">
           <TestimonialCarousel testimonials={testimonials} />
         </div>
       </Section>

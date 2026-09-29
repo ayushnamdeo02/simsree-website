@@ -10,8 +10,8 @@ import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
 const fallbackPage = {
   heroEyebrow: 'For Recruiters · Updated Sept 2025',
-  heroTitle: 'MMS Batch 2024-26 — hiring data at a glance.',
-  heroTitleBreakAfter: '—',
+  heroTitle: 'MMS Batch 2024-26 - hiring data at a glance.',
+  heroTitleBreakAfter: ' -',
   heroDescription:
     '120 students · curated across disciplines, geographies and work-experience bands. The numbers your hiring team needs before you visit campus.',
   heroButtons: [
@@ -23,7 +23,7 @@ const fallbackPage = {
   ctaEyebrow: 'For Recruiters',
   ctaTitle: 'Ready to engage with this batch?',
   ctaSubtitle:
-    'Three things you can do today — Recruiter Brochure, Campus Slot, Direct Email.',
+    'Three things you can do today - Recruiter Brochure, Campus Slot, Direct Email.',
   ctaButtons: [
     { label: 'Download the recruiter brochure', url: '#', primary: true },
     { label: 'Request Campus Slot', url: '/placements/contact', primary: false },
@@ -201,7 +201,7 @@ export default function BatchProfile() {
         )}
 
         {/* Charts — two 624 panels, then three 405; one bar colour per panel. */}
-        <div className="mt-20 flex flex-col gap-20">
+        <div className="mt-10 md:mt-12 flex flex-col gap-12 md:gap-16">
           {topPanels.length > 0 && (
             <div className="grid lg:grid-cols-2 gap-8 items-start">
               {topPanels.map((p) => (
@@ -234,7 +234,7 @@ export default function BatchProfile() {
       </Section>
 
       {cohort.summaryCards?.length > 0 && (
-        <section className="px-5 py-16 md:p-16">
+        <section className="px-5 py-12 md:px-16 md:py-20">
           <StatGrid stats={cohort.summaryCards} />
         </section>
       )}

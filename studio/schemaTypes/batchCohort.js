@@ -1,6 +1,6 @@
 export default {
   name: 'batchCohort',
-  title: 'Batch Profile — Cohort',
+  title: 'Batch Profile - Cohort',
   type: 'document',
   description:
     'One per batch. The cohort dropdown lists these, so adding next year’s batch needs no code.',

@@ -9,13 +9,13 @@ const fallbackCampusPage = {
   heroTitle: "It's not a building.",
   heroTitleLine2: "It's a rhythm.",
   heroSubtitle:
-    'Scroll through a day in our life at Churchgate — from 6am laps at Marine Drive to midnight committee huddles in the canteen.',
+    'Scroll through a day in our life at Churchgate - from 6am laps at Marine Drive to midnight committee huddles in the canteen.',
 
   numbersEyebrow: 'The Numbers',
   numbersTitle: 'A campus that punches above its postcode.',
   numbersTitleHighlight: 'above its postcode.',
   numbersBody:
-    'SIMSREE sits inside a 1936 heritage block of Sydenham College — 2.4 acres in Churchgate, walking distance from the BSE, NSE, RBI, and the head offices of half the Nifty 50.',
+    'SIMSREE sits inside a 1936 heritage block of Sydenham College - 2.4 acres in Churchgate, walking distance from the BSE, NSE, RBI, and the head offices of half the Nifty 50.',
   numbersStats: [
     { value: '1983', label: 'Founded' },
     { value: '2.4ac', label: 'Campus' },
@@ -52,13 +52,13 @@ const fallbackFeatures = [
     number: '02',
     title: 'A 1936 heritage block.',
     image: '/images/campus/story-2.webp',
-    body: "SIMSREE shares its building with Sydenham College of Commerce — India's oldest commerce college (est. 1913) and one of Mumbai's listed Grade-II heritage structures. Stone arches, mosaic flooring, four-meter ceilings.\nThe 2.4-acre campus is fully walkable in 6 minutes. Inside: 14 classrooms, two auditoriums, a library, the placement floor, three labs, two canteens.",
+    body: "SIMSREE shares its building with Sydenham College of Commerce - India's oldest commerce college (est. 1913) and one of Mumbai's listed Grade-II heritage structures. Stone arches, mosaic flooring, four-meter ceilings.\nThe 2.4-acre campus is fully walkable in 6 minutes. Inside: 14 classrooms, two auditoriums, a library, the placement floor, three labs, two canteens.",
   },
   {
     number: '03',
     title: 'Five minutes to the sea.',
     image: '/images/campus/story-3.webp',
-    body: "Walk out the back gate, cross one signal, and you're at Marine Drive — the Queen's Necklace, three kilometres of unbroken Arabian Sea promenade. 6am runs. 11pm walks. The decompression chamber of SIMSREE.\n\nApproximately every successful piece of student work since 1983 has its conception story on that promenade.",
+    body: "Walk out the back gate, cross one signal, and you're at Marine Drive - the Queen's Necklace, three kilometres of unbroken Arabian Sea promenade. 6am runs. 11pm walks. The decompression chamber of SIMSREE.\n\nApproximately every successful piece of student work since 1983 has its conception story on that promenade.",
   },
 ];
 
@@ -107,7 +107,7 @@ const fallbackTestimonials = [
   },
   {
     quote:
-      "You can be in a guest lecture with a CXO at 3pm and at the BSE for a live market visit at 5pm. That collapse of distance — that's the campus's real magic.",
+      "You can be in a guest lecture with a CXO at 3pm and at the BSE for a live market visit at 5pm. That collapse of distance - that's the campus's real magic.",
     name: 'Priya Kulkarni',
     programme: 'MMS',
     meta: 'Batch 2023-25\nChair, Events Committee',

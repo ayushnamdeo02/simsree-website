@@ -1,6 +1,6 @@
 export default {
   name: 'verificationDoc',
-  title: 'Rankings — Verification Document',
+  title: 'Rankings - Verification Document',
   type: 'document',
   fields: [
     {name: 'tag', title: 'Tag', description: 'e.g. "NIRF", "AICTE", "VERIFY"', type: 'string', validation: (Rule) => Rule.required()},

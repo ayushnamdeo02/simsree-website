@@ -14,7 +14,7 @@ const fallbackPage = {
   heroTitle: "Meet the people who'll teach you.",
   heroTitleBreakAfter: 'people',
   heroDescription:
-    'Learn from permanent faculty across Finance, Marketing, Operations, HR, Systems, Economics, OB and Strategy — supplemented by senior industry practitioners.',
+    'Learn from permanent faculty across Finance, Marketing, Operations, HR, Systems, Economics, OB and Strategy - supplemented by senior industry practitioners.',
   heroButtons: [
     { label: 'Meet the core faculty', url: '#core', primary: true },
     { label: 'Meet the visiting faculty', url: '#visiting', primary: false },
@@ -33,12 +33,12 @@ const fallbackPage = {
   visitingEyebrow: 'Industry Practitioners',
   visitingTitle: 'Visiting faculty.',
   visitingSubtitle:
-    'Senior industry practitioners teach electives and short modules — many are SIMSREE alumni giving back.',
+    'Senior industry practitioners teach electives and short modules - many are SIMSREE alumni giving back.',
   researchEyebrow: 'Research Clusters',
   researchTitle: 'Research areas.',
   researchTitleHighlight: 'areas.',
   researchSubtitle:
-    'Active research clusters — open to PhD enquiries and industry collaborations.',
+    'Active research clusters - open to PhD enquiries and industry collaborations.',
 };
 
 const fallbackCore = [
@@ -130,7 +130,7 @@ export default function Faculty() {
         actions={heroButtons.map((b) => ({ label: b.label, href: b.url, primary: b.primary }))}
       />
 
-      <section className="px-5 py-16 md:p-16">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <StatGrid stats={fp.stats || []} />
       </section>
 
@@ -139,7 +139,7 @@ export default function Faculty() {
           H5 navy name, 18/150 navy role, 16/150 grey details. */}
       <Section id="core" width={1280} className="scroll-mt-24">
         <SectionTitle center tagline={fp.coreEyebrow} title={fp.coreTitle} highlight={fp.coreTitleHighlight || 'faculty.'} body={fp.coreSubtitle} />
-        <div className="mt-20 flex flex-col md:flex-row md:items-center md:justify-center gap-4 md:gap-8">
+        <div className="mt-10 md:mt-12 flex flex-col md:flex-row md:items-center md:justify-center gap-4 md:gap-8">
           <span className="text-base leading-[150%] font-semibold text-[#292929]">{fp.filterLabel}</span>
           <div className="flex flex-wrap gap-3">
             {chips.map((c) => (
@@ -157,11 +157,11 @@ export default function Faculty() {
             ))}
           </div>
         </div>
-        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {visibleCore.map((f) => {
             const i = core.indexOf(f);
             return (
-              <div key={f._id || f.name} className="p-6 md:p-8 flex flex-col gap-6 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+              <div key={f._id || f.name} className="hover-card p-6 md:p-8 flex flex-col gap-6 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
                 <div
                   className="h-[320px] rounded-2xl bg-navy-50 bg-cover bg-center"
                   style={{ backgroundImage: `url('${img(f.photo, CORE_PHOTOS[i % CORE_PHOTOS.length], 682)}')` }}
@@ -194,9 +194,9 @@ export default function Faculty() {
           radius 16), then a 24-padded Eastern Blue tag, H5 name and three lines. */}
       <Section id="visiting" width={1280} className="scroll-mt-24">
         <SectionTitle center tagline={fp.visitingEyebrow} title={fp.visitingTitle} body={fp.visitingSubtitle} />
-        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4 lg:gap-y-20">
+        <div className="mt-10 md:mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-4 lg:gap-y-20">
           {visiting.map((v, i) => (
-            <div key={v._id || v.name} className="flex flex-col gap-4 rounded-b-2xl outline outline-1 -outline-offset-1 outline-black/20">
+            <div key={v._id || v.name} className="hover-card flex flex-col gap-4 rounded-b-2xl outline outline-1 -outline-offset-1 outline-black/20">
               <div
                 className="h-[463px] rounded-t-2xl bg-navy-50 bg-cover bg-center shadow-small"
                 style={{ backgroundImage: `url('${img(v.photo, VISIT_PHOTOS[i % VISIT_PHOTOS.length], 616)}')` }}

@@ -1,6 +1,6 @@
 export default {
   name: 'studentVoice',
-  title: 'Homepage — Student Voice',
+  title: 'Homepage - Student Voice',
   type: 'document',
   fields: [
     {name: 'quote', title: 'Quote', type: 'text', rows: 4, validation: (Rule) => Rule.required()},

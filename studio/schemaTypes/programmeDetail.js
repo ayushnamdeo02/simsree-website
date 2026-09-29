@@ -1,6 +1,6 @@
 export default {
   name: 'programmeDetail',
-  title: 'Academics — Programme Detail Page',
+  title: 'Academics - Programme Detail Page',
   type: 'document',
   description:
     'One per programme detail page (MMS, M.Sc. Finance, MFM, MMM, PhD). The slug decides the URL.',
@@ -25,7 +25,7 @@ export default {
       group: 'hero',
       validation: (Rule) => Rule.required(),
     },
-    {name: 'shortName', title: 'Short name', description: 'e.g. "MMS" — used in the breadcrumb', type: 'string', group: 'hero', validation: (Rule) => Rule.required()},
+    {name: 'shortName', title: 'Short name', description: 'e.g. "MMS" - used in the breadcrumb', type: 'string', group: 'hero', validation: (Rule) => Rule.required()},
 
     // Hero
     {name: 'heroBadge', title: 'Badge line', description: 'e.g. "Full-time · 2 years · 120 seats · 2 years"', type: 'string', group: 'hero'},
@@ -72,7 +72,7 @@ export default {
     // Overview
     {name: 'overviewTitle', title: 'Title', type: 'string', group: 'overview', initialValue: 'Two years that make you management-ready.'},
     {name: 'overviewTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'overview'},
-    {name: 'overviewTitleBreakAfter', title: 'Line break after', description: 'Optional — text after this substring starts a new line', type: 'string', group: 'overview'},
+    {name: 'overviewTitleBreakAfter', title: 'Line break after', description: 'Optional - text after this substring starts a new line', type: 'string', group: 'overview'},
     {name: 'overviewSubtitle', title: 'Subtitle', type: 'string', group: 'overview'},
     {name: 'glanceTitle', title: 'At-a-glance panel title', type: 'string', group: 'overview', initialValue: 'Programme at a glance'},
     {

@@ -23,13 +23,13 @@ export default {
     {name: 'pickerEyebrow', title: 'Eyebrow', type: 'string', group: 'picker', initialValue: 'I am a...'},
     {name: 'pickerTitle', title: 'Title', description: 'The role count is prefixed automatically', type: 'string', group: 'picker', initialValue: 'paths · one page.'},
     {name: 'pickerTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'picker', initialValue: 'one page.'},
-    {name: 'pickerSubtitle', title: 'Subtitle', type: 'string', group: 'picker', initialValue: 'Pick your role below — the page tailors itself to you.'},
+    {name: 'pickerSubtitle', title: 'Subtitle', type: 'string', group: 'picker', initialValue: 'Pick your role below - the page tailors itself to you.'},
 
     // General (no role selected)
     {name: 'generalEyebrow', title: 'Eyebrow', type: 'string', group: 'general', initialValue: 'General Contact'},
     {name: 'generalTitle', title: 'Title', type: 'string', group: 'general', initialValue: 'Send us a message.'},
     {name: 'generalTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'general', initialValue: 'message.'},
-    {name: 'generalSubtitle', title: 'Subtitle', type: 'string', group: 'general', initialValue: 'General enquiry form — or pick a role above for a faster, tailored route.'},
+    {name: 'generalSubtitle', title: 'Subtitle', type: 'string', group: 'general', initialValue: 'General enquiry form - or pick a role above for a faster, tailored route.'},
     {name: 'generalSubmitLabel', title: 'Submit label', type: 'string', group: 'general', initialValue: 'Send my message'},
     {name: 'generalFootnote', title: 'Footnote', type: 'string', group: 'general', initialValue: 'Generic enquiry · routes to info@simsree.org'},
 
@@ -156,7 +156,7 @@ export default {
     {name: 'successTitle', title: 'Success title', type: 'string', group: 'form', initialValue: 'Message sent.'},
     {name: 'successBody', title: 'Success body', type: 'text', rows: 2, group: 'form', initialValue: 'We reply within 1 business day.'},
     {name: 'failTitle', title: 'Failure title', type: 'string', group: 'form', initialValue: "That didn't go through."},
-    {name: 'failBody', title: 'Failure body', type: 'text', rows: 2, group: 'form', initialValue: 'Your details are still here — try again, or email us instead.'},
+    {name: 'failBody', title: 'Failure body', type: 'text', rows: 2, group: 'form', initialValue: 'Your details are still here - try again, or email us instead.'},
   ],
   preview: {prepare() { return {title: 'Contact Us Page'} }},
 }

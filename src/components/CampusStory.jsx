@@ -111,7 +111,7 @@ export default function CampusStory({
       {/* Feature rows — Figma "Layout / 218 /": rows 80 apart; 48px numbered circle,
           H2 52 in black, 18/150 copy. */}
       <Section width={1280} className="border-t border-white/20">
-        <div className="flex flex-col gap-20">
+        <div className="flex flex-col gap-12 md:gap-16">
           {features.map((f) => (
             <PhotoRow key={f._id || f.number} image={f.image}>
               <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white outline outline-1 -outline-offset-1 outline-navy-900 shadow-[inset_0_1px_2px_rgb(255_255_255/0.25)] text-lg leading-[150%] text-navy-900">
@@ -134,7 +134,7 @@ export default function CampusStory({
           title={composeTitle(cp.facilitiesTitle, cp.facilitiesTitleHighlight)}
           highlight={cp.facilitiesTitleHighlight}
         />
-        <div className="mt-20 flex flex-col gap-20">
+        <div className="mt-10 md:mt-12 flex flex-col gap-12 md:gap-16">
           {facilities.map((f) => (
             <PhotoRow key={f._id || f.title} image={f.image}>
               <Heading text={f.title} className="text-black" as="h3" />
@@ -153,7 +153,7 @@ export default function CampusStory({
           title={composeTitle(cp.testimonialsTitle, cp.testimonialsTitleHighlight)}
           highlight={cp.testimonialsTitleHighlight}
         />
-        <div className="mt-20">
+        <div className="mt-10 md:mt-12">
           <TestimonialCarousel testimonials={testimonials} />
         </div>
       </Section>

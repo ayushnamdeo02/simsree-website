@@ -1,6 +1,6 @@
 export default {
   name: 'lifeFacility',
-  title: 'Life @ SIMSREE — Facility',
+  title: 'Life @ SIMSREE - Facility',
   type: 'document',
   description: 'The alternating image + text rows. The count drives the section heading.',
   fields: [

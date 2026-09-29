@@ -40,7 +40,7 @@ export default {
     {name: 'heroSecondaryCtaUrl', title: 'Secondary CTA URL', type: 'string', group: 'hero', initialValue: 'mailto:director@simsree.org'},
 
     // Pull Quote
-    {name: 'quoteText', title: 'Quote', type: 'text', rows: 3, group: 'quote', initialValue: 'SIMSREE has always stood for something beyond a degree — for character forged through initiative, responsibility, and a deep engagement with the world of business.'},
+    {name: 'quoteText', title: 'Quote', type: 'text', rows: 3, group: 'quote', initialValue: 'SIMSREE has always stood for something beyond a degree - for character forged through initiative, responsibility, and a deep engagement with the world of business.'},
     {name: 'quoteHighlight', title: 'Quote highlight word(s)', description: 'e.g. "beyond a degree"', type: 'string', group: 'quote', initialValue: 'beyond a degree'},
     {name: 'quotePhoto', title: 'Small circular photo', type: 'image', options: {hotspot: true}, group: 'quote'},
     {name: 'quoteName', title: 'Name', type: 'string', group: 'quote', initialValue: 'Dr. Shriniwas Dhure'},
@@ -58,7 +58,7 @@ export default {
     {name: 'contactEyebrow', title: 'Eyebrow', type: 'string', group: 'contact', initialValue: "Reach the Director's Office"},
     {name: 'contactTitle', title: 'Title', type: 'string', group: 'contact', initialValue: 'Get in touch.'},
     {name: 'contactTitleHighlight', title: 'Title highlight word(s)', description: 'e.g. "touch."', type: 'string', group: 'contact', initialValue: 'touch.'},
-    {name: 'contactSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'contact', initialValue: "For institutional matters, partnerships, recruiter relationships, and campus visits — the Director's office is here."},
+    {name: 'contactSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'contact', initialValue: "For institutional matters, partnerships, recruiter relationships, and campus visits - the Director's office is here."},
     {name: 'contactCallNumber', title: 'Phone number', type: 'string', group: 'contact', initialValue: '022 6151 0700'},
     {name: 'contactCallLabel', title: 'Phone sub-label', type: 'string', group: 'contact', initialValue: 'PA to Director · Mon–Sat · 11am–7pm'},
     {name: 'contactEmailAddress', title: 'Email address', type: 'string', group: 'contact', initialValue: 'director@simsree.org'},

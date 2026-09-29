@@ -1,6 +1,6 @@
 export default {
   name: 'campusTestimonial',
-  title: 'Campus — Testimonial',
+  title: 'Campus - Testimonial',
   type: 'document',
   fields: [
     {name: 'quote', title: 'Quote', type: 'text', rows: 3, validation: (Rule) => Rule.required()},

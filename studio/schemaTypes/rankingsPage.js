@@ -13,7 +13,7 @@ export default {
   fields: [
     // Hero
     {name: 'heroEyebrow', title: 'Eyebrow', type: 'string', group: 'hero', initialValue: 'Independently Verified'},
-    {name: 'heroTitle', title: 'Title', type: 'string', group: 'hero', initialValue: 'Ranked, accredited, and verifiable — proof you can show a recruiter.'},
+    {name: 'heroTitle', title: 'Title', type: 'string', group: 'hero', initialValue: 'Ranked, accredited, and verifiable - proof you can show a recruiter.'},
     {name: 'heroTitleHighlight', title: 'Title highlight word(s)', description: 'The part shown in a lighter/italic style, e.g. "proof you can show a recruiter."', type: 'string', group: 'hero', initialValue: 'proof you can show a recruiter.'},
     {name: 'heroDescription', title: 'Description', type: 'text', rows: 3, group: 'hero'},
     {name: 'heroImage', title: 'Hero image', type: 'image', options: {hotspot: true}, group: 'hero'},

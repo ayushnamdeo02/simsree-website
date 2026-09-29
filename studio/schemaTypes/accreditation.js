@@ -1,6 +1,6 @@
 export default {
   name: 'accreditation',
-  title: 'Rankings — Accreditation',
+  title: 'Rankings - Accreditation',
   type: 'document',
   fields: [
     {

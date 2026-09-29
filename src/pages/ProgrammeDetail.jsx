@@ -57,7 +57,7 @@ const fallbackBySlug = {
     curriculumTitle: "What you'll learn.",
     curriculumTitleHighlight: 'learn.',
     curriculumSubtitle:
-      'Start with management fundamentals, go deep in your specialisation, then prove it on a capstone — with the curriculum refreshed against industry every two years.',
+      'Start with management fundamentals, go deep in your specialisation, then prove it on a capstone - with the curriculum refreshed against industry every two years.',
     curriculum: [
       {
         title: 'Semester 1 · Foundations',
@@ -172,7 +172,7 @@ const fallbackBySlug = {
     curriculumTitle: "What you'll learn.",
     curriculumTitleHighlight: 'learn.',
     curriculumSubtitle:
-      'Move from core management to finance electives to a capstone — a curriculum benchmarked against industry every two years.',
+      'Move from core management to finance electives to a capstone - a curriculum benchmarked against industry every two years.',
     curriculum: [
       {
         title: 'Semester 1 · Foundations of Finance',
@@ -187,7 +187,7 @@ const fallbackBySlug = {
     curriculumCallout: {
       title: 'CFP® Partnership · FPSB India',
       description:
-        "Graduate on a structured pathway to the Certified Financial Planner (CFP®) qualification — recognised globally and across India's wealth-management sector — at FPSB India's Best Authorised Institutional Partner 2025.",
+        "Graduate on a structured pathway to the Certified Financial Planner (CFP®) qualification - recognised globally and across India's wealth-management sector - at FPSB India's Best Authorised Institutional Partner 2025.",
     },
     eligibilityTitle: 'Who can apply.',
     eligibilityTitleHighlight: 'apply.',
@@ -286,7 +286,7 @@ const fallbackBySlug = {
     curriculumTitle: "What you'll learn.",
     curriculumTitleHighlight: 'learn.',
     curriculumSubtitle:
-      'Apply new finance thinking at work from term one — fundamentals, your electives, and a capstone, refreshed against industry every two years.',
+      'Apply new finance thinking at work from term one - fundamentals, your electives, and a capstone, refreshed against industry every two years.',
     curriculum: [
       {
         title: 'Year 1 · Foundations',
@@ -328,7 +328,7 @@ const fallbackBySlug = {
     recruitersCtaLabel: 'See all {{recruiterCount}} recruiters',
     recruitersCtaUrl: '/placements/partners',
     voiceQuote:
-      '"Three years alongside my day job — and a promotion within six months of graduating. SIMSREE MFM paid back in advance."',
+      '"Three years alongside my day job - and a promotion within six months of graduating. SIMSREE MFM paid back in advance."',
     voiceName: 'Rajeev Khanna',
     voiceMeta: 'MFM Batch 2022-25 · VP, Treasury at MNC bank',
     ctaEyebrow: 'Ready to Apply?',
@@ -393,7 +393,7 @@ const fallbackBySlug = {
     curriculumTitle: "What you'll learn.",
     curriculumTitleHighlight: 'learn.',
     curriculumSubtitle:
-      'Apply new marketing thinking at work from term one — fundamentals, your electives, and a capstone, refreshed against industry every two years.',
+      'Apply new marketing thinking at work from term one - fundamentals, your electives, and a capstone, refreshed against industry every two years.',
     curriculum: [
       {
         title: 'Year 1 · Foundations',
@@ -515,7 +515,7 @@ const fallbackBySlug = {
     curriculumTitle: "What you'll learn.",
     curriculumTitleHighlight: 'learn.',
     curriculumSubtitle:
-      'Ground your research in coursework and your specialisation, then build toward original work — with the curriculum reviewed against industry every two years.',
+      'Ground your research in coursework and your specialisation, then build toward original work - with the curriculum reviewed against industry every two years.',
     curriculum: [
       {
         title: 'Year 1 · Coursework',
@@ -698,14 +698,14 @@ export default function ProgrammeDetail() {
       />
 
       {has('stats') && (
-        <section className="px-5 py-16 md:p-16">
+        <section className="px-5 py-12 md:px-16 md:py-20">
           <StatGrid stats={pd.stats} />
         </section>
       )}
 
       {/* Body — Figma: 274 "On this page" card, 80 gap, 958 content column whose
           sections sit 80 apart (and 80 from their own header). */}
-      <section className="px-5 py-16 md:px-16 md:py-28">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <div className="max-w-[1312px] mx-auto flex flex-col lg:flex-row gap-12 lg:gap-20">
           <aside className="hidden lg:block w-[274px] shrink-0">
             <nav
@@ -736,9 +736,9 @@ export default function ProgrammeDetail() {
             </nav>
           </aside>
 
-          <div className="flex-1 min-w-0 flex flex-col gap-20">
+          <div className="flex-1 min-w-0 flex flex-col gap-12 md:gap-16">
             {/* Overview + at-a-glance box (#eaeaf1, 3px bar, 14/150 label/value rows). */}
-            <div id="overview" ref={(el) => (sectionRefs.current.overview = el)} className="scroll-mt-40 flex flex-col gap-20">
+            <div id="overview" ref={(el) => (sectionRefs.current.overview = el)} className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
               <Header
                 tagline="Overview"
                 title={pd.overviewTitle}
@@ -768,7 +768,7 @@ export default function ProgrammeDetail() {
             </div>
 
             {has('specialisations') && (
-              <div id="specialisations" className="scroll-mt-40 flex flex-col gap-20">
+              <div id="specialisations" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
                 <Header
                   tagline="Specialisations"
                   title={pd.specialisationsTitle}
@@ -787,7 +787,7 @@ export default function ProgrammeDetail() {
             )}
 
             {has('curriculum') && (
-              <div id="curriculum" className="scroll-mt-40 flex flex-col gap-20">
+              <div id="curriculum" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
                 <Header
                   tagline="Curriculum"
                   title={pd.curriculumTitle}
@@ -803,7 +803,7 @@ export default function ProgrammeDetail() {
             )}
 
             {has('eligibilityCards') && (
-              <div id="eligibility" className="scroll-mt-40 flex flex-col gap-20">
+              <div id="eligibility" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
                 <Header tagline="Eligibility & admission" title={pd.eligibilityTitle} highlight={pd.eligibilityTitleHighlight} />
                 <div className="flex flex-col gap-8">
                   <div className="grid md:grid-cols-2 gap-8">
@@ -829,7 +829,7 @@ export default function ProgrammeDetail() {
             )}
 
             {/* Outcomes — navy snapshot card | recruiter chips card, both 463. */}
-            <div id="outcomes" className="scroll-mt-40 flex flex-col gap-20">
+            <div id="outcomes" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
               <Header tagline="Placement & outcomes" title={pd.outcomesTitle} highlight={pd.outcomesTitleHighlight} />
               <div className="grid md:grid-cols-2 gap-8">
                 {has('snapshotPoints') && (
@@ -881,7 +881,7 @@ export default function ProgrammeDetail() {
 
             {/* Student voice — navy card, radius 16, padding 48/64: H6 quote, 60px avatar. */}
             {pd.voiceQuote && (
-              <div id="voice" className="scroll-mt-40 flex flex-col gap-20">
+              <div id="voice" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
                 <Tagline>Student voice</Tagline>
                 <figure className="m-0 -mt-12 px-6 py-8 md:px-16 md:py-12 rounded-2xl bg-navy-900 text-white flex flex-col gap-8">
                   <blockquote className="max-w-[768px] font-display font-medium text-[22px] leading-[140%] md:text-[28px] tracking-[-0.01em]">
@@ -905,7 +905,7 @@ export default function ProgrammeDetail() {
       </section>
 
       {/* Apply — navy, 64 padding, left column, Eastern Blue tagline, bold-lead copy. */}
-      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+      <section className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20">
         <div className="max-w-[1280px] mx-auto">
           <Tagline className="text-teal-400">{pd.ctaEyebrow}</Tagline>
           <Heading

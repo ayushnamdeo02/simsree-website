@@ -1,6 +1,6 @@
 export default {
   name: 'reportTab',
-  title: 'Reports Hub — Tab',
+  title: 'Reports Hub - Tab',
   type: 'document',
   groups: [
     {name: 'tab', title: 'Tab & Heading'},
@@ -76,7 +76,7 @@ export default {
     {
       name: 'statPanel',
       title: 'Hero-number panel',
-      description: 'e.g. "PPO conversion" — a paragraph plus one large figure. Sits beside the chart panel. Leave empty to hide.',
+      description: 'e.g. "PPO conversion" - a paragraph plus one large figure. Sits beside the chart panel. Leave empty to hide.',
       type: 'object',
       group: 'panels',
       fields: [

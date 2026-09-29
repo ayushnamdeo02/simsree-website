@@ -1,6 +1,6 @@
 export default {
   name: 'programmeCalendarItem',
-  title: 'Development Programmes — Calendar Item',
+  title: 'Development Programmes - Calendar Item',
   type: 'document',
   description: 'Expandable rows in the upcoming-programmes calendar',
   fields: [

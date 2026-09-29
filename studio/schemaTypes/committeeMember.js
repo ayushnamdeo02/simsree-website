@@ -1,6 +1,6 @@
 export default {
   name: 'committeeMember',
-  title: 'Placement Contact — Committee Member',
+  title: 'Placement Contact - Committee Member',
   type: 'document',
   description: 'The photo grid under "Meet the Team"',
   fields: [

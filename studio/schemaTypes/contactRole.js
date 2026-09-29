@@ -1,9 +1,9 @@
 export default {
   name: 'contactRole',
-  title: 'Contact — Role Path',
+  title: 'Contact - Role Path',
   type: 'document',
   description:
-    'One per role in the picker. Each shows its own panel — a form, cards, or both. Empty parts are hidden.',
+    'One per role in the picker. Each shows its own panel - a form, cards, or both. Empty parts are hidden.',
   groups: [
     {name: 'card', title: 'Picker Card'},
     {name: 'panel', title: 'Panel'},

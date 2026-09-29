@@ -1,6 +1,6 @@
 export default {
   name: 'studentPath',
-  title: "Student's Corner — Role Path",
+  title: "Student's Corner - Role Path",
   type: 'document',
   description: 'The "Pick a path" cards that route visitors by who they are',
   fields: [

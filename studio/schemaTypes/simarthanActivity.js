@@ -1,6 +1,6 @@
 export default {
   name: 'simarthanActivity',
-  title: 'Simarthan — Activity Card',
+  title: 'Simarthan - Activity Card',
   type: 'document',
   fields: [
     {name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()},

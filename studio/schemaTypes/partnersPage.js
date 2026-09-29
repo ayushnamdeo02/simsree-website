@@ -20,7 +20,7 @@ export default {
     {name: 'gridEyebrow', title: 'Eyebrow', type: 'string', group: 'grid', initialValue: 'Recruiting Partners'},
     {name: 'gridTitle', title: 'Title', description: 'The count is prefixed automatically', type: 'string', group: 'grid', initialValue: 'companies. Pick a sector.'},
     {name: 'gridTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'grid', initialValue: 'Pick a sector.'},
-    {name: 'gridSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'grid', initialValue: 'Filter by industry — or move your cursor over the grid to bring any logo into focus.'},
+    {name: 'gridSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'grid', initialValue: 'Filter by industry - or move your cursor over the grid to bring any logo into focus.'},
     {name: 'searchPlaceholder', title: 'Search box placeholder', type: 'string', group: 'grid', initialValue: 'Search for a company'},
 
     // CTA

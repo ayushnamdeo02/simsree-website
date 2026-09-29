@@ -1,6 +1,6 @@
 export default {
   name: 'achievement',
-  title: 'Achievements — Entry',
+  title: 'Achievements - Entry',
   type: 'document',
   fields: [
     {name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()},

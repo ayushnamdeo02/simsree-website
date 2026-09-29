@@ -1,6 +1,6 @@
 export default {
   name: 'placementPartner',
-  title: 'Placements — Recruiting Partner',
+  title: 'Placements - Recruiting Partner',
   type: 'document',
   fields: [
     {name: 'name', title: 'Company name', type: 'string', validation: (Rule) => Rule.required()},

@@ -31,7 +31,7 @@ const fallbackAlumniPage = {
   hofTitle: 'A few who set the bar.',
   hofTitleHighlight: 'set the bar.',
   hofSubtitle:
-    'From global trading floors to the corridors of policy — a snapshot of where the SIMSREE story has reached.',
+    'From global trading floors to the corridors of policy - a snapshot of where the SIMSREE story has reached.',
 
   directoryEyebrow: 'Alumni Directory',
   directoryTitle: 'featured profiles',
@@ -280,7 +280,7 @@ export default function Alumni() {
         mobileOverlay="gradient-tint"
       />
 
-      <section className="px-5 py-16 md:p-16">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <StatGrid stats={ap.stats} />
       </section>
 
@@ -295,7 +295,7 @@ export default function Alumni() {
           highlight={ap.hofTitleHighlight}
           body={ap.hofSubtitle}
         />
-        <div className="mt-20 grid md:grid-cols-3 gap-12 md:gap-5">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-12 md:gap-5">
           {hallOfFame.map((h) => {
             const photo = imgUrl(h.photo, 192);
             return (
@@ -331,7 +331,7 @@ export default function Alumni() {
 
       {/* Directory — centred title with the count in teal, 45px filter buttons,
           then two full-bleed rows of 284 cards, 48 apart. */}
-      <section id="directory" className="py-16 md:py-28 overflow-hidden">
+      <section id="directory" className="py-12 md:py-20 overflow-hidden">
         <div className="px-5 md:px-20">
           <SectionTitle
             center
@@ -341,7 +341,7 @@ export default function Alumni() {
             highlight={String(profiles.length)}
             body={ap.directorySubtitle}
           />
-          <div className="mt-20 flex flex-wrap items-center justify-center gap-4 md:gap-8">
+          <div className="mt-10 md:mt-12 flex flex-wrap items-center justify-center gap-4 md:gap-8">
             <span className="text-base leading-[150%] font-semibold text-[#292929]">Filter by:</span>
             <div className="flex flex-wrap items-center gap-3">
               {SECTORS.map((s) => (
@@ -358,7 +358,7 @@ export default function Alumni() {
             </div>
           </div>
         </div>
-        <div className="mt-20 flex flex-col gap-12">
+        <div className="mt-10 md:mt-12 flex flex-col gap-12">
           <ProfileRow profiles={visibleProfiles.slice(0, half)} offset={425} />
           {visibleProfiles.length > half && <ProfileRow profiles={visibleProfiles.slice(half)} offset={20} />}
         </div>
@@ -375,7 +375,7 @@ export default function Alumni() {
           highlight={ap.testimonialTitleHighlight}
           titleClass="text-white [&_span]:text-teal-400"
         />
-        <figure className="mt-20 max-w-[768px] mx-auto flex flex-col items-center gap-8 text-center">
+        <figure className="mt-10 md:mt-12 max-w-[768px] mx-auto flex flex-col items-center gap-8 text-center">
           <blockquote className="font-display font-medium text-[28px] leading-[140%] md:text-[36px] md:leading-[130%] tracking-[-0.01em]">
             &ldquo;{activeVoice.quote}&rdquo;
           </blockquote>
@@ -392,7 +392,7 @@ export default function Alumni() {
             </div>
           </figcaption>
         </figure>
-        <div className="mt-20">
+        <div className="mt-10 md:mt-12">
           <SliderBar count={voices.length} index={voiceIndex} onChange={setVoiceIndex} dark />
         </div>
       </Section>
@@ -406,7 +406,7 @@ export default function Alumni() {
           highlight={ap.employersTitleHighlight}
           body={ap.employersSubtitle}
         />
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="mt-10 md:mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
           {employers.map((e) => {
             const logo = imgUrl(e.logo, 400);
             return (
@@ -435,7 +435,7 @@ export default function Alumni() {
           body={ap.ctaSubtitle}
           titleClass="text-white [&_span]:text-teal-400"
         />
-        <div className="mt-20 grid md:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {(ap.ctaCards || []).map((c) => (
             <div
               key={c.title}

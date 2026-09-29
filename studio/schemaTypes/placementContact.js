@@ -1,6 +1,6 @@
 export default {
   name: 'placementContact',
-  title: 'Placement Contact — Quick Contact',
+  title: 'Placement Contact - Quick Contact',
   type: 'document',
   description: 'The circular avatar row near the top of the Placement Contact page',
   fields: [

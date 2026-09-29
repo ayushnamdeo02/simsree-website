@@ -1,6 +1,6 @@
 export default {
   name: 'recognition',
-  title: 'News — Recognition',
+  title: 'News - Recognition',
   type: 'document',
   description: 'The "Recognised by those who notice" cards',
   fields: [

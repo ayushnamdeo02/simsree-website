@@ -1,6 +1,6 @@
 export default {
   name: 'simerationsEdition',
-  title: 'Simerations — Edition',
+  title: 'Simerations - Edition',
   type: 'document',
   description: 'One per year. Drives the edition filter, the detail cards and the archive strip.',
   fields: [

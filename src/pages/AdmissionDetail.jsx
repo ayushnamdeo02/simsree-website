@@ -32,7 +32,7 @@ const fallbackBySlug = {
     heroEyebrow: 'MMS · AY 2026-27',
     heroTitle: 'MMS admissions.',
     heroDescription:
-      'Everything you need to apply — full eligibility, cycle dates, fees, documents, FAQ, and the application form.',
+      'Everything you need to apply - full eligibility, cycle dates, fees, documents, FAQ, and the application form.',
     heroButtons: [
       { label: 'Start your MMS application', url: '#apply', primary: true },
       { label: 'Get MMS forms & affidavits', url: '/admissions/downloads', primary: false },
@@ -40,7 +40,7 @@ const fallbackBySlug = {
     ],
     stats: [
       { label: 'Cycle', value: 'AY 2026-27', note: 'Notification · Apr 2026' },
-      { label: 'Applications', value: 'May — Jun 2026', note: 'Window opens early May · closes 30 Jun' },
+      { label: 'Applications', value: 'May - Jun 2026', note: 'Window opens early May · closes 30 Jun' },
       { label: 'Total fees', value: '~₹4.5L', note: '4 instalments · per Govt. of Maharashtra' },
       { label: 'Status', value: 'Pre-launch', note: 'CET dates announced via State CET Cell' },
     ],
@@ -134,7 +134,7 @@ const fallbackBySlug = {
       {
         title: 'GD-PI counselling (institute-level)',
         description:
-          'SIMSREE conducts a group discussion + personal interview as part of counselling — used for shortlisting in some categories. Not a re-rank — your CET score remains the primary criterion.',
+          'SIMSREE conducts a group discussion + personal interview as part of counselling - used for shortlisting in some categories. Not a re-rank - your CET score remains the primary criterion.',
         footnote: '~30 min total · Churchgate · Weekday',
       },
       {
@@ -208,7 +208,7 @@ const fallbackBySlug = {
     ctaTitle: 'Start your MMS application.',
     ctaTitleHighlight: 'MMS application.',
     ctaSubtitle:
-      'Send the form below — the admissions office replies within 1 business day.',
+      'Send the form below - the admissions office replies within 1 business day.',
     ctaButtons: [
       { label: 'Open the application form', url: '#', primary: true },
       { label: 'Download the MMS notification (PDF)', url: '/admissions/downloads', primary: false },
@@ -221,7 +221,7 @@ const fallbackBySlug = {
     heroEyebrow: 'M.Sc. Finance · AY 2026-27',
     heroTitle: 'M.Sc. Finance admissions.',
     heroDescription:
-      'Everything you need to apply — full eligibility, cycle dates, fees, documents, FAQ, and the application form.',
+      'Everything you need to apply - full eligibility, cycle dates, fees, documents, FAQ, and the application form.',
     heroButtons: [
       { label: 'Start your M.Sc. Finance application', url: '#apply', primary: true },
       { label: 'Get M.Sc. Finance forms', url: '/admissions/downloads', primary: false },
@@ -229,7 +229,7 @@ const fallbackBySlug = {
     ],
     stats: [
       { label: 'Cycle', value: 'AY 2026-27', note: 'Notification · May 2026' },
-      { label: 'Applications', value: 'Jun — Jul 2026', note: 'SIMSREE entrance + GD-PI · 40 seats' },
+      { label: 'Applications', value: 'Jun - Jul 2026', note: 'SIMSREE entrance + GD-PI · 40 seats' },
       { label: 'Total fees', value: '~₹3.8L', note: '4 instalments · 2-year programme' },
       { label: 'Status', value: 'Pre-launch', note: 'CFP® partnership track included' },
     ],
@@ -407,7 +407,7 @@ const fallbackBySlug = {
     ctaTitle: 'Start your M.Sc. Finance application.',
     ctaTitleHighlight: 'M.Sc. Finance application.',
     ctaSubtitle:
-      'Send the form below — the admissions office replies within 1 business day.',
+      'Send the form below - the admissions office replies within 1 business day.',
     ctaButtons: [
       { label: 'Open application form', url: '#', primary: true },
       {
@@ -424,7 +424,7 @@ const fallbackBySlug = {
     heroEyebrow: 'MMM Executive · AY 2026-27',
     heroTitle: 'MMM Executive admissions.',
     heroDescription:
-      'Everything you need to apply — full eligibility, cycle dates, fees, documents, FAQ, and the application form.',
+      'Everything you need to apply - full eligibility, cycle dates, fees, documents, FAQ, and the application form.',
     heroButtons: [
       { label: 'Start your MMM application', url: '#apply', primary: true },
       { label: 'Get MMM forms & affidavits', url: '/admissions/downloads', primary: false },
@@ -606,7 +606,7 @@ const fallbackBySlug = {
     ctaTitle: 'Start your MMM application.',
     ctaTitleHighlight: 'MMM application.',
     ctaSubtitle:
-      'Send the form below — the admissions office replies within 1 business day.',
+      'Send the form below - the admissions office replies within 1 business day.',
     ctaButtons: [
       { label: 'Open application form', url: '#', primary: true },
       { label: 'Download the MMM notification (PDF)', url: '/admissions/downloads', primary: false },
@@ -619,7 +619,7 @@ const fallbackBySlug = {
     heroEyebrow: 'MFM Executive · AY 2026-27',
     heroTitle: 'MFM Executive admissions.',
     heroDescription:
-      'Everything you need to apply — full eligibility, cycle dates, fees, documents, FAQ, and the application form.',
+      'Everything you need to apply - full eligibility, cycle dates, fees, documents, FAQ, and the application form.',
     heroButtons: [
       { label: 'Start your MFM application', url: '#apply', primary: true },
       { label: 'Get MFM forms & affidavits', url: '/admissions/downloads', primary: false },
@@ -799,7 +799,7 @@ const fallbackBySlug = {
     ctaTitle: 'Start your MFM application.',
     ctaTitleHighlight: 'MFM application.',
     ctaSubtitle:
-      'Send the form below — the admissions office replies within 1 business day.',
+      'Send the form below - the admissions office replies within 1 business day.',
     ctaButtons: [
       { label: 'Open application form', url: '#', primary: true },
       { label: 'Download the MFM notification (PDF)', url: '/admissions/downloads', primary: false },
@@ -812,7 +812,7 @@ const fallbackBySlug = {
     heroEyebrow: 'PhD · AY 2026-27',
     heroTitle: 'PhD admissions.',
     heroDescription:
-      'Everything you need to apply — full eligibility, cycle dates, fees, documents, FAQ, and the application form.',
+      'Everything you need to apply - full eligibility, cycle dates, fees, documents, FAQ, and the application form.',
     heroButtons: [
       { label: 'Start your PhD application', url: '#apply', primary: true },
       { label: 'Get PhD forms & affidavits', url: '/admissions/downloads', primary: false },
@@ -859,7 +859,7 @@ const fallbackBySlug = {
         title: 'PET clearance',
         description:
           'Pass the PhD Entrance Test (PET) conducted by the affiliating university. UGC-NET / JRF / GATE qualified candidates may be exempt.',
-        footnote: 'NET / JRF / GATE — exemption possible',
+        footnote: 'NET / JRF / GATE - exemption possible',
       },
       {
         title: 'Research proposal',
@@ -994,7 +994,7 @@ const fallbackBySlug = {
     ctaTitle: 'Start your PhD application.',
     ctaTitleHighlight: 'PhD application.',
     ctaSubtitle:
-      'Send the form below — the admissions office replies within 1 business day.',
+      'Send the form below - the admissions office replies within 1 business day.',
     ctaButtons: [
       { label: 'Open application form', url: '#', primary: true },
       { label: 'Download the PhD notification (PDF)', url: '/admissions/downloads', primary: false },
@@ -1126,7 +1126,7 @@ export default function AdmissionDetail() {
 
       {/* Stat bar cards — Figma: four 304x205, 32 gap; tag, H5 value, 16/150 note. */}
       {has('stats') && (
-        <section className="px-5 py-16 md:p-16">
+        <section className="px-5 py-12 md:px-16 md:py-20">
           <div className="max-w-[1312px] mx-auto grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {ad.stats.map((s, i) => (
               <AccentCard key={s.label}>
@@ -1169,7 +1169,7 @@ export default function AdmissionDetail() {
       )}
 
       {/* Body — 274 "On this page" card, 80 gap, 958 column; sections 80 apart. */}
-      <section className="px-5 py-16 md:px-16 md:py-28">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <div className="max-w-[1312px] mx-auto flex flex-col lg:flex-row gap-12 lg:gap-20">
           <aside className="hidden lg:block w-[274px] shrink-0">
             <nav
@@ -1201,11 +1201,11 @@ export default function AdmissionDetail() {
             </nav>
           </aside>
 
-          <div className="flex-1 min-w-0 flex flex-col gap-20">
+          <div className="flex-1 min-w-0 flex flex-col gap-12 md:gap-16">
             {/* Key dates — navy panel, radius 16, padding 48/64: month (Eastern Blue
                 Light), 60px #0d0f22 ring with Eastern Blue hairline, 14px labels. */}
             {has('timeline') && (
-              <div id="dates" className="scroll-mt-40 flex flex-col gap-20">
+              <div id="dates" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
                 <PillHeader tone="yellow" pill={ad.datesEyebrow} title={ad.datesTitle} highlight={ad.datesTitleHighlight} body={ad.datesSubtitle} />
                 <div className="overflow-x-auto">
                   <ol className="min-w-[720px] m-0 list-none flex justify-between gap-2 px-8 md:px-16 py-12 rounded-2xl bg-navy-900 text-white">
@@ -1233,7 +1233,7 @@ export default function AdmissionDetail() {
             {/* Eligibility — three 303 bar cards per row: H5 number, H6 title,
                 16/150 copy, teal uppercase footnote; the warning card is yellow. */}
             {has('eligibilityCards') && (
-              <div id="eligibility" className="scroll-mt-40 flex flex-col gap-20">
+              <div id="eligibility" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
                 <PillHeader
                   tone="sky"
                   pill={ad.eligibilityEyebrow}
@@ -1279,7 +1279,7 @@ export default function AdmissionDetail() {
             {/* Process — #eaeaf1 cards (radius 16, #d5d6e3 hairline, padding 24) joined
                 by 56px connectors; 48px navy circles; the last step is yellow. */}
             {has('processSteps') && (
-              <div id="process" className="scroll-mt-40 flex flex-col gap-20">
+              <div id="process" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
                 <PillHeader tone="sky" pill={ad.processEyebrow} title={ad.processTitle} highlight={ad.processTitleHighlight} body={ad.processSubtitle} />
                 <ol className="m-0 p-0 list-none flex flex-col">
                   {ad.processSteps.map((s, i, all) => (
@@ -1313,7 +1313,7 @@ export default function AdmissionDetail() {
 
             {/* Fees — 463 navy total card (padding 48) | stacked bar panels. */}
             {ad.feesTotalValue && (
-              <div id="fees" className="scroll-mt-40 flex flex-col gap-20">
+              <div id="fees" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
                 <PillHeader tone="yellow" pill={ad.feesEyebrow} title={ad.feesTitle} highlight={ad.feesTitleHighlight} body={ad.feesSubtitle} />
                 <div className="flex flex-col gap-8">
                   <div className="grid md:grid-cols-2 gap-8">
@@ -1366,7 +1366,7 @@ export default function AdmissionDetail() {
 
             {/* Documents — two bar cards with 14/150 disc lists, navy CTA. */}
             {has('documentGroups') && (
-              <div id="documents" className="scroll-mt-40 flex flex-col gap-20">
+              <div id="documents" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
                 <PillHeader tone="yellow" pill={ad.documentsEyebrow} title={ad.documentsTitle} highlight={ad.documentsTitleHighlight} />
                 <div className="flex flex-col gap-8">
                   <div className="grid md:grid-cols-2 gap-8">
@@ -1395,7 +1395,7 @@ export default function AdmissionDetail() {
 
             {/* FAQ — radius-16 boxed items 24 apart; the open one is yellow-tinted. */}
             {has('faqs') && (
-              <div id="faq" className="scroll-mt-40 flex flex-col gap-20">
+              <div id="faq" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
                 <PillHeader tone="yellow" pill={ad.faqEyebrow} title={ad.faqTitle} highlight={ad.faqTitleHighlight} />
                 <div className="flex flex-col gap-6">
                   {ad.faqs.map((f, i) => (
@@ -1420,7 +1420,7 @@ export default function AdmissionDetail() {
       </section>
 
       {/* Closing CTA — navy, left column, Eastern Blue tagline. */}
-      <section id="apply" className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20 scroll-mt-24">
+      <section id="apply" className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20 scroll-mt-24">
         <div className="max-w-[1280px] mx-auto">
           <Tagline className="text-teal-400">{ad.ctaEyebrow}</Tagline>
           <Heading

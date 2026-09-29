@@ -1,6 +1,6 @@
 export default {
   name: 'mdpProgramme',
-  title: 'Development Programmes — MDP',
+  title: 'Development Programmes - MDP',
   type: 'document',
   description: 'Rows in the MDP fee table',
   fields: [

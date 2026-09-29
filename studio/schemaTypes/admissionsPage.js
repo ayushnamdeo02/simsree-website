@@ -74,7 +74,7 @@ export default {
     {name: 'datesEyebrow', title: 'Eyebrow', type: 'string', group: 'dates', initialValue: 'AY 2026-27 · Key Dates'},
     {name: 'datesTitle', title: 'Title', type: 'string', group: 'dates', initialValue: 'When does each cycle run?'},
     {name: 'datesTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'dates', initialValue: 'cycle run?'},
-    {name: 'datesSubtitle', title: 'Subtitle', type: 'string', group: 'dates', initialValue: 'Tentative dates below — each programme notification PDF has the exact ones.'},
+    {name: 'datesSubtitle', title: 'Subtitle', type: 'string', group: 'dates', initialValue: 'Tentative dates below - each programme notification PDF has the exact ones.'},
 
     // Reasons
     {name: 'reasonsEyebrow', title: 'Eyebrow', type: 'string', group: 'reasons', initialValue: 'Why SIMSREE'},

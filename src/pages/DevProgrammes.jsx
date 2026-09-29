@@ -202,7 +202,7 @@ export default function DevProgrammes() {
           ))}
         </div>
 
-        <div className="mt-16">
+        <div className="mt-10 md:mt-12">
           {tab === 0 && (
             <div className="flex flex-col gap-12">
               <SectionTitle tagline={dp.mdpEyebrow} title={dp.mdpTitle} body={dp.mdpSubtitle} />
@@ -278,7 +278,7 @@ export default function DevProgrammes() {
       {/* Calendar — centred title, radius-4 filter tabs, wide session cards. */}
       <Section id="calendar" width={1280} className="scroll-mt-24">
         <SectionTitle center tagline={dp.calendarEyebrow} title={dp.calendarTitle} body={dp.calendarSubtitle} />
-        <div className="mt-20 flex flex-wrap justify-center">
+        <div className="mt-10 md:mt-12 flex flex-wrap justify-center">
           {trackChips.map((c) => (
             <button
               key={c}
@@ -293,7 +293,7 @@ export default function DevProgrammes() {
             </button>
           ))}
         </div>
-        <div className="mt-20 flex flex-col gap-8">
+        <div className="mt-10 md:mt-12 flex flex-col gap-8">
           {visibleCalendar.length > 0 ? (
             visibleCalendar.map((c, i) => (
               <SessionCard
@@ -317,7 +317,7 @@ export default function DevProgrammes() {
           <Tagline>{dp.faqEyebrow}</Tagline>
           <Heading text={dp.faqTitle} className="mt-3 md:mt-4 text-navy-900" />
         </div>
-        <div className="rounded-lg overflow-hidden rounded-lg overflow-hidden mt-20 border border-black/20">
+        <div className="rounded-lg overflow-hidden rounded-lg overflow-hidden mt-10 md:mt-12 border border-black/20">
           {faqs.map((f, i) => (
             <details key={f.question} open={i === 0} className="group">
               <summary className="flex items-center gap-6 py-5 border-b border-black/20 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
@@ -333,7 +333,7 @@ export default function DevProgrammes() {
       </Section>
 
       {/* Closing CTA — navy, 64 padding, centred 768 column. */}
-      <section className="bg-navy-900 px-5 py-16 md:p-16">
+      <section className="bg-navy-900 px-5 py-12 md:px-16 md:py-20">
         <div className="max-w-[768px] mx-auto text-center">
           <SectionTitle center dark tagline={dp.ctaEyebrow} title={dp.ctaTitle} body={dp.ctaSubtitle} />
           <div className="mt-8 flex flex-wrap justify-center gap-4">

@@ -31,7 +31,7 @@ const fallbackPage = {
   heroTitle: 'Where our students win.',
   heroTitleItalic: 'win.',
   heroDescription:
-    'Fresh wins every month — competitions, scholarships, publications, sports, external recognitions.',
+    'Fresh wins every month - competitions, scholarships, publications, sports, external recognitions.',
   heroButtons: [
     { label: 'Submit your achievement', url: '#submit', primary: true },
     { label: 'Browse by year', url: '#list', primary: false },
@@ -162,7 +162,7 @@ const img = (image, fallback, w) =>
 // (#d8d8d8 hairline), H5 28 black title, 16/150 summary, 32px plus.
 function AchievementRow({ a, photo, defaultOpen }) {
   return (
-    <details open={defaultOpen} className="rounded-lg overflow-hidden rounded-lg overflow-hidden group flex bg-white outline outline-1 -outline-offset-1 outline-black/20">
+    <details open={defaultOpen} className="hover-card rounded-lg overflow-hidden group flex bg-white outline outline-1 -outline-offset-1 outline-black/20">
       <summary className="flex items-stretch cursor-pointer list-none [&::-webkit-details-marker]:hidden">
         <div
           className="w-[110px] md:w-48 shrink-0 min-h-[140px] md:min-h-48 bg-navy-50 bg-cover bg-center group-open:md:min-h-[329px]"
@@ -251,7 +251,7 @@ export default function Achievements() {
           1280 rows 32 apart; centred navy "load more". */}
       <Section id="list" width={1280} className="scroll-mt-24">
         <SectionTitle center tagline={ap.filterEyebrow} title={ap.filterTitle} body={ap.filterSubtitle} />
-        <div className="mt-20 flex flex-wrap justify-center">
+        <div className="mt-10 md:mt-12 flex flex-wrap justify-center">
           {['All', ...CATEGORIES].map((c) => (
             <button
               key={c}
@@ -275,7 +275,7 @@ export default function Achievements() {
         ) : (
           <p className="mt-12 text-base leading-[150%] text-black text-center">No achievements in this category yet.</p>
         )}
-        <div className="mt-20 flex justify-center">
+        <div className="mt-10 md:mt-12 flex justify-center">
           <button
             type="button"
             onClick={() => setShown((s) => s + pageSize)}
@@ -290,7 +290,7 @@ export default function Achievements() {
       {/* Submit — navy: 572 copy + stat tiles | 504 list with 48px white icon discs. */}
       <Section id="submit" bg="bg-navy-900" width={1280} className="text-white scroll-mt-24">
         <div className="grid lg:grid-cols-[704px_1fr] gap-12 lg:gap-[72px]">
-          <div className="flex flex-col gap-20">
+          <div className="flex flex-col gap-12 md:gap-16">
             <div className="flex flex-col gap-8 max-w-[572px]">
               <div className="flex flex-col gap-4">
                 <Tagline className="text-white">{ap.submitEyebrow}</Tagline>

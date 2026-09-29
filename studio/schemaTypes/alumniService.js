@@ -1,6 +1,6 @@
 export default {
   name: 'alumniService',
-  title: 'Alumni Portal — Service',
+  title: 'Alumni Portal - Service',
   type: 'document',
   fields: [
     {name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()},

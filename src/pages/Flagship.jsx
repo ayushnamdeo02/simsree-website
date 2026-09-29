@@ -36,7 +36,7 @@ const fallbackPage = {
   promiseTitle: 'WE’RE TRUE TO THE WORK.',
   promiseTitleHighlight: 'TRUE',
   promiseBody:
-    'A B-school fest is not a B-school fest. Eight flagships, eight personalities. Simerations is finance + ego. Aikya is heart. TEDx is a quiet ego trip. Sportzania is shouting. Wakeup is the first time you stop pretending to know what you are doing. Each one is run by a different committee. Each one means something specific to someone. The standard is not "campus event" — the standard is the live industry around us.',
+    'A B-school fest is not a B-school fest. Eight flagships, eight personalities. Simerations is finance + ego. Aikya is heart. TEDx is a quiet ego trip. Sportzania is shouting. Wakeup is the first time you stop pretending to know what you are doing. Each one is run by a different committee. Each one means something specific to someone. The standard is not "campus event" - the standard is the live industry around us.',
   promiseCtaLabel: 'Events calendar',
   promiseCtaUrl: '/events',
 
@@ -78,7 +78,7 @@ const fallbackPage = {
   ledgerTitle: 'Eight teams. One campus ledger.',
   ledgerTitleHighlight: 'campus',
   ledgerBody:
-    'Each flagship is owned by a dedicated student committee. The lineage runs back 30+ editions for the older fests. Every August, the second-years hand the binder to the first-years. Budgets, vendor contacts, sponsor relationships, the run-of-show, the things that went wrong — all of it. We treat the institutional memory as the asset, not the individual brilliance.',
+    'Each flagship is owned by a dedicated student committee. The lineage runs back 30+ editions for the older fests. Every August, the second-years hand the binder to the first-years. Budgets, vendor contacts, sponsor relationships, the run-of-show, the things that went wrong - all of it. We treat the institutional memory as the asset, not the individual brilliance.',
   ledgerCtaLabel: 'See the student body',
   ledgerCtaUrl: '/students/body-structure',
 
@@ -347,7 +347,7 @@ export default function Flagship() {
       )}
 
       {/* Partners — 80 padding, 18 bold label, 200x56 logo slots 24 apart. */}
-      <section className="py-16 md:py-20 flex flex-col gap-12">
+      <section className="py-12 md:py-20 flex flex-col gap-12">
         <p className="px-5 text-center text-lg leading-[150%] font-bold uppercase text-black">{fp.partnersLabel}</p>
         <Marquee
           gap="gap-6"
@@ -370,7 +370,7 @@ export default function Flagship() {
       {/* Promise + featured fests — 662 title | 538 body (80 apart), then the
           2x2 grid of 463-tall photo cards (32 gaps) and the "Browse" button. */}
       <Section width={1280}>
-        <div className="flex flex-col gap-20">
+        <div className="flex flex-col gap-12 md:gap-16">
           <div className="grid lg:grid-cols-[662px_1fr] gap-12 lg:gap-20">
             <div className="flex flex-col gap-4">
               <BlueTag>{fp.promiseEyebrow}</BlueTag>
@@ -389,7 +389,7 @@ export default function Flagship() {
                 {featured.map((f, i) => (
                   <div
                     key={f._id || f.name}
-                    className="relative h-[463px] rounded-2xl overflow-hidden bg-navy-900 bg-cover bg-center outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+                    className="hover-card relative h-[463px] rounded-2xl overflow-hidden bg-navy-900 bg-cover bg-center outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
                     style={{ backgroundImage: `url('${img(f.image, FEATURED_PHOTOS[i % 4], 1248)}')` }}
                   >
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" aria-hidden="true" />
@@ -428,11 +428,11 @@ export default function Flagship() {
           and a navy "View … edition →" link. */}
       <Section id="lineup" width={1280} className="scroll-mt-24">
         <CountedTitle text={fp.lineupTitle} count={fests.length} className="justify-center text-center" />
-        <div className="mt-20 grid lg:grid-cols-6 gap-8 lg:gap-4">
+        <div className="mt-10 md:mt-12 grid lg:grid-cols-6 gap-8 lg:gap-4">
           {fests.map((f, i) => (
             <div
               key={f._id || f.name}
-              className={`flex flex-col gap-4 rounded-b-2xl outline outline-1 -outline-offset-1 outline-black/20 ${festSpan(i)}`}
+              className={`hover-card flex flex-col gap-4 rounded-b-2xl outline outline-1 -outline-offset-1 outline-black/20 ${festSpan(i)}`}
             >
               <div
                 className="h-[463px] rounded-t-2xl bg-navy-50 bg-cover bg-center shadow-small"
@@ -466,7 +466,7 @@ export default function Flagship() {
       </Section>
 
       {/* Creative band — navy, 64 padding, centred; "slaps." italic Eastern Blue. */}
-      <section className="bg-navy-900 px-5 py-16 md:p-16">
+      <section className="bg-navy-900 px-5 py-12 md:px-16 md:py-20">
         <div className="max-w-[768px] mx-auto flex flex-col items-center gap-8 text-center text-white">
           <div className="flex flex-col gap-6">
             <h2 className="font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em]">
@@ -489,7 +489,7 @@ export default function Flagship() {
       {/* Process — centred title, three 405 hairline cards: navy number, H5, copy. */}
       <Section width={1280}>
         <Heading text={fp.processTitle} className="text-navy-900 text-center" />
-        <div className="mt-20 grid md:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {processSteps.map((s, i) => (
             <div key={s.title} className="rounded-lg p-6 flex flex-col gap-2 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
               <H5 as="span">{pad(i + 1)}</H5>
@@ -506,13 +506,13 @@ export default function Flagship() {
           560 rule, 66px avatar + name / role. */}
       <Section bg="bg-navy-50" width={1280}>
         <CountedTitle text={fp.testimonialsTitle} count={testimonials.length} />
-        <div className="mt-20 grid md:grid-cols-2">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2">
           {testimonials.map((t, i) => (
             <figure
               key={t._id || t.name}
               className={`m-0 flex flex-col gap-8 md:pr-12 border-black/20 ${
                 i % 2 === 1 ? 'md:pl-8 md:border-l' : 'md:pr-[80px]'
-              } ${i >= 2 ? 'md:pt-12 md:mt-0' : 'md:pb-12'} ${i < 2 ? 'md:border-b' : ''} max-md:py-8 max-md:border-b max-md:last:border-b-0`}
+              } ${i >= 2 ? 'md:pt-12 md:mt-0' : 'md:pb-12'} ${i < 2 ? 'md:border-b' : ''} max-md:py-8 max-md:first:pt-0 max-md:last:pb-0 max-md:border-b max-md:last:border-b-0`}
             >
               <blockquote className="m-0 max-w-[560px] font-display font-medium text-[22px] leading-[140%] tracking-[-0.01em] text-black">
                 {t.quote}
@@ -549,7 +549,7 @@ export default function Flagship() {
       </Section>
 
       {/* Closing CTA — navy, 64 padding, centred. */}
-      <section className="bg-navy-900 px-5 py-16 md:p-16">
+      <section className="bg-navy-900 px-5 py-12 md:px-16 md:py-20">
         <div className="max-w-[768px] mx-auto flex flex-col items-center gap-8 text-center text-white">
           <h2 className="font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em]">
             {fp.ctaTitle}

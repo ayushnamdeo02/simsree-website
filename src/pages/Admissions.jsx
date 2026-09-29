@@ -12,7 +12,7 @@ const fallbackPage = {
   heroEyebrow: 'AY 2026-27 · Cycles Open',
   heroTitle: 'Apply to SIMSREE.',
   heroDescription:
-    'Five programmes, five ways in — every cycle documented step-by-step, so you always know where you stand. No management quota. No agents. No payment seats. Merit only.',
+    'Five programmes, five ways in - every cycle documented step-by-step, so you always know where you stand. No management quota. No agents. No payment seats. Merit only.',
   heroButtons: [
     { label: 'Pick your programme', url: '#programmes', primary: true },
     { label: 'Get the forms & affidavits', url: '/admissions/downloads', primary: false },
@@ -44,7 +44,7 @@ const fallbackPage = {
   datesTitle: 'When does each cycle run?',
   datesTitleHighlight: 'cycle run?',
   datesSubtitle:
-    'Tentative dates below — each programme notification PDF has the exact ones.',
+    'Tentative dates below - each programme notification PDF has the exact ones.',
 
   reasonsEyebrow: 'Why SIMSREE',
   reasonsTitle: 'Five reasons you will choose us too.',
@@ -53,7 +53,7 @@ const fallbackPage = {
   reasons: [
     {
       title: '{{placementRate}} placement',
-      description: 'Get hired — {{recruiterCount}} recruiters · {{avgCtc}} avg CTC · transparent salary data.',
+      description: 'Get hired - {{recruiterCount}} recruiters · {{avgCtc}} avg CTC · transparent salary data.',
     },
     {
       title: 'Churchgate location',
@@ -61,7 +61,7 @@ const fallbackPage = {
     },
     {
       title: 'Student-driven',
-      description: 'Practise real management — {{committeeCount}} active committees, run by students.',
+      description: 'Practise real management - {{committeeCount}} active committees, run by students.',
     },
     {
       title: '{{noQuotaShort}}',
@@ -73,7 +73,7 @@ const fallbackPage = {
     },
     {
       title: '{{alumniCount}} alumni',
-      description: 'Tap an active alumni network — mentor pairings and referrals.',
+      description: 'Tap an active alumni network - mentor pairings and referrals.',
     },
   ],
 
@@ -202,7 +202,7 @@ const DATE_TAGS = ['bg-[#fffbec] text-navy-900', 'bg-[#fffbec] text-navy-900', '
 // (radius 16 on top), then 24/32 padded copy: tag, H5 title, 18/150, teal link.
 function AdmissionCard({ image, eyebrow, title, summary, url }) {
   return (
-    <div className="flex flex-col rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small overflow-hidden">
+    <div className="hover-card flex flex-col rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small overflow-hidden">
       <div
         className="h-[490px] bg-navy-50 bg-cover bg-center rounded-t-2xl"
         style={image ? { backgroundImage: `url('${image}')` } : undefined}
@@ -267,8 +267,8 @@ export default function Admissions() {
             </p>
           </div>
         )}
-        <SectionTitle className={ap.alertText ? 'mt-20' : ''} tagline={ap.programmesEyebrow} title={ap.programmesTitle} body={ap.programmesSubtitle} />
-        <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <SectionTitle className={ap.alertText ? 'mt-10 md:mt-12' : ''} tagline={ap.programmesEyebrow} title={ap.programmesTitle} body={ap.programmesSubtitle} />
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {admissionCards.map((p, i) => (
             <AdmissionCard
               key={p._id || p.shortName}
@@ -330,7 +330,7 @@ export default function Admissions() {
           highlight={ap.datesTitleHighlight}
           body={ap.datesSubtitle}
         />
-        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="mt-10 md:mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {dateCards.map((p, i) => (
             <AccentCard key={p._id || p.shortName}>
               <div className="flex flex-col gap-4">
@@ -365,7 +365,7 @@ export default function Admissions() {
           highlight={ap.reasonsTitleHighlight}
           body={ap.reasonsSubtitle}
         />
-        <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {reasons.map((r) => (
             <AccentCard key={r.title}>
               <H5>{r.title}</H5>

@@ -1,6 +1,6 @@
 export default {
   name: 'submissionCategory',
-  title: 'Achievements — Submission Category',
+  title: 'Achievements - Submission Category',
   type: 'document',
   description: 'The "What you can submit" rows in the submit band',
   fields: [

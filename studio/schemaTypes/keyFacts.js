@@ -12,14 +12,14 @@ export default {
   ],
   fields: [
     // Placement — refreshed each year from the final placement report
-    {name: 'placementRate', title: 'Placement rate', description: 'e.g. "100%" — shown as "100% placement"', type: 'string', group: 'placement', initialValue: '100%'},
+    {name: 'placementRate', title: 'Placement rate', description: 'e.g. "100%" - shown as "100% placement"', type: 'string', group: 'placement', initialValue: '100%'},
     {name: 'avgCtc', title: 'Average CTC', description: 'e.g. "₹16.5L"', type: 'string', group: 'placement', initialValue: '₹16.5L'},
     {name: 'highestCtc', title: 'Highest CTC', description: 'e.g. "₹38L"', type: 'string', group: 'placement', initialValue: '₹38L'},
     {name: 'recruiterCount', title: 'Recruiter count', description: 'e.g. "120+"', type: 'string', group: 'placement', initialValue: '120+'},
 
     // Institution
     {name: 'alumniCount', title: 'Alumni count', description: 'e.g. "5000+"', type: 'string', group: 'institution', initialValue: '5000+'},
-    {name: 'foundedYear', title: 'Founded year', description: 'e.g. "1983" — rendered as "Since 1983"', type: 'string', group: 'institution', initialValue: '1983'},
+    {name: 'foundedYear', title: 'Founded year', description: 'e.g. "1983" - rendered as "Since 1983"', type: 'string', group: 'institution', initialValue: '1983'},
     {name: 'affiliation', title: 'Affiliating university', description: 'e.g. "Mumbai University · Dr Homi Bhabha SU"', type: 'string', group: 'institution', initialValue: 'Mumbai University · Dr Homi Bhabha SU'},
     {name: 'committeeCount', title: 'Student committee count', description: 'e.g. "13"', type: 'string', group: 'institution', initialValue: '13'},
 
@@ -43,7 +43,7 @@ export default {
       name: 'noQuotaStatement',
       title: 'No-quota full statement',
       description:
-        'The full wording used in notices and eligibility cards. This is a formal claim about admissions — keep one approved version here rather than rewording it per page.',
+        'The full wording used in notices and eligibility cards. This is a formal claim about admissions - keep one approved version here rather than rewording it per page.',
       type: 'text',
       rows: 4,
       group: 'admissions',

@@ -1,6 +1,6 @@
 export default {
   name: 'facility',
-  title: 'Campus — Facility',
+  title: 'Campus - Facility',
   type: 'document',
   fields: [
     {name: 'title', title: 'Title', description: 'e.g. "The Library."', type: 'string', validation: (Rule) => Rule.required()},

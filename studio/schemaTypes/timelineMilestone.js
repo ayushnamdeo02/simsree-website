@@ -1,12 +1,12 @@
 export default {
   name: 'timelineMilestone',
-  title: 'History — Timeline Milestone',
+  title: 'History - Timeline Milestone',
   type: 'document',
   fields: [
     {
       name: 'year',
       title: 'Year',
-      description: 'e.g. "1983" or "2024" — also shown large and faded opposite the card',
+      description: 'e.g. "1983" or "2024" - also shown large and faded opposite the card',
       type: 'string',
       validation: (Rule) => Rule.required(),
     },

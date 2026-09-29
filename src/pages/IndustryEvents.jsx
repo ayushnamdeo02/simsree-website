@@ -10,7 +10,7 @@ const page = {
   heroEyebrow: 'Industry in the classroom',
   heroTitle: 'Industry Events Hub.',
   heroDescription:
-    'Weekly guest lectures · CXO panels · live project briefings · breakfast briefings. Curated by the Corporate Relations — open to all programmes.',
+    'Weekly guest lectures · CXO panels · live project briefings · breakfast briefings. Curated by the Corporate Relations - open to all programmes.',
   heroButtons: [
     { label: 'Get weekly invites by email', url: 'mailto:corporate.relations@simsree.org', primary: true },
     { label: 'Suggest a speaker', url: '/contact' },
@@ -241,7 +241,7 @@ export default function IndustryEvents() {
       {/* Recent sessions — centred title, the same wide cards. */}
       <Section width={1280}>
         <SectionTitle center tagline={recent.eyebrow} title={recent.title} body={recent.body} />
-        <div className="mt-20 flex flex-col gap-8">
+        <div className="mt-10 md:mt-12 flex flex-col gap-8">
           {recent.sessions.map((s, i) => (
             <SessionCard key={s.title} s={s} wide defaultOpen={i === 0} />
           ))}

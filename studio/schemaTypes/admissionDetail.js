@@ -1,6 +1,6 @@
 export default {
   name: 'admissionDetail',
-  title: 'Admissions — Admission Guide Page',
+  title: 'Admissions - Admission Guide Page',
   type: 'document',
   description:
     'One per admission guide (MMS, M.Sc. Finance, MFM, MMM, PhD). The slug decides the URL, e.g. "mms" becomes /admissions/mms.',
@@ -25,7 +25,7 @@ export default {
       group: 'hero',
       validation: (Rule) => Rule.required(),
     },
-    {name: 'shortName', title: 'Short name', description: 'e.g. "MMS" — used in the breadcrumb', type: 'string', group: 'hero', validation: (Rule) => Rule.required()},
+    {name: 'shortName', title: 'Short name', description: 'e.g. "MMS" - used in the breadcrumb', type: 'string', group: 'hero', validation: (Rule) => Rule.required()},
 
     // Hero
     {name: 'heroEyebrow', title: 'Eyebrow', description: 'e.g. "MMS · AY 2026-27"', type: 'string', group: 'hero'},

@@ -13,7 +13,7 @@ const fallbackPage = {
   heroTitle: 'Find the programme that fits your next move.',
   heroTitleBreakAfter: 'the',
   heroDescription:
-    'Full-time, executive, or doctoral — each built for India’s real business complexity. Compare them side-by-side, then open the one that fits.',
+    'Full-time, executive, or doctoral - each built for India’s real business complexity. Compare them side-by-side, then open the one that fits.',
   heroPrimaryCtaLabel: 'See all five programmes',
   heroPrimaryCtaUrl: '#full-time',
   heroSecondaryCtaLabel: 'Compare all five',
@@ -22,20 +22,20 @@ const fallbackPage = {
   heroTertiaryCtaUrl: '/admissions',
 
   approachEyebrow: 'Why SIMSREE Academics',
-  approachTitle: 'Practise management — don’t just study it.',
+  approachTitle: 'Practise management - don’t just study it.',
   approachTitleHighlight: 'Practise',
   approachSubtitle:
-    'Rigour is the baseline. What sets you apart is the mix — a student-run committee system, a Churchgate address, and an alumni network that opens doors.',
+    'Rigour is the baseline. What sets you apart is the mix - a student-run committee system, a Churchgate address, and an alumni network that opens doors.',
   approachCards: [
     {
       title: 'Industry-led teaching',
       description:
-        'Learn every elective from someone who’s done the job — senior practitioners co-teach alongside doctoral faculty.',
+        'Learn every elective from someone who’s done the job - senior practitioners co-teach alongside doctoral faculty.',
     },
     {
       title: 'Case-based pedagogy',
       description:
-        'Real cases · real briefs · real consulting engagements — apply theory from week one.',
+        'Real cases · real briefs · real consulting engagements - apply theory from week one.',
     },
     {
       title: 'Outcomes-focused',
@@ -48,30 +48,30 @@ const fallbackPage = {
   fullTimeTitle: 'Got two years? Go full-time.',
   fullTimeTitleHighlight: 'Go full-time.',
   fullTimeSubtitle:
-    'Two full-time years on campus, in the heart of Mumbai’s financial district — that’s MMS and M.Sc. Finance.',
+    'Two full-time years on campus, in the heart of Mumbai’s financial district - that’s MMS and M.Sc. Finance.',
 
   executiveEyebrow: 'Executive Programmes',
   executiveTitle: 'Can’t pause your career? Study weekends',
   executiveTitleHighlight: 'your career?',
   executiveSubtitle:
-    'Keep working and earn a master’s in three years — MFM and MMM run on weekends at Churchgate.',
+    'Keep working and earn a master’s in three years - MFM and MMM run on weekends at Churchgate.',
 
   doctoralEyebrow: 'Doctoral',
   doctoralTitle: 'Build a research career.',
   doctoralTitleHighlight: 'research',
   doctoralSubtitle:
-    'Produce original research across management disciplines — 3-5 years, just 8-12 seats per cohort.',
+    'Produce original research across management disciplines - 3-5 years, just 8-12 seats per cohort.',
 
   compareEyebrow: 'Compare',
   compareTitle: 'Compare all five in one view.',
   compareTitleHighlight: 'all five',
   compareSubtitle:
-    'Duration, mode, intake, admission path and approximate fees — all at a glance.',
+    'Duration, mode, intake, admission path and approximate fees - all at a glance.',
 
   differentiatorsEyebrow: 'Why SIMSREE Academics',
   differentiatorsTitle: 'Five things other B-schools can’t give you.',
   differentiatorsTitleHighlight: 'B-schools can’t give you.',
-  differentiatorsSubtitle: 'Beyond the curriculum — what sets your degree apart.',
+  differentiatorsSubtitle: 'Beyond the curriculum - what sets your degree apart.',
 
   facultyEyebrow: 'Faculty',
   facultyTitle: 'Meet the people who’ll teach you.',
@@ -136,7 +136,7 @@ const fallbackProgrammes = [
     tier: 'fullTime',
     badge: 'Full-time · 2 years · 40 seats',
     description:
-      'Specialise in finance — capital markets, investment banking, equity research, derivatives, fintech — on a CFP® certification pathway.',
+      'Specialise in finance - capital markets, investment banking, equity research, derivatives, fintech - on a CFP® certification pathway.',
     points: [
       'CFP® partnership · structured pathway to Financial Planner certification',
       '2-year structure · 4 semesters + industry capstone',
@@ -160,7 +160,7 @@ const fallbackProgrammes = [
     tier: 'executive',
     badge: 'Executive · 3 yrs · Part-time',
     description:
-      'Advance in finance — built for tomorrow’s CFOs, banking specialists, and treasury and FP&A leaders.',
+      'Advance in finance - built for tomorrow’s CFOs, banking specialists, and treasury and FP&A leaders.',
     points: [
       'Weekend classes · Churchgate campus',
       '~₹2.8L total · paid by semester',
@@ -181,7 +181,7 @@ const fallbackProgrammes = [
     tier: 'executive',
     badge: 'Executive · 3 yrs · Part-time',
     description:
-      'Advance in marketing — built for brand managers, growth leads, sales heads, and agency strategists.',
+      'Advance in marketing - built for brand managers, growth leads, sales heads, and agency strategists.',
     points: [
       'Weekend classes · Churchgate campus',
       '~₹2.8L total · paid by semester',
@@ -202,7 +202,7 @@ const fallbackProgrammes = [
     tier: 'doctoral',
     badge: 'Doctoral · 3-5 yrs · 8-12 seats',
     description:
-      'Research across Strategy, Finance, Marketing, Operations, HR, Economics, Systems and Entrepreneurship — with a doctoral supervisor beside you.',
+      'Research across Strategy, Finance, Marketing, Operations, HR, Economics, Systems and Entrepreneurship - with a doctoral supervisor beside you.',
     points: [
       'Coursework + research proposal + thesis',
       'Master’s + min 55% + PET entrance + interview',
@@ -230,7 +230,7 @@ const fallbackDifferentiators = [
   {
     title: 'Practitioner-led teaching',
     description:
-      'Industry guest faculty weekly · case-based pedagogy · live consulting briefs — practise on real problems.',
+      'Industry guest faculty weekly · case-based pedagogy · live consulting briefs - practise on real problems.',
     order: 2,
   },
   {
@@ -254,7 +254,7 @@ const fallbackDifferentiators = [
   {
     title: 'Faculty',
     description:
-      'Core faculty + visiting industry practitioners — both with doctoral scholarship and corporate experience.',
+      'Core faculty + visiting industry practitioners - both with doctoral scholarship and corporate experience.',
     order: 6,
   },
 ];
@@ -318,7 +318,7 @@ function ProgrammeActions({ p }) {
 function ProgrammeCard({ p }) {
   const src = img(p.image, PROGRAMME_PHOTOS[p.shortName], 1120);
   return (
-    <div className="flex flex-col gap-6 p-6 md:p-8 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+    <div className="hover-card flex flex-col gap-6 p-6 md:p-8 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
       <div
         className="h-[260px] md:h-[490px] rounded-2xl bg-navy-50 bg-cover bg-center"
         style={src ? { backgroundImage: `url('${src}')` } : undefined}
@@ -419,7 +419,7 @@ export default function Academics() {
           highlight={ap.approachTitleHighlight}
           body={ap.approachSubtitle}
         />
-        <div className="mt-20 grid md:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {approachCards.map((c, i) => {
             const Icon = APPROACH_ICONS[i % APPROACH_ICONS.length];
             return (
@@ -449,7 +449,7 @@ export default function Academics() {
           width={881}
         />
         <p className="mt-5 md:mt-6 max-w-[678px] text-base md:text-lg leading-[150%] text-black">{ap.fullTimeSubtitle}</p>
-        <div className="mt-20 grid md:grid-cols-2 gap-8 items-start">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2 gap-8 items-start">
           {fullTime.map((p) => (
             <ProgrammeCard key={p._id || p.name} p={p} />
           ))}
@@ -464,7 +464,7 @@ export default function Academics() {
           highlight={ap.executiveTitleHighlight}
           body={ap.executiveSubtitle}
         />
-        <div className="mt-20 grid md:grid-cols-2 gap-8 items-start">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2 gap-8 items-start">
           {executive.map((p) => (
             <ProgrammeCard key={p._id || p.name} p={p} />
           ))}
@@ -532,7 +532,7 @@ export default function Academics() {
           highlight={ap.differentiatorsTitleHighlight}
         />
         <p className="mt-5 md:mt-6 max-w-[678px] text-base md:text-lg leading-[150%] text-black">{ap.differentiatorsSubtitle}</p>
-        <div className="mt-20 grid md:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {differentiators.map((d, i) => (
             <div
               key={d._id || d.title}
@@ -552,13 +552,13 @@ export default function Academics() {
 
       {/* Faculty — 600 title (bottom-aligned) beside two staggered 292 photo cards. */}
       <Section width={1280}>
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-end">
-          <SectionTitle className="lg:pb-2" tagline={ap.facultyEyebrow} title={ap.facultyTitle} body={ap.facultySubtitle} width={600} />
+        <div className="grid xl:grid-cols-[5fr_7fr] gap-12 xl:gap-20 items-end">
+          <SectionTitle className="xl:pb-2" tagline={ap.facultyEyebrow} title={ap.facultyTitle} body={ap.facultySubtitle} width={600} />
           <div className="grid sm:grid-cols-2 gap-4 items-start">
             {facultyCards.map((c, i) => {
               const src = img(c.image, FACULTY_PHOTOS[i], 584);
               return (
-                <div key={c.title} className="flex flex-col gap-4 rounded-b-2xl outline outline-1 -outline-offset-1 outline-black/20">
+                <div key={c.title} className="hover-card flex flex-col gap-4 rounded-b-2xl outline outline-1 -outline-offset-1 outline-black/20">
                   <div
                     className={`${i === 0 ? 'h-[336px]' : 'h-[463px]'} rounded-t-2xl bg-navy-50 bg-cover bg-center outline outline-1 -outline-offset-1 outline-black/20 shadow-small`}
                     style={src ? { backgroundImage: `url('${src}')` } : undefined}
@@ -570,9 +570,9 @@ export default function Academics() {
                     <p className="text-base leading-[150%] text-black">{c.description}</p>
                     <Link
                       to={c.ctaUrl}
-                      className="inline-flex items-center gap-3 w-fit h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium whitespace-nowrap hover:bg-navy-800 transition-colors"
+                      className="inline-flex items-center gap-2 w-fit max-w-full min-h-11 px-5 py-2.5 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors"
                     >
-                      {c.ctaLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
+                      {c.ctaLabel} <ArrowUpRight size={24} strokeWidth={1.5} className="shrink-0" />
                     </Link>
                   </div>
                 </div>
@@ -583,7 +583,7 @@ export default function Academics() {
       </Section>
 
       {/* Apply — navy, 64 padding, left column, Eastern Blue tagline. */}
-      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+      <section className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20">
         <div className="max-w-[1280px] mx-auto">
           <div className="max-w-[613px]">
             <Tagline className="text-teal-400">{ap.ctaEyebrow}</Tagline>

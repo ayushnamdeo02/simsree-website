@@ -1,6 +1,6 @@
 export default {
   name: 'admissionsFaq',
-  title: 'Admissions — FAQ',
+  title: 'Admissions - FAQ',
   type: 'document',
   fields: [
     {name: 'question', title: 'Question', type: 'string', validation: (Rule) => Rule.required()},

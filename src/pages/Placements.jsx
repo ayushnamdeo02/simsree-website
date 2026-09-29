@@ -13,7 +13,7 @@ const fallbackPage = {
   heroTitle: 'Hire from the 2024-26 batch.',
   heroTitleItalic: '2024-26 batch.',
   heroDescription:
-    '120 students. 38% women. 62% with prior work-ex. Placement window opens January 2026 — book your interview slot now.',
+    '120 students. 38% women. 62% with prior work-ex. Placement window opens January 2026 - book your interview slot now.',
   heroPrimaryCtaLabel: 'Book a campus visit',
   heroPrimaryCtaUrl: '/placements/contact',
   heroSecondaryCtaLabel: 'See why recruit here',
@@ -60,7 +60,7 @@ const fallbackPage = {
   partnersEyebrow: 'Our Recruiting Partners',
   partnersTitle: 'Pick a sector. We have a partner there.',
   partnersSubtitle:
-    '120+ companies recruit at SIMSREE every cycle — banking, consulting, FMCG, tech, manufacturing, pharma, payments and beyond. Move your cursor over the grid to bring any logo into focus.',
+    '120+ companies recruit at SIMSREE every cycle - banking, consulting, FMCG, tech, manufacturing, pharma, payments and beyond. Move your cursor over the grid to bring any logo into focus.',
   partnersCtaLabel: 'Final Report 2024-25',
   partnersCtaUrl: '#reports',
 
@@ -240,7 +240,7 @@ export default function Placements() {
         ]}
       />
 
-      <section className="px-5 py-16 md:p-16">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <StatGrid stats={pp.stats} />
       </section>
 
@@ -252,7 +252,7 @@ export default function Placements() {
           highlight={pp.pathsTitleHighlight}
           body={pp.pathsSubtitle}
         />
-        <div className="mt-20 grid lg:grid-cols-2 gap-10 lg:gap-20">
+        <div className="mt-10 md:mt-12 grid lg:grid-cols-2 gap-10 lg:gap-20">
           {recruiter && (
             <div className="rounded-xl flex items-center p-8 bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
               <div className="flex flex-col gap-8">
@@ -304,7 +304,7 @@ export default function Placements() {
         <div className="mt-9">
           <HeroButton label={pp.partnersCtaLabel} href={pp.partnersCtaUrl} primary />
         </div>
-        <div className="mt-20 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-x-2.5 gap-y-[30px]">
+        <div className="mt-10 md:mt-12 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-x-2.5 gap-y-[30px]">
           {partners.map((p, i) => {
             const logo = p.logo ? urlFor(p.logo).height(96).auto('format').url() : null;
             return (
@@ -333,7 +333,7 @@ export default function Placements() {
           body={pp.processSubtitle}
           width={1312}
         />
-        <ol className="mt-20 flex flex-col gap-12">
+        <ol className="mt-10 md:mt-12 flex flex-col gap-12">
           {hiringSteps.map((st, i, all) => (
             <li key={st._id || st.title} className="flex gap-6 md:gap-10">
               <div className="flex flex-col items-center gap-4">
@@ -366,12 +366,12 @@ export default function Placements() {
           highlight={pp.reportsTitleHighlight}
           body={pp.reportsSubtitle}
         />
-        <div className="mt-20 grid md:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {reports.map((r, i) => {
             const img = r.image ? urlFor(r.image).width(810).auto('format').url() : REPORT_FALLBACK[i];
             const fileUrl = r.file?.asset?.url || r.fileUrl;
             return (
-              <div key={r._id || r.title} className="rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
+              <div key={r._id || r.title} className="hover-card rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
                 <div className="h-[270px] bg-navy-50 bg-cover bg-center" style={img ? { backgroundImage: `url('${img}')` } : undefined} />
                 <div className="flex-1 flex flex-col gap-6 p-6">
                   <div className="flex flex-col gap-4">
@@ -396,7 +396,7 @@ export default function Placements() {
 
       {/* Speak to the office — navy, 64 padding, centred; 598 contact line, four
           buttons 14 apart (WhatsApp mark on the second). */}
-      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+      <section className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20">
         <div className="max-w-[873px] mx-auto text-center flex flex-col items-center gap-8">
           <SectionTitle center dark tagline={pp.cellEyebrow} title={pp.cellTitle} />
           <p className="-mt-2 max-w-[598px] text-base md:text-lg leading-[150%]">{pp.cellSubtitle}</p>
@@ -452,7 +452,7 @@ export default function Placements() {
             ))}
           </ol>
         </div>
-        <div className="mt-20 grid md:grid-cols-3 gap-8 lg:gap-12">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8 lg:gap-12">
           {factPanels.map((f) => (
             <AccentCard key={f.title}>
               <div className="flex flex-col gap-4">

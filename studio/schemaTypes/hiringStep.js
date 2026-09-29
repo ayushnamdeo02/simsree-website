@@ -1,6 +1,6 @@
 export default {
   name: 'hiringStep',
-  title: 'Placements — Hiring Step',
+  title: 'Placements - Hiring Step',
   type: 'document',
   fields: [
     {name: 'timing', title: 'Timing label', description: 'e.g. "Day 0 · 45-60 min"', type: 'string'},

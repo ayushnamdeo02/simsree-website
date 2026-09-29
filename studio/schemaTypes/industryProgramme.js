@@ -1,6 +1,6 @@
 export default {
   name: 'industryProgramme',
-  title: 'Events — Industry Programme',
+  title: 'Events - Industry Programme',
   type: 'document',
   fields: [
     {name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()},

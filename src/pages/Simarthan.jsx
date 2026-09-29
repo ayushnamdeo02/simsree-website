@@ -127,7 +127,7 @@ export default function Simarthan() {
           </div>
         </div>
         <div
-          className="mt-20 h-[240px] md:h-[449px] rounded-2xl bg-navy-50 bg-cover bg-center"
+          className="mt-10 md:mt-12 h-[240px] md:h-[449px] rounded-2xl bg-navy-50 bg-cover bg-center"
           style={{ backgroundImage: `url('${whyImageUrl}')` }}
         />
       </Section>
@@ -136,7 +136,7 @@ export default function Simarthan() {
           48px numbered circle, H5 28, #eaeaf1 rule, 16/150 copy; 48 gaps. */}
       <Section bg="bg-navy-900">
         <SectionTitle dark tagline={sp.doesEyebrow} title={sp.doesTitle} body={sp.doesSubtitle} width={1312} />
-        <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-12">
           {activities.map((a, i) => (
             <div key={a._id || a.title} className="flex flex-col gap-10 p-6 rounded-2xl bg-white">
               <div className="flex flex-col gap-4">
@@ -164,7 +164,7 @@ export default function Simarthan() {
         <p className="mt-5 md:mt-6 max-w-[678px] mx-auto text-center text-base md:text-lg leading-[150%] text-black">
           {sp.contactSubtitle}
         </p>
-        <div className="mt-20 grid md:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {contactCards.map((c) => {
             const Icon = ICONS[c.icon] || Globe;
             const inner = (

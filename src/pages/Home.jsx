@@ -32,9 +32,9 @@ const fallbackCourses = [
 ];
 
 const fallbackFactors = [
-  { tag: 'Academic Rigour', title: 'Excellence in every classroom.', description: "No matter what you study, the future demands both depth and breadth. So does SIMSREE. Our programmes push students beyond theory into practice — case-based teaching, live projects, and a curriculum refreshed against industry every two years.", linkLabel: 'Explore academics', linkUrl: '/academics' },
-  { tag: 'Industry-Led Learning', title: 'Practitioners, not just professors.', description: "Learn from the people who do the work — SIMSREE brings in the best minds from India's corporate world, week after week. CXO guest lectures, live consulting briefs, and corporate visits aren't extras. They're the curriculum.", linkLabel: 'Meet our faculty', linkUrl: '/academics/faculty' },
-  { tag: 'Outcomes', title: 'Careers prepared for, not promised.', description: "Top recruiters. Strong alumni network. An active placement cell that connects your skills to the right opportunities — from internship to offer. The Placement Committee, like every committee here, is run by students themselves.", linkLabel: 'Placement Outcomes', linkUrl: '/placements' },
+  { tag: 'Academic Rigour', title: 'Excellence in every classroom.', description: "No matter what you study, the future demands both depth and breadth. So does SIMSREE. Our programmes push students beyond theory into practice - case-based teaching, live projects, and a curriculum refreshed against industry every two years.", linkLabel: 'Explore academics', linkUrl: '/academics' },
+  { tag: 'Industry-Led Learning', title: 'Practitioners, not just professors.', description: "Learn from the people who do the work - SIMSREE brings in the best minds from India's corporate world, week after week. CXO guest lectures, live consulting briefs, and corporate visits aren't extras. They're the curriculum.", linkLabel: 'Meet our faculty', linkUrl: '/academics/faculty' },
+  { tag: 'Outcomes', title: 'Careers prepared for, not promised.', description: "Top recruiters. Strong alumni network. An active placement cell that connects your skills to the right opportunities - from internship to offer. The Placement Committee, like every committee here, is run by students themselves.", linkLabel: 'Placement Outcomes', linkUrl: '/placements' },
 ];
 
 const fallbackEvents = [
@@ -47,7 +47,7 @@ const fallbackEvents = [
 const fallbackFlagships = [
   { tag: 'National Fest', title: 'Simerations', description: "SIMSREE's flagship national management fest. 5 tracks, 500+ delegates, 30+ partner colleges every February.", linkLabel: 'Register your team', linkUrl: '/events/simerations' },
   { tag: 'Ideas Worth Spreading', title: 'TEDxSIMSREE', description: 'Student-curated TED talks since 2017. Speaker applications open each May; eight ideas chosen for the September stage.', linkLabel: 'See TEDxSIMSREE', linkUrl: '/events/tedxsimsree' },
-  { tag: 'Annual Conclave', title: 'Aikya', description: 'The annual alumni-and-industry conclave — keynotes, panels, and the SIMSREE reunion night every November.', linkLabel: 'See lineup', linkUrl: '/events/flagship' },
+  { tag: 'Annual Conclave', title: 'Aikya', description: 'The annual alumni-and-industry conclave - keynotes, panels, and the SIMSREE reunion night every November.', linkLabel: 'See lineup', linkUrl: '/events/flagship' },
 ];
 
 const fallbackRecruiters = [
@@ -59,20 +59,20 @@ const fallbackHomepage = {
   heroBadge: "Mumbai's Premier Management Institute · Since {{foundedYear}}",
   heroTitle: 'More than ready.',
   heroSubtitle: 'SIMSREE ready.',
-  heroDescription: "Forty years in India's financial capital. Get an education that doesn't just prepare you for the business world — it prepares you to shape it.",
+  heroDescription: "Forty years in India's financial capital. Get an education that doesn't just prepare you for the business world - it prepares you to shape it.",
   heroPrimaryCtaLabel: 'See why SIMSREE',
   heroPrimaryCtaUrl: '/about',
   heroSecondaryCtaLabel: 'Start your application',
   heroSecondaryCtaUrl: '/admissions',
-  admissionAlertText: 'MMS admissions for AY 2026-27 are open — apply via {{cetCellName}}.',
+  admissionAlertText: 'MMS admissions for AY 2026-27 are open - apply via {{cetCellName}}.',
   admissionAlertLinkLabel: 'See MMS 2026-27 dates',
   admissionAlertLinkUrl: '/admissions/mms',
   locationEyebrow: 'Location Advantage',
   locationTitle: 'Anchored in',
   locationLine2: "Mumbai's",
   locationHighlight: 'financial core.',
-  locationDescription: "Located at Churchgate — steps from the Bombay Stock Exchange, the Reserve Bank of India, and hundreds of corporate headquarters — SIMSREE doesn't just teach business. It practices it.\n\nYour address becomes your advantage — guest lectures with CFOs, internships at trading desks, and careers at the firms you studied in class.",
-  testimonialQuote: "SIMSREE isn't just an education — it's an investment in your future. Their curriculum and career guidance equip you to reach new heights in your chosen field.",
+  locationDescription: "Located at Churchgate - steps from the Bombay Stock Exchange, the Reserve Bank of India, and hundreds of corporate headquarters - SIMSREE doesn't just teach business. It practices it.\n\nYour address becomes your advantage - guest lectures with CFOs, internships at trading desks, and careers at the firms you studied in class.",
+  testimonialQuote: "SIMSREE isn't just an education - it's an investment in your future. Their curriculum and career guidance equip you to reach new heights in your chosen field.",
   testimonialName: 'Tanmay Thomare',
   testimonialMeta: 'MMS · Batch 2022–24',
 };
@@ -174,8 +174,8 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Stat cards below hero — 1408px frame, 64px padding, 1280px row, 32px gap (Figma) */}
-        <div className="max-w-[1408px] mx-auto px-6 lg:px-16 py-10 lg:py-16">
+        {/* Stat cards below hero - 1408px frame, 80px padding like every section, 1280px row, 32px gap */}
+        <div className="max-w-[1408px] mx-auto px-6 lg:px-16 py-12 lg:py-20">
           <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {stats.map((s) => (
               <StatCard key={s._id || s.label} {...s} />
@@ -185,9 +185,9 @@ export default function Home() {
       </section>
 
       {/* News & Announcements — 1280px inner, 112px vertical padding, 80px block gaps (Figma) */}
-      <section className="bg-sky-50 py-16 lg:py-28">
+      <section className="bg-sky-50 py-12 lg:py-20">
         <div className="max-w-[1408px] mx-auto px-6 lg:px-16">
-          <div className="mb-10 lg:mb-20">
+          <div className="mb-10 lg:mb-12">
             {/* Figma: Inter Semi Bold 16/150 */}
             <span className="text-base leading-[150%] font-semibold tracking-widest uppercase text-navy-700">
               Latest News &amp; Announcements
@@ -199,7 +199,7 @@ export default function Home() {
               Straight from the institute · updated every business day.
             </p>
           </div>
-          <div className="grid md:grid-cols-2 gap-6 lg:gap-8 mb-10 lg:mb-20">
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8 mb-10 lg:mb-12">
             {news.map((n) => (
               <NewsCard
                 key={n._id || n.title}
@@ -219,9 +219,9 @@ export default function Home() {
       </section>
 
       {/* Courses Offered — 1280px inner, 112px vertical padding, 80px block gaps (Figma) */}
-      <section className="py-16 lg:py-28">
+      <section className="py-12 lg:py-20">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="text-center mb-10 lg:mb-20">
+          <div className="text-center mb-10 lg:mb-12">
             {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text */}
             <span className="text-base leading-[150%] font-semibold tracking-widest uppercase text-black">
               I&apos;m looking for…
@@ -231,7 +231,7 @@ export default function Home() {
               Courses Offered
             </h2>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-10 lg:mb-20 text-left">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-10 lg:mb-12 text-left">
             {courses.map((c) => {
               const Icon = ICONS[c.icon] || GraduationCap;
               // Figma: card radius 0, gap 32 between icon and text
@@ -267,15 +267,15 @@ export default function Home() {
       </section>
 
       {/* Why SIMSREE — Astronaut Light bg, 1280 inner, 112 padding, 80 gap (Figma) */}
-      <section className="bg-navy-50 py-16 lg:py-28">
+      <section className="bg-navy-50 py-12 lg:py-20">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="mb-10 lg:mb-20">
+          <div className="mb-10 lg:mb-12">
             <SectionHeading
               eyebrow="Why SIMSREE"
               title="What you'll get that other B-schools can't give you."
               highlight="B-schools"
               breakBeforeHighlight
-              subtitle="Get academic rigour, real-world exposure, and the entrepreneurial spirit of India's financial capital — in one programme."
+              subtitle="Get academic rigour, real-world exposure, and the entrepreneurial spirit of India's financial capital - in one programme."
             />
           </div>
           <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
@@ -283,7 +283,7 @@ export default function Home() {
               const factorImg = imgUrl(f.image, 500);
               // Figma: radius 0, stroke Color Scheme 1/Border, Position Outside, weight 1.
               return (
-                <div key={f._id || f.title} className="rounded-xl flex flex-col bg-white outline outline-1 outline-black/15 overflow-hidden">
+                <div key={f._id || f.title} className="hover-card rounded-xl flex flex-col bg-white outline outline-1 outline-black/15 overflow-hidden">
                   <div
                     className="h-[277px] bg-gray-200 bg-cover bg-center shrink-0"
                     style={factorImg ? { backgroundImage: `url('${factorImg}')` } : undefined}
@@ -312,7 +312,7 @@ export default function Home() {
       </section>
 
       {/* Location Advantage — 1312 card (680 image + 632 content), 112px section padding (Figma) */}
-      <section className="py-16 lg:py-28">
+      <section className="py-12 lg:py-20">
         <div className="max-w-[1312px] mx-auto px-6 lg:px-0">
           {/* Figma: radius 16, stroke #000 at 15% Inside, effect small, gap 48. */}
           <div className="bg-white rounded-2xl border border-black/15 shadow-sm overflow-hidden grid lg:grid-cols-[632px_1fr]">
@@ -356,7 +356,7 @@ export default function Home() {
       </section>
 
       {/* Student Voices — 1440x785 navy, 768px heading block, carousel (Figma) */}
-      <section className="bg-navy-900 text-white py-16 lg:py-28">
+      <section className="bg-navy-900 text-white py-12 lg:py-20">
         <div className="max-w-[768px] mx-auto px-6 text-center">
           {/* Figma: Heading/Tagline 16/150, Colour/Neutral/White. */}
           <span className="text-base leading-[150%] font-semibold uppercase text-white">Student Voices</span>
@@ -398,7 +398,7 @@ export default function Home() {
       </section>
 
       {/* Recruiting Partners — 1440x664, full-bleed logo marquee (Figma) */}
-      <section className="py-16 lg:py-28 overflow-hidden">
+      <section className="py-12 lg:py-20 overflow-hidden">
         <div className="max-w-[768px] mx-auto px-6 text-center">
           {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
           <span className="text-base leading-[150%] font-semibold uppercase text-black">Our Recruiting Partners</span>
@@ -413,7 +413,7 @@ export default function Home() {
         </div>
 
         {/* Full-bleed marquee: the track is duplicated so the loop is seamless */}
-        <div className="mt-14 lg:mt-20 overflow-hidden">
+        <div className="mt-10 lg:mt-12 overflow-hidden">
           <div className="flex w-max animate-marquee">
             {[0, 1].map((half) => (
               <div key={half} className="flex items-center shrink-0" aria-hidden={half === 1}>
@@ -434,7 +434,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="text-center mt-14 lg:mt-20">
+        <div className="text-center mt-10 lg:mt-12">
           <Link
             to="/placements/partners"
             className="inline-block bg-navy-900 outline outline-1 outline-teal-500 hover:bg-navy-800 transition-colors text-white text-base leading-[150%] font-medium px-6 py-2.5 rounded-md"
@@ -445,18 +445,18 @@ export default function Home() {
       </section>
 
       {/* Upcoming Events — 1280 inner, 112px padding, 32px card gap (Figma) */}
-      <section className="bg-sky-50 py-16 lg:py-28">
+      <section className="bg-sky-50 py-12 lg:py-20">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-16">
+          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-12">
             {/* Figma: Inter Semi Bold 16/150, letter-spacing 0, Color Scheme 1/Text. */}
             <span className="text-base leading-[150%] font-semibold uppercase text-black">Always Something Happening</span>
             <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6">
               Upcoming on <span className="text-teal-500">campus.</span>
             </h2>
             {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text. */}
-            <p className="text-lg leading-[150%] text-black mt-6">Guest lectures, MDPs, flagship events — see the full calendar.</p>
+            <p className="text-lg leading-[150%] text-black mt-6">Guest lectures, MDPs, flagship events - see the full calendar.</p>
           </div>
-          <div className="grid md:grid-cols-2 gap-6 lg:gap-8 mb-10 lg:mb-16">
+          <div className="grid md:grid-cols-2 gap-6 lg:gap-8 mb-10 lg:mb-12">
             {events.map((e) => (
               <EventCard key={e._id || e.title} {...e} />
             ))}
@@ -473,9 +473,9 @@ export default function Home() {
       </section>
 
       {/* Flagship Events — 1280 inner, 112px padding, cards w/ border + shadow (Figma) */}
-      <section className="py-16 lg:py-28">
+      <section className="py-12 lg:py-20">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-20">
+          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-12">
             {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
             <span className="text-base leading-[150%] font-semibold uppercase text-black">Flagship</span>
             <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6">
@@ -483,7 +483,7 @@ export default function Home() {
             </h2>
             {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text. */}
             <p className="text-lg leading-[150%] text-black mt-6">
-              Three flagship platforms that the SIMSREE community builds, runs, and gathers around — year after year.
+              Three flagship platforms that the SIMSREE community builds, runs, and gathers around - year after year.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
@@ -492,7 +492,7 @@ export default function Home() {
               return (
                 <div
                   key={f._id || f.title}
-                  className="rounded-xl flex flex-col bg-white outline outline-1 outline-black/15 overflow-hidden"
+                  className="hover-card rounded-xl flex flex-col bg-white outline outline-1 outline-black/15 overflow-hidden"
                 >
                   <div
                     className="h-[285px] bg-gray-200 bg-cover bg-center shrink-0"
@@ -522,7 +522,7 @@ export default function Home() {
       </section>
 
       {/* CTA + disclaimer — 1440x680, 64px padding, full-width disclaimer (Figma) */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
+      <section className="bg-navy-900 text-white py-12 lg:py-20">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center">
             {/* Figma: Heading/Tagline 16/150, Colour/Neutral/White. */}
@@ -530,7 +530,7 @@ export default function Home() {
             <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-6">Ready to begin?</h2>
             {/* Figma: Text/Medium/Normal 18/150, Color Scheme 3/Text (white). */}
             <p className="text-lg leading-[150%] text-white mt-6">
-              MMS admissions open via Maharashtra CET. M.Sc. Finance, MFM, MMM and PhD have their own cycles — check
+              MMS admissions open via Maharashtra CET. M.Sc. Finance, MFM, MMM and PhD have their own cycles - check
               Admissions for current notifications.
             </p>
             <div className="flex flex-wrap justify-center gap-3 mt-8">

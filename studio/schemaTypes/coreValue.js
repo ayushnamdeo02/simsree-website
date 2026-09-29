@@ -1,6 +1,6 @@
 export default {
   name: 'coreValue',
-  title: 'History — Core Value',
+  title: 'History - Core Value',
   type: 'document',
   fields: [
     {

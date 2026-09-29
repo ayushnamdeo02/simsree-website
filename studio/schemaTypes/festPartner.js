@@ -1,6 +1,6 @@
 export default {
   name: 'festPartner',
-  title: 'Flagship Events — Partner',
+  title: 'Flagship Events - Partner',
   type: 'document',
   description: 'Logos in the scrolling partner strip',
   fields: [

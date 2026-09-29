@@ -1,6 +1,6 @@
 export default {
   name: 'honour',
-  title: 'Rankings — Recent Honour',
+  title: 'Rankings - Recent Honour',
   type: 'document',
   fields: [
     {name: 'image', title: 'Image', type: 'image', options: {hotspot: true}},

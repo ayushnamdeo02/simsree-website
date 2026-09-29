@@ -26,7 +26,7 @@ export default {
     {
       name: 'heroStats',
       title: 'Hero stat chips',
-      description: 'e.g. Founded 1983, 40+ Years, 13 Committees, 5000+ Alumni — set alternating Dark for the navy-background chips',
+      description: 'e.g. Founded 1983, 40+ Years, 13 Committees, 5000+ Alumni - set alternating Dark for the navy-background chips',
       type: 'array',
       group: 'hero',
       of: [

@@ -1,16 +1,16 @@
 export default {
   name: 'committee',
-  title: 'Student System — Committee',
+  title: 'Student System - Committee',
   type: 'document',
   description:
     'One per committee. Feeds its card in the directory AND its own detail page at /students/committees/<slug>, so the two can never disagree.',
   groups: [
     {name: 'card', title: 'Directory Card'},
-    {name: 'hero', title: 'Detail — Hero'},
-    {name: 'about', title: 'Detail — What It Does'},
-    {name: 'team', title: 'Detail — Team'},
-    {name: 'voice', title: 'Detail — Member Voice'},
-    {name: 'join', title: 'Detail — Join CTA'},
+    {name: 'hero', title: 'Detail - Hero'},
+    {name: 'about', title: 'Detail - What It Does'},
+    {name: 'team', title: 'Detail - Team'},
+    {name: 'voice', title: 'Detail - Member Voice'},
+    {name: 'join', title: 'Detail - Join CTA'},
   ],
   fields: [
     // Directory card

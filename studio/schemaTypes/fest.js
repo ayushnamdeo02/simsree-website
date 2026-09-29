@@ -1,6 +1,6 @@
 export default {
   name: 'fest',
-  title: 'Flagship Events — Fest',
+  title: 'Flagship Events - Fest',
   type: 'document',
   description: 'One per fest. Featured fests appear in the top grid; all appear in the full lineup.',
   fields: [

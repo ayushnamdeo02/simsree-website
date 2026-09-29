@@ -1,6 +1,6 @@
 export default {
   name: 'simerationsTrack',
-  title: 'Simerations — Track',
+  title: 'Simerations - Track',
   type: 'document',
   fields: [
     {name: 'name', title: 'Track name', type: 'string', validation: (Rule) => Rule.required()},

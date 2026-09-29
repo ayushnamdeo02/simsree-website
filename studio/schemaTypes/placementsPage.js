@@ -54,7 +54,7 @@ export default {
     {
       name: 'pathCards',
       title: 'Path cards',
-      description: 'Two cards — the first renders on navy, the second on white',
+      description: 'Two cards - the first renders on navy, the second on white',
       type: 'array',
       group: 'paths',
       of: [

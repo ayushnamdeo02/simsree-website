@@ -27,7 +27,7 @@ const fallbackPage = {
   heroTitle: 'Every committee. Every page.',
   heroTitleBreakAfter: 'committee.',
   heroDescription:
-    'Each committee runs a real domain with real accountability — the full student-leadership directory.',
+    'Each committee runs a real domain with real accountability - the full student-leadership directory.',
   heroButtons: [
     { label: 'Email GS team', url: 'mailto:placements@simsree.org', primary: true },
     { label: 'Email Chairs', url: 'mailto:placements@simsree.org', primary: false },
@@ -39,12 +39,12 @@ const fallbackPage = {
     { label: 'Year of leadership', value: '2', dark: true },
     { label: 'Elected', value: '100%', dark: false },
   ],
-  calloutTitle: 'Student Body Structure — what is this page?',
+  calloutTitle: 'Student Body Structure - what is this page?',
   calloutBody:
-    'This page is the organisational chart for all 13 student-run committees at SIMSREE — showing how committees report into the General Secretary structure, with each committee’s chairperson, members, and mandate. Use this to understand how the student body is organised. For a directory-style grid of each committee’s landing page, see All Committees.',
+    'This page is the organisational chart for all 13 student-run committees at SIMSREE - showing how committees report into the General Secretary structure, with each committee’s chairperson, members, and mandate. Use this to understand how the student body is organised. For a directory-style grid of each committee’s landing page, see All Committees.',
   filterEyebrow: 'Filter',
   filterTitle: 'Pick a category',
-  filterSubtitle: 'Filter by type — academic, corporate, cultural, social, leadership.',
+  filterSubtitle: 'Filter by type - academic, corporate, cultural, social, leadership.',
   cardCtaLabel: 'See what they run',
   ladderEyebrow: 'The Leadership Ladder',
   ladderTitle: 'From member to GS',
@@ -172,14 +172,14 @@ export default function BodyStructure() {
         actions={heroButtons.map((b) => ({ label: b.label, href: b.url, primary: b.primary }))}
       />
 
-      <section className="px-5 py-16 md:p-16">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <StatGrid stats={bp.stats} />
       </section>
 
       {/* Info banner — #eaeaf1 band, 64 padding; white hairline box with a 3px
           Eastern Blue bar, chat icon + H6 title, 14/150 body. */}
       {bp.calloutTitle && (
-        <section className="bg-navy-50 px-5 py-10 md:p-16">
+        <section className="bg-navy-50 px-5 py-12 md:px-16 md:py-20">
           <div className="max-w-[1280px] mx-auto">
             <AccentCard className="[&>div]:py-6 [&>div]:pl-8">
               <div className="flex flex-col gap-4">
@@ -199,7 +199,7 @@ export default function BodyStructure() {
       {/* Directory — left title, radius-4 tabs, 4-up 284 cards (48 gaps). */}
       <Section width={1280}>
         <SectionTitle tagline={bp.filterEyebrow} title={bp.filterTitle} body={bp.filterSubtitle} />
-        <div className="mt-16 flex flex-wrap">
+        <div className="mt-10 md:mt-12 flex flex-wrap">
           {chips.map((c) => (
             <button
               key={c.label}

@@ -12,7 +12,7 @@ const page = {
   heroEyebrow: 'Year-2 apex leadership',
   heroTitle: "Meet SIMSREE's student leadership.",
   heroDescription:
-    'Above every committee are the Year-2 Chairpersons and the apex General Secretaries — both elected by the batch each year. Together: the Chairpersons Council.',
+    'Above every committee are the Year-2 Chairpersons and the apex General Secretaries - both elected by the batch each year. Together: the Chairpersons Council.',
   heroButtons: [
     { label: 'Email GS team', url: 'mailto:gs@simsree.org', primary: true },
     { label: 'Email Chairs', url: 'mailto:chairpersons@simsree.org' },
@@ -27,7 +27,7 @@ const page = {
   gsEyebrow: '2025-26 GS team',
   gsTitle: 'Apex student leadership.',
   gsBody:
-    'Above every committee chairperson sits the GS team — the apex student leadership for the institute, elected by the batch.',
+    'Above every committee chairperson sits the GS team - the apex student leadership for the institute, elected by the batch.',
   gs: [
     { name: 'Mr. Ashish Bhasin', role: 'GS · Academics' },
     { name: 'Mr. Ashish Bhasin', role: 'GS · Academics' },
@@ -37,7 +37,7 @@ const page = {
   chairsEyebrow: 'Year-2 chairs · 2025-26',
   chairsTitle: 'Cross-committee forum.',
   chairsBody:
-    'Year-2 chairs of each committee form a single leadership forum — the Chairpersons Council. Current chairs: Sumedh Deshpande &\nYash Raj Pandey · chairpersons@simsree.org',
+    'Year-2 chairs of each committee form a single leadership forum - the Chairpersons Council. Current chairs: Sumedh Deshpande &\nYash Raj Pandey · chairpersons@simsree.org',
   chairs: [
     'Placement', 'Finance Forum', 'E-Cell', 'Marketing',
     'Sports', 'Operations', 'Marketing', 'Course Co',
@@ -59,7 +59,7 @@ const page = {
   selectionBody: 'Three-step gate: Year-1 performance review by exiting chair → 5 peer endorsements → Director sign-off.',
   ctaEyebrow: 'For recruiters',
   ctaTitle: 'Reach the leadership team.',
-  ctaBody: "For anything that doesn't fit a committee — student-welfare issues, inter-batch coordination, or institute-wide ideas.",
+  ctaBody: "For anything that doesn't fit a committee - student-welfare issues, inter-batch coordination, or institute-wide ideas.",
   ctaButtons: [
     { label: 'Email GS Team', url: 'mailto:gs@simsree.org', primary: true },
     { label: 'Email Chairs', url: 'mailto:chairpersons@simsree.org' },
@@ -129,7 +129,7 @@ export default function Leadership() {
         actions={lp.heroButtons.map((b) => ({ label: b.label, href: b.url, primary: b.primary }))}
       />
 
-      <section className="px-5 py-16 md:p-16">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <StatGrid stats={lp.stats} />
       </section>
 
@@ -137,7 +137,7 @@ export default function Leadership() {
       <Section width={1280} className="border-t border-white/20">
         {/* GS team — tabs, centred title, four 284 portrait cards (48 gaps). */}
         <Tabs active={mobileTab} tabs={tabs} onSelect={setMobileTab} className="lg:hidden mb-12" />
-        <div id="gs" className={`scroll-mt-40 flex flex-col gap-20 ${mobileOnly('gs')}`}>
+        <div id="gs" className={`scroll-mt-40 flex flex-col gap-12 md:gap-16 ${mobileOnly('gs')}`}>
           <Tabs active="gs" tabs={tabs} className="max-lg:hidden" />
           <SectionTitle center tagline={lp.gsEyebrow} title={lp.gsTitle} body={lp.gsBody} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -158,7 +158,7 @@ export default function Leadership() {
         </div>
 
         {/* Chairs — centred title, tabs, 198px round portraits (99 column gap). */}
-        <div id="chairs" className={`lg:mt-20 scroll-mt-40 flex flex-col gap-20 ${mobileOnly('chairs')}`}>
+        <div id="chairs" className={`lg:mt-12 scroll-mt-40 flex flex-col gap-12 md:gap-16 ${mobileOnly('chairs')}`}>
           <SectionTitle center tagline={lp.chairsEyebrow} title={lp.chairsTitle} body={lp.chairsBody} />
           <div className="-mt-8 flex flex-col gap-12">
             <Tabs active="chairs" tabs={tabs} className="max-lg:hidden" />
@@ -181,7 +181,7 @@ export default function Leadership() {
 
         {/* Election — centred title, tabs, expandable 1280 rows (32px plus), then the
             chairperson-selection card with a 5px Eastern Blue bar. */}
-        <div id="election" className={`lg:mt-20 scroll-mt-40 flex flex-col gap-20 ${mobileOnly('election')}`}>
+        <div id="election" className={`lg:mt-12 scroll-mt-40 flex flex-col gap-12 md:gap-16 ${mobileOnly('election')}`}>
           <SectionTitle center tagline={lp.electionEyebrow} title={lp.electionTitle} body={lp.electionBody} />
           <div className="-mt-8 flex flex-col gap-12">
             <Tabs active="election" tabs={tabs} className="max-lg:hidden" />

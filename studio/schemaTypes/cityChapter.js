@@ -1,6 +1,6 @@
 export default {
   name: 'cityChapter',
-  title: 'Alumni Portal — City Chapter',
+  title: 'Alumni Portal - City Chapter',
   type: 'document',
   fields: [
     {name: 'city', title: 'City', type: 'string', validation: (Rule) => Rule.required()},

@@ -1,6 +1,6 @@
 export default {
   name: 'visitingFaculty',
-  title: 'Faculty — Visiting Faculty',
+  title: 'Faculty - Visiting Faculty',
   type: 'document',
   description: 'Industry practitioners teaching electives and short modules',
   fields: [

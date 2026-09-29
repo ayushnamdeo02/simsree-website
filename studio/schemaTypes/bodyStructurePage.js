@@ -56,13 +56,13 @@ export default {
     },
 
     // Info callout
-    {name: 'calloutTitle', title: 'Callout title', description: 'Leave empty to hide the callout', type: 'string', group: 'callout', initialValue: 'Student Body Structure — what is this page?'},
+    {name: 'calloutTitle', title: 'Callout title', description: 'Leave empty to hide the callout', type: 'string', group: 'callout', initialValue: 'Student Body Structure - what is this page?'},
     {name: 'calloutBody', title: 'Callout body', type: 'text', rows: 4, group: 'callout'},
 
     // Filter
     {name: 'filterEyebrow', title: 'Eyebrow', type: 'string', group: 'filter', initialValue: 'Filter'},
     {name: 'filterTitle', title: 'Title', type: 'string', group: 'filter', initialValue: 'Pick a category'},
-    {name: 'filterSubtitle', title: 'Subtitle', type: 'string', group: 'filter', initialValue: 'Filter by type — academic, corporate, cultural, social, leadership.'},
+    {name: 'filterSubtitle', title: 'Subtitle', type: 'string', group: 'filter', initialValue: 'Filter by type - academic, corporate, cultural, social, leadership.'},
     {name: 'cardCtaLabel', title: 'Card link label', type: 'string', group: 'filter', initialValue: 'See what they run'},
 
     // Leadership ladder

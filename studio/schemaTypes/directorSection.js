@@ -1,6 +1,6 @@
 export default {
   name: 'directorSection',
-  title: "Director's Message — Section",
+  title: "Director's Message - Section",
   type: 'document',
   fields: [
     {
@@ -26,7 +26,7 @@ export default {
     {
       name: 'body',
       title: 'Body',
-      description: 'Paragraph(s) — separate paragraphs with a blank line',
+      description: 'Paragraph(s) - separate paragraphs with a blank line',
       type: 'text',
       rows: 6,
       validation: (Rule) => Rule.required(),

@@ -1,6 +1,6 @@
 export default {
   name: 'journeyStep',
-  title: 'Placements — Journey Step',
+  title: 'Placements - Journey Step',
   type: 'document',
   fields: [
     {name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()},

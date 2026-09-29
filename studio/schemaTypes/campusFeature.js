@@ -1,6 +1,6 @@
 export default {
   name: 'campusFeature',
-  title: 'Campus — Feature Row',
+  title: 'Campus - Feature Row',
   type: 'document',
   fields: [
     {name: 'number', title: 'Number', description: 'e.g. "01"', type: 'string', validation: (Rule) => Rule.required()},

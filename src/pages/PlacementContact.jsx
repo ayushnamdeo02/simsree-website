@@ -14,7 +14,7 @@ const fallbackPage = {
   heroTitle: 'Reach the Placement Office.',
   heroTitleItalic: 'Placement Office.',
   heroDescription:
-    'Two ways to reach us — call or WhatsApp the Placement Committee, or email the Placement Officer.',
+    'Two ways to reach us - call or WhatsApp the Placement Committee, or email the Placement Officer.',
   heroPrimaryCtaLabel: 'Call Paras Surve',
   heroPrimaryCtaUrl: 'tel:+918830532100',
   heroSecondaryCtaLabel: 'Email the placement cell',
@@ -146,7 +146,7 @@ export default function PlacementContact() {
           highlight={cp.contactsTitleHighlight}
           body={cp.contactsSubtitle}
         />
-        <div className="mt-20 grid md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-12">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-12">
           {contacts.map((c, i) => {
             const src = photo(c.photo, CONTACT_PHOTOS[i], 396);
             const line = c.phone ? `${c.role} · ${c.phone}` : `${c.email} · ${c.note}`;
@@ -175,7 +175,7 @@ export default function PlacementContact() {
           highlight={cp.channelsTitleHighlight}
           body={cp.channelsSubtitle}
         />
-        <div className="mt-20 grid md:grid-cols-2 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2 gap-8">
           {channelCards.map((c) => (
             <AccentCard key={c.title} className="[&>div]:py-4">
               <H5>{c.title}</H5>
@@ -195,7 +195,7 @@ export default function PlacementContact() {
           highlight={cp.teamTitleHighlight}
           body={cp.teamSubtitle}
         />
-        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="mt-10 md:mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
           {members.map((m, i) => {
             const src = photo(m.photo, MEMBER_PHOTOS[i], 790);
             return (

@@ -1,6 +1,6 @@
 export default {
   name: 'studentTestimonial',
-  title: "Student's Corner — Testimonial",
+  title: "Student's Corner - Testimonial",
   type: 'document',
   description: 'Quotes in the Voices carousel',
   fields: [

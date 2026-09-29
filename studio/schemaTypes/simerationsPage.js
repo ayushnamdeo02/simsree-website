@@ -14,8 +14,8 @@ export default {
   fields: [
     // Hero
     {name: 'heroEyebrow', title: 'Eyebrow', type: 'string', group: 'hero', initialValue: "SIMSREE's Flagship Management Fest"},
-    {name: 'heroTitle', title: 'Title', type: 'string', group: 'hero', initialValue: 'Simerations — the annual show.'},
-    {name: 'heroTitleBreakAfter', title: 'Line break after', type: 'string', group: 'hero', initialValue: '—'},
+    {name: 'heroTitle', title: 'Title', type: 'string', group: 'hero', initialValue: 'Simerations - the annual show.'},
+    {name: 'heroTitleBreakAfter', title: 'Line break after', type: 'string', group: 'hero', initialValue: ' -'},
     {name: 'heroDescription', title: 'Description', type: 'text', rows: 3, group: 'hero'},
     {name: 'heroImage', title: 'Hero image', type: 'image', options: {hotspot: true}, group: 'hero'},
     {
@@ -84,7 +84,7 @@ export default {
           fields: [
             {name: 'label', title: 'Label', description: 'e.g. "1 July"', type: 'string', validation: (Rule) => Rule.required()},
             {name: 'description', title: 'Description', type: 'string'},
-            {name: 'date', title: 'Calendar date', description: 'Optional — included in the .ics download when set', type: 'date', options: {dateFormat: 'YYYY-MM-DD'}},
+            {name: 'date', title: 'Calendar date', description: 'Optional - included in the .ics download when set', type: 'date', options: {dateFormat: 'YYYY-MM-DD'}},
           ],
           preview: {select: {title: 'label', subtitle: 'description'}},
         },

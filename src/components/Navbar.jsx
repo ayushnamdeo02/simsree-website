@@ -79,7 +79,7 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-[88px] lg:h-[96px]">
             <Link
               to="/"
-              aria-label="SIMSREE — home"
+              aria-label="SIMSREE - home"
               className={`flex items-center gap-2 shrink-0 font-display font-semibold text-lg transition-colors ${
                 isTransparent ? 'text-white' : 'text-navy-900'
               }`}

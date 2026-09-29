@@ -44,7 +44,7 @@ export default {
     {name: 'locationTitle', title: 'Title', type: 'string', group: 'location', initialValue: "Steps from India's financial core."},
     {name: 'locationTitleHighlight', title: 'Title highlight word(s)', description: 'e.g. "financial core."', type: 'string', group: 'location', initialValue: 'financial core.'},
     {name: 'locationBody', title: 'Body', type: 'text', rows: 4, group: 'location'},
-    {name: 'locationQuote', title: 'Pull-quote', type: 'text', rows: 2, group: 'location', initialValue: 'At the centre of commerce — not on its periphery.'},
+    {name: 'locationQuote', title: 'Pull-quote', type: 'text', rows: 2, group: 'location', initialValue: 'At the centre of commerce - not on its periphery.'},
     {name: 'locationImage', title: 'Image', type: 'image', options: {hotspot: true}, group: 'location'},
     {
       name: 'locationStats',
@@ -68,7 +68,7 @@ export default {
     {name: 'timelineEyebrow', title: 'Eyebrow', type: 'string', group: 'timeline', initialValue: 'Milestones'},
     {name: 'timelineTitle', title: 'Title', type: 'string', group: 'timeline', initialValue: 'Defining moments.'},
     {name: 'timelineTitleHighlight', title: 'Title highlight word(s)', description: 'e.g. "Defining moments."', type: 'string', group: 'timeline', initialValue: 'Defining moments.'},
-    {name: 'timelineIntro', title: 'Intro paragraph', type: 'text', rows: 3, group: 'timeline', initialValue: "From 1983 to today — the moments that shaped SIMSREE. Scroll through forty years of building India's premier management institute."},
+    {name: 'timelineIntro', title: 'Intro paragraph', type: 'text', rows: 3, group: 'timeline', initialValue: "From 1983 to today - the moments that shaped SIMSREE. Scroll through forty years of building India's premier management institute."},
 
     // Vision & Mission
     {name: 'visionEyebrow', title: 'Eyebrow', type: 'string', group: 'vision', initialValue: 'Purpose'},
@@ -98,13 +98,13 @@ export default {
     {name: 'valuesEyebrow', title: 'Eyebrow', type: 'string', group: 'values', initialValue: 'Core Values'},
     {name: 'valuesTitle', title: 'Title', type: 'string', group: 'values', initialValue: 'What we stand for.'},
     {name: 'valuesTitleHighlight', title: 'Title highlight word(s)', description: 'e.g. "stand for."', type: 'string', group: 'values', initialValue: 'stand for.'},
-    {name: 'valuesSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'values', initialValue: 'Six values that guide every decision at SIMSREE — from admissions to placements, from classroom debates to flagship events.'},
+    {name: 'valuesSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'values', initialValue: 'Six values that guide every decision at SIMSREE - from admissions to placements, from classroom debates to flagship events.'},
 
     // Continue Exploring CTA
     {name: 'ctaEyebrow', title: 'Eyebrow', type: 'string', group: 'cta', initialValue: 'Continue Exploring'},
     {name: 'ctaTitle', title: 'Title', type: 'string', group: 'cta', initialValue: 'Read what comes next.'},
     {name: 'ctaTitleHighlight', title: 'Title highlight word(s)', description: 'e.g. "next."', type: 'string', group: 'cta', initialValue: 'next.'},
-    {name: 'ctaSubtitle', title: 'Subtitle', type: 'string', group: 'cta', initialValue: 'From history to leadership, to recognition to work — explore every facet of SIMSREE.'},
+    {name: 'ctaSubtitle', title: 'Subtitle', type: 'string', group: 'cta', initialValue: 'From history to leadership, to recognition to work - explore every facet of SIMSREE.'},
     {
       name: 'ctaCards',
       title: 'Cards',

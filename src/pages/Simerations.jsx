@@ -10,10 +10,10 @@ import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
 const fallbackPage = {
   heroEyebrow: "SIMSREE's Flagship Management Fest",
-  heroTitle: 'Simerations — the annual show.',
-  heroTitleBreakAfter: '—',
+  heroTitle: 'Simerations - the annual show.',
+  heroTitleBreakAfter: ' -',
   heroDescription:
-    'Two days · five tracks · 500+ delegates. Case competitions, debates, industry games, keynote speakers — organised entirely by the Events Committee.',
+    'Two days · five tracks · 500+ delegates. Case competitions, debates, industry games, keynote speakers - organised entirely by the Events Committee.',
   heroButtons: [
     { label: 'Register for Simerations 2026', url: '/contact', primary: true },
     { label: 'See past editions', url: '#archive', primary: false },
@@ -149,7 +149,7 @@ function buildIcs(eventName, dates) {
         `DTSTAMP:${stamp}`,
         `DTSTART;VALUE=DATE:${compact}`,
         `DTEND;VALUE=DATE:${endCompact}`,
-        `SUMMARY:${eventName} — ${d.description || d.label}`,
+        `SUMMARY:${eventName} - ${d.description || d.label}`,
         'END:VEVENT'
       );
     });
@@ -236,7 +236,7 @@ export default function Simerations() {
         actions={heroButtons.map((b) => ({ label: b.label, href: b.url, primary: b.primary }))}
       />
 
-      <section className="px-5 py-16 md:p-16">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <StatGrid stats={sp.stats || []} />
       </section>
 
@@ -244,7 +244,7 @@ export default function Simerations() {
           photo | 24-padded H5 + tag, 14/150 summary and hairline-split rows. */}
       <Section width={1280}>
         <SectionTitle tagline={sp.editionsEyebrow} title={sp.editionsTitle} body={sp.editionsSubtitle} />
-        <div className="mt-20 flex flex-col gap-12">
+        <div className="mt-10 md:mt-12 flex flex-col gap-12">
           <div className="flex flex-wrap">
             {chips.map((c) => (
               <button
@@ -268,7 +268,7 @@ export default function Simerations() {
               return (
                 <div
                   key={e._id || e.year}
-                  className={`${i >= 2 ? 'lg:min-h-[398px]' : ''} rounded-xl overflow-hidden flex flex-col lg:flex-row bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small`}
+                  className={`hover-card ${i >= 2 ? 'lg:min-h-[398px]' : ''} rounded-xl overflow-hidden flex flex-col lg:flex-row bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small`}
                 >
                   <div
                     className={`${i < 2 ? 'h-[380px]' : 'h-[199px]'} lg:h-auto lg:w-[240px] shrink-0 bg-navy-50 bg-cover bg-center`}
@@ -317,7 +317,7 @@ export default function Simerations() {
           highlight={sp.tracksTitleHighlight?.replace(/(\d)-(\d)/g, '$1–$2')}
           body={sp.tracksSubtitle}
         />
-        <div className="mt-20 grid lg:grid-cols-6 gap-8">
+        <div className="mt-10 md:mt-12 grid lg:grid-cols-6 gap-8">
           {tracks.map((t, i) => (
             <BarCard key={t._id || t.name} title={t.name} body={t.description} className={trackSpan(i)} />
           ))}
@@ -327,7 +327,7 @@ export default function Simerations() {
       {/* Key dates — four navy-bar cards (the last Eastern Blue), then the .ics button. */}
       <Section width={1280}>
         <SectionTitle tagline={sp.datesEyebrow} title={sp.datesTitle} body={sp.datesSubtitle} />
-        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="mt-10 md:mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {keyDates.map((d, i) => (
             <BarCard
               key={d.label}
@@ -337,7 +337,7 @@ export default function Simerations() {
             />
           ))}
         </div>
-        <div className="mt-20">
+        <div className="mt-10 md:mt-12">
           <HeroButton label={sp.calendarCtaLabel} onClick={downloadIcs} primary />
         </div>
       </Section>
@@ -346,11 +346,11 @@ export default function Simerations() {
       {archive.length > 0 && (
         <Section id="archive" width={1280} className="scroll-mt-24">
           <SectionTitle tagline={sp.archiveEyebrow} title={sp.archiveTitle} body={sp.archiveSubtitle} />
-          <div className="mt-20 grid md:grid-cols-3 gap-8 items-start">
+          <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8 items-start">
             {archive.map((e) => {
               const src = photo(e.archiveImage || e.image, ARCHIVE_PHOTOS, e.year, 810);
               return (
-                <div key={e._id || e.year} className="rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
+                <div key={e._id || e.year} className="hover-card rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
                   <div
                     className="h-[223px] md:h-[270px] bg-navy-50 bg-cover bg-center"
                     style={src ? { backgroundImage: `url('${src}')` } : undefined}

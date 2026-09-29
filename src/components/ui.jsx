@@ -3,12 +3,13 @@ import { useFigmaWrap } from '../lib/useFigmaWrap';
 // Shared building blocks taken 1:1 from the Figma design system, so every page
 // uses the same measurements. Desktop values first, mobile in the comments.
 
-// Section frame. Figma: 112 top/bottom, 64 sides on the 1440 frame; 64/20 on 375.
+// Section frame: 80 top/bottom (tightened from Figma's 112), 64 sides on the 1440
+// frame; 48/20 on 375.
 // `width` is the inner content width on desktop (1312 = 1440 - 2*64, 1280 for
 // the centred "Container" sections).
 export function Section({ bg = 'bg-white', width = 1312, className = '', innerClassName = '', id, children }) {
   return (
-    <section id={id} className={`${bg} px-5 py-16 md:px-16 md:py-28 ${className}`}>
+    <section id={id} className={`${bg} px-5 py-12 md:px-16 md:py-20 ${className}`}>
       <div className={`mx-auto ${innerClassName}`} style={{ maxWidth: width }}>
         {children}
       </div>

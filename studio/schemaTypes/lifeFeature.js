@@ -1,6 +1,6 @@
 export default {
   name: 'lifeFeature',
-  title: 'Life @ SIMSREE — Feature Row',
+  title: 'Life @ SIMSREE - Feature Row',
   type: 'document',
   description: 'The numbered image + text rows near the top of the page',
   fields: [

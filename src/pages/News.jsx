@@ -92,7 +92,7 @@ const fallbackNews = [
     tag: 'Placements',
     featured: true,
     featuredBadge: 'Placements 2026',
-    title: 'SIMSREE crosses {{placementRate}} placement for the 14th consecutive year — highest CTC ₹38.4 LPA, median ₹18.2 LPA.',
+    title: 'SIMSREE crosses {{placementRate}} placement for the 14th consecutive year - highest CTC ₹38.4 LPA, median ₹18.2 LPA.',
     date: 'May 2, 2026',
     summary:
       '84 recruiters on campus over a 12-day window. Final report drops mid-July with the full break-down by sector, role-type, and pre-placement-offer conversions. Crisil-audited · published with permission of the Placement Committee.',
@@ -362,15 +362,15 @@ export default function News() {
 
       {/* Featured story + numbers — one 112/64 layout: tagline over a hairline, the
           1312 story card (632 photo | 32-padded copy), then the navy numbers card. */}
-      <section className="px-5 py-16 md:px-16 md:py-28">
-        <div className="max-w-[1312px] mx-auto flex flex-col gap-20">
+      <section className="px-5 py-12 md:px-16 md:py-20">
+        <div className="max-w-[1312px] mx-auto flex flex-col gap-12 md:gap-16">
           {featured && (
             <div className="flex flex-col gap-12">
               <div className="max-w-[972px] w-full mx-auto flex items-center gap-8">
                 <Tagline className="shrink-0 text-black">{np.featuredEyebrow}</Tagline>
                 <span className="flex-1 h-px bg-black/20" aria-hidden="true" />
               </div>
-              <article className="flex flex-col lg:flex-row lg:items-center gap-12 rounded-2xl outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+              <article className="hover-card flex flex-col lg:flex-row lg:items-center gap-12 rounded-2xl outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
                 <div
                   className="h-[357px] lg:h-[674px] lg:w-[632px] shrink-0 rounded-t-2xl lg:rounded-tr-none lg:rounded-l-2xl bg-navy-50 bg-cover bg-center"
                   style={{ backgroundImage: `url('${img(featured.image, '/images/news/featured.webp', 1264)}')` }}
@@ -401,7 +401,7 @@ export default function News() {
               72px value, 16 semibold label, 18/150 note. */}
           <div className="rounded-2xl bg-navy-900 text-white px-6 py-28 md:px-16">
             <Heading text={np.numbersTitle} className="text-white" />
-            <div className="mt-20 flex flex-col gap-12">
+            <div className="mt-10 md:mt-12 flex flex-col gap-12">
               {[numbers.slice(0, 3), numbers.slice(3, 6)].filter((r) => r.length).map((row, ri) => (
                 <div key={ri} className={`grid lg:grid-cols-3 gap-8 ${ri ? 'pt-12 border-t border-navy-50' : ''}`}>
                   {row.map((n, i) => (
@@ -419,14 +419,14 @@ export default function News() {
                 </div>
               ))}
             </div>
-            {np.numbersFootnote && <p className="mt-20 text-sm leading-[150%]">{np.numbersFootnote}</p>}
+            {np.numbersFootnote && <p className="mt-10 md:mt-12 text-sm leading-[150%]">{np.numbersFootnote}</p>}
           </div>
         </div>
       </section>
 
       {/* News list — 768 header (tagline over a hairline, H2, "Filter by" + tabs),
           then 1026 bar cards: outline tag + date, H5 title, 16/150 summary. */}
-      <section className="px-5 py-16 md:px-16 md:py-28">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <div className="max-w-[1026px] mx-auto flex flex-col gap-12">
           <div className="max-w-[768px] w-full mx-auto flex flex-col gap-8">
             <div className="flex items-center gap-8">
@@ -493,10 +493,10 @@ export default function News() {
       </section>
 
       {/* Why people choose — navy band; four 272 columns split by #eaeaf1 rules. */}
-      <section className="bg-navy-900 text-white px-5 py-16 md:px-16 md:py-28">
+      <section className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20">
         <div className="max-w-[1280px] mx-auto">
           <Heading text={np.whyTitle} className="text-white" />
-          <div className="mt-20 pt-12 border-t border-navy-50 grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="mt-10 md:mt-12 pt-12 border-t border-navy-50 grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {whyCards.map((c, i) => (
               <div
                 key={c.title}
@@ -516,7 +516,7 @@ export default function News() {
       {/* Recognition — centred H2, four 296 hairline cards: navy year, black title. */}
       <Section width={1280}>
         <Heading text={np.recognitionTitle} highlight={np.recognitionTitleHighlight} className="text-navy-900 text-center" />
-        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="mt-10 md:mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {recognitions.map((r) => (
             <div key={r._id || r.title + r.year} className="rounded-lg min-h-[212px] p-6 flex flex-col gap-2 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
               <H5 as="span">{r.year}</H5>
@@ -569,7 +569,7 @@ export default function News() {
                 <div role="alert" className="rounded-lg mb-6 p-5 bg-white outline outline-1 -outline-offset-1 outline-red-300 flex items-start gap-3">
                   <AlertCircle size={20} className="text-red-500 shrink-0 mt-0.5" />
                   <div className="text-base leading-[150%] text-black">
-                    <p>That didn’t go through — your details are still here.</p>
+                    <p>That didn’t go through - your details are still here.</p>
                     <a href={mailtoHref()} className="text-navy-900 underline underline-offset-2">
                       Email {np.pressEmail} instead
                     </a>

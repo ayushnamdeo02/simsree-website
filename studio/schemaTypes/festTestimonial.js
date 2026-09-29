@@ -1,6 +1,6 @@
 export default {
   name: 'festTestimonial',
-  title: 'Flagship Events — Testimonial',
+  title: 'Flagship Events - Testimonial',
   type: 'document',
   fields: [
     {name: 'quote', title: 'Quote', type: 'text', rows: 4, validation: (Rule) => Rule.required()},

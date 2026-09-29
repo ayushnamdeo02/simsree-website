@@ -48,7 +48,7 @@ export default {
     {name: 'calendarEyebrow', title: 'Eyebrow', type: 'string', group: 'calendar', initialValue: 'Upcoming for Alumni'},
     {name: 'calendarTitle', title: 'Title', type: 'string', group: 'calendar', initialValue: 'What is on the SIMAA calendar.'},
     {name: 'calendarTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'calendar', initialValue: 'SIMAA calendar.'},
-    {name: 'calendarSubtitle', title: 'Subtitle', type: 'string', group: 'calendar', initialValue: 'Batchmeets, sector panels, mentorship sessions — open to all registered alumni.'},
+    {name: 'calendarSubtitle', title: 'Subtitle', type: 'string', group: 'calendar', initialValue: 'Batchmeets, sector panels, mentorship sessions - open to all registered alumni.'},
 
     // Services intro
     {name: 'servicesEyebrow', title: 'Eyebrow', type: 'string', group: 'services', initialValue: 'SIMAA · The Official Body'},

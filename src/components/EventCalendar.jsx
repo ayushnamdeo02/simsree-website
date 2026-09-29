@@ -128,7 +128,7 @@ export default function EventCalendar({ events = [], selected, onSelect, initial
                   role="gridcell"
                   onClick={() => onSelect?.(isSelected ? null : key)}
                   aria-pressed={isSelected}
-                  aria-label={`${c.day} ${MONTHS[view.month]} ${view.year}${marks ? ' — has events' : ''}`}
+                  aria-label={`${c.day} ${MONTHS[view.month]} ${view.year}${marks ? ' - has events' : ''}`}
                   className={`${base} transition-colors ${fill} ${isSelected ? 'font-semibold underline underline-offset-4' : ''}`}
                 >
                   {c.day}

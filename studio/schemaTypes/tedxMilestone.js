@@ -1,6 +1,6 @@
 export default {
   name: 'tedxMilestone',
-  title: 'TEDxSIMSREE — History Milestone',
+  title: 'TEDxSIMSREE - History Milestone',
   type: 'document',
   description: 'The numbered vertical timeline',
   fields: [

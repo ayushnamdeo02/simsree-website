@@ -13,12 +13,12 @@ const fallbackPage = {
   heroTitle: 'Hire from SIMSREE.',
   heroTitleItalic: 'SIMSREE.',
   heroDescription:
-    'Tell us what you need — we book a slot — a Committee member confirms within 24 hours.',
+    'Tell us what you need - we book a slot - a Committee member confirms within 24 hours.',
 
   formEyebrow: 'Recruiter Engagement Form',
   formTitle: 'Submit your hiring needs',
   formTitleHighlight: 'hiring needs',
-  formSubtitle: "Fill in your details — we'll confirm a slot within 24 hours.",
+  formSubtitle: "Fill in your details - we'll confirm a slot within 24 hours.",
   consentLabel:
     "I agree to SIMSREE's privacy notice and consent to be contacted regarding this enquiry.",
   submitLabel: 'Submit hiring needs',
@@ -38,13 +38,13 @@ const fallbackPage = {
   successTitle: 'Request received.',
   successBody: 'A Placement Committee member will confirm your slot within 24 hours.',
   failTitle: "That didn't go through.",
-  failBody: 'Your details are still here — try again, or send them to us by email instead.',
+  failBody: 'Your details are still here - try again, or send them to us by email instead.',
 
-  statesEyebrow: 'Form State Machine — Wireframed',
+  statesEyebrow: 'Form State Machine - Wireframed',
   statesTitle: 'All four states',
   statesTitleHighlight: 'four states',
   statesSubtitle:
-    'What you saw above (idle / sending / success / fail) is the full state machine — submit to walk through it.',
+    'What you saw above (idle / sending / success / fail) is the full state machine - submit to walk through it.',
   stateCards: [
     { label: 'Idle', tone: 'idle', description: 'Default · validation on blur' },
     { label: 'Sending', tone: 'sending', description: 'Button spinner · fields locked' },
@@ -138,7 +138,7 @@ export default function RecruiterEngagement() {
     );
     const body = `${lines.join('\n')}\n\nSent from the SIMSREE recruiter engagement form.`;
     return `mailto:${rp.fallbackEmail}?subject=${encodeURIComponent(
-      `Hiring enquiry — ${values.company.trim() || 'SIMSREE'}`
+      `Hiring enquiry - ${values.company.trim() || 'SIMSREE'}`
     )}&body=${encodeURIComponent(body)}`;
   };
 
@@ -190,14 +190,14 @@ export default function RecruiterEngagement() {
       />
 
       {/* Form */}
-      <section className="px-5 py-16 md:px-16 md:py-28">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <div className="max-w-[1280px] mx-auto">
           <SectionTitle
             tagline={rp.formEyebrow}
             title={composeTitle(rp.formTitle, rp.formTitleHighlight)}
             highlight={rp.formTitleHighlight}
             body={rp.formSubtitle}
-            className="mb-20"
+            className="mb-10 md:mb-12"
           />
 
           {/* Success replaces the form; failure sits above it with values intact */}
@@ -357,7 +357,7 @@ export default function RecruiterEngagement() {
       </section>
 
       {/* State machine */}
-      <section className="bg-navy-50 px-5 py-16 md:px-16 md:py-28">
+      <section className="bg-navy-50 px-5 py-12 md:px-16 md:py-20">
         <div className="max-w-[1280px] mx-auto">
           <SectionTitle
             tagline={rp.statesEyebrow}
@@ -367,7 +367,7 @@ export default function RecruiterEngagement() {
           <p className="mt-6 max-w-[598px] text-base md:text-lg leading-[150%] text-black">{rp.statesSubtitle}</p>
 
           {/* Figma: 624x100 white bar cards, 32 gap; tag over an H6 22 line. */}
-          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 gap-8 gap-y-6">
+          <div className="mt-10 md:mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 gap-y-6">
             {stateCards.map((c) => (
               <div
                 key={c.label}

@@ -1,6 +1,6 @@
 export default {
   name: 'programme',
-  title: 'Academics — Programme',
+  title: 'Academics - Programme',
   type: 'document',
   description:
     'One per programme. Feeds the tier cards and the comparison table, so both always agree.',

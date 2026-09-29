@@ -1,6 +1,6 @@
 export default {
   name: 'calendarEvent',
-  title: 'Events — Calendar Event',
+  title: 'Events - Calendar Event',
   type: 'document',
   description: 'Feeds the live calendar. Dates drive the month grid and the day dots.',
   fields: [

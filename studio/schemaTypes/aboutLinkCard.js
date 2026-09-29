@@ -1,6 +1,6 @@
 export default {
   name: 'aboutLinkCard',
-  title: 'About Page — Link Card',
+  title: 'About Page - Link Card',
   type: 'document',
   fields: [
     {

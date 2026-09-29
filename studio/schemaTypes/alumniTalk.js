@@ -1,6 +1,6 @@
 export default {
   name: 'alumniTalk',
-  title: 'Alumni Portal — Talk',
+  title: 'Alumni Portal - Talk',
   type: 'document',
   fields: [
     {name: 'name', title: 'Speaker name', type: 'string', validation: (Rule) => Rule.required()},

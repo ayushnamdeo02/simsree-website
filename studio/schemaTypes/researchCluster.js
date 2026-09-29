@@ -1,6 +1,6 @@
 export default {
   name: 'researchCluster',
-  title: 'Faculty — Research Cluster',
+  title: 'Faculty - Research Cluster',
   type: 'document',
   description: 'Numbered research areas open to PhD enquiries',
   fields: [

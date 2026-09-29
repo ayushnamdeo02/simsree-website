@@ -27,7 +27,7 @@ const fallbackPage = {
   heroTitleItalic: 'SIMSREE.',
   heroTitleBreakAfter: 'weeks',
   heroDescription:
-    'A speaker, contest, or workshop every week — Simerations · TEDxSIMSREE · weekly guest lectures · corporate interactions · MDPs for working professionals. Browse by date or type.',
+    'A speaker, contest, or workshop every week - Simerations · TEDxSIMSREE · weekly guest lectures · corporate interactions · MDPs for working professionals. Browse by date or type.',
   heroButtons: [
     { label: "See this month's calendar", url: '#calendar', primary: true },
     { label: 'Get event updates by email', url: '/contact', primary: false },
@@ -44,12 +44,12 @@ const fallbackPage = {
   calendarTitleHighlight: 'date,',
   calendarTitleHighlightTwo: 'type.',
   calendarSubtitle:
-    'This month’s dates load automatically. Use ‹ › to move months — highlighted days have events, so click one for details.',
+    'This month’s dates load automatically. Use ‹ › to move months - highlighted days have events, so click one for details.',
 
   industryEyebrow: 'Industry Events',
   industryTitle: 'Curated industry programmes',
   industrySubtitle:
-    'Three programmes for working professionals — designed to extend the SIMSREE classroom beyond the cohort.',
+    'Three programmes for working professionals - designed to extend the SIMSREE classroom beyond the cohort.',
 };
 
 const fallbackFlagships = [
@@ -240,7 +240,7 @@ export default function Events() {
       {/* Flagships — 284 cards, 48 gaps: square photo, 16-padded tag + H6 + copy. */}
       <Section width={1280}>
         <SectionTitle tagline={ep.flagshipsEyebrow} title={flagshipsTitle} highlight={flagshipsHighlight} body={ep.flagshipsSubtitle} />
-        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-12 items-start">
+        <div className="mt-10 md:mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-12 items-start">
           {flagships.map((f, i) => {
             const inner = (
               <>
@@ -285,7 +285,7 @@ export default function Events() {
           <p className="mt-5 md:mt-6 text-base md:text-lg leading-[150%] text-black">{ep.calendarSubtitle}</p>
         </div>
 
-        <div className="mt-20 flex flex-col gap-12">
+        <div className="mt-10 md:mt-12 flex flex-col gap-12">
           <div className="flex flex-wrap">
             {chips.map((c) => (
               <button
@@ -340,9 +340,9 @@ export default function Events() {
           radius-4 tag, H5 title, copy, "Open ›". */}
       <Section width={1280}>
         <SectionTitle tagline={ep.industryEyebrow} title={ep.industryTitle} body={ep.industrySubtitle} />
-        <div className="mt-20 grid md:grid-cols-3 gap-8 items-start">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8 items-start">
           {programmes.map((p, i) => (
-            <div key={p._id || p.title} className="rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
+            <div key={p._id || p.title} className="hover-card rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
               <div
                 className="h-[250px] md:h-[270px] bg-navy-50 bg-cover bg-center"
                 style={{ backgroundImage: `url('${img(p.image, PROGRAMME_PHOTOS[i % 3], 810)}')` }}

@@ -1,6 +1,6 @@
 export default {
   name: 'catalystWorkshop',
-  title: 'Development Programmes — Career Catalyst Workshop',
+  title: 'Development Programmes - Career Catalyst Workshop',
   type: 'document',
   fields: [
     {name: 'name', title: 'Workshop name', type: 'string', validation: (Rule) => Rule.required()},

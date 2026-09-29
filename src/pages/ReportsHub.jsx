@@ -15,7 +15,7 @@ const fallbackPage = {
   heroTitle: 'Placement proof you can download.',
   heroTitleBreakAfter: 'proof',
   heroDescription:
-    'Download all three reports — final, summer, executive — current year plus a multi-year archive.',
+    'Download all three reports - final, summer, executive - current year plus a multi-year archive.',
   stats: [
     { label: 'Placement', value: '100%', dark: true },
     { label: 'Avg CTC', value: '{{avgCtc}}', dark: false },
@@ -29,7 +29,7 @@ const fallbackTabs = [
     pillLabel: 'Final 2024-25',
     tabLabel: 'Download the final report · 2024-25',
     eyebrow: 'MMS · M.Sc. Finance',
-    title: '100% placed — final 2024-25.',
+    title: '100% placed - final 2024-25.',
     subtitle: '{{placementRate}} placement · {{avgCtc}} avg · 120 recruiters.',
     fileTitle: 'SIMSREE Final Placement Report · 2024-25',
     fileMeta: '42 pages · 4.2 MB · Crisil-audited · PDF',
@@ -67,7 +67,7 @@ const fallbackTabs = [
     pillLabel: 'Summer 2024',
     tabLabel: 'Download the summer report · 2024',
     eyebrow: 'Year-1 Internships',
-    title: '100% placed — summer 2024.',
+    title: '100% placed - summer 2024.',
     titleHighlight: 'summer 2024.',
     subtitle: '100% summer · ₹85K avg stipend · 62% PPO conversion.',
     fileTitle: 'SIMSREE Summer Internship Report · 2024',
@@ -85,7 +85,7 @@ const fallbackTabs = [
     statPanel: {
       title: 'PPO conversion',
       description:
-        '62% of summer interns received pre-placement offers — leading indicator for the upcoming final cycle.',
+        '62% of summer interns received pre-placement offers - leading indicator for the upcoming final cycle.',
       value: '62%',
     },
     order: 2,
@@ -96,7 +96,7 @@ const fallbackTabs = [
     eyebrow: 'MFM · MMM Outcomes',
     title: 'Executive placements.',
     titleHighlight: 'placements.',
-    subtitle: 'Reported in aggregate — most executive students stay with their employer.',
+    subtitle: 'Reported in aggregate - most executive students stay with their employer.',
     fileTitle: 'SIMSREE Executive Placements · MFM & MMM',
     fileMeta: '18 pages · 1.8 MB · aggregate outcomes · PDF',
     fileCtaLabel: 'Download',
@@ -176,7 +176,7 @@ export default function ReportsHub() {
         }))}
       />
 
-      <section className="px-5 py-16 md:p-16">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <StatGrid stats={rp.stats} />
       </section>
 
@@ -202,7 +202,7 @@ export default function ReportsHub() {
           ))}
         </div>
 
-        <div className="mt-16 flex flex-col gap-12">
+        <div className="mt-10 md:mt-12 flex flex-col gap-12">
           <SectionTitle
             tagline={tab.eyebrow}
             title={composeTitle(tab.title, tab.titleHighlight)}

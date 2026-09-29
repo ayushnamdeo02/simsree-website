@@ -1,6 +1,6 @@
 export default {
   name: 'rankingFramework',
-  title: 'Rankings — Framework Card',
+  title: 'Rankings - Framework Card',
   type: 'document',
   fields: [
     {name: 'tag', title: 'Tag', description: 'e.g. "NIRF", "#25", "UoM"', type: 'string', validation: (Rule) => Rule.required()},

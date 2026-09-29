@@ -31,7 +31,7 @@ const fallbackPage = {
   calendarEyebrow: 'Upcoming for Alumni',
   calendarTitle: "What's on the SIMAA calendar.",
   calendarTitleHighlight: 'SIMAA calendar.',
-  calendarSubtitle: 'Batchmeets, sector panels, mentorship sessions — open to all registered alumni.',
+  calendarSubtitle: 'Batchmeets, sector panels, mentorship sessions - open to all registered alumni.',
 
   servicesEyebrow: 'SIMAA · The Official Body',
   servicesTitle: 'services for SIMSREE alumni.',
@@ -92,7 +92,7 @@ const fallbackPage = {
   ctaTitle: 'Register on the Gateway.',
   ctaTitleHighlight: 'Gateway.',
   ctaSubtitle:
-    'Free for life. Two minutes to register. Unlocks every service on this page — events, mentorship, referrals, masterclasses, and the alumni directory.',
+    'Free for life. Two minutes to register. Unlocks every service on this page - events, mentorship, referrals, masterclasses, and the alumni directory.',
   ctaPrimaryLabel: 'Register now',
   ctaPrimaryUrl: '#register',
   ctaSecondaryLabel: 'Email SIMAA office',
@@ -211,7 +211,7 @@ export default function AlumniPortal() {
         ]}
       />
 
-      <section className="px-5 py-16 md:p-16">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <StatGrid stats={pp.stats} />
       </section>
 
@@ -274,7 +274,7 @@ export default function AlumniPortal() {
             return (
               <div
                 key={s._id || s.title}
-                className="flex flex-col gap-6 p-6 md:p-8 rounded-2xl outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+                className="hover-card flex flex-col gap-6 p-6 md:p-8 rounded-2xl outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
               >
                 <div
                   className="h-[320px] rounded-2xl bg-navy-50 bg-cover bg-center"
@@ -302,13 +302,13 @@ export default function AlumniPortal() {
           highlight={pp.chaptersTitleHighlight}
           body={pp.chaptersSubtitle}
         />
-        <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {chapters.map((c) => {
             const img = imgUrl(c.image, 810);
             return (
               <div
                 key={c._id || c.city}
-                className="relative h-[554px] rounded-2xl overflow-hidden bg-navy-950 bg-cover bg-center outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+                className="hover-card relative h-[554px] rounded-2xl overflow-hidden bg-navy-950 bg-cover bg-center outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
                 style={img ? { backgroundImage: `url('${img}')` } : undefined}
               >
                 <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent" />
@@ -347,7 +347,7 @@ export default function AlumniPortal() {
           body={pp.giveBackSubtitle}
           titleClass="text-white [&_span]:text-teal-400"
         />
-        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="mt-10 md:mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {(pp.giveBackCards || []).map((c) => (
             <div
               key={c.title}
@@ -371,13 +371,13 @@ export default function AlumniPortal() {
       {/* Talks — four 308 cards: 372px photo (radius 16 top) over 24-padded copy. */}
       <Section width={1280}>
         <SectionTitle center tagline={pp.voicesEyebrow} title={pp.voicesTitle} body={pp.voicesSubtitle} />
-        <div className="mt-20 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="mt-10 md:mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {talks.map((t) => {
             const img = imgUrl(t.image, 616);
             return (
               <div
                 key={t._id || t.name}
-                className="flex flex-col gap-4 rounded-b-2xl outline outline-1 -outline-offset-1 outline-black/20"
+                className="hover-card flex flex-col gap-4 rounded-b-2xl outline outline-1 -outline-offset-1 outline-black/20"
               >
                 <div
                   className="h-[372px] rounded-t-2xl bg-navy-50 bg-cover bg-center outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
@@ -403,7 +403,7 @@ export default function AlumniPortal() {
 
       {/* Register — navy, 64 padding: 567 copy column | facts split by 2px rules and
           contact lines with 16px icons, 80 apart. */}
-      <section id="register" className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+      <section id="register" className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20">
         <div className="max-w-[1280px] mx-auto grid lg:grid-cols-[567px_1fr] gap-12 lg:gap-20 items-center">
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-4">

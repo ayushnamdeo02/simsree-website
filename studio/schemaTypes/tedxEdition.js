@@ -1,6 +1,6 @@
 export default {
   name: 'tedxEdition',
-  title: 'TEDxSIMSREE — Edition',
+  title: 'TEDxSIMSREE - Edition',
   type: 'document',
   description: 'The photo-tile grid. The count drives the section heading.',
   fields: [

@@ -2,7 +2,7 @@ const DISCIPLINES = ['Finance', 'Marketing', 'Operations', 'HR & OB', 'Systems',
 
 export default {
   name: 'facultyMember',
-  title: 'Faculty — Core Faculty',
+  title: 'Faculty - Core Faculty',
   type: 'document',
   description: 'Permanent faculty shown in the filterable grid',
   fields: [

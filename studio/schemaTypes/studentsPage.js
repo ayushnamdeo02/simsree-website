@@ -63,7 +63,7 @@ export default {
     // Explore
     {name: 'exploreEyebrow', title: 'Eyebrow', type: 'string', group: 'explore', initialValue: 'Explore'},
     {name: 'exploreTitle', title: 'Title', description: 'The card count is prefixed automatically', type: 'string', group: 'explore', initialValue: 'places to start'},
-    {name: 'exploreSubtitle', title: 'Subtitle', type: 'string', group: 'explore', initialValue: 'Every card opens a full page — dive into what matters to you.'},
+    {name: 'exploreSubtitle', title: 'Subtitle', type: 'string', group: 'explore', initialValue: 'Every card opens a full page - dive into what matters to you.'},
 
     // Voices
     {name: 'voicesEyebrow', title: 'Eyebrow', type: 'string', group: 'voices', initialValue: 'Voices'},

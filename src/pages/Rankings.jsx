@@ -20,7 +20,7 @@ const HONOUR_FALLBACK = ['/images/rankings/honour-fpsb.webp', '/images/rankings/
 
 const fallbackRankingsPage = {
   heroEyebrow: 'Independently Verified',
-  heroTitle: 'Ranked, accredited, and verifiable — proof you can show a recruiter.',
+  heroTitle: 'Ranked, accredited, and verifiable - proof you can show a recruiter.',
   heroTitleHighlight: 'proof you can show a recruiter.',
   heroDescription: "SIMSREE's consistent performance across national ranking frameworks reflects the quality of our programmes, faculty, placements, and student outcomes.",
   heroPrimaryCtaLabel: 'Download the NIRF report (PDF)',
@@ -60,7 +60,7 @@ const fallbackFrameworks = [
     tag: 'NIRF',
     accentColor: 'navy',
     title: 'NIRF Ranked Institute',
-    description: 'Listed under the National Institutional Ranking Framework — Government of India. Annual public ranking based on teaching, learning, graduation outcomes, outreach, and perception.',
+    description: 'Listed under the National Institutional Ranking Framework - Government of India. Annual public ranking based on teaching, learning, graduation outcomes, outreach, and perception.',
     actionLabel: 'Download NIRF Report',
     isDownload: true,
   },
@@ -68,14 +68,14 @@ const fallbackFrameworks = [
     tag: '#25',
     accentColor: 'sky',
     title: 'IIRF National Rank #25',
-    description: "Indian Institutional Ranking Framework — among India's top-25 management institutes based on placement, academic excellence, faculty quality, and research output.",
+    description: "Indian Institutional Ranking Framework - among India's top-25 management institutes based on placement, academic excellence, faculty quality, and research output.",
     actionLabel: 'View framework',
   },
   {
     tag: 'UoM',
     accentColor: 'teal',
     title: 'Mumbai University Affiliated',
-    description: "Affiliated with the University of Mumbai — one of India's oldest and most respected universities. Degrees conferred under UoM authority.",
+    description: "Affiliated with the University of Mumbai - one of India's oldest and most respected universities. Degrees conferred under UoM authority.",
     actionLabel: 'University details',
   },
 ];
@@ -84,13 +84,13 @@ const fallbackHonours = [
   {
     date: 'Nov 2025',
     title: 'Best Authorised Institutional Partner 2025',
-    description: 'Awarded by the Financial Planning Standards Board India — ceremony held in Hyderabad — recognising SIMSREE\'s role as FPSB\'s institutional partner in financial planning education.',
+    description: 'Awarded by the Financial Planning Standards Board India - ceremony held in Hyderabad - recognising SIMSREE\'s role as FPSB\'s institutional partner in financial planning education.',
     linkLabel: 'View citation',
   },
   {
     date: '2024',
     title: 'Dr Homi Bhabha State University Integration',
-    description: "Cabinet-approved integration into Dr Homi Bhabha State University — advancing SIMSREE's institutional framework while preserving its identity.",
+    description: "Cabinet-approved integration into Dr Homi Bhabha State University - advancing SIMSREE's institutional framework while preserving its identity.",
     linkLabel: 'View notification',
   },
 ];
@@ -169,7 +169,7 @@ export default function Rankings() {
         mobileOverlay="gradient-tint"
       />
 
-      <section className="px-5 py-16 md:p-16">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <StatGrid stats={rp.stats} />
       </section>
 
@@ -185,7 +185,7 @@ export default function Rankings() {
         <p className="mt-5 md:mt-6 max-w-[678px] mx-auto text-center text-base md:text-lg leading-[150%] text-black">
           {rp.frameworksSubtitle}
         </p>
-        <div className="mt-20 grid md:grid-cols-3 gap-8 items-start">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8 items-start">
           {frameworks.map((f) => (
             <AccentCard key={f._id || f.title} accent={ACCENT_BG[f.accentColor] || 'bg-teal-500'}>
               <div className="flex flex-col gap-12">
@@ -219,14 +219,14 @@ export default function Rankings() {
           highlight={rp.honoursTitleHighlight}
         />
         <p className="mt-5 md:mt-6 max-w-[678px] text-base md:text-lg leading-[150%] text-black">{rp.honoursSubtitle}</p>
-        <div className="mt-20 grid md:grid-cols-2 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2 gap-8">
           {honours.map((h, i) => {
             const img = imgUrl(h.image, 1120) || HONOUR_FALLBACK[i];
             return (
               <div
                 key={h._id || h.title}
                 // On mobile the card box drops away and the photo runs full width (Figma).
-                className="flex flex-col gap-6 md:p-8 md:rounded-2xl md:outline md:outline-1 md:-outline-offset-1 md:outline-black/20 md:shadow-small"
+                className="hover-card flex flex-col gap-6 md:p-8 md:rounded-2xl md:outline md:outline-1 md:-outline-offset-1 md:outline-black/20 md:shadow-small"
               >
                 <div
                   className="h-[490px] rounded-2xl bg-navy-100 bg-cover bg-center shrink-0"
@@ -262,7 +262,7 @@ export default function Rankings() {
         <p className="mt-5 md:mt-6 max-w-[678px] mx-auto text-center text-base md:text-lg leading-[150%] text-black">
           {rp.accreditationsSubtitle}
         </p>
-        <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {accreditations.map((a) => (
             <a
               key={a._id || a.title}
@@ -287,7 +287,7 @@ export default function Rankings() {
       {/* Verification & Documents — #24295c, centred title, three 405x201 navy cards. */}
       <Section bg="bg-navy-800" width={1280} className="border-t border-white/20">
         <SectionTitle center dark tagline={rp.verifyEyebrow} title={rp.verifyTitle} body={rp.verifySubtitle} />
-        <div className="mt-20 grid md:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {verificationDocs.map((d) => (
             <div
               key={d._id || d.title}

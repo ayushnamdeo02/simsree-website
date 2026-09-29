@@ -1,6 +1,6 @@
 export default {
   name: 'tedxTalk',
-  title: 'TEDxSIMSREE — Talk',
+  title: 'TEDxSIMSREE - Talk',
   type: 'document',
   fields: [
     {name: 'speaker', title: 'Speaker name', type: 'string', validation: (Rule) => Rule.required()},

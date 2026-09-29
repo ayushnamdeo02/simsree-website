@@ -20,7 +20,7 @@ const fallbackBySlug = {
     ],
     aboutTitle: 'What the Placement Committee does',
     aboutBody:
-      'The Placement Committee runs campus recruitment end to end — recruiter outreach, JD releases, interview scheduling, and the placement reports SIMSREE publishes each year.',
+      'The Placement Committee runs campus recruitment end to end - recruiter outreach, JD releases, interview scheduling, and the placement reports SIMSREE publishes each year.',
     activities: [
       {
         title: 'Recruiter Outreach',
@@ -80,7 +80,7 @@ const fallbackBySlug = {
     ],
     aboutTitle: 'What the Course Co-ordinators does',
     aboutBody:
-      'Course Co-ordinators are the academic operational layer — managing the timetable, faculty-student communication, exam logistics, and the academic calendar.',
+      'Course Co-ordinators are the academic operational layer - managing the timetable, faculty-student communication, exam logistics, and the academic calendar.',
     activities: [
       {
         title: 'Timetable & Scheduling',
@@ -140,7 +140,7 @@ const fallbackBySlug = {
     ],
     aboutTitle: 'What the Infra Tech Committee does',
     aboutBody:
-      "Infra-Tech runs SIMSREE's digital backbone — AV systems for events, the website CMS, photo and content moderation across committees, and the campus tech stack.",
+      "Infra-Tech runs SIMSREE's digital backbone - AV systems for events, the website CMS, photo and content moderation across committees, and the campus tech stack.",
     activities: [
       {
         title: 'AV & Event Tech',
@@ -148,7 +148,7 @@ const fallbackBySlug = {
       },
       {
         title: 'Website Operations',
-        description: "Maintain the institute's website — content updates, photo approvals, broken links.",
+        description: "Maintain the institute's website - content updates, photo approvals, broken links.",
       },
       {
         title: 'Campus Tech Support',
@@ -176,7 +176,7 @@ const fallbackBySlug = {
     voiceTitleHighlight: 'own words',
     voiceAttribution: 'Devansh Patel · Infra-Tech 2023-25',
     voiceQuote:
-      '"If the mic works, the slides are loaded and Wi-Fi held — that was us. Quietly, exactly when it mattered."',
+      '"If the mic works, the slides are loaded and Wi-Fi held - that was us. Quietly, exactly when it mattered."',
     joinEyebrow: 'Get Involved',
     joinTitle: 'Join Infra Tech Committee',
     joinBody:
@@ -200,7 +200,7 @@ const fallbackBySlug = {
     ],
     aboutTitle: 'What the SSR Committee does',
     aboutBody:
-      "The SSR committee runs Mrudgandha — SIMSREE's flagship community outreach — alongside awareness campaigns, NGO partnerships and on-the-ground volunteer drives.",
+      "The SSR committee runs Mrudgandha - SIMSREE's flagship community outreach - alongside awareness campaigns, NGO partnerships and on-the-ground volunteer drives.",
     activities: [
       {
         title: 'Mrudgandha Initiative',
@@ -260,7 +260,7 @@ const fallbackBySlug = {
     ],
     aboutTitle: 'What the Corporate Relations does',
     aboutBody:
-      "The CR Committee turns SIMSREE's Churchgate address into a structural advantage — sourcing live projects from corporates, anchoring the institute's guest-lecture calendar, and curating corporate-interaction events.",
+      "The CR Committee turns SIMSREE's Churchgate address into a structural advantage - sourcing live projects from corporates, anchoring the institute's guest-lecture calendar, and curating corporate-interaction events.",
     activities: [
       {
         title: 'Live Project Partnerships',
@@ -296,7 +296,7 @@ const fallbackBySlug = {
     voiceTitleHighlight: 'own words',
     voiceAttribution: 'Sreerag Nair · Chairperson, CR 2023-25',
     voiceQuote:
-      '"Cold-emailing a CXO for a guest lecture and getting a yes — that’s the skill no MBA classroom teaches you."',
+      '"Cold-emailing a CXO for a guest lecture and getting a yes - that’s the skill no MBA classroom teaches you."',
     joinEyebrow: 'Get Involved',
     joinTitle: 'Join Corporate Relations',
     joinBody:
@@ -320,7 +320,7 @@ const fallbackBySlug = {
     ],
     aboutTitle: 'What the Alumni Committee does',
     aboutBody:
-      "The Alumni Committee keeps SIMSREE's {{alumniCount}} alumni network actively engaged with the current batch — running Batchmeets, mock GDPI panels, mentorship pairings, and the annual reunion.",
+      "The Alumni Committee keeps SIMSREE's {{alumniCount}} alumni network actively engaged with the current batch - running Batchmeets, mock GDPI panels, mentorship pairings, and the annual reunion.",
     activities: [
       {
         title: 'Batchmeet & Reunions',
@@ -380,7 +380,7 @@ const fallbackBySlug = {
     ],
     aboutTitle: 'What the Research & Consulting does',
     aboutBody:
-      'The R&C Club takes on live consulting briefs from real clients — startups, NGOs, mid-market businesses — and publishes original research alongside.',
+      'The R&C Club takes on live consulting briefs from real clients - startups, NGOs, mid-market businesses - and publishes original research alongside.',
     activities: [
       {
         title: 'Live Consulting',
@@ -428,7 +428,7 @@ const fallbackBySlug = {
   },
 
   'hrudaya-ops': {
-    name: 'Hrudaya — Ops Club',
+    name: 'Hrudaya - Ops Club',
     heroEyebrow: 'Academic · Student-Run Committee',
     tagline: '"Operations is the heartbeat of every business."',
     contactEmail: 'hriday@simsree.org',
@@ -438,9 +438,9 @@ const fallbackBySlug = {
       { label: 'Events / yr', value: '12+', dark: true },
       { label: 'Student run', value: '100%', dark: false },
     ],
-    aboutTitle: 'What the Hrudaya — Ops Club does',
+    aboutTitle: 'What the Hrudaya - Ops Club does',
     aboutBody:
-      "हृदय (Hriday — heart) is SIMSREE's operations and supply-chain club. We run industry visits to ports, factories and warehouses, host operations case competitions, and bridge the classroom view of ops with the messy realities of Indian supply chains.",
+      "हृदय (Hriday - heart) is SIMSREE's operations and supply-chain club. We run industry visits to ports, factories and warehouses, host operations case competitions, and bridge the classroom view of ops with the messy realities of Indian supply chains.",
     activities: [
       {
         title: 'Case Competitions',
@@ -448,7 +448,7 @@ const fallbackBySlug = {
       },
       {
         title: 'Industry Visits',
-        description: 'Organise plant, port and DC visits — at least 4 per academic year.',
+        description: 'Organise plant, port and DC visits - at least 4 per academic year.',
       },
       {
         title: 'Simulations',
@@ -478,7 +478,7 @@ const fallbackBySlug = {
     voiceQuote:
       '"An afternoon at JNPT taught me more about logistics than any chapter I read on it."',
     joinEyebrow: 'Get Involved',
-    joinTitle: 'Join Hrudaya — Ops Club',
+    joinTitle: 'Join Hrudaya - Ops Club',
     joinBody:
       'Selection happens during induction week. Every student is eligible. Email hriday@simsree.org with questions.',
     joinButtons: [
@@ -508,7 +508,7 @@ const fallbackBySlug = {
       },
       {
         title: 'Campus Branding',
-        description: 'Design every event collateral — posters, reels, merchandise.',
+        description: 'Design every event collateral - posters, reels, merchandise.',
       },
       {
         title: 'Event Coverage',
@@ -560,7 +560,7 @@ const fallbackBySlug = {
     ],
     aboutTitle: 'What the Events Committee does',
     aboutBody:
-      'From Simerations to inter-college fests, cultural nights to sports day — every flagship moment on the SIMSREE calendar is conceived, funded and delivered by this committee.',
+      'From Simerations to inter-college fests, cultural nights to sports day - every flagship moment on the SIMSREE calendar is conceived, funded and delivered by this committee.',
     activities: [
       {
         title: 'Simerations Production',
@@ -620,7 +620,7 @@ const fallbackBySlug = {
     ],
     aboutTitle: 'What the Entrepreneurship Cell does',
     aboutBody:
-      "The E-Cell runs pitch competitions, startup bootcamps, founder mentor circles, and an annual demo day. The reason SIMSREE hasn't just taught entrepreneurship for forty years — it has produced entrepreneurs.",
+      "The E-Cell runs pitch competitions, startup bootcamps, founder mentor circles, and an annual demo day. The reason SIMSREE hasn't just taught entrepreneurship for forty years - it has produced entrepreneurs.",
     activities: [
       {
         title: 'Pitch Events',
@@ -680,7 +680,7 @@ const fallbackBySlug = {
     ],
     aboutTitle: 'What the Finance Forum does',
     aboutBody:
-      'Finance Forum is SIMSREE’s flagship finance club — running investment competitions, market simulations, expert speaker series and a quarterly research note.',
+      'Finance Forum is SIMSREE’s flagship finance club - running investment competitions, market simulations, expert speaker series and a quarterly research note.',
     activities: [
       {
         title: 'Market Simulations',
@@ -688,7 +688,7 @@ const fallbackBySlug = {
       },
       {
         title: 'Speaker Series',
-        description: 'Curate finance guest lectures — fund managers, analysts, central bankers.',
+        description: 'Curate finance guest lectures - fund managers, analysts, central bankers.',
       },
       {
         title: 'Research Notes',
@@ -737,14 +737,14 @@ const DIRECTORY = {
   'entrepreneurship-cell': ['Entrepreneurship Cell', 'Corporate', 'Startup culture, pitches, innovation challenges.'],
   events: ['Events Committee', 'Cultural', 'Simerations, flagship fests, inter-college events.'],
   'marketing-media': ['Marketing & Media', 'Cultural', 'Brand, communications, social media presence.'],
-  'hrudaya-ops': ['Hrudaya — Ops Club', 'Academic', 'Operations, supply chain, logistics projects.'],
+  'hrudaya-ops': ['Hrudaya - Ops Club', 'Academic', 'Operations, supply chain, logistics projects.'],
   'research-consulting': ['Research & Consulting', 'Academic', 'Live research, case studies, consulting pitches.'],
   alumni: ['Alumni Committee', 'Corporate', 'Alumni relations, mentorship, Batchmeet coordination.'],
   'corporate-relations': ['Corporate Relations', 'Corporate', 'Industry partnerships, live projects, speaker series.'],
   ssr: ['SSR Committee', 'Social', 'Social responsibility, community outreach, Mrudgandha.'],
   'infra-tech': ['Infra-Tech Committee', 'Academic', 'Digital operations, tech infrastructure, AV systems.'],
   'course-coordinators': ['Course Co-ordinators', 'Academic', 'Academic scheduling, timetabling, faculty interface.'],
-  'chairpersons-council': ['Chairpersons Council', 'Leadership', 'Cross-committee coordination — Year 2 senior leaders.'],
+  'chairpersons-council': ['Chairpersons Council', 'Leadership', 'Cross-committee coordination - Year 2 senior leaders.'],
 };
 
 function genericCommittee(slug) {
@@ -829,7 +829,7 @@ export default function CommitteeDetail() {
 
       {/* Stats — Figma "Layout / 396": 64 padding, four 296x300 cards, 32 gap (2x2, 16 gap on mobile). */}
       {has('stats') && (
-        <section className="px-5 py-16 md:p-16">
+        <section className="px-5 py-12 md:px-16 md:py-20">
           <StatGrid stats={c.stats} />
         </section>
       )}
@@ -841,7 +841,7 @@ export default function CommitteeDetail() {
           <Heading text={c.aboutTitle} highlight={c.name} className="text-navy-900 mt-8" />
           {c.aboutBody && <p className="mt-6 text-base md:text-lg leading-[150%] text-black">{c.aboutBody}</p>}
 
-          <div className="mt-20 grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+          <div className="mt-10 md:mt-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
             {has('activities') && (
               <AccentCard>
                 {c.activities.map((a, i) => (
@@ -886,7 +886,7 @@ export default function CommitteeDetail() {
             highlight={c.teamTitleHighlight}
             body={c.teamSubtitle}
           />
-          <div className="mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="mt-10 md:mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {c.team.map((m, i) => {
               const photoUrl = m.photo
                 ? urlFor(m.photo).width(700).auto('format').url()
@@ -894,7 +894,7 @@ export default function CommitteeDetail() {
               return (
                 <div
                   key={`${m.name}-${i}`}
-                  className="bg-navy-900 rounded-2xl outline outline-1 -outline-offset-1 outline-white/20 shadow-small p-8 flex flex-col gap-16"
+                  className="hover-card bg-navy-900 rounded-2xl outline outline-1 -outline-offset-1 outline-white/20 shadow-small p-8 flex flex-col gap-16"
                 >
                   <div
                     className="h-80 rounded-2xl bg-white/10 bg-cover bg-center"
@@ -922,7 +922,7 @@ export default function CommitteeDetail() {
             highlight={c.voiceTitleHighlight}
             body={c.voiceAttribution}
           />
-          <figure className="mt-20">
+          <figure className="mt-10 md:mt-12">
             <AccentCard bg="bg-navy-50">
               <blockquote className="-my-4 text-lg leading-[150%] text-black">{c.voiceQuote}</blockquote>
             </AccentCard>
@@ -931,7 +931,7 @@ export default function CommitteeDetail() {
       )}
 
       {/* Join CTA — Figma "CTA / 57" navy: 64 padding, 613 column, Eastern Blue tagline. */}
-      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+      <section className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20">
         <div className="max-w-[1280px] mx-auto">
           <div className="max-w-[613px]">
             <Tagline className="text-teal-400">{c.joinEyebrow || 'Get Involved'}</Tagline>

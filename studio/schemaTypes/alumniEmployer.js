@@ -1,6 +1,6 @@
 export default {
   name: 'alumniEmployer',
-  title: 'Alumni — Employer Logo',
+  title: 'Alumni - Employer Logo',
   type: 'document',
   fields: [
     {name: 'name', title: 'Company name', type: 'string', validation: (Rule) => Rule.required()},

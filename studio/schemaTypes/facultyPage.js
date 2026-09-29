@@ -62,13 +62,13 @@ export default {
     // Visiting
     {name: 'visitingEyebrow', title: 'Eyebrow', type: 'string', group: 'visiting', initialValue: 'Industry Practitioners'},
     {name: 'visitingTitle', title: 'Title', type: 'string', group: 'visiting', initialValue: 'Visiting faculty.'},
-    {name: 'visitingSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'visiting', initialValue: 'Senior industry practitioners teach electives and short modules — many are SIMSREE alumni giving back.'},
+    {name: 'visitingSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'visiting', initialValue: 'Senior industry practitioners teach electives and short modules - many are SIMSREE alumni giving back.'},
 
     // Research
     {name: 'researchEyebrow', title: 'Eyebrow', type: 'string', group: 'research', initialValue: 'Research Clusters'},
     {name: 'researchTitle', title: 'Title', type: 'string', group: 'research', initialValue: 'Research areas.'},
     {name: 'researchTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'research', initialValue: 'areas.'},
-    {name: 'researchSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'research', initialValue: 'Active research clusters — open to PhD enquiries and industry collaborations.'},
+    {name: 'researchSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'research', initialValue: 'Active research clusters - open to PhD enquiries and industry collaborations.'},
     {name: 'researchImage', title: 'Section image', type: 'image', options: {hotspot: true}, group: 'research'},
   ],
   preview: {prepare() { return {title: 'Faculty Directory Page'} }},

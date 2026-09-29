@@ -1,6 +1,6 @@
 export default {
   name: 'placementReport',
-  title: 'Placements — Report',
+  title: 'Placements - Report',
   type: 'document',
   fields: [
     {name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()},

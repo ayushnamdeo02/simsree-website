@@ -13,7 +13,7 @@ const fallbackHistoryPage = {
   heroEyebrow: 'Established · 1983',
   heroTitle: 'A legacy built over four decades.',
   heroTitleHighlight: 'over four decades.',
-  heroDescription: "Founded in 1983 as an extension of Sydenham College of Commerce, the Sydenham Institute of Management Studies, Research & Entrepreneurship Education (SIMSREE) sits at Churchgate — the very heart of Mumbai's financial district — with unmatched proximity to India's corporate and financial epicentre.",
+  heroDescription: "Founded in 1983 as an extension of Sydenham College of Commerce, the Sydenham Institute of Management Studies, Research & Entrepreneurship Education (SIMSREE) sits at Churchgate - the very heart of Mumbai's financial district - with unmatched proximity to India's corporate and financial epicentre.",
   heroPrimaryCtaLabel: 'Explore the timeline',
   heroPrimaryCtaUrl: '#timeline',
   heroSecondaryCtaLabel: "Read the Director's message",
@@ -30,8 +30,8 @@ const fallbackHistoryPage = {
   locationEyebrow: 'Our Advantage',
   locationTitle: "Steps from India's financial core.",
   locationTitleHighlight: 'financial core.',
-  locationBody: "Churchgate puts you minutes from India's most important banks, stock exchanges, and corporate headquarters. That address draws the finest industry talent and gives students unparalleled access to the corporate world. In forty years, SIMSREE has grown from a promising newcomer into one of India's most respected management schools.\n\nOver forty years, SIMSREE has grown from a promising new institute into one of India's most respected management schools. One thing hasn't changed: student-driven learning, entrepreneurial thinking, and an uncompromising standard of academic excellence. Today SIMSREE blends legacy with ambition — new programmes, new partnerships, new ideas.",
-  locationQuote: 'At the centre of commerce — not on its periphery.',
+  locationBody: "Churchgate puts you minutes from India's most important banks, stock exchanges, and corporate headquarters. That address draws the finest industry talent and gives students unparalleled access to the corporate world. In forty years, SIMSREE has grown from a promising newcomer into one of India's most respected management schools.\n\nOver forty years, SIMSREE has grown from a promising new institute into one of India's most respected management schools. One thing hasn't changed: student-driven learning, entrepreneurial thinking, and an uncompromising standard of academic excellence. Today SIMSREE blends legacy with ambition - new programmes, new partnerships, new ideas.",
+  locationQuote: 'At the centre of commerce - not on its periphery.',
   locationStats: [
     { value: '2 min', label: 'to Churchgate station' },
     { value: '0.5 km', label: 'to Bombay Stock Exchange' },
@@ -41,7 +41,7 @@ const fallbackHistoryPage = {
   timelineEyebrow: 'Milestones',
   timelineTitle: 'Defining moments.',
   timelineTitleHighlight: 'moments.',
-  timelineIntro: "From 1983 to today — the moments that shaped SIMSREE. Scroll through forty years of building India's premier management institute.",
+  timelineIntro: "From 1983 to today - the moments that shaped SIMSREE. Scroll through forty years of building India's premier management institute.",
 
   visionEyebrow: 'Purpose',
   visionSectionTitle: 'Vision & Mission.',
@@ -51,7 +51,7 @@ const fallbackHistoryPage = {
   visionNumber: '01',
   visionTitle: 'To be a leader in management education.',
   visionTitleHighlight: 'management education.',
-  visionDescription: 'Recognised and respected for the academic rigour and outcomes of its programmes — a leader students want to join, employers want to hire from, and peers want to compete against.',
+  visionDescription: 'Recognised and respected for the academic rigour and outcomes of its programmes - a leader students want to join, employers want to hire from, and peers want to compete against.',
   missionLabel: 'Our Mission',
   missionNumber: '02',
   missionTitle: 'Four commitments we make.',
@@ -59,7 +59,7 @@ const fallbackHistoryPage = {
   missionIntro: 'See the most recent placement report · sector split · firms that hire repeatedly · summer and executive outcomes.',
   missionCommitments: [
     'Let student initiative drive the institution.',
-    'Maximise real-world exposure — internships, live projects, guest lectures, management events.',
+    'Maximise real-world exposure - internships, live projects, guest lectures, management events.',
     'Foster a culture of research, inquiry, and entrepreneurial thinking.',
     'Instil discipline, integrity, and ambition to lead organisations toward lasting success.',
   ],
@@ -67,12 +67,12 @@ const fallbackHistoryPage = {
   valuesEyebrow: 'Core Values',
   valuesTitle: 'What we stand for.',
   valuesTitleHighlight: 'stand for.',
-  valuesSubtitle: 'Six values that guide every decision at SIMSREE — from admissions to placements, from classroom debates to flagship events.',
+  valuesSubtitle: 'Six values that guide every decision at SIMSREE - from admissions to placements, from classroom debates to flagship events.',
 
   ctaEyebrow: 'Continue Exploring',
   ctaTitle: 'Read what comes next.',
   ctaTitleHighlight: 'next.',
-  ctaSubtitle: 'From history to leadership, recognition to alumni — explore every facet of SIMSREE.',
+  ctaSubtitle: 'From history to leadership, recognition to alumni - explore every facet of SIMSREE.',
   ctaCards: [
     {
       tag: 'Leadership',
@@ -99,21 +99,21 @@ const fallbackHistoryPage = {
 };
 
 const fallbackMilestones = [
-  { year: '1983', category: 'Founding', title: 'SIMSREE established', description: "Sydenham Institute of Management Studies, Research and Entrepreneurship Education founded — extending the legacy of Sydenham College of Commerce, one of Mumbai's oldest commerce colleges.", source: 'First batch · MMS programme · Churchgate campus' },
-  { year: '1990s', category: 'Expansion', title: 'Executive programmes introduced', description: "MFM (Master's in Financial Management) and MMM (Master's in Marketing Management) launched on weekends — designed to serve Mumbai's working professionals without compromise on rigour.", source: 'MFM · MMM · weekend cohort model' },
-  { year: '2000s', category: 'Research', title: 'Doctoral programme launched', description: "PhD programme started to produce original research across management disciplines — from finance and marketing to operations and organisational behaviour.", source: 'PhD admission · 5 specialisations' },
+  { year: '1983', category: 'Founding', title: 'SIMSREE established', description: "Sydenham Institute of Management Studies, Research and Entrepreneurship Education founded - extending the legacy of Sydenham College of Commerce, one of Mumbai's oldest commerce colleges.", source: 'First batch · MMS programme · Churchgate campus' },
+  { year: '1990s', category: 'Expansion', title: 'Executive programmes introduced', description: "MFM (Master's in Financial Management) and MMM (Master's in Marketing Management) launched on weekends - designed to serve Mumbai's working professionals without compromise on rigour.", source: 'MFM · MMM · weekend cohort model' },
+  { year: '2000s', category: 'Research', title: 'Doctoral programme launched', description: "PhD programme started to produce original research across management disciplines - from finance and marketing to operations and organisational behaviour.", source: 'PhD admission · 5 specialisations' },
   { year: '2010s', category: 'Recognition', title: 'Consistent NIRF presence', description: "Inclusion in NIRF national rankings · 120+ corporate recruiters on campus annually · alumni network crosses 4,000 across BFSI, consulting, FMCG, tech, and public service.", source: 'NIRF listed · IIRF Rank 25 · 120+ recruiters' },
-  { year: '2024', variant: 'highlight', category: 'Structure', title: 'Cabinet approval · Dr Homi Bhabha State University', description: "State Cabinet approves SIMSREE's integration into Dr Homi Bhabha State University — the next chapter of the institute's structure, opening new pathways for research, autonomy, and inter-institutional collaboration.", source: 'Government of Maharashtra · 2024' },
+  { year: '2024', variant: 'highlight', category: 'Structure', title: 'Cabinet approval · Dr Homi Bhabha State University', description: "State Cabinet approves SIMSREE's integration into Dr Homi Bhabha State University - the next chapter of the institute's structure, opening new pathways for research, autonomy, and inter-institutional collaboration.", source: 'Government of Maharashtra · 2024' },
   { year: 'Nov 2025', category: 'Recognition', title: 'FPSB India · Best Authorised Institutional Partner 2025', description: "Awarded the Best Authorised Institutional Partner 2025 by the Financial Planning Standards Board India · ceremony held in Hyderabad in recognition of the institute's financial planning curriculum and outcomes.", source: 'FPSB India · Hyderabad ceremony' },
-  { year: '2026', variant: 'current', ghostLabel: 'NOW', category: 'Today', title: 'M.Sc. Finance · MMM · MFM · AY 2026-27 cycles in progress', description: 'Active admission cycles across all five programmes · MMS opens via Maharashtra CET · 13 student committees run flagship events, placements, and outreach — the next chapter is already being written.', source: '5 programmes · 13 committees · 40+ years strong' },
+  { year: '2026', variant: 'current', ghostLabel: 'NOW', category: 'Today', title: 'M.Sc. Finance · MMM · MFM · AY 2026-27 cycles in progress', description: 'Active admission cycles across all five programmes · MMS opens via Maharashtra CET · 13 student committees run flagship events, placements, and outreach - the next chapter is already being written.', source: '5 programmes · 13 committees · 40+ years strong' },
 ];
 
 const fallbackCoreValues = [
   { title: 'Excellence', description: 'An uncompromising standard across academics, research, and student experience.' },
-  { title: 'Collaboration', description: 'Faculty, students, alumni, and industry working together — not in silos.' },
+  { title: 'Collaboration', description: 'Faculty, students, alumni, and industry working together - not in silos.' },
   { title: 'Integrity', description: 'Zero management quota · merit-only admissions · transparent decision-making.' },
   { title: 'Wisdom', description: 'Knowledge that is rigorous, relevant, and applied to real problems.' },
-  { title: 'Empathy', description: 'Leadership grounded in social responsibility — Mrudgandha and beyond.' },
+  { title: 'Empathy', description: 'Leadership grounded in social responsibility - Mrudgandha and beyond.' },
   { title: 'Initiative', description: 'The institute runs largely on student initiative · responsibility is the curriculum.' },
 ];
 
@@ -276,7 +276,7 @@ export default function History() {
 
       {/* Location Advantage — Figma "Component": 1312 card (632 copy + 48 gap + 632 photo),
           radius 16, hairline + "small" shadow; copy column padded 32 with 32 gaps. */}
-      <section className="px-5 py-16 md:px-16 md:py-28">
+      <section className="px-5 py-12 md:px-16 md:py-20">
         <div className="max-w-[1312px] mx-auto bg-white rounded-2xl outline outline-1 -outline-offset-1 outline-black/20 shadow-small overflow-hidden grid lg:grid-cols-[632px_1fr] gap-8 lg:gap-12">
           <div className="p-6 md:p-8 flex flex-col gap-8">
             <Tagline>{hp.locationEyebrow}</Tagline>
@@ -323,7 +323,7 @@ export default function History() {
           highlight={hp.timelineTitleHighlight}
           body={hp.timelineIntro}
         />
-        <div className="mt-20 flex flex-col gap-10 lg:gap-20">
+        <div className="mt-10 md:mt-12 flex flex-col gap-10 lg:gap-20">
           {milestones.map((m, i) => (
             <TimelineRow
               key={m._id || m.year}
@@ -348,7 +348,7 @@ export default function History() {
           {hp.visionSectionSubtitle}
         </p>
 
-        <div className="mt-20 grid lg:grid-cols-2 gap-10 lg:gap-20">
+        <div className="mt-10 md:mt-12 grid lg:grid-cols-2 gap-10 lg:gap-20">
           <div className="rounded-xl bg-navy-900 text-white p-8 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
             <div className="flex items-center gap-8">
               <Tagline className="text-white shrink-0">{hp.visionLabel}</Tagline>
@@ -403,7 +403,7 @@ export default function History() {
         <p className="mt-5 md:mt-6 max-w-[678px] mx-auto text-center text-base md:text-lg leading-[150%] text-black">
           {hp.valuesSubtitle}
         </p>
-        <div className="mt-20 grid md:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {coreValues.map((v, i) => (
             <div
               key={v._id || v.title}
@@ -429,7 +429,7 @@ export default function History() {
           highlight={hp.ctaTitleHighlight}
           body={hp.ctaSubtitle}
         />
-        <div className="mt-20 grid md:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {(hp.ctaCards || []).map((c) => (
             <div
               key={c.title}

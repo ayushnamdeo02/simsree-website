@@ -12,14 +12,14 @@ const SECTORS = ['BFSI', 'Consulting', 'FMCG', 'IT. Tech', 'Pharma', 'Manufactur
 const fallbackPage = {
   heroEyebrow: "Renamed from 'List of Recruiters'",
   heroTitle: 'companies already recruit here.',
-  heroDescription: 'recruiters across 7 sectors — filter or search to find yours.',
+  heroDescription: 'recruiters across 7 sectors - filter or search to find yours.',
   heroCtaLabel: 'Become a recruiting partner',
   heroCtaUrl: '/placements/contact',
 
   gridEyebrow: 'Recruiting Partners',
   gridTitle: 'companies. Pick a sector.',
   gridTitleHighlight: 'Pick a sector.',
-  gridSubtitle: 'Filter by industry — or move your cursor over the grid to bring any logo into focus.',
+  gridSubtitle: 'Filter by industry - or move your cursor over the grid to bring any logo into focus.',
 
   ctaEyebrow: 'Want to Join This List?',
   ctaTitle: 'Tell us who you want to hire',
@@ -91,7 +91,7 @@ export default function Partners() {
           body={pp.gridSubtitle}
           titleClass="text-white [&_span]:text-teal-400"
         />
-        <div className="mt-20 flex flex-wrap gap-2">
+        <div className="mt-10 md:mt-12 flex flex-wrap gap-2">
           {['All', ...SECTORS].map((s) => (
             <button
               key={s}
@@ -109,7 +109,7 @@ export default function Partners() {
         {visible.length > 0 ? (
           // Figma's mobile frame crams all 8 columns into 33px cells, which overflows
           // the names; 4 shorter columns keep the grid's height without the overflow.
-          <div className="mt-20 grid grid-cols-4 lg:grid-cols-8 gap-2.5 lg:gap-y-[30px]">
+          <div className="mt-10 md:mt-12 grid grid-cols-4 lg:grid-cols-8 gap-2.5 lg:gap-y-[30px]">
             {visible.map((p, i) => {
               const logoUrl = p.logo ? urlFor(p.logo).height(96).auto('format').url() : null;
               return (
@@ -128,12 +128,12 @@ export default function Partners() {
             })}
           </div>
         ) : (
-          <p className="mt-20 text-base leading-[150%] text-white/70">No partners listed in {sector} yet.</p>
+          <p className="mt-10 md:mt-12 text-base leading-[150%] text-white/70">No partners listed in {sector} yet.</p>
         )}
       </Section>
 
       {/* Join CTA — navy, 64 padding, left column, buttons 14 apart. */}
-      <section className="bg-navy-900 text-white px-5 py-16 md:p-16 border-t border-white/20">
+      <section className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20">
         <div className="max-w-[1280px] mx-auto">
           <SectionTitle dark tagline={pp.ctaEyebrow} title={pp.ctaTitle} />
           <p className="mt-6 max-w-[598px] text-base md:text-lg leading-[150%]">{pp.ctaSubtitle}</p>

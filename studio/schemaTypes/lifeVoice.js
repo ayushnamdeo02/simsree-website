@@ -1,6 +1,6 @@
 export default {
   name: 'lifeVoice',
-  title: 'Life @ SIMSREE — Voice',
+  title: 'Life @ SIMSREE - Voice',
   type: 'document',
   description: 'Quotes in the "What the cohort actually remembers" carousel',
   fields: [

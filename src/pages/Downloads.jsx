@@ -13,7 +13,7 @@ const fallbackPage = {
   heroEyebrow: 'All Forms in One Place',
   heroTitle: 'Downloads & Affidavits.',
   heroDescription:
-    'Get every mandatory PDF admitted students need — anti-ragging affidavit, gap certificate, documents required, fee structure · all current year.',
+    'Get every mandatory PDF admitted students need - anti-ragging affidavit, gap certificate, documents required, fee structure · all current year.',
   heroCtaLabel: 'Back to admissions',
   heroCtaUrl: '/admissions',
 
@@ -41,7 +41,7 @@ const fallbackFiles = [
   {
     title: 'Anti-Ragging Affidavit',
     description:
-      'Every admitted student signs this UGC-mandated affidavit — zero tolerance, submit at induction.',
+      'Every admitted student signs this UGC-mandated affidavit - zero tolerance, submit at induction.',
     category: 'Affidavits',
     ctaLabel: 'Download the affidavit',
     order: 1,
@@ -55,7 +55,7 @@ const fallbackFiles = [
   {
     title: 'Documents Required · MMS',
     description:
-      'The complete MMS document list — academic, personal, and reservation · updated annually',
+      'The complete MMS document list - academic, personal, and reservation · updated annually',
     category: 'Documents',
     order: 3,
   },
@@ -68,14 +68,14 @@ const fallbackFiles = [
   {
     title: 'Fee Payment Details',
     description:
-      'How to pay — beneficiary account · IFSC · UPI · receipt format · updated each admission cycle.',
+      'How to pay - beneficiary account · IFSC · UPI · receipt format · updated each admission cycle.',
     category: 'Fee',
     order: 5,
   },
   {
     title: 'MMM & MFM Notification AY 2026-27 · Round 4',
     description:
-      'Apply before it closes — latest notification · published May 2026 · closes 30 Jun 2026.',
+      'Apply before it closes - latest notification · published May 2026 · closes 30 Jun 2026.',
     category: 'Notifications',
     order: 6,
   },
@@ -123,7 +123,7 @@ export default function Downloads() {
           highlight={dp.filterTitleHighlight}
           body={dp.filterSubtitle}
         />
-        <div className="mt-20 flex flex-wrap items-center gap-4 md:gap-8">
+        <div className="mt-10 md:mt-12 flex flex-wrap items-center gap-4 md:gap-8">
           <span className="text-base leading-[150%] font-semibold text-[#292929]">{dp.filterLabel}</span>
           <div className="flex flex-wrap gap-3">
             {chips.map((c) => (
@@ -143,13 +143,13 @@ export default function Downloads() {
         </div>
 
         <SectionTitle
-          className="mt-20"
+          className="mt-10 md:mt-12"
           tagline={dp.filesEyebrow}
           title={composeTitle(dp.filesTitle, dp.filesTitleHighlight)}
           highlight={dp.filesTitleHighlight}
           body={dp.filesSubtitle}
         />
-        <div className="mt-20 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {visible.map((f) => {
             const href = f.fileUrl || f.externalUrl;
             return (

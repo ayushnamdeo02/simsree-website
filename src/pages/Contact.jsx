@@ -46,12 +46,12 @@ const fallbackPage = {
   pickerEyebrow: 'I am a…',
   pickerTitle: 'paths · one page.',
   pickerTitleHighlight: 'one page.',
-  pickerSubtitle: 'Pick your role below — the page tailors itself to you.',
+  pickerSubtitle: 'Pick your role below - the page tailors itself to you.',
 
   generalEyebrow: 'General Contact',
   generalTitle: 'Send us a message.',
   generalTitleHighlight: 'message.',
-  generalSubtitle: 'General enquiry form — or pick a role above for a faster, tailored route.',
+  generalSubtitle: 'General enquiry form - or pick a role above for a faster, tailored route.',
   generalSubmitLabel: 'Send my message',
   generalFootnote: 'Generic enquiry · routes to info@simsree.org',
 
@@ -123,7 +123,7 @@ const fallbackPage = {
   successTitle: 'Message sent.',
   successBody: 'We reply within 1 business day.',
   failTitle: "That didn't go through.",
-  failBody: 'Your details are still here — try again, or email us instead.',
+  failBody: 'Your details are still here - try again, or email us instead.',
 };
 
 const fallbackRoles = [
@@ -154,7 +154,7 @@ const fallbackRoles = [
     panelEyebrow: 'Recruiter',
     panelTitle: 'Recruiters, straight to Placements',
     panelTitleHighlight: 'Placements',
-    panelSubtitle: 'Find recruiter contacts on the Placements tab — we keep them in one place.',
+    panelSubtitle: 'Find recruiter contacts on the Placements tab - we keep them in one place.',
     panelButtons: [
       { label: 'Submit your hiring needs', url: '/placements/recruiter-engagement', primary: true },
       { label: 'Email Placement Cell', url: 'mailto:placements@simsree.org', primary: false },
@@ -174,7 +174,7 @@ const fallbackRoles = [
     panelTitle: 'Welcome home.',
     panelTitleHighlight: 'home.',
     panelSubtitle:
-      'Update your profile, attend Batchmeet and find your batch on the Alumni Gateway — run by SIMAA, the formal alumni body.',
+      'Update your profile, attend Batchmeet and find your batch on the Alumni Gateway - run by SIMAA, the formal alumni body.',
     panelButtons: [
       { label: 'Reconnect on the Alumni Gateway', url: '/alumni-portal', primary: true },
       { label: 'Open the SIMAA Portal', url: '/alumni-portal', primary: false },
@@ -487,7 +487,7 @@ export default function Contact() {
           highlight={cp.pickerTitleHighlight}
           body={cp.pickerSubtitle}
         />
-        <div className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div className="mt-10 md:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {roles.map((r, i) => {
             const Icon = ROLE_ICONS[r.icon] || GraduationCap;
             const active = roleIndex === i;
@@ -533,11 +533,11 @@ export default function Contact() {
         )}
 
         {(!role || role.showForm) && (
-          <div className="mt-20">{renderForm(role ? role.formSubmitLabel || 'Send Message' : cp.generalSubmitLabel, role ? role.formFootnote : cp.generalFootnote)}</div>
+          <div className="mt-10 md:mt-12">{renderForm(role ? role.formSubmitLabel || 'Send Message' : cp.generalSubmitLabel, role ? role.formFootnote : cp.generalFootnote)}</div>
         )}
 
         {role?.cards?.length > 0 && (
-          <div className="mt-20 grid md:grid-cols-3 gap-8">
+          <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
             {role.cards.map((c) => (
               <BarCard key={c.title} title={c.title}>
                 {c.body && <p className="text-sm leading-[150%] text-black">{c.body}</p>}
@@ -552,7 +552,7 @@ export default function Contact() {
         )}
 
         {role?.banner?.title && (
-          <div className="mt-20 p-6 rounded-2xl bg-navy-900 outline outline-1 -outline-offset-1 outline-black/20 text-white flex flex-col md:flex-row md:items-center gap-6 md:gap-8">
+          <div className="mt-10 md:mt-12 p-6 rounded-2xl bg-navy-900 outline outline-1 -outline-offset-1 outline-black/20 text-white flex flex-col md:flex-row md:items-center gap-6 md:gap-8">
             <div className="flex-1 min-w-0 flex items-center gap-4">
               <GraduationCap size={48} strokeWidth={1.5} className="shrink-0" />
               <div className="flex flex-col gap-1">
@@ -580,7 +580,7 @@ export default function Contact() {
           role + phone), then bar cards: two stacked | the helpers list. */}
       <Section bg="bg-navy-50" width={1280}>
         <SectionTitle tagline={cp.directoryEyebrow} title={cp.directoryTitle} body={cp.directorySubtitle} />
-        <div className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 lg:gap-x-14 gap-y-12">
+        <div className="mt-10 md:mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 lg:gap-x-14 gap-y-12">
           {(cp.departments || []).map((d, i) => (
             <div key={d.name} className="flex flex-col items-center gap-4 text-center text-black">
               <div
@@ -604,7 +604,7 @@ export default function Contact() {
             </div>
           ))}
         </div>
-        <div className="mt-20 grid lg:grid-cols-[714fr_534fr] gap-8 items-stretch">
+        <div className="mt-10 md:mt-12 grid lg:grid-cols-[714fr_534fr] gap-8 items-stretch">
           <div className="flex flex-col gap-4">
             {(cp.directoryPanels || [])
               .filter((_, i) => i !== 1)
@@ -631,7 +631,7 @@ export default function Contact() {
       {/* Find us — 698 copy (title, buttons, directions bar card) | 502 map. */}
       <Section width={1280}>
         <div className="grid lg:grid-cols-[698px_1fr] gap-12 lg:gap-20">
-          <div className="flex flex-col gap-20">
+          <div className="flex flex-col gap-12 md:gap-16">
             <SectionTitle tagline={cp.locationEyebrow} title={cp.locationTitle} highlight={cp.locationTitleHighlight} body={cp.locationSubtitle} width={698} />
             <div className="flex flex-col gap-6 max-w-[534px]">
               <div className="flex flex-wrap gap-6">

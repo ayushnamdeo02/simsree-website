@@ -138,7 +138,7 @@ const fallbackPage = {
   licenceTitle: 'A student-run TEDx, independently organized, in Mumbai.',
   licenceTitleHighlight: 'independently organized,',
   licenceBody:
-    'TEDxSIMSREE is operated under licence from TED. The licence is held by the SIMSREE Student Council; the work is done by a 22-person committee that turns over every academic year. No faculty advisor curates the talks. No one gets paid. The standard we hold ourselves to is the same TED holds itself to: curiosity, respect, warmth, and the pursuit of knowledge — without an agenda.',
+    'TEDxSIMSREE is operated under licence from TED. The licence is held by the SIMSREE Student Council; the work is done by a 22-person committee that turns over every academic year. No faculty advisor curates the talks. No one gets paid. The standard we hold ourselves to is the same TED holds itself to: curiosity, respect, warmth, and the pursuit of knowledge - without an agenda.',
   licenceRows: [
     { label: 'Licence year', value: '2017' },
     { label: 'Licence type', value: 'University · Standard' },
@@ -159,12 +159,12 @@ const fallbackPage = {
 
 const fallbackEditions = [
   { year: '2025', theme: 'Unstoppable', description: 'Six speakers, one afternoon. Movement, momentum, and what refuses to stop.', wide: true, order: 1 },
-  { year: '2024', theme: 'Threshold', description: 'The line worth crossing — and what is on the other side.', order: 2 },
+  { year: '2024', theme: 'Threshold', description: 'The line worth crossing - and what is on the other side.', order: 2 },
   { year: '2023', theme: 'Fault Lines', description: 'Where things crack, and who does the repair.', order: 3 },
   { year: '2022', theme: 'Re-Sound', description: 'What gets heard when the noise drops.', order: 4 },
   { year: '2021', theme: 'Lighthouse', description: 'Fixed points in an unfixed year.', order: 5 },
   { year: '2019', theme: 'Untangled', description: 'Complexity, made legible.', order: 6 },
-  { year: '2018', theme: 'First Light', description: 'The inaugural year — six untested voices.', order: 7 },
+  { year: '2018', theme: 'First Light', description: 'The inaugural year - six untested voices.', order: 7 },
 ];
 
 const fallbackTalks = [
@@ -181,7 +181,7 @@ const fallbackTalks = [
 const fallbackMilestones = [
   { title: 'The licence arrives.', description: 'Three-four years apply for a TEDx licence after attending TEDxGateway. They get it on the second try. No money. No venue. A boardroom deadline.', order: 1 },
   { title: 'The first edition · “Unbound”.', description: 'Six speakers · 180 seats sold · slick corporate sponsors. Filmed free a friend with one camera. The opening talk got 400k views in 18 months.', order: 2 },
-  { title: 'The skipped year.', description: 'No initial car to hold a chair before during lockdown — NO wrong. We came back in 2021 with “Lighthouse”, streamed only, from a closed auditorium.', order: 3 },
+  { title: 'The skipped year.', description: 'No initial car to hold a chair before during lockdown - NO wrong. We came back in 2021 with “Lighthouse”, streamed only, from a closed auditorium.', order: 3 },
   { title: 'The seventh · “Unstoppable”.', description: '320 seats sold out in 70 minutes · livestream rooms in 14 partner colleges · cumulative watch past 11M YouTube views. The standard we chase now is our own.', order: 4 },
 ];
 
@@ -309,7 +309,7 @@ export default function Tedx() {
       )}
 
       {/* What we do */}
-      <section className="py-16 lg:py-20">
+      <section className="py-12 lg:py-20">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center mb-12">
             <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
@@ -328,7 +328,7 @@ export default function Tedx() {
               return (
                 <div
                   key={c.title}
-                  className="border border-navy-100 rounded-lg overflow-hidden flex flex-col"
+                  className="hover-card border border-navy-100 rounded-lg overflow-hidden flex flex-col"
                 >
                   <div
                     className="h-[150px] bg-gray-200 bg-cover bg-center"
@@ -359,7 +359,7 @@ export default function Tedx() {
       </section>
 
       {/* Editions */}
-      <section id="editions" className="py-16 lg:py-20 scroll-mt-24">
+      <section id="editions" className="py-12 lg:py-20 scroll-mt-24">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center mb-12">
             <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
@@ -380,7 +380,7 @@ export default function Tedx() {
               return (
                 <div
                   key={e._id || e.year}
-                  className={`relative h-[220px] rounded-lg overflow-hidden bg-gray-300 bg-cover bg-center ${
+                  className={`hover-card relative h-[220px] rounded-lg overflow-hidden bg-gray-300 bg-cover bg-center ${
                     e.wide ? 'sm:col-span-2' : ''
                   }`}
                   style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
@@ -412,7 +412,7 @@ export default function Tedx() {
       </section>
 
       {/* Reach */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
+      <section className="bg-navy-900 text-white py-12 lg:py-20">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center mb-12">
             <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
@@ -437,7 +437,7 @@ export default function Tedx() {
       </section>
 
       {/* Themes */}
-      <section className="py-16 lg:py-20">
+      <section className="py-12 lg:py-20">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center mb-12">
             <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
@@ -456,7 +456,7 @@ export default function Tedx() {
               return (
                 <div
                   key={c.title}
-                  className="relative h-[280px] rounded-lg overflow-hidden bg-gray-300 bg-cover bg-center"
+                  className="hover-card relative h-[280px] rounded-lg overflow-hidden bg-gray-300 bg-cover bg-center"
                   style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
                 >
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/45 to-navy-950/10" />
@@ -487,7 +487,7 @@ export default function Tedx() {
       </section>
 
       {/* Talks */}
-      <section id="talks" className="py-16 lg:py-20 scroll-mt-24">
+      <section id="talks" className="py-12 lg:py-20 scroll-mt-24">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center mb-12">
             <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
@@ -508,7 +508,7 @@ export default function Tedx() {
               return (
                 <div key={t._id || t.speaker} className="flex flex-col">
                   <div
-                    className="h-[180px] rounded-lg bg-gray-200 bg-cover bg-center mb-4"
+                    className="hover-card h-[180px] rounded-lg bg-gray-200 bg-cover bg-center mb-4"
                     style={photoUrl ? { backgroundImage: `url('${photoUrl}')` } : undefined}
                   />
                   <span className="text-[9px] font-semibold tracking-widest uppercase text-ink-400 mb-1.5">
@@ -535,7 +535,7 @@ export default function Tedx() {
       </section>
 
       {/* Get involved */}
-      <section id="involved" className="py-16 lg:py-20 scroll-mt-24">
+      <section id="involved" className="py-12 lg:py-20 scroll-mt-24">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center mb-12">
             <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
@@ -573,7 +573,7 @@ export default function Tedx() {
       </section>
 
       {/* History */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
+      <section className="bg-navy-900 text-white py-12 lg:py-20">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
           <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
             {tp.historyEyebrow}
@@ -610,7 +610,7 @@ export default function Tedx() {
       </section>
 
       {/* Licence */}
-      <section className="py-16 lg:py-20">
+      <section className="py-12 lg:py-20">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
             <div>
@@ -647,7 +647,7 @@ export default function Tedx() {
       </section>
 
       {/* Closing CTA */}
-      <section className="bg-navy-900 text-white py-16 lg:py-24">
+      <section className="bg-navy-900 text-white py-12 lg:py-20">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0 text-center">
           <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
             {tp.ctaEyebrow}
