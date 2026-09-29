@@ -306,7 +306,7 @@ export default function News() {
     <div className="bg-white">
       {/* Hero — white. 674 copy column (72px title, 18/150 body, dot tags) | 532
           collage of four photos in two 12-gapped rows. */}
-      <section className="px-5 md:px-[55px] pt-[202px] lg:pt-[180px] pb-[72px]">
+      <section className="px-5 md:px-[55px] pt-[222px] lg:pt-[204px] pb-[72px]">
         <div className="max-w-[1330px] mx-auto grid lg:grid-cols-[762px_532px] justify-between gap-9 items-center">
           <div className="flex flex-col gap-4">
             <Breadcrumb items={[{ label: 'Home', to: '/' }, { label: 'Events', to: '/events' }, { label: 'News' }]} className="!text-black" />

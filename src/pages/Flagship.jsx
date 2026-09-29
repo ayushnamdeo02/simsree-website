@@ -292,7 +292,7 @@ export default function Flagship() {
     <div className="bg-white">
       {/* Hero — white. 628 copy column (tag, 72px three-line title, 18/150 body,
           button + 36px stats) | 647 collage of four photos in two 12-gapped rows. */}
-      <section className="px-5 md:px-[55px] pt-[202px] lg:pt-[180px] pb-[72px]">
+      <section className="px-5 md:px-[55px] pt-[222px] lg:pt-[204px] pb-[72px]">
         <div className="max-w-[1330px] mx-auto grid lg:grid-cols-[647px_647px] justify-between gap-9 items-center">
           <div className="flex flex-col gap-4">
             <Breadcrumb

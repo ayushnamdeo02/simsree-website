@@ -19,10 +19,11 @@ export default function StatCard({ label, value, dark = false }) {
   );
 
   return (
-    // Figma card: 300 tall (220 on mobile), radius 16, padding 32 (16 on mobile), 16px label/value gap, content
-    // bottom-anchored; 1px hairline (white/20 on navy, black/20 on white) + "small" shadow.
+    // Figma card, shortened to a landscape rectangle: the 300px (220 mobile)
+    // frame left a lot of empty space above the number. min-h keeps every card
+    // in a row the same height while long labels can still grow the row.
     <div
-      className={`relative rounded-2xl p-4 md:p-8 h-[220px] md:h-[300px] flex flex-col justify-end gap-4 shadow-small outline outline-1 -outline-offset-1 ${
+      className={`relative rounded-2xl p-4 md:p-8 min-h-[140px] md:min-h-[190px] flex flex-col justify-end gap-2 md:gap-4 shadow-small outline outline-1 -outline-offset-1 ${
         dark ? 'bg-navy-900 text-white outline-white/20' : 'bg-white outline-black/20'
       }`}
     >

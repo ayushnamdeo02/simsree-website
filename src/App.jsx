@@ -39,6 +39,7 @@ import IndustryEvents from './pages/IndustryEvents';
 import News from './pages/News';
 import PageStub from './pages/PageStub';
 import { mainNav, utilityLinks } from './data/sitemap';
+import ScrollToTop from './components/ScrollToTop';
 
 // Routes with a real, built-out page (not a stub).
 const builtRoutes = new Set(['/', '/about', '/about/history', '/about/directors-message', '/about/rankings', '/about/campus-life', '/about/alumni', '/about/student-driven-system', '/alumni-portal', '/about/simarthan', '/placements', '/placements/why-recruit', '/placements/reports', '/placements/partners', '/placements/contact', '/placements/recruiter-engagement', '/academics', '/academics/mms', '/academics/msc-finance', '/academics/mfm', '/academics/mmm', '/academics/phd', '/academics/faculty', '/admissions', '/admissions/mms', '/admissions/msc-finance', '/admissions/mfm', '/admissions/mmm', '/admissions/phd', '/admissions/downloads', '/students', '/students/achievements', '/students/batch-profile', '/students/committees/placement', '/students/body-structure', '/students/life', '/contact', '/events', '/events/simerations', '/events/tedxsimsree', '/events/flagship', '/events/development-programmes', '/events/industry-events', '/events/news']);
@@ -72,6 +73,7 @@ const stubRoutes = collectRoutes();
 export default function App() {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />

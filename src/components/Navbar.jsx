@@ -75,8 +75,8 @@ export default function Navbar() {
       {/* Main nav — 1312px frame at x=64 (1440 - 64 - 64), 120px tall (Figma) */}
       <div className={`transition-colors duration-300 ${isTransparent ? 'bg-transparent' : 'bg-white shadow-sm'}`}>
         <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
-          {/* Figma: 108 tall with a 192x47 logo on mobile; 120 tall with a 229x56 logo on desktop. */}
-          <div className="flex items-center justify-between h-[108px] lg:h-[120px]">
+          {/* Figma draws this 108/120 tall; trimmed to 88/96 for a tighter header. */}
+          <div className="flex items-center justify-between h-[88px] lg:h-[96px]">
             <Link
               to="/"
               aria-label="SIMSREE — home"
@@ -88,7 +88,7 @@ export default function Navbar() {
                 <img
                   src={logoUrl}
                   alt="SIMSREE"
-                  className={`h-[47px] lg:h-14 w-auto max-w-[229px] object-contain ${
+                  className={`h-10 lg:h-12 w-auto max-w-[229px] object-contain ${
                     lightenLogo ? 'brightness-0 invert' : darkenLogo ? 'brightness-0' : ''
                   }`}
                 />
