@@ -51,8 +51,9 @@ const fallbackFlagships = [
 ];
 
 const fallbackRecruiters = [
-  { name: 'Recruiter A' }, { name: 'Recruiter B' }, { name: 'Recruiter C' },
-  { name: 'Recruiter D' }, { name: 'Recruiter E' }, { name: 'Recruiter F' },
+  { name: 'Wells Fargo' }, { name: 'Barclays' }, { name: 'Piramal' }, { name: 'Morgan Stanley' },
+  { name: 'Citi' }, { name: 'Godrej' }, { name: 'Godrej & Boyce' }, { name: 'Deutsche Bank' },
+  { name: 'GEP' }, { name: 'Deloitte' }, { name: 'D. E. Shaw & Co.' }, { name: 'Arcesium' },
 ];
 
 const fallbackHomepage = {
@@ -418,13 +419,15 @@ export default function Home() {
             {[0, 1].map((half) => (
               <div key={half} className="flex items-center shrink-0" aria-hidden={half === 1}>
                 {recruiters.map((r) => {
-                  const logoUrl = imgUrl(r.logo, 240);
+                  // Logos are uploaded on a shared 5:2 transparent canvas, sized so each
+                  // carries the same visual weight, so every slot renders the same box.
+                  const logoUrl = imgUrl(r.logo, 480);
                   return (
-                    <div key={`${half}-${r._id || r.name}`} className="px-10 shrink-0">
+                    <div key={`${half}-${r._id || r.name}`} className="px-3 lg:px-4 shrink-0">
                       {logoUrl ? (
-                        <img src={logoUrl} alt={r.name} className="h-9 w-auto object-contain" />
+                        <img src={logoUrl} alt={r.name} className="h-16 lg:h-20 aspect-[5/2] object-contain" />
                       ) : (
-                        <span className="text-xl font-semibold text-navy-900 whitespace-nowrap">{r.name}</span>
+                        <span className="px-6 text-xl font-semibold text-navy-900 whitespace-nowrap">{r.name}</span>
                       )}
                     </div>
                   );
