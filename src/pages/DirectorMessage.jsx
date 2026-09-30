@@ -209,9 +209,9 @@ function DirectorSection({ number, title, titleHighlight, body, boldClosing, pil
           </div>
         )}
         {pills?.length > 0 && (
-          <div className="flex flex-wrap gap-6">
+          <div className="flex flex-wrap gap-3">
             {pills.map((pl) => (
-              <span key={pl} className="text-xs leading-[150%] bg-white text-navy-900 px-2.5 py-1 rounded-2xl">
+              <span key={pl} className="bg-navy-50 text-navy-900 text-xs md:text-sm leading-[150%] px-4 md:px-5 py-2 rounded-full uppercase whitespace-nowrap">
                 {pl}
               </span>
             ))}
