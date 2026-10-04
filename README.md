@@ -13,7 +13,6 @@ npm run build
 npm run preview
 ```
 
-
 ## What's built
 - **Design system**: colors/fonts extracted from the Figma exports, set up as Tailwind v4 theme tokens in `src/index.css`
 - **Layout**: Navbar (with mega-menu dropdowns + mobile menu) and Footer, matching the Figma nav bar design — see `src/components/Layout.jsx`, `Navbar.jsx`, `Footer.jsx`
