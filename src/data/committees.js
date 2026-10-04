@@ -11,7 +11,7 @@ export const fallbackCommittees = [
   { name: 'Alumni Committee', description: 'Alumni relations, mentorship, Batchmeet coordination.', category: 'Corporate', slug: { current: 'alumni' } },
   { name: 'Corporate Relations', description: 'Industry partnerships, live projects, speaker series.', category: 'Corporate', slug: { current: 'corporate-relations' } },
   { name: 'SSR Committee', description: 'Social responsibility, community outreach, Mrudgandha.', category: 'Social', slug: { current: 'ssr' } },
-  { name: 'Infra-Tech Committee', description: 'Digital operations, tech infrastructure, AV systems.', category: 'Academic', slug: { current: 'infra-tech' } },
+  { name: 'Infra Tech Committee', description: 'Digital operations, tech infrastructure, AV systems.', category: 'Academic', slug: { current: 'infra-tech' } },
   { name: 'Course Co-ordinators', description: 'Academic scheduling, timetabling, faculty interface.', category: 'Academic', slug: { current: 'course-coordinators' } },
   { name: 'Chairpersons Council', description: 'Cross-committee coordination - Year 2 senior leaders.', category: 'Leadership', slug: { current: 'chairpersons-council' } },
 ];

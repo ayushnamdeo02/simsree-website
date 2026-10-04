@@ -742,7 +742,7 @@ const DIRECTORY = {
   alumni: ['Alumni Committee', 'Corporate', 'Alumni relations, mentorship, Batchmeet coordination.'],
   'corporate-relations': ['Corporate Relations', 'Corporate', 'Industry partnerships, live projects, speaker series.'],
   ssr: ['SSR Committee', 'Social', 'Social responsibility, community outreach, Mrudgandha.'],
-  'infra-tech': ['Infra-Tech Committee', 'Academic', 'Digital operations, tech infrastructure, AV systems.'],
+  'infra-tech': ['Infra Tech Committee', 'Academic', 'Digital operations, tech infrastructure, AV systems.'],
   'course-coordinators': ['Course Co-ordinators', 'Academic', 'Academic scheduling, timetabling, faculty interface.'],
   'chairpersons-council': ['Chairpersons Council', 'Leadership', 'Cross-committee coordination - Year 2 senior leaders.'],
 };
