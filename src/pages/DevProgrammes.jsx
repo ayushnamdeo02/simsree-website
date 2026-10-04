@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { ChevronDown } from 'lucide-react';
 import PageHero, { HeroButton } from '../components/PageHero';
 import SessionCard from '../components/SessionCard';
@@ -141,6 +142,9 @@ function BarCard({ children }) {
   );
 }
 
+// URL names for the three tabs, in tab order.
+const TAB_KEYS = ['mdp', 'catalyst', 'custom'];
+
 export default function DevProgrammes() {
   const facts = useKeyFacts();
   const { data } = useDevProgrammesData();
@@ -154,7 +158,13 @@ export default function DevProgrammes() {
   const faqs = pick('faqs');
   const ctaButtons = pick('ctaButtons');
 
-  const [tab, setTab] = useState(0);
+  // ?tab=catalyst (or mdp / custom) opens that tab, so the nav can link straight to it.
+  const [searchParams] = useSearchParams();
+  const tabParam = TAB_KEYS.indexOf(searchParams.get('tab'));
+  const [tab, setTab] = useState(Math.max(tabParam, 0));
+  useEffect(() => {
+    if (tabParam >= 0) setTab(tabParam);
+  }, [tabParam]);
   const [track, setTrack] = useState('All upcoming');
 
   const tabs = [dp.mdpTabLabel, dp.catalystTabLabel, dp.customTabLabel];

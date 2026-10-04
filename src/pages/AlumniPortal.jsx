@@ -260,7 +260,7 @@ export default function AlumniPortal() {
 
       {/* Services — centred title with the count in teal; 405x623 cards: 341x320
           photo, yellow-tint tag, H5 28 navy, 18/150 copy, 14/150 navy footnote. */}
-      <Section id="services" width={1280}>
+      <Section id="services" width={1280} className="scroll-mt-24">
         <SectionTitle
           center
           tagline={pp.servicesEyebrow}
@@ -403,7 +403,7 @@ export default function AlumniPortal() {
 
       {/* Register — navy, 64 padding: 567 copy column | facts split by 2px rules and
           contact lines with 16px icons, 80 apart. */}
-      <section id="register" className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20">
+      <section id="register" className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20 scroll-mt-24">
         <div className="max-w-[1280px] mx-auto grid lg:grid-cols-[567px_1fr] gap-12 lg:gap-20 items-center">
           <div className="flex flex-col gap-8">
             <div className="flex flex-col gap-4">

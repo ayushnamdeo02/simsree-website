@@ -29,16 +29,22 @@ export default function ScrollToTop() {
       };
     }
 
+    let timers = [];
     if (hash) {
-      const target = document.querySelector(hash);
-      if (target) target.scrollIntoView({ block: 'start' });
-      else window.scrollTo(0, 0);
+      // The section may not be rendered yet (lazy page, Sanity content still
+      // arriving and shifting the layout), so aim at it again as the page settles.
+      window.scrollTo(0, 0);
+      const jump = () => document.querySelector(hash)?.scrollIntoView({ block: 'start' });
+      timers = [0, 60, 200, 450, 900].map((delay) => setTimeout(jump, delay));
     } else {
       window.scrollTo(0, 0);
     }
 
     // Record where this entry was left, for when the visitor comes back to it.
-    return () => positions.current.set(key, window.scrollY);
+    return () => {
+      timers.forEach(clearTimeout);
+      positions.current.set(key, window.scrollY);
+    };
   }, [pathname, hash, key, navigationType]);
 
   return null;

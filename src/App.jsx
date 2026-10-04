@@ -42,23 +42,22 @@ import { mainNav, utilityLinks } from './data/sitemap';
 import ScrollToTop from './components/ScrollToTop';
 
 // Routes with a real, built-out page (not a stub).
-const builtRoutes = new Set(['/', '/about', '/about/history', '/about/directors-message', '/about/rankings', '/about/campus-life', '/about/alumni', '/about/student-driven-system', '/alumni-portal', '/about/simarthan', '/placements', '/placements/why-recruit', '/placements/reports', '/placements/partners', '/placements/contact', '/placements/recruiter-engagement', '/academics', '/academics/mms', '/academics/msc-finance', '/academics/mfm', '/academics/mmm', '/academics/phd', '/academics/faculty', '/admissions', '/admissions/mms', '/admissions/msc-finance', '/admissions/mfm', '/admissions/mmm', '/admissions/phd', '/admissions/downloads', '/students', '/students/achievements', '/students/batch-profile', '/students/committees/placement', '/students/body-structure', '/students/life', '/contact', '/events', '/events/simerations', '/events/tedxsimsree', '/events/flagship', '/events/development-programmes', '/events/industry-events', '/events/news']);
+const builtRoutes = new Set(['/', '/about', '/about/history', '/about/directors-message', '/about/rankings', '/about/campus-life', '/about/alumni', '/about/student-driven-system', '/alumni-portal', '/about/simarthan', '/placements', '/placements/why-recruit', '/placements/reports', '/placements/partners', '/placements/contact', '/placements/recruiter-engagement', '/academics', '/academics/mms', '/academics/msc-finance', '/academics/mfm', '/academics/mmm', '/academics/phd', '/academics/faculty', '/admissions', '/admissions/mms', '/admissions/msc-finance', '/admissions/mfm', '/admissions/mmm', '/admissions/phd', '/admissions/downloads', '/students', '/students/achievements', '/students/batch-profile', '/students/leadership', '/students/committees/placement', '/students/body-structure', '/students/life', '/contact', '/events', '/events/simerations', '/events/tedxsimsree', '/events/flagship', '/events/development-programmes', '/events/industry-events', '/events/news']);
 
-// Flatten every route (top-level + children + utility links) into a single list,
-// skipping routes that already have a real page.
+// Flatten every route (nav items, their dropdown links and sub-links, utility
+// links) into a single list, skipping routes that already have a real page.
+// Group headings have no path, and links may carry a ?query or #anchor.
 function collectRoutes() {
   const routes = [];
-  for (const item of mainNav) {
-    if (!builtRoutes.has(item.path)) routes.push({ path: item.path, label: item.label });
-    if (item.children) {
-      for (const child of item.children) {
-        if (!builtRoutes.has(child.path)) routes.push({ path: child.path, label: child.label });
-      }
+  const add = ({ path, label, children }) => {
+    const route = path?.split(/[?#]/)[0];
+    if (route && !builtRoutes.has(route) && !route.startsWith('/students/committees/')) {
+      routes.push({ path: route, label });
     }
-  }
-  for (const link of utilityLinks) {
-    if (!builtRoutes.has(link.path)) routes.push({ path: link.path, label: link.label });
-  }
+    children?.forEach(add);
+  };
+  mainNav.forEach(add);
+  utilityLinks.forEach(add);
   // De-dupe (some paths like /events/tedxsimsree and /alumni-portal appear twice)
   const seen = new Set();
   return routes.filter((r) => {

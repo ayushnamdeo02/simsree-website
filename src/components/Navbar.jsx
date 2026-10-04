@@ -1,12 +1,63 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ChevronDown, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ChevronDown, ChevronUp, ArrowUpRight } from 'lucide-react';
 import { mainNav as fallbackMainNav, utilityLinks as fallbackUtilityLinks } from '../data/sitemap';
 import { useSiteSettings } from '../lib/useSiteSettings';
 import { urlFor } from '../lib/sanity';
 
 // Pages with a full-bleed photo hero get a transparent header that turns solid on scroll.
 const TRANSPARENT_HERO_ROUTES = ['/', '/about', '/about/history', '/about/directors-message', '/about/rankings', '/about/campus-life', '/about/alumni', '/about/student-driven-system', '/alumni-portal', '/about/simarthan', '/placements', '/placements/why-recruit', '/placements/reports', '/placements/partners', '/placements/contact', '/placements/recruiter-engagement', '/academics', '/academics/mms', '/academics/msc-finance', '/academics/mfm', '/academics/mmm', '/academics/phd', '/academics/faculty', '/admissions', '/admissions/mms', '/admissions/msc-finance', '/admissions/mfm', '/admissions/mmm', '/admissions/phd', '/admissions/downloads', '/students', '/students/achievements', '/students/batch-profile', '/students/leadership', '/students/body-structure', '/students/life', '/contact', '/events', '/events/simerations', '/events/development-programmes', '/events/industry-events'];
+
+// A dropdown entry. Plain links render as one row; an entry with sub-links is a
+// group (Figma "NEW Tabs"): a heading row with a chevron that folds its smaller,
+// indented sub-links. A group without a path ("Full Time") is a heading only.
+function DropdownEntry({ entry, onNavigate, mobile = false }) {
+  const [open, setOpen] = useState(true);
+  const row = mobile ? 'px-10 py-2 text-sm text-ink-600' : 'px-4 py-2 text-sm text-ink-600 hover:bg-gray-50 hover:text-navy-800';
+  const subRow = mobile
+    ? 'block pl-14 pr-10 py-1.5 text-xs leading-[150%] text-ink-600'
+    : 'block pl-4 pr-4 py-1.5 text-xs leading-[150%] text-ink-600 hover:bg-gray-50 hover:text-navy-800';
+
+  if (!entry.children?.length) {
+    return (
+      <Link to={entry.path} onClick={onNavigate} className={`block ${row}`}>
+        {entry.label}
+      </Link>
+    );
+  }
+
+  const Chevron = open ? ChevronUp : ChevronDown;
+  return (
+    <div>
+      <div className={`flex items-center justify-between gap-3 ${row}`}>
+        {entry.path ? (
+          <Link to={entry.path} onClick={onNavigate} className="flex-1">
+            {entry.label}
+          </Link>
+        ) : (
+          <button type="button" onClick={() => setOpen(!open)} className="flex-1 text-left">
+            {entry.label}
+          </button>
+        )}
+        <button
+          type="button"
+          onClick={() => setOpen(!open)}
+          aria-expanded={open}
+          aria-label={`${open ? 'Collapse' : 'Expand'} ${entry.label}`}
+          className="shrink-0 text-ink-900"
+        >
+          <Chevron size={14} />
+        </button>
+      </div>
+      {open &&
+        entry.children.map((sub, i) => (
+          <Link key={i} to={sub.path} onClick={onNavigate} className={subRow}>
+            {sub.label}
+          </Link>
+        ))}
+    </div>
+  );
+}
 
 export default function Navbar() {
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -74,7 +125,7 @@ export default function Navbar() {
 
       {/* Main nav — 1312px frame at x=64 (1440 - 64 - 64), 120px tall (Figma) */}
       <div className={`transition-colors duration-300 ${isTransparent ? 'bg-transparent' : 'bg-white shadow-sm'}`}>
-        <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
+        <div className="max-w-[1440px] mx-auto px-5 min-[1024px]:px-8 min-[1440px]:px-16">
           {/* Figma draws this 108/120 tall; trimmed to 88/96 for a tighter header. */}
           <div className="flex items-center justify-between h-[88px] lg:h-[96px]">
             <Link
@@ -103,8 +154,9 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop nav */}
-            {/* Figma: Inter 16/150 links, 16 gap, 16px chevrons 4px from the label. */}
-            <nav className="hidden xl:flex items-center gap-4 shrink-0 ml-auto mr-8">
+            {/* Nine items ("NEW Tabs"): 15/150 links 12 apart from 1440 up; 14px, 8 apart and
+                a narrower side inset below that so the row still fits at 1280. */}
+            <nav className="hidden xl:flex items-center gap-2 min-[1440px]:gap-3 shrink-0 ml-auto mr-4 min-[1440px]:mr-6">
               {mainNav.map((item) => (
                 <div
                   key={item.path}
@@ -114,24 +166,18 @@ export default function Navbar() {
                 >
                   <Link
                     to={item.path}
-                    className={`flex items-center gap-1 whitespace-nowrap py-2 text-base leading-[150%] transition-colors ${
+                    className={`flex items-center gap-0.5 whitespace-nowrap py-2 text-sm min-[1440px]:text-[15px] leading-[150%] transition-colors ${
                       isTransparent ? 'text-white hover:text-white/80' : 'text-ink-900 hover:text-navy-800'
                     }`}
                   >
                     {item.label}
-                    {item.children?.length > 0 && <ChevronDown size={16} className="shrink-0" />}
+                    {item.children?.length > 0 && <ChevronDown size={14} className="shrink-0" />}
                   </Link>
 
                   {item.children?.length > 0 && openDropdown === item.path && (
-                    <div className="absolute top-full left-0 bg-white shadow-lg rounded-lg border border-gray-100 py-2 min-w-64">
-                      {item.children.map((c) => (
-                        <Link
-                          key={c.path}
-                          to={c.path}
-                          className="block px-4 py-2 text-sm text-ink-600 hover:bg-gray-50 hover:text-navy-800"
-                        >
-                          {c.label}
-                        </Link>
+                    <div className="absolute top-full left-0 bg-white shadow-lg rounded-lg border border-gray-100 py-2 min-w-64 w-max max-w-[320px] max-h-[calc(100vh-180px)] overflow-y-auto">
+                      {item.children.map((c, i) => (
+                        <DropdownEntry key={i} entry={c} onNavigate={() => setOpenDropdown(null)} />
                       ))}
                     </div>
                   )}
@@ -159,7 +205,7 @@ export default function Navbar() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="xl:hidden border-t border-gray-100 max-h-[80vh] overflow-y-auto">
+        <div className="xl:hidden bg-white border-t border-gray-100 max-h-[80vh] overflow-y-auto">
           {mainNav.map((item) => (
             <div key={item.path} className="border-b border-gray-50">
               <Link
@@ -171,15 +217,8 @@ export default function Navbar() {
               </Link>
               {item.children?.length > 0 && (
                 <div className="bg-gray-50 pb-2">
-                  {item.children.map((c) => (
-                    <Link
-                      key={c.path}
-                      to={c.path}
-                      onClick={() => setMobileOpen(false)}
-                      className="block px-10 py-2 text-sm text-ink-600"
-                    >
-                      {c.label}
-                    </Link>
+                  {item.children.map((c, i) => (
+                    <DropdownEntry key={i} entry={c} mobile onNavigate={() => setMobileOpen(false)} />
                   ))}
                 </div>
               )}
