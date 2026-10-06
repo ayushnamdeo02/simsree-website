@@ -115,6 +115,14 @@ export default {
     {name: 'voiceQuote', title: 'Quote', type: 'text', rows: 3, group: 'voice'},
 
     // Join CTA
+    {
+      name: 'showJoin',
+      title: 'Show the Join section',
+      description: 'Turn off to hide the "Get Involved / Join" block at the bottom of this committee page',
+      type: 'boolean',
+      group: 'join',
+      initialValue: true,
+    },
     {name: 'joinEyebrow', title: 'Eyebrow', type: 'string', group: 'join', initialValue: 'Get Involved'},
     {name: 'joinTitle', title: 'Title', description: 'The committee name is highlighted automatically if it appears here', type: 'string', group: 'join'},
     {name: 'joinBody', title: 'Body', type: 'text', rows: 3, group: 'join'},

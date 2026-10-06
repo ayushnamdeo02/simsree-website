@@ -308,6 +308,7 @@ const fallbackBySlug = {
   },
 
   alumni: {
+    showJoin: false,
     name: 'Alumni Committee',
     heroEyebrow: 'Corporate · Student-Run Committee',
     tagline: '"Building bridges between where you are and where they’ve been."',
@@ -930,26 +931,29 @@ export default function CommitteeDetail() {
         </Section>
       )}
 
-      {/* Join CTA — Figma "CTA / 57" navy: 64 padding, 613 column, Eastern Blue tagline. */}
-      <section className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20">
-        <div className="max-w-[1280px] mx-auto">
-          <div className="max-w-[613px]">
-            <Tagline className="text-teal-400">{c.joinEyebrow || 'Get Involved'}</Tagline>
-            <Heading
-              text={c.joinTitle || `Join ${c.name}`}
-              highlight={c.name}
-              className="text-white mt-4"
-              highlightClass="text-teal-400"
-            />
-            {c.joinBody && <p className="mt-6 text-lg leading-[150%] max-w-[504px]">{c.joinBody}</p>}
+      {/* Join CTA — Figma "CTA / 57" navy: 64 padding, 613 column, Eastern Blue tagline.
+          Shown unless the committee turns it off in the Studio (showJoin). */}
+      {c.showJoin !== false && (
+        <section className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20">
+          <div className="max-w-[1280px] mx-auto">
+            <div className="max-w-[613px]">
+              <Tagline className="text-teal-400">{c.joinEyebrow || 'Get Involved'}</Tagline>
+              <Heading
+                text={c.joinTitle || `Join ${c.name}`}
+                highlight={c.name}
+                className="text-white mt-4"
+                highlightClass="text-teal-400"
+              />
+              {c.joinBody && <p className="mt-6 text-lg leading-[150%] max-w-[504px]">{c.joinBody}</p>}
+            </div>
+            <div className="mt-8 flex flex-col md:flex-row gap-3.5">
+              {(c.joinButtons || []).map((b) => (
+                <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} icon={false} />
+              ))}
+            </div>
           </div>
-          <div className="mt-8 flex flex-col md:flex-row gap-3.5">
-            {(c.joinButtons || []).map((b) => (
-              <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} icon={false} />
-            ))}
-          </div>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   );
 }
