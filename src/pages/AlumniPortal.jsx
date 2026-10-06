@@ -258,26 +258,29 @@ export default function AlumniPortal() {
         </div>
       </Section>
 
-      {/* Services — centred title with the count in teal; 405x623 cards: 341x320
-          photo, yellow-tint tag, H5 28 navy, 18/150 copy, 14/150 navy footnote. */}
-      <Section id="services" width={1280} className="scroll-mt-24">
+      {/* Services — on Astronaut Base: centred white title with the count in light
+          teal; Astronaut Lightest cards (radius 16, 48 apart): 341x320 photo,
+          yellow-tint tag, H5 28 navy, 18/150 copy, 14/150 navy footnote. */}
+      <Section id="services" bg="bg-navy-900" width={1280} className="scroll-mt-24">
         <SectionTitle
           center
+          dark
           tagline={pp.servicesEyebrow}
           title={`${services.length} ${pp.servicesTitle}`}
           highlight={String(services.length)}
           body={pp.servicesSubtitle}
+          titleClass="text-white [&_span]:text-teal-400"
         />
-        <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8 gap-y-12">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           {services.map((s) => {
             const img = imgUrl(s.image, 682);
             return (
               <div
                 key={s._id || s.title}
-                className="hover-card flex flex-col gap-6 p-6 md:p-8 rounded-2xl outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+                className="hover-card flex flex-col gap-6 p-6 md:p-8 rounded-2xl bg-navy-50"
               >
                 <div
-                  className="h-[320px] rounded-2xl bg-navy-50 bg-cover bg-center"
+                  className="h-[320px] rounded-2xl bg-navy-100 bg-cover bg-center"
                   style={img ? { backgroundImage: `url('${img}')` } : undefined}
                 />
                 <span className="w-fit px-2.5 py-1 rounded-2xl bg-[#fffbec] text-navy-900 text-xs leading-[150%]">{s.category}</span>
