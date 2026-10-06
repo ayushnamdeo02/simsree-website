@@ -134,10 +134,11 @@ export default function Home() {
               : "linear-gradient(180deg, #8a8f9e, #cfd3da)",
           }}
         >
-          {/* Figma stacks three fills over the hero image: a 30% linear gradient
-              for bottom legibility, then a flat 20% black wash across the whole
-              frame. The even wash is what keeps the logo readable at the top. */}
+          {/* Figma stacks these fills over the hero image: a linear gradient for
+              bottom legibility, then two flat 20% black washes across the whole
+              frame (the second added so the logo and nav read on the photo). */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-black/20" />
           <div className="absolute inset-0 bg-black/20" />
           {/* Header scrim: the logo and nav sit over whatever photo is uploaded,
               so darken the top band rather than depending on the image. */}
