@@ -118,10 +118,10 @@ export default {
     {
       name: 'showJoin',
       title: 'Show the Join section',
-      description: 'Turn off to hide the "Get Involved / Join" block at the bottom of this committee page',
+      description: 'Turn on to show the "Get Involved / Join" block at the bottom of this committee page',
       type: 'boolean',
       group: 'join',
-      initialValue: true,
+      initialValue: false,
     },
     {name: 'joinEyebrow', title: 'Eyebrow', type: 'string', group: 'join', initialValue: 'Get Involved'},
     {name: 'joinTitle', title: 'Title', description: 'The committee name is highlighted automatically if it appears here', type: 'string', group: 'join'},

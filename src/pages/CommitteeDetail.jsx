@@ -8,6 +8,7 @@ import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
 const fallbackBySlug = {
   placement: {
+    showJoin: false,
     name: 'Placement Committee',
     heroEyebrow: 'Corporate · Student-Run Committee',
     tagline: '"We connect you to the companies that matter."',
@@ -68,6 +69,7 @@ const fallbackBySlug = {
   },
 
   'course-coordinators': {
+    showJoin: false,
     name: 'Course Co-ordinators',
     heroEyebrow: 'Academic · Student-Run Committee',
     tagline: '"Making sure the academic engine never misses a beat."',
@@ -128,6 +130,7 @@ const fallbackBySlug = {
   },
 
   'infra-tech': {
+    showJoin: false,
     name: 'Infra Tech Committee',
     heroEyebrow: 'Academic · Student-Run Committee',
     tagline: '"The infrastructure that keeps SIMSREE running."',
@@ -188,6 +191,7 @@ const fallbackBySlug = {
   },
 
   ssr: {
+    showJoin: false,
     name: 'SSR Committee',
     heroEyebrow: 'Social · Student-Run Committee',
     tagline: '"Great managers understand more than markets."',
@@ -248,6 +252,7 @@ const fallbackBySlug = {
   },
 
   'corporate-relations': {
+    showJoin: false,
     name: 'Corporate Relations',
     heroEyebrow: 'Corporate · Student-Run Committee',
     tagline: '"We bring the industry inside the classroom."',
@@ -369,6 +374,7 @@ const fallbackBySlug = {
   },
 
   'research-consulting': {
+    showJoin: false,
     name: 'Research & Consulting',
     heroEyebrow: 'Academic · Student-Run Committee',
     tagline: '"Questions worth answering. Insights worth sharing."',
@@ -429,6 +435,7 @@ const fallbackBySlug = {
   },
 
   'hrudaya-ops': {
+    showJoin: false,
     name: 'Hrudaya - Ops Club',
     heroEyebrow: 'Academic · Student-Run Committee',
     tagline: '"Operations is the heartbeat of every business."',
@@ -489,6 +496,7 @@ const fallbackBySlug = {
   },
 
   'marketing-media': {
+    showJoin: false,
     name: 'Marketing & Media',
     heroEyebrow: 'Cultural · Student-Run Committee',
     tagline: '"Every post. Every story. Every word. That’s us."',
@@ -549,6 +557,7 @@ const fallbackBySlug = {
   },
 
   events: {
+    showJoin: false,
     name: 'Events Committee',
     heroEyebrow: 'Cultural · Student-Run Committee',
     tagline: '"If it happens on campus, we built it."',
@@ -609,6 +618,7 @@ const fallbackBySlug = {
   },
 
   'entrepreneurship-cell': {
+    showJoin: false,
     name: 'Entrepreneurship Cell',
     heroEyebrow: 'Corporate · Student-Run Committee',
     tagline: '"Ideas are cheap. Execution is the curriculum."',
@@ -669,6 +679,7 @@ const fallbackBySlug = {
   },
 
   'finance-forum': {
+    showJoin: false,
     name: 'Finance Forum',
     heroEyebrow: 'Academic · Student-Run Committee',
     tagline: '"Markets move fast. We move faster."',
@@ -753,6 +764,7 @@ function genericCommittee(slug) {
   if (!entry) return null;
   const [name, category, description] = entry;
   return {
+    showJoin: false,
     name,
     heroEyebrow: `${category} · Student-Run Committee`,
     tagline: description,
@@ -932,7 +944,7 @@ export default function CommitteeDetail() {
       )}
 
       {/* Join CTA — Figma "CTA / 57" navy: 64 padding, 613 column, Eastern Blue tagline.
-          Shown unless the committee turns it off in the Studio (showJoin). */}
+          Hidden on every committee for now; turn it on per committee in the Studio (showJoin). */}
       {c.showJoin !== false && (
         <section className="bg-navy-900 text-white px-5 py-12 md:px-16 md:py-20 border-t border-white/20">
           <div className="max-w-[1280px] mx-auto">
