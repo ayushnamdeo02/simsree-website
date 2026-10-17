@@ -345,16 +345,17 @@ export default function Simerations() {
       {archive.length > 0 && (
         <Section id="archive" width={1280} className="scroll-mt-24">
           <SectionTitle tagline={sp.archiveEyebrow} title={sp.archiveTitle} body={sp.archiveSubtitle} />
-          <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8 items-start">
+          {/* Cards stretch to the tallest one; the link sits on a shared baseline. */}
+          <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
             {archive.map((e) => {
               const src = photo(e.archiveImage || e.image, ARCHIVE_PHOTOS, e.year, 810);
               return (
-                <div key={e._id || e.year} className="hover-card rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
+                <div key={e._id || e.year} className="hover-card rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
                   <div
-                    className="h-[223px] md:h-[270px] bg-navy-50 bg-cover bg-center"
+                    className="h-[223px] md:h-[270px] shrink-0 bg-navy-50 bg-cover bg-center"
                     style={src ? { backgroundImage: `url('${src}')` } : undefined}
                   />
-                  <div className="p-6 flex flex-col gap-6">
+                  <div className="flex-1 p-6 flex flex-col gap-6">
                     <div className="flex flex-col gap-2">
                       <H5 as="h3" className="text-black max-md:text-[22px]">
                         {e.title}
@@ -363,7 +364,7 @@ export default function Simerations() {
                     </div>
                     <a
                       href={e.archiveCtaUrl || '#'}
-                      className="w-fit inline-flex items-center gap-2 text-base leading-[150%] text-black hover:underline underline-offset-2"
+                      className="mt-auto w-fit inline-flex items-center gap-2 text-base leading-[150%] text-black hover:underline underline-offset-2"
                     >
                       {e.archiveCtaLabel || 'Gallery + Winners'} <ChevronRight size={24} strokeWidth={1.5} />
                     </a>
