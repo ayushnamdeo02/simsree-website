@@ -195,7 +195,10 @@ export default function Events() {
   const facts = useKeyFacts();
   const { data } = useEventsData();
   const ep = fillFactsDeep({ ...fallbackPage, ...(data?.page || {}) }, facts);
-  const flagships = fillFactsDeep(data?.flagships?.length ? data.flagships : fallbackFlagships, facts);
+  // The Events page's own cards (Events Page > Flagship cards), then the shared
+  // Flagship Events list, then the built-in copy.
+  const flagshipSource = ep.signatureFlagships?.length ? ep.signatureFlagships : data?.flagships?.length ? data.flagships : fallbackFlagships;
+  const flagships = fillFactsDeep(flagshipSource, facts);
   const events = fillFactsDeep(data?.events?.length ? data.events : fallbackEvents, facts);
   const programmes = fillFactsDeep(data?.programmes?.length ? data.programmes : fallbackProgrammes, facts);
   const heroButtons = fillFactsDeep(ep.heroButtons?.length ? ep.heroButtons : fallbackPage.heroButtons, facts);
@@ -239,7 +242,7 @@ export default function Events() {
       {/* Flagships — 284 cards, 48 gaps: square photo, 16-padded tag + H6 + copy. */}
       <Section width={1280}>
         <SectionTitle tagline={ep.flagshipsEyebrow} title={flagshipsTitle} highlight={flagshipsHighlight} body={ep.flagshipsSubtitle} />
-        <div className="mt-10 md:mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-12 items-start">
+        <div className="mt-10 md:mt-12 grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {flagships.map((f, i) => {
             const inner = (
               <>
@@ -254,13 +257,13 @@ export default function Events() {
                     </span>
                   )}
                   <div className="flex flex-col gap-2">
-                    <H6 as="h3">{f.title}</H6>
+                    <H6 as="h3" className="text-navy-900">{f.title}</H6>
                     <p className="text-base leading-[150%] text-black">{f.description}</p>
                   </div>
                 </div>
               </>
             );
-            const cls = 'rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col gap-6 bg-white outline outline-1 -outline-offset-1 outline-black/20';
+            const cls = 'rounded overflow-hidden flex flex-col gap-6 bg-white outline outline-1 -outline-offset-1 outline-black/20';
             return f.linkUrl ? (
               <Link key={f._id || f.title} to={f.linkUrl} className={`${cls} hover:shadow-medium transition-shadow`}>
                 {inner}
@@ -275,7 +278,7 @@ export default function Events() {
       </Section>
 
       {/* Calendar — radius-4 filter tabs; 502 calendar | 730 event cards (48 apart). */}
-      <Section id="calendar" width={1280} className="scroll-mt-24">
+      <Section id="calendar" bg="bg-navy-50" width={1280} className="scroll-mt-24">
         <div className="max-w-[768px]">
           <Tagline>{ep.calendarEyebrow}</Tagline>
           <div className="mt-3 md:mt-4">
@@ -295,7 +298,7 @@ export default function Events() {
                 className={`h-11 px-4 rounded text-base leading-[150%] transition-colors ${
                   c.label === type
                     ? 'bg-navy-900 text-white font-medium outline outline-1 -outline-offset-1 outline-black/20'
-                    : 'text-black hover:bg-navy-50'
+                    : 'text-black hover:bg-white'
                 }`}
               >
                 {c.display}
@@ -339,14 +342,14 @@ export default function Events() {
           radius-4 tag, H5 title, copy, "Open ›". */}
       <Section width={1280}>
         <SectionTitle tagline={ep.industryEyebrow} title={ep.industryTitle} body={ep.industrySubtitle} />
-        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8 items-start">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {programmes.map((p, i) => (
-            <div key={p._id || p.title} className="hover-card rounded-xl overflow-hidden rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
+            <div key={p._id || p.title} className="hover-card rounded-xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/20">
               <div
-                className="h-[250px] md:h-[270px] bg-navy-50 bg-cover bg-center"
+                className="h-[250px] md:h-[270px] shrink-0 bg-navy-50 bg-cover bg-center"
                 style={{ backgroundImage: `url('${img(p.image, PROGRAMME_PHOTOS[i % 3], 810)}')` }}
               />
-              <div className="p-6 flex flex-col gap-6">
+              <div className="flex-1 p-6 flex flex-col gap-6">
                 <div className="flex flex-col gap-4">
                   {p.badge && (
                     <span className="w-fit px-2.5 py-1 rounded bg-navy-50 outline outline-1 -outline-offset-1 outline-black/20 text-sm leading-[150%] uppercase text-navy-900">
@@ -362,7 +365,7 @@ export default function Events() {
                 </div>
                 <Link
                   to={p.ctaUrl || '#'}
-                  className="w-fit inline-flex items-center gap-2 text-base leading-[150%] text-black hover:underline underline-offset-2"
+                  className="mt-auto w-fit inline-flex items-center gap-2 text-base leading-[150%] text-black hover:underline underline-offset-2"
                 >
                   {p.ctaLabel || 'Open'} <ChevronRight size={24} strokeWidth={1.5} />
                 </Link>

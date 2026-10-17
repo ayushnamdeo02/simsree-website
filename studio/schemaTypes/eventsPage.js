@@ -37,6 +37,27 @@ export default {
     {name: 'flagshipsTitle', title: 'Title', description: 'The count is prefixed automatically', type: 'string', group: 'flagships', initialValue: 'flagships worth planning your year around'},
     {name: 'flagshipsTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'flagships', initialValue: 'flagships'},
     {name: 'flagshipsSubtitle', title: 'Subtitle', type: 'string', group: 'flagships', initialValue: 'Four flagships · all student-organised.'},
+    {
+      name: 'signatureFlagships',
+      title: 'Flagship cards',
+      description: 'The cards in this section (Events page only; the Home page has its own Flagship Events list)',
+      type: 'array',
+      group: 'flagships',
+      of: [
+        {
+          type: 'object',
+          name: 'signatureFlagship',
+          fields: [
+            {name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()},
+            {name: 'monthBadge', title: 'Month tag', description: 'e.g. "Sept 2026", "Nov"', type: 'string'},
+            {name: 'description', title: 'Description', type: 'text', rows: 2},
+            {name: 'image', title: 'Photo', type: 'image', options: {hotspot: true}},
+            {name: 'linkUrl', title: 'Link URL', description: 'Optional: makes the card a link', type: 'string'},
+          ],
+          preview: {select: {title: 'title', subtitle: 'monthBadge', media: 'image'}},
+        },
+      ],
+    },
 
     {name: 'calendarEyebrow', title: 'Eyebrow', type: 'string', group: 'calendar', initialValue: 'Live Calendar · Filter + Browse'},
     {name: 'calendarTitle', title: 'Title', type: 'string', group: 'calendar', initialValue: 'Browse by date, filter by type.'},

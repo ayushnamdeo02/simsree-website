@@ -67,7 +67,7 @@ export default function EventCalendar({ events = [], selected, onSelect, initial
   };
 
   return (
-    <div className="bg-white rounded-2xl py-[30px] lg:px-[30px] flex flex-col gap-6">
+    <div className="bg-white rounded-2xl py-[30px] px-5 lg:px-[30px] flex flex-col gap-6">
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
           <p className="text-lg leading-[150%] text-black">
