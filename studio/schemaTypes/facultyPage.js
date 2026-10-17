@@ -19,6 +19,7 @@ export default {
     {
       name: 'heroButtons',
       title: 'Buttons',
+      description: 'Leave empty for no buttons in the hero',
       type: 'array',
       group: 'hero',
       of: [

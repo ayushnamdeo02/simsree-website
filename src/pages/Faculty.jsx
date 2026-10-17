@@ -15,11 +15,6 @@ const fallbackPage = {
   heroTitleBreakAfter: 'people',
   heroDescription:
     'Learn from permanent faculty across Finance, Marketing, Operations, HR, Systems, Economics, OB and Strategy - supplemented by senior industry practitioners.',
-  heroButtons: [
-    { label: 'Meet the core faculty', url: '#core', primary: true },
-    { label: 'Meet the visiting faculty', url: '#visiting', primary: false },
-    { label: 'See research areas', url: '#research', primary: false },
-  ],
   stats: [
     { label: 'Core faculty', value: '32', dark: true },
     { label: 'Visiting practitioners', value: '48+', dark: false },
@@ -92,7 +87,8 @@ export default function Faculty() {
   const core = fillFactsDeep(data?.core?.length ? data.core : fallbackCore, facts);
   const visiting = fillFactsDeep(data?.visiting?.length ? data.visiting : fallbackVisiting, facts);
   const clusters = fillFactsDeep(data?.clusters?.length ? data.clusters : fallbackClusters, facts);
-  const heroButtons = fillFactsDeep(fp.heroButtons?.length ? fp.heroButtons : fallbackPage.heroButtons, facts);
+  // Hero buttons come only from the Studio; an empty list shows none.
+  const heroButtons = fillFactsDeep(fp.heroButtons || [], facts);
 
   const [discipline, setDiscipline] = useState('All');
 
