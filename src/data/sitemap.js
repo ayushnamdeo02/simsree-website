@@ -111,7 +111,7 @@ export const mainNav = [
     label: 'Events & Activities',
     path: '/events',
     children: [
-      { label: 'Career Catalyst Program', path: '/events/development-programmes?tab=catalyst#tabs' },
+      { label: 'Career Catalyst Program', path: '/events/career-catalyst' },
       { label: 'Management Development Program', path: '/events/development-programmes' },
       { label: 'Guest Lectures', path: '/events/industry-events' },
       { label: 'Flagship Events', path: '/events/flagship' },

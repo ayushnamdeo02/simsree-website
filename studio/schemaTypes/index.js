@@ -87,6 +87,7 @@ import fest from './fest'
 import festPartner from './festPartner'
 import festTestimonial from './festTestimonial'
 import devProgrammesPage from './devProgrammesPage'
+import careerCatalystPage from './careerCatalystPage'
 import mdpProgramme from './mdpProgramme'
 import catalystWorkshop from './catalystWorkshop'
 import programmeCalendarItem from './programmeCalendarItem'
@@ -197,6 +198,7 @@ export const schemaTypes = [
   festPartner,
   festTestimonial,
   devProgrammesPage,
+  careerCatalystPage,
   mdpProgramme,
   catalystWorkshop,
   programmeCalendarItem,

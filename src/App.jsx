@@ -35,6 +35,7 @@ import Simerations from './pages/Simerations';
 import Tedx from './pages/Tedx';
 import Flagship from './pages/Flagship';
 import DevProgrammes from './pages/DevProgrammes';
+import CareerCatalyst from './pages/CareerCatalyst';
 import IndustryEvents from './pages/IndustryEvents';
 import News from './pages/News';
 import PageStub from './pages/PageStub';
@@ -42,7 +43,7 @@ import { mainNav, utilityLinks } from './data/sitemap';
 import ScrollToTop from './components/ScrollToTop';
 
 // Routes with a real, built-out page (not a stub).
-const builtRoutes = new Set(['/', '/about', '/about/history', '/about/directors-message', '/about/rankings', '/about/campus-life', '/about/alumni', '/about/student-driven-system', '/alumni-portal', '/about/simarthan', '/placements', '/placements/why-recruit', '/placements/reports', '/placements/partners', '/placements/contact', '/placements/recruiter-engagement', '/academics', '/academics/mms', '/academics/msc-finance', '/academics/mfm', '/academics/mmm', '/academics/phd', '/academics/faculty', '/admissions', '/admissions/mms', '/admissions/msc-finance', '/admissions/mfm', '/admissions/mmm', '/admissions/phd', '/admissions/downloads', '/students', '/students/achievements', '/students/batch-profile', '/students/leadership', '/students/committees/placement', '/students/body-structure', '/students/life', '/contact', '/events', '/events/simerations', '/events/tedxsimsree', '/events/flagship', '/events/development-programmes', '/events/industry-events', '/events/news']);
+const builtRoutes = new Set(['/', '/about', '/about/history', '/about/directors-message', '/about/rankings', '/about/campus-life', '/about/alumni', '/about/student-driven-system', '/alumni-portal', '/about/simarthan', '/placements', '/placements/why-recruit', '/placements/reports', '/placements/partners', '/placements/contact', '/placements/recruiter-engagement', '/academics', '/academics/mms', '/academics/msc-finance', '/academics/mfm', '/academics/mmm', '/academics/phd', '/academics/faculty', '/admissions', '/admissions/mms', '/admissions/msc-finance', '/admissions/mfm', '/admissions/mmm', '/admissions/phd', '/admissions/downloads', '/students', '/students/achievements', '/students/batch-profile', '/students/leadership', '/students/committees/placement', '/students/body-structure', '/students/life', '/contact', '/events', '/events/simerations', '/events/tedxsimsree', '/events/flagship', '/events/development-programmes', '/events/career-catalyst', '/events/industry-events', '/events/news']);
 
 // Flatten every route (nav items, their dropdown links and sub-links, utility
 // links) into a single list, skipping routes that already have a real page.
@@ -108,6 +109,7 @@ export default function App() {
           <Route path="/events/tedxsimsree" element={<Tedx />} />
           <Route path="/events/flagship" element={<Flagship />} />
           <Route path="/events/development-programmes" element={<DevProgrammes />} />
+          <Route path="/events/career-catalyst" element={<CareerCatalyst />} />
           <Route path="/events/industry-events" element={<IndustryEvents />} />
           <Route path="/events/news" element={<News />} />
           <Route path="/students/committees/:slug" element={<CommitteeDetail />} />

@@ -266,6 +266,7 @@ export const deskStructure = (S) =>
             ['programmeCalendarItem', 'Calendar Items'],
           ],
         }),
+        page(S, {title: 'Career Catalyst Program Page', type: 'careerCatalystPage', id: 'careerCatalystPage'}),
         page(S, {
           title: 'News Page',
           type: 'newsPage',
