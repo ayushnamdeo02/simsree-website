@@ -21,16 +21,17 @@ function imgUrl(image, width) {
   }
 }
 
-// Figma "Component": 1280 row, 600x640 photo, 80 gap, 600 copy column.
+// Figma "Component": a 1280 row framed by a 1px black/15 border, hugging ~508px:
+// a 476px photo flush to the left edge, then the copy 80px in, centred.
 function PhotoRow({ image, children }) {
-  const img = imgUrl(image, 1200);
+  const img = imgUrl(image, 960);
   return (
-    <div className="grid lg:grid-cols-2 gap-8 lg:gap-20 items-center">
+    <div className="flex flex-col lg:flex-row outline outline-1 -outline-offset-1 outline-black/15">
       <div
-        className="h-[335px] lg:h-[640px] bg-navy-50 bg-cover bg-center"
+        className="h-[335px] lg:h-auto lg:min-h-[508px] lg:w-[476px] shrink-0 bg-navy-50 bg-cover bg-center"
         style={img ? { backgroundImage: `url('${img}')` } : undefined}
       />
-      <div className="min-w-0 flex flex-col gap-6">{children}</div>
+      <div className="min-w-0 flex-1 flex flex-col justify-center gap-6 px-6 py-8 lg:py-16 lg:pl-20 lg:pr-12">{children}</div>
     </div>
   );
 }
@@ -109,12 +110,14 @@ export default function CampusStory({
       {/* Feature rows — Figma "Layout / 218 /": rows 80 apart; 48px numbered circle,
           H2 52 in black, 18/150 copy. */}
       <Section width={1280} className="border-t border-white/20">
-        <div className="flex flex-col gap-12 md:gap-16">
+        <div className="flex flex-col gap-12 md:gap-20">
           {features.map((f) => (
-            <PhotoRow key={f._id || f.number} image={f.image}>
-              <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white outline outline-1 -outline-offset-1 outline-navy-900 shadow-[inset_0_1px_2px_rgb(255_255_255/0.25)] text-lg leading-[150%] text-navy-900">
-                {f.number}
-              </span>
+            <PhotoRow key={f._id || f.title} image={f.image}>
+              {f.number && (
+                <span className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-white outline outline-1 -outline-offset-1 outline-navy-900 shadow-[inset_0_1px_2px_rgb(255_255_255/0.25)] text-lg leading-[150%] text-navy-900">
+                  {f.number}
+                </span>
+              )}
               <Heading text={f.title} className="text-black" as="h3" />
               <Paragraphs text={f.body} />
             </PhotoRow>
@@ -132,7 +135,7 @@ export default function CampusStory({
           title={composeTitle(cp.facilitiesTitle, cp.facilitiesTitleHighlight)}
           highlight={cp.facilitiesTitleHighlight}
         />
-        <div className="mt-10 md:mt-12 flex flex-col gap-12 md:gap-16">
+        <div className="mt-10 md:mt-12 flex flex-col gap-12 md:gap-20">
           {facilities.map((f) => (
             <PhotoRow key={f._id || f.title} image={f.image}>
               <Heading text={f.title} className="text-black" as="h3" />

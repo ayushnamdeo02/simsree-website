@@ -24,8 +24,8 @@ const fallbackCampusPage = {
   ],
 
   facilitiesEyebrow: 'The Facilities',
-  facilitiesTitle: 'Nine spaces, each one a different mode.',
-  facilitiesTitleHighlight: 'each one a different mode.',
+  facilitiesTitle: 'Modern facilities.\nLimitless possibilities.',
+  facilitiesTitleHighlight: 'Limitless possibilities.',
 
   testimonialsEyebrow: 'In Their Words',
   testimonialsTitle: 'What the cohort actually remembers.',
@@ -41,19 +41,16 @@ const fallbackCampusPage = {
 
 const fallbackFeatures = [
   {
-    number: '01',
     title: 'Inside the financial mile.',
     image: '/images/campus/story-1.webp',
     body: "The address says it all: B-Road, Churchgate. From the front gate, it's a 4-minute walk to the BSE, 7 to the NSE, 9 to the RBI. Most of the Nifty 50 hold their head offices inside this single square mile.\n\nThis isn't a backdrop. It's the curriculum. The CFO you study on Monday might walk into the auditorium on Wednesday. The brand whose case you crack might call you for a live consult by month-end.",
   },
   {
-    number: '02',
     title: 'A 1936 heritage block.',
     image: '/images/campus/story-2.webp',
     body: "SIMSREE shares its building with Sydenham College of Commerce - India's oldest commerce college (est. 1913) and one of Mumbai's listed Grade-II heritage structures. Stone arches, mosaic flooring, four-meter ceilings.\nThe 2.4-acre campus is fully walkable in 6 minutes. Inside: 14 classrooms, two auditoriums, a library, the placement floor, three labs, two canteens.",
   },
   {
-    number: '03',
     title: 'Five minutes to the sea.',
     image: '/images/campus/story-3.webp',
     body: "Walk out the back gate, cross one signal, and you're at Marine Drive - the Queen's Necklace, three kilometres of unbroken Arabian Sea promenade. 6am runs. 11pm walks. The decompression chamber of SIMSREE.\n\nApproximately every successful piece of student work since 1983 has its conception story on that promenade.",

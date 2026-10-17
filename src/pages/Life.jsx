@@ -170,7 +170,6 @@ export default function Life() {
       heroFallback="/images/students/life-hero.webp"
       features={features.map((f, i) => ({
         ...f,
-        number: f.number || String(i + 1).padStart(2, '0'),
         body: Array.isArray(f.body) ? f.body.join('\n\n') : f.body,
         image: f.image || FEATURE_PHOTOS[i],
       }))}
