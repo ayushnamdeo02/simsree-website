@@ -127,15 +127,15 @@ function imgUrl(image, width) {
 // Timeline card looks (Figma): white, "highlight" (#FFDB43 at 10%), "current" navy.
 // All share radius 16, a black/20 hairline and the "small" shadow.
 const TIMELINE_VARIANTS = {
-  default: { card: 'bg-white', year: 'text-navy-900', title: 'text-black', body: 'text-black', rule: 'border-black/20' },
-  highlight: { card: 'bg-[#fffbec]', year: 'text-navy-900', title: 'text-black', body: 'text-black', rule: 'border-black/20' },
-  current: { card: 'bg-navy-900', year: 'text-white', title: 'text-white', body: 'text-white', rule: 'border-white/20' },
+  default: { card: 'bg-white', title: 'text-black', body: 'text-black', rule: 'border-black/20' },
+  highlight: { card: 'bg-[#fffbec]', title: 'text-black', body: 'text-black', rule: 'border-black/20' },
+  current: { card: 'bg-navy-900', title: 'text-white', body: 'text-white', rule: 'border-white/20' },
 };
 
 // Figma "Card": 588 wide, padding 32. Cards left of the spine are right-aligned so
-// they hug the centre. Tagline (Eastern Blue 16 SemiBold) → year (H2 52) → title
-// (H5 28) → copy (14/150) → hairline → source line.
-function TimelineCard({ category, year, title, description, source, align = 'left', variant = 'default' }) {
+// they hug the centre. Label (Eastern Blue 20 SemiBold) → title (H5 28) → copy
+// (14/150) → hairline → source line (18/150).
+function TimelineCard({ category, title, description, source, align = 'left', variant = 'default' }) {
   const v = TIMELINE_VARIANTS[variant] || TIMELINE_VARIANTS.default;
   const right = align === 'right';
   return (
@@ -144,19 +144,14 @@ function TimelineCard({ category, year, title, description, source, align = 'lef
         right ? 'text-right' : 'text-left'
       }`}
     >
-      <Tagline className="text-teal-500">{category}</Tagline>
-      <div
-        className={`font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em] ${
-          right ? 'mt-4' : ''
-        } ${v.year}`}
-      >
-        {year}
-      </div>
-      <H5 as="h3" className={`mt-2 ${v.title}`}>
+      {/* The year itself sits in the large faded figure beside the spine (and in
+          the pill above the card on mobile), so the card leads with its label. */}
+      <Tagline className="text-teal-500 !text-lg md:!text-xl">{category}</Tagline>
+      <H5 as="h3" className={`mt-3 ${v.title}`}>
         {title}
       </H5>
       <p className={`mt-2 text-sm leading-[150%] ${v.body}`}>{description}</p>
-      {source && <p className={`mt-4 pt-4 border-t text-sm leading-[150%] ${v.rule} ${v.body}`}>{source}</p>}
+      {source && <p className={`mt-4 pt-4 border-t text-base md:text-lg leading-[150%] ${v.rule} ${v.body}`}>{source}</p>}
     </div>
   );
 }
