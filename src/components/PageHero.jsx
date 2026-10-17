@@ -21,10 +21,13 @@ const GRADIENT_MOBILE =
 
 // One hero action. `to` is an in-app route, `href` an external/mailto/tel/PDF link.
 // Figma: 44px tall, padding 10/24, radius 6, Inter Medium 16/24. Primary is Eastern
-// Blue with a 12px icon gap and arrow; secondary is white with a 20% black hairline.
-export function HeroButton({ label, to, href, onClick, pressed, primary = false, icon = primary, download, className = '' }) {
+// Blue with a 12px icon gap and arrow (tone="navy" makes it Astronaut navy);
+// secondary is white with a 20% black hairline.
+export function HeroButton({ label, to, href, onClick, pressed, primary = false, tone, icon = primary, download, className = '' }) {
   const cls = `${className} inline-flex items-center justify-center h-11 px-6 rounded-md text-base leading-[150%] font-medium whitespace-nowrap transition-colors ${
-    primary
+    primary && tone === 'navy'
+      ? 'gap-3 bg-navy-900 outline outline-1 -outline-offset-1 outline-navy-900 text-white hover:bg-navy-800'
+      : primary
       ? 'gap-3 bg-teal-500 outline outline-1 -outline-offset-1 outline-teal-500 text-white hover:bg-teal-600'
       : 'gap-2 bg-white outline outline-1 -outline-offset-1 outline-black/20 text-black hover:bg-navy-50'
   }`;

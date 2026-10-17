@@ -260,7 +260,7 @@ export default function DevProgrammes() {
                   <BarCard key={w._id || w.name}>
                     <H5 as="h3">{w.name}</H5>
                     <p className="text-base leading-[150%] text-black">{w.summary}</p>
-                    <HeroButton label={w.ctaLabel || 'Book my seat'} href={w.ctaUrl || '/contact'} primary className="mt-4 w-fit" />
+                    <HeroButton label={w.ctaLabel || 'Book my seat'} href={w.ctaUrl || '/contact'} primary tone="navy" className="mt-4 w-fit" />
                   </BarCard>
                 ))}
               </div>
@@ -278,7 +278,7 @@ export default function DevProgrammes() {
           {tab === 2 && (
             <div className="flex flex-col gap-8 items-start">
               <SectionTitle tagline={dp.customEyebrow} title={dp.customTitle} highlight={dp.customTitleHighlight} body={dp.customSubtitle} />
-              <HeroButton label={dp.customCtaLabel} href={dp.customCtaUrl || '/contact'} primary />
+              <HeroButton label={dp.customCtaLabel} href={dp.customCtaUrl || '/contact'} primary tone="navy" />
             </div>
           )}
         </div>
