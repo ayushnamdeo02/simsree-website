@@ -4,12 +4,10 @@ export default {
   type: 'document',
   groups: [
     {name: 'hero', title: 'Hero'},
-    {name: 'strip', title: 'Fact Strip'},
     {name: 'partners', title: 'Partners'},
     {name: 'promise', title: 'Promise Band'},
     {name: 'featured', title: 'Featured Intro'},
     {name: 'lineup', title: 'Lineup Intro'},
-    {name: 'creative', title: 'Creative Band'},
     {name: 'process', title: 'How We Run A Fest'},
     {name: 'testimonials', title: 'Testimonials Intro'},
     {name: 'ledger', title: 'Student Ledger'},
@@ -50,7 +48,6 @@ export default {
     },
 
     // Fact strip
-    {name: 'factStrip', title: 'Fact strip items', type: 'array', of: [{type: 'string'}], group: 'strip'},
 
     // Partners
     {name: 'partnersLabel', title: 'Partners label', type: 'string', group: 'partners', initialValue: 'Partnered with'},
@@ -65,18 +62,11 @@ export default {
 
     // Featured
     {name: 'featuredTitle', title: 'Title', description: 'The count is appended automatically', type: 'string', group: 'featured', initialValue: 'Featured fests'},
-    {name: 'featuredCtaLabel', title: 'CTA label', type: 'string', group: 'featured', initialValue: 'Browse all 42 talks'},
-    {name: 'featuredCtaUrl', title: 'CTA URL', type: 'string', group: 'featured', initialValue: '#lineup'},
 
     // Lineup
     {name: 'lineupTitle', title: 'Title', description: 'The count is appended automatically', type: 'string', group: 'lineup', initialValue: 'The full lineup'},
 
     // Creative band
-    {name: 'creativeTitle', title: 'Title', type: 'string', group: 'creative', initialValue: 'Creative that slaps.'},
-    {name: 'creativeTitleItalic', title: 'Italic portion', type: 'string', group: 'creative', initialValue: 'slaps.'},
-    {name: 'creativeBody', title: 'Body', type: 'text', rows: 3, group: 'creative'},
-    {name: 'creativeCtaLabel', title: 'CTA label', type: 'string', group: 'creative', initialValue: 'Get involved'},
-    {name: 'creativeCtaUrl', title: 'CTA URL', type: 'string', group: 'creative', initialValue: '/contact'},
 
     // Process
     {name: 'processTitle', title: 'Title', type: 'string', group: 'process', initialValue: 'How we run a fest'},

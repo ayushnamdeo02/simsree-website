@@ -21,14 +21,6 @@ const fallbackPage = {
     { value: '12K', label: 'Attendees/yr' },
   ],
 
-  factStrip: [
-    'Sydenham Mumbai',
-    'Student run since 1983',
-    'Eight fests · One year',
-    'Flagship events',
-    'Sydenham Mumbai',
-    'Student run since 1983',
-  ],
 
   partnersLabel: 'Partnered with',
 
@@ -41,17 +33,9 @@ const fallbackPage = {
   promiseCtaUrl: '/events',
 
   featuredTitle: 'Featured fests',
-  featuredCtaLabel: 'Browse all 42 talks',
-  featuredCtaUrl: '#lineup',
 
   lineupTitle: 'The full lineup',
 
-  creativeTitle: 'Creative that slaps.',
-  creativeTitleItalic: 'slaps.',
-  creativeBody:
-    'Quality sits at the heart of every fest. We are not here to cut corners or ship rough. Each committee is rebuilt every year and the standard does not fall. No matter the format, the focus is on making sure the creative absolutely slaps.',
-  creativeCtaLabel: 'Get involved',
-  creativeCtaUrl: '/contact',
 
   processTitle: 'How we run a fest',
   processSteps: [
@@ -266,7 +250,6 @@ export default function Flagship() {
   const testimonials = fillFactsDeep(data?.testimonials?.length ? data.testimonials : fallbackTestimonials, facts);
   const pick = (k) => fillFactsDeep(fp[k]?.length ? fp[k] : fallbackPage[k], facts);
   const heroStats = pick('heroStats');
-  const factStrip = pick('factStrip');
   const processSteps = pick('processSteps');
   const ctaButtons = pick('ctaButtons');
 
@@ -280,9 +263,6 @@ export default function Flagship() {
     .map((s) => s.trim())
     .filter(Boolean)
     .map((s) => s + brk);
-
-  const cItalic = fp.creativeTitleItalic;
-  const cIdx = cItalic ? (fp.creativeTitle || '').indexOf(cItalic) : -1;
 
   // Figma lineup rows: three cards, then two wider ones on the last row.
   const lastRow = fests.length % 3 === 2 ? fests.length - 2 : fests.length;
@@ -333,15 +313,6 @@ export default function Flagship() {
         </div>
       </section>
 
-      {/* Navy fact strip — 16/150 white uppercase, 80 apart, scrolling. */}
-      {factStrip.length > 0 && (
-        <Marquee
-          className="bg-navy-900 py-8"
-          items={factStrip}
-          render={(f) => <span className="text-base leading-[150%] uppercase text-white whitespace-nowrap">{f}</span>}
-        />
-      )}
-
       {/* Partners — 80 padding, 18 bold label, 200x56 logo slots 24 apart. */}
       <section className="py-12 md:py-20 flex flex-col gap-12">
         <p className="px-5 text-center text-lg leading-[150%] font-bold uppercase text-black">{fp.partnersLabel}</p>
@@ -365,7 +336,7 @@ export default function Flagship() {
 
       {/* Promise + featured fests — 662 title | 538 body (80 apart), then the
           2x2 grid of 463-tall photo cards (32 gaps) and the "Browse" button. */}
-      <Section width={1280}>
+      <Section bg="bg-navy-50" width={1280}>
         <div className="flex flex-col gap-12 md:gap-16">
           <div className="grid lg:grid-cols-[662px_1fr] gap-12 lg:gap-20">
             <div className="flex flex-col gap-4">
@@ -413,7 +384,6 @@ export default function Flagship() {
                   </div>
                 ))}
               </div>
-              {fp.featuredCtaLabel && <HeroButton label={fp.featuredCtaLabel} href={fp.featuredCtaUrl} primary className="w-fit" />}
             </>
           )}
         </div>
@@ -461,33 +431,13 @@ export default function Flagship() {
         </div>
       </Section>
 
-      {/* Creative band — navy, 64 padding, centred; "slaps." italic Eastern Blue. */}
-      <section className="bg-navy-900 px-5 py-12 md:px-16 md:py-20">
-        <div className="max-w-[768px] mx-auto flex flex-col items-center gap-8 text-center text-white">
-          <div className="flex flex-col gap-6">
-            <h2 className="font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em]">
-              {cIdx === -1 ? (
-                fp.creativeTitle
-              ) : (
-                <>
-                  {fp.creativeTitle.slice(0, cIdx)}
-                  <span className="italic text-teal-500">{cItalic}</span>
-                  {fp.creativeTitle.slice(cIdx + cItalic.length)}
-                </>
-              )}
-            </h2>
-            <p className="max-w-[603px] mx-auto text-base md:text-lg leading-[150%]">{fp.creativeBody}</p>
-          </div>
-          <HeroButton label={fp.creativeCtaLabel} href={fp.creativeCtaUrl} primary />
-        </div>
-      </section>
-
-      {/* Process — centred title, three 405 hairline cards: navy number, H5, copy. */}
-      <Section width={1280}>
+      {/* Process — on Astronaut Lightest: centred title, three 405 white rounded
+          cards with a soft shadow: navy number, H5, copy. */}
+      <Section bg="bg-navy-50" width={1280}>
         <Heading text={fp.processTitle} className="text-navy-900 text-center" />
         <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {processSteps.map((s, i) => (
-            <div key={s.title} className="rounded-lg p-6 flex flex-col gap-2 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+            <div key={s.title} className="rounded-lg p-6 flex flex-col gap-2 bg-white shadow-small">
               <H5 as="span">{pad(i + 1)}</H5>
               <H5 as="h3" className="text-black">
                 {s.title}
@@ -498,9 +448,9 @@ export default function Flagship() {
         </div>
       </Section>
 
-      {/* Testimonials — #eaeaf1; 2x2 quotes split by hairlines: 22px Playfair quote,
+      {/* Testimonials — white; 2x2 quotes split by hairlines: 22px Playfair quote,
           560 rule, 66px avatar + name / role. */}
-      <Section bg="bg-navy-50" width={1280}>
+      <Section width={1280}>
         <CountedTitle text={fp.testimonialsTitle} count={testimonials.length} />
         <div className="mt-10 md:mt-12 grid md:grid-cols-2">
           {testimonials.map((t, i) => (
@@ -528,8 +478,8 @@ export default function Flagship() {
         </div>
       </Section>
 
-      {/* Ledger — 616 photo (657 tall) | 616 copy, 80 apart. */}
-      <Section>
+      {/* Ledger — on Astronaut Lightest: 616 photo (657 tall) | 616 copy, 80 apart. */}
+      <Section bg="bg-navy-50">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           <div
             className="h-[335px] lg:h-[657px] bg-navy-50 bg-cover bg-center"
