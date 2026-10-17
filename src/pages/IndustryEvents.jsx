@@ -26,6 +26,7 @@ const SECTIONS = [
     tab: 'Guest Lectures',
     eyebrow: 'Weekly · Open to all',
     title: 'Every week. Every function.',
+    highlight: 'week.',
     body: 'A senior industry leader on campus every week. RSVP for any · subscribe for weekly invites.',
     sessions: [
       {
@@ -52,6 +53,7 @@ const SECTIONS = [
     tab: 'Corporate Interactions',
     eyebrow: 'CXO panels · Live projects · Briefings',
     title: 'Corporate interactions.',
+    highlight: 'interactions.',
     body: 'CXO panel discussions, live consulting projects, breakfast briefings, and recruiter-led sessions. Organised by the Corporate Relations Committee in partnership with our recruiters.',
     sessions: [
       {
@@ -83,6 +85,7 @@ const archive = {
   tab: 'Archive',
   eyebrow: 'Searchable archive · Since 2021',
   title: 'All past sessions.',
+  highlight: 'past sessions.',
   body: 'Every guest lecture, panel and workshop since 2021. Click "Recap" for notes, photos and links to recordings (where speaker consented).',
   rows: [
     ['22 Apr 2026', 'Anjali Mehta', 'Piramal Group', 'Capital Allocation', 'Lecture'],
@@ -103,6 +106,7 @@ const archive = {
 const recent = {
   eyebrow: 'Recent sessions',
   title: 'Click any item to see details.',
+  highlight: 'details.',
   body: 'Each entry expands with speaker bio, format, attendance and a quick recap.',
   sessions: [
     {
@@ -185,7 +189,7 @@ export default function IndustryEvents() {
       {SECTIONS.map((sec) => (
         <Section key={sec.id} id={sec.id} width={1280} className={`scroll-mt-24 ${tab === sec.id ? '' : 'hidden'}`}>
           <Tabs active={sec.id} onSelect={setTab} />
-          <SectionTitle className="mt-12" tagline={sec.eyebrow} title={sec.title} body={sec.body} />
+          <SectionTitle className="mt-12" tagline={sec.eyebrow} title={sec.title} highlight={sec.highlight} body={sec.body} />
           <div className="mt-12 flex flex-col gap-8">
             {sec.sessions.map((s, i) => (
               <SessionCard key={s.title} s={s} wide defaultOpen={i === 0} />
@@ -198,7 +202,7 @@ export default function IndustryEvents() {
           white / #eaeaf1@50, format tag and a "Read the recap" outline button. */}
       <Section id={archive.id} width={1280} className={`scroll-mt-24 ${tab === archive.id ? '' : 'hidden'}`}>
         <Tabs active={archive.id} onSelect={setTab} />
-        <SectionTitle className="mt-12" tagline={archive.eyebrow} title={archive.title} body={archive.body} />
+        <SectionTitle className="mt-12" tagline={archive.eyebrow} title={archive.title} highlight={archive.highlight} body={archive.body} />
         <div className="mt-12 overflow-x-auto rounded-lg">
           <table className="w-full min-w-[1000px] border-collapse text-left">
             <thead>
@@ -244,7 +248,7 @@ export default function IndustryEvents() {
 
       {/* Recent sessions — centred title, the same wide cards. */}
       <Section width={1280}>
-        <SectionTitle center tagline={recent.eyebrow} title={recent.title} body={recent.body} />
+        <SectionTitle center tagline={recent.eyebrow} title={recent.title} highlight={recent.highlight} body={recent.body} />
         <div className="mt-10 md:mt-12 flex flex-col gap-8">
           {recent.sessions.map((s, i) => (
             <SessionCard key={s.title} s={s} wide defaultOpen={i === 0} />
