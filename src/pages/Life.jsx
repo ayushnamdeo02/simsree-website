@@ -18,7 +18,7 @@ const fallbackPage = {
     { label: 'Founded', value: '{{foundedYear}}', dark: true },
     { label: 'Campus', value: '2.4ac', dark: false },
     { label: 'Facilities', value: '9', dark: false },
-    { label: 'To BSE', value: '5min', dark: true },
+    { label: 'To BSE', value: '5 min', dark: true },
   ],
 
   facilitiesEyebrow: 'The Facilities',

@@ -20,7 +20,7 @@ const fallbackCampusPage = {
     { value: '1983', label: 'Founded' },
     { value: '2.4ac', label: 'Campus' },
     { value: '9', label: 'Facilities' },
-    { value: '5min', label: 'To BSE' },
+    { value: '5 min', label: 'To sea' },
   ],
 
   facilitiesEyebrow: 'The Facilities',

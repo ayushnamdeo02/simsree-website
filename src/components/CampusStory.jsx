@@ -71,7 +71,7 @@ export default function CampusStory({
       />
 
       {/* The Numbers — Figma "Layout / 141 /": two 600 columns, 80 gap; 284x190
-          hairline stat tiles, value H2 52 over a 16 SemiBold label. */}
+          hairline stat tiles with a soft shadow, value H2 52 over a 16 SemiBold label. */}
       <Section width={1280}>
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           <SectionTitle
@@ -94,7 +94,7 @@ export default function CampusStory({
               {(cp.numbersStats || []).map((s) => (
                 <div
                   key={s.label}
-                  className="rounded-lg flex flex-col justify-center gap-4 min-h-[150px] md:h-[190px] p-4 md:p-8 bg-white outline outline-1 -outline-offset-1 outline-black/20"
+                  className="rounded-lg flex flex-col justify-center gap-4 min-h-[150px] md:h-[190px] p-4 md:p-8 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
                 >
                   <div className="font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em] text-black">
                     {s.value}
