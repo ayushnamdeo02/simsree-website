@@ -184,10 +184,15 @@ export default function Rankings() {
         <p className="mt-5 md:mt-6 max-w-[678px] mx-auto text-center text-base md:text-lg leading-[150%] text-black">
           {rp.frameworksSubtitle}
         </p>
-        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8 items-start">
+        {/* Cards stretch to the tallest one and the buttons sit on a shared baseline. */}
+        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {frameworks.map((f) => (
-            <AccentCard key={f._id || f.title} accent={ACCENT_BG[f.accentColor] || 'bg-teal-500'}>
-              <div className="flex flex-col gap-12">
+            <AccentCard
+              key={f._id || f.title}
+              accent={ACCENT_BG[f.accentColor] || 'bg-teal-500'}
+              className="[&>div:last-child]:flex [&>div:last-child]:flex-col"
+            >
+              <div className="flex flex-1 flex-col gap-12">
                 <Tag className="w-fit bg-navy-900 text-white outline-0">{f.tag}</Tag>
                 <div className="flex flex-col gap-4">
                   {/* H5 28 / 16 on desktop, H6 22 / 14 on mobile (Figma). */}
@@ -197,7 +202,7 @@ export default function Rankings() {
                 {f.actionLabel && (
                   <a
                     href={f.actionUrl || '#'}
-                    className="inline-flex items-center gap-3 w-fit h-11 px-6 rounded-md bg-white outline outline-1 -outline-offset-1 outline-black/20 text-sm md:text-base leading-[150%] md:font-medium text-black hover:bg-navy-50 transition-colors"
+                    className="mt-auto inline-flex items-center gap-3 w-fit h-11 px-6 rounded-md bg-white outline outline-1 -outline-offset-1 outline-black/20 text-sm md:text-base leading-[150%] md:font-medium text-black hover:bg-navy-50 transition-colors"
                   >
                     {f.actionLabel}
                     {f.isDownload ? <Download size={24} strokeWidth={1.5} /> : <ArrowRight size={24} strokeWidth={1.5} />}
