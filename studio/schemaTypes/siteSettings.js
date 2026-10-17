@@ -31,18 +31,6 @@ export default {
       of: [{type: 'navItem'}],
     },
     {
-      name: 'applyButtonLabel',
-      title: 'Header "Apply" button label',
-      type: 'string',
-      initialValue: 'Apply',
-    },
-    {
-      name: 'applyButtonUrl',
-      title: 'Header "Apply" button URL',
-      type: 'string',
-      initialValue: '/admissions',
-    },
-    {
       name: 'footerEmblem',
       title: 'Footer emblem/logo',
       description: 'e.g. Government of Maharashtra crest shown above the institute name in the footer',

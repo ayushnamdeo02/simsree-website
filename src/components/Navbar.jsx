@@ -68,8 +68,6 @@ export default function Navbar() {
 
   const utilityLinks = settings?.utilityLinks?.length ? settings.utilityLinks : fallbackUtilityLinks;
   const mainNav = settings?.mainNav?.length ? settings.mainNav : fallbackMainNav;
-  const applyLabel = settings?.applyButtonLabel || 'Apply';
-  const applyUrl = settings?.applyButtonUrl || '/admissions';
   // Slug-driven sections share one layout, so match their prefix rather than
   // listing every slug.
   const TRANSPARENT_PREFIXES = ['/students/committees/'];
@@ -109,7 +107,7 @@ export default function Navbar() {
       {/* Utility bar — Figma "Navbar / 1 /": 48 tall on every screen. Desktop: Inter 14/150,
           24 gap, right-aligned, 14px arrows. Mobile: 12/150, 16 gap, scrolls sideways. */}
       <div className="bg-navy-900 text-white">
-        <div className="max-w-[1440px] mx-auto px-5 lg:px-16 h-12 flex items-center lg:justify-end gap-4 lg:gap-6 overflow-x-auto [scrollbar-width:none]">
+        <div className="max-w-[1440px] mx-auto px-5 min-[1024px]:px-8 min-[1440px]:px-16 h-12 flex items-center lg:justify-end gap-4 lg:gap-6 overflow-x-auto [scrollbar-width:none]">
           {utilityLinks.map((l) => (
             <Link
               key={l.path}
@@ -156,7 +154,7 @@ export default function Navbar() {
             {/* Desktop nav */}
             {/* Nine items ("NEW Tabs"): 15/150 links 12 apart from 1440 up; 14px, 8 apart and
                 a narrower side inset below that so the row still fits at 1280. */}
-            <nav className="hidden xl:flex items-center gap-2 min-[1440px]:gap-3 shrink-0 ml-auto mr-4 min-[1440px]:mr-6">
+            <nav className="hidden xl:flex items-center gap-2 min-[1440px]:gap-3 shrink-0 ml-auto">
               {mainNav.map((item) => (
                 <div
                   key={item.path}
@@ -184,14 +182,6 @@ export default function Navbar() {
                 </div>
               ))}
             </nav>
-
-            {/* Stays navy in both the transparent and solid header states (Figma) */}
-            <Link
-              to={applyUrl}
-              className="hidden lg:inline-flex items-center h-11 shrink-0 whitespace-nowrap text-base leading-[150%] font-medium px-6 rounded-md bg-navy-900 text-white hover:bg-navy-800 transition-colors"
-            >
-              {applyLabel}
-            </Link>
 
             <button
               className={`xl:hidden transition-colors ${isTransparent ? 'text-white' : 'text-ink-900'}`}
@@ -224,13 +214,6 @@ export default function Navbar() {
               )}
             </div>
           ))}
-          <Link
-            to={applyUrl}
-            onClick={() => setMobileOpen(false)}
-            className="block m-4 text-center bg-navy-900 text-white font-medium px-5 py-3 rounded-md"
-          >
-            {applyLabel}
-          </Link>
         </div>
       )}
     </header>
