@@ -35,8 +35,6 @@ const fallbackCampusPage = {
   ctaTitle: 'See it for yourself.',
   ctaSubtitle:
     'Campus tours run every other Saturday during admission season. 90 minutes · 2-batch ambassadors · canteen tea included. Book a slot below or email visit@simsree.org.',
-  ctaPrimaryLabel: 'Book a campus visit',
-  ctaPrimaryUrl: '/contact',
   ctaSecondaryLabel: 'Apply to MMS',
   ctaSecondaryUrl: '/admissions/mms',
 };

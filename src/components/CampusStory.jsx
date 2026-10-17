@@ -160,8 +160,9 @@ export default function CampusStory({
       <Section bg="bg-navy-900" width={768} className="text-center">
         <SectionTitle center dark tagline={cp.ctaEyebrow} title={cp.ctaTitle} body={cp.ctaSubtitle} />
         <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <HeroButton label={cp.ctaPrimaryLabel} to={cp.ctaPrimaryUrl} primary />
-          <HeroButton label={cp.ctaSecondaryLabel} to={cp.ctaSecondaryUrl} />
+          {/* Each button shows only when it has a label in the Studio. */}
+          {cp.ctaPrimaryLabel && <HeroButton label={cp.ctaPrimaryLabel} to={cp.ctaPrimaryUrl} primary />}
+          {cp.ctaSecondaryLabel && <HeroButton label={cp.ctaSecondaryLabel} to={cp.ctaSecondaryUrl} />}
         </div>
       </Section>
     </div>

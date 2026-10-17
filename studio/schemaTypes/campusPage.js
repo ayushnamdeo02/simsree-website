@@ -54,9 +54,9 @@ export default {
     {name: 'ctaEyebrow', title: 'Eyebrow', type: 'string', group: 'cta', initialValue: 'Plan Your Visit'},
     {name: 'ctaTitle', title: 'Title', type: 'string', group: 'cta', initialValue: 'See it for yourself.'},
     {name: 'ctaSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'cta'},
-    {name: 'ctaPrimaryLabel', title: 'Primary CTA label', type: 'string', group: 'cta', initialValue: 'Schedule a campus tour'},
-    {name: 'ctaPrimaryUrl', title: 'Primary CTA URL', type: 'string', group: 'cta', initialValue: '/contact'},
-    {name: 'ctaSecondaryLabel', title: 'Secondary CTA label', type: 'string', group: 'cta', initialValue: 'Apply to MMS'},
+    {name: 'ctaPrimaryLabel', title: 'Primary CTA label', description: 'Leave blank to hide this button', type: 'string', group: 'cta'},
+    {name: 'ctaPrimaryUrl', title: 'Primary CTA URL', type: 'string', group: 'cta'},
+    {name: 'ctaSecondaryLabel', title: 'Secondary CTA label', description: 'Leave blank to hide this button', type: 'string', group: 'cta', initialValue: 'Apply to MMS'},
     {name: 'ctaSecondaryUrl', title: 'Secondary CTA URL', type: 'string', group: 'cta', initialValue: '/admissions/mms'},
   ],
   preview: {
