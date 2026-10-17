@@ -3,7 +3,21 @@ import PageHero from '../components/PageHero';
 import { heroImage } from '../lib/heroImage';
 import { composeTitle } from '../lib/text';
 import { Section, SectionTitle, Tagline, Heading, H5, H6, Highlighted, AccentCard } from '../components/ui';
-import { ArrowRight } from 'lucide-react';
+import {
+  ArrowRight,
+  BookOpen,
+  Compass,
+  GraduationCap,
+  Handshake,
+  HeartHandshake,
+  Lightbulb,
+  Rocket,
+  Shield,
+  Sun,
+  Target,
+  Trophy,
+  UsersRound,
+} from 'lucide-react';
 import { useHistoryPageData } from '../lib/useHistoryPageData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -48,18 +62,16 @@ const fallbackHistoryPage = {
   visionSectionTitleHighlight: 'Mission.',
   visionSectionSubtitle: 'Two statements that have not changed since {{foundedYear}}.',
   visionLabel: 'Our Vision',
-  visionTitle: 'To be a leader in management education.',
-  visionTitleHighlight: 'management education.',
-  visionDescription: 'Recognised and respected for the academic rigour and outcomes of its programmes - a leader students want to join, employers want to hire from, and peers want to compete against.',
+  visionStatements: [
+    'To be a Leader in Management Education and be recognised and respected by the corporate world as an Institution of Academic Excellence.',
+    'To mold students into industry-ready and highly resourceful professionals capable of effectively managing business complexities in a globally competitive environment.',
+  ],
   missionLabel: 'Our Mission',
-  missionTitle: 'Four commitments we make.',
-  missionTitleHighlight: 'commitments',
-  missionIntro: 'See the most recent placement report · sector split · firms that hire repeatedly · summer and executive outcomes.',
   missionCommitments: [
-    'Let student initiative drive the institution.',
-    'Maximise real-world exposure - internships, live projects, guest lectures, management events.',
-    'Foster a culture of research, inquiry, and entrepreneurial thinking.',
-    'Instil discipline, integrity, and ambition to lead organisations toward lasting success.',
+    'To let student initiative be a driving force behind the institution; supervising and guiding the students as and when required.',
+    'To maximize industry exposure of students through internships, live projects, guest lectures and management events.',
+    'To simulate a temperament of research and culture of entrepreneurship among students.',
+    'To instill in students a sense of ingenuity, discipline and commitment to lead their organizations towards resounding success.',
   ],
 
   valuesEyebrow: 'Core Values',
@@ -107,12 +119,12 @@ const fallbackMilestones = [
 ];
 
 const fallbackCoreValues = [
-  { title: 'Excellence', description: 'An uncompromising standard across academics, research, and student experience.' },
-  { title: 'Collaboration', description: 'Faculty, students, alumni, and industry working together - not in silos.' },
-  { title: 'Integrity', description: 'Zero management quota · merit-only admissions · transparent decision-making.' },
-  { title: 'Wisdom', description: 'Knowledge that is rigorous, relevant, and applied to real problems.' },
-  { title: 'Empathy', description: 'Leadership grounded in social responsibility - Mrudgandha and beyond.' },
-  { title: 'Initiative', description: 'The institute runs largely on student initiative · responsibility is the curriculum.' },
+  { title: 'Excellence', icon: 'trophy', description: 'An uncompromising standard across academics, research, and student experience.' },
+  { title: 'Collaboration', icon: 'people', description: 'Faculty, students, alumni, and industry working together - not in silos.' },
+  { title: 'Integrity', icon: 'shield', description: 'Zero management quota · merit-only admissions · transparent decision-making.' },
+  { title: 'Wisdom', icon: 'book', description: 'Knowledge that is rigorous, relevant, and applied to real problems.' },
+  { title: 'Empathy', icon: 'heart', description: 'Leadership grounded in social responsibility - Mrudgandha and beyond.' },
+  { title: 'Initiative', icon: 'sun', description: 'The institute runs largely on student initiative · responsibility is the curriculum.' },
 ];
 
 function imgUrl(image, width) {
@@ -122,6 +134,51 @@ function imgUrl(image, width) {
   } catch {
     return undefined;
   }
+}
+
+const VALUE_ICONS = {
+  trophy: Trophy,
+  people: UsersRound,
+  shield: Shield,
+  book: BookOpen,
+  heart: HeartHandshake,
+  sun: Sun,
+  lightbulb: Lightbulb,
+  target: Target,
+  handshake: Handshake,
+  compass: Compass,
+  graduation: GraduationCap,
+  rocket: Rocket,
+};
+
+// Vision / Mission card heading: a hairline, then the label set large on the right.
+function CardHeading({ text, dark = false }) {
+  return (
+    <div className="flex items-center gap-6">
+      <span className={`h-px flex-1 ${dark ? 'bg-white/20' : 'bg-black/20'}`} aria-hidden="true" />
+      <h3
+        className={`font-display font-medium text-[32px] md:text-[44px] leading-[120%] tracking-[-0.01em] shrink-0 ${
+          dark ? 'text-white' : 'text-navy-900'
+        }`}
+      >
+        {text}
+      </h3>
+    </div>
+  );
+}
+
+// One numbered statement box on the Vision / Mission cards.
+function StatementRow({ n, text, dark = false }) {
+  return (
+    <li
+      className={`rounded flex items-center gap-5 px-4 py-3 min-h-[47px] outline outline-1 -outline-offset-1 ${
+        dark ? 'outline-white/20' : 'outline-black/20 shadow-small'
+      }`}
+    >
+      <span className={`font-display font-medium text-[22px] leading-[140%] shrink-0 ${dark ? 'text-teal-400' : 'text-teal-500'}`}>{n}</span>
+      <span className={`text-sm leading-[150%] ${dark ? 'text-white' : 'text-black'}`}>{text}</span>
+    </li>
+  );
 }
 
 // Timeline card looks (Figma): white, "highlight" (#FFDB43 at 10%), "current" navy.
@@ -225,6 +282,7 @@ export default function History() {
   const hp = fillFactsDeep({ ...fallbackHistoryPage, ...(data?.historyPage || {}) }, facts);
   const milestones = fillFactsDeep(data?.milestones?.length ? data.milestones : fallbackMilestones, facts);
   const coreValues = fillFactsDeep(data?.coreValues?.length ? data.coreValues : fallbackCoreValues, facts);
+  const visionStatements = hp.visionStatements || [];
   const commitments = hp.missionCommitments || [];
 
   const locationImageUrl = imgUrl(hp.locationImage, 1300) || '/images/history/location.webp';
@@ -328,8 +386,9 @@ export default function History() {
         </div>
       </Section>
 
-      {/* Vision & Mission — Figma: two 600 cards, 80 gap. Vision is navy, padded 32;
-          Mission has a 3px Eastern Blue bar and four hairline commitment rows. */}
+      {/* Vision & Mission — two 600 cards, 80 gap: navy Vision and the Eastern Blue
+          barred Mission card, each a large heading after a hairline and its
+          statements as numbered boxes. */}
       <Section width={1280}>
         <SectionTitle
           center
@@ -342,55 +401,30 @@ export default function History() {
         </p>
 
         <div className="mt-10 md:mt-12 grid lg:grid-cols-2 gap-10 lg:gap-20">
-          <div className="rounded-xl bg-navy-900 text-white p-8 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
-            <div className="flex items-center gap-8">
-              <Tagline className="text-white shrink-0">{hp.visionLabel}</Tagline>
-              <span className="h-px flex-1 bg-white/20" aria-hidden="true" />
-              {hp.visionNumber && (
-                <span className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-white/50">
-                  {hp.visionNumber}
-                </span>
-              )}
-            </div>
-            <div className="mt-8 flex flex-col gap-6 max-w-[513px]">
-              <H5 className="text-white">
-                <Highlighted text={hp.visionTitle} highlight={hp.visionTitleHighlight} highlightClass="text-teal-400" />
-              </H5>
-              <p className="text-base leading-[150%]">{hp.visionDescription}</p>
-            </div>
+          <div className="rounded-xl bg-navy-900 text-white p-6 md:p-8 outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+            <CardHeading text={hp.visionLabel} dark />
+            <ol className="mt-8 flex flex-col gap-5">
+              {visionStatements.map((v, i) => (
+                <StatementRow key={i} n={i + 1} text={v} dark />
+              ))}
+            </ol>
           </div>
 
           <AccentCard className="[&>div]:pb-8">
-            <div className="flex items-center gap-8">
-              <Tagline className="text-navy-900 shrink-0">{hp.missionLabel}</Tagline>
-              <span className="h-px flex-1 bg-black/20" aria-hidden="true" />
-              {hp.missionNumber && (
-                <span className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-navy-900/50">
-                  {hp.missionNumber}
-                </span>
-              )}
-            </div>
-            <div className="mt-8 flex flex-col gap-4">
-              <H5 className="text-black">
-                <Highlighted text={hp.missionTitle} highlight={hp.missionTitleHighlight} />
-              </H5>
-              <p className="text-base leading-[150%] text-black max-w-[513px]">{hp.missionIntro}</p>
+            <CardHeading text={hp.missionLabel} />
+            <ol className="mt-8 flex flex-col gap-4">
               {commitments.map((c, i) => (
-                <div
-                  key={i}
-                  className="rounded flex items-center gap-5 px-4 py-2 min-h-[47px] outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
-                >
-                  <span className="font-display font-medium text-[22px] leading-[140%] text-teal-500 shrink-0">{i + 1}</span>
-                  <span className="text-sm leading-[150%] text-black">{c}</span>
-                </div>
+                <StatementRow key={i} n={i + 1} text={c} />
               ))}
-            </div>
+            </ol>
           </AccentCard>
         </div>
       </Section>
 
-      {/* Core Values — Figma: 405x208 cards, radius 16, padded 32, 32 gaps. */}
-      <Section width={1280}>
+      {/* Core Values — on Astronaut Lightest: navy cards (radius 16, padded 32, 32
+          apart) with a white icon disc and the number on top, a short rule under
+          the title. The icon is picked per value in the Studio. */}
+      <Section bg="bg-navy-50" width={1280}>
         <SectionTitle
           center
           tagline={hp.valuesEyebrow}
@@ -401,18 +435,27 @@ export default function History() {
           {hp.valuesSubtitle}
         </p>
         <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
-          {coreValues.map((v, i) => (
-            <div
-              key={v._id || v.title}
-              className="flex flex-col justify-center gap-2 min-h-[208px] p-8 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
-            >
-              <span className="font-display font-medium text-[36px] leading-[130%] tracking-[-0.01em] text-navy-900">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <H5 className="text-black">{v.title}</H5>
-              <p className="text-sm leading-[150%] text-black">{v.description}</p>
-            </div>
-          ))}
+          {coreValues.map((v, i) => {
+            const Icon = VALUE_ICONS[v.icon] || Trophy;
+            return (
+              <div
+                key={v._id || v.title}
+                className="flex flex-col p-8 rounded-2xl bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <span className="w-10 h-10 rounded-full bg-white text-navy-900 flex items-center justify-center shrink-0" aria-hidden="true">
+                    <Icon size={20} strokeWidth={1.75} />
+                  </span>
+                  <span className="font-display font-medium text-[22px] leading-[140%] text-white">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                </div>
+                <H5 className="mt-4 text-white">{v.title}</H5>
+                <span className="mt-2 block w-20 h-px bg-white/30" aria-hidden="true" />
+                <p className="mt-4 text-sm leading-[150%] text-white/85">{v.description}</p>
+              </div>
+            );
+          })}
         </div>
       </Section>
 
