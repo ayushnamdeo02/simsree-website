@@ -525,7 +525,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA + disclaimer — 1440x680, 64px padding, full-width disclaimer (Figma) */}
+      {/* CTA — 1440x680, 64px padding (Figma). The disclaimer is now a site-wide popup. */}
       <section className="bg-navy-900 text-white py-12 lg:py-20">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center">
@@ -557,16 +557,6 @@ export default function Home() {
                 Hire from SIMSREE
               </Link>
             </div>
-          </div>
-
-          {/* Figma: 1232x72 black bar, radius 0, Body Regular Normal 16/150 white. */}
-          <div className="bg-ink-900 border border-black/15 rounded-2xl p-6 mt-12 lg:mt-16 text-base leading-[150%] text-white text-left">
-            <strong className="text-white uppercase tracking-wide">Disclaimer</strong> · We would like to warn
-            applicants about unscrupulous agencies that may put out misleading social media advertisements promising
-            seats for various courses or programmes at SIMSREE. We have no agents, no middlemen, no management quota,
-            no reserved seats or payment seats of any kind. Admissions for MMS are done through the State CET Cell and
-            the Government of Maharashtra{' '}
-            <strong className="text-white">ONLY ON MERIT BASIS.</strong>
           </div>
         </div>
       </section>

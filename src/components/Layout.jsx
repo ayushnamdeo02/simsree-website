@@ -1,6 +1,7 @@
 import Navbar from './Navbar';
 import ScrollProgress from './ScrollProgress';
 import Footer from './Footer';
+import DisclaimerPopup from './DisclaimerPopup';
 import { useRevealOnScroll } from '../lib/useRevealOnScroll';
 
 export default function Layout({ children }) {
@@ -13,6 +14,7 @@ export default function Layout({ children }) {
       <Navbar />
       <main className="flex-1">{children}</main>
       <Footer />
+      <DisclaimerPopup />
     </div>
   );
 }

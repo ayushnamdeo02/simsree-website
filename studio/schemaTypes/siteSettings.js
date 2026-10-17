@@ -66,7 +66,26 @@ export default {
       type: 'string',
       initialValue: 'B-Road, Churchgate, Mumbai 400 020',
     },
+    {
+      name: 'disclaimerEnabled',
+      title: 'Show the disclaimer popup',
+      description: 'Shown once per visit, on whichever page a visitor lands on',
+      type: 'boolean',
+      fieldset: 'disclaimer',
+      initialValue: true,
+    },
+    {name: 'disclaimerTitle', title: 'Title', type: 'string', fieldset: 'disclaimer', initialValue: 'Disclaimer'},
+    {name: 'disclaimerText', title: 'Text', type: 'text', rows: 5, fieldset: 'disclaimer'},
+    {
+      name: 'disclaimerHighlight',
+      title: 'Bold phrase',
+      description: 'Part of the text to show in bold, e.g. "ONLY ON MERIT BASIS."',
+      type: 'string',
+      fieldset: 'disclaimer',
+    },
+    {name: 'disclaimerButtonLabel', title: 'Button label', type: 'string', fieldset: 'disclaimer', initialValue: 'I understand'},
   ],
+  fieldsets: [{name: 'disclaimer', title: 'Disclaimer popup', options: {collapsible: true, collapsed: false}}],
   preview: {
     prepare() {
       return {title: 'Site Settings (Navigation & Footer)'}
