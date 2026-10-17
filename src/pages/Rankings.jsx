@@ -72,9 +72,9 @@ const fallbackFrameworks = [
 ];
 
 const fallbackAccreditations = [
-  { highlight: '25th', title: 'IIRF Ranking 2024', description: 'Ranked 25th in India by the Indian Institutional Ranking Framework.' },
+  { highlight: '25th', title: 'IIRF Ranking 2024', description: 'Ranked 25th in India by the Indian Institutional Ranking Framework, with an overall score of 819.5.' },
   { highlight: '26th', title: 'The Week Ranking', description: 'Ranked 26th by The Week, recognising our commitment to excellence and resilience in management education.' },
-  { highlight: '35th', title: 'BT-MDRA Ranking 2023', description: 'Secured the 35th position in the BT-MDRA rankings.' },
+  { highlight: '35th', title: 'BT-MDRA Ranking 2023', description: 'Secured the 35th position in the BT-MDRA rankings, achieving an overall score of 717.77.' },
   { highlight: 'Academic Excellence', title: 'A Legacy of Achievement', description: 'Continuously advancing quality management education through academic excellence, institutional growth, and future-focused learning.' },
 ];
 
@@ -156,8 +156,8 @@ export default function Rankings() {
         </div>
       </Section>
 
-      {/* Officially recognised — four navy cards with a 3px Eastern Blue bar (the last
-          one wider): a large highlight ("25th"), a title and a short description. */}
+      {/* Officially recognised — four square navy cards with a 3px Eastern Blue bar (the
+          last one wider): a large highlight ("25th"), a title and a short description. */}
       <Section id="accreditations" bg="bg-navy-50" width={1280}>
         <SectionTitle
           center
@@ -175,7 +175,7 @@ export default function Rankings() {
               <Card
                 key={a._id || a.title}
                 {...(a.linkUrl ? { href: a.linkUrl } : {})}
-                className="rounded-xl overflow-hidden flex bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+                className="flex bg-navy-900 text-white shadow-small"
               >
                 <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
                 <span className="flex flex-col gap-3 p-8">
