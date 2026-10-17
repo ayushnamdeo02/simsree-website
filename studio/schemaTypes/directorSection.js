@@ -6,9 +6,8 @@ export default {
     {
       name: 'number',
       title: 'Number',
-      description: 'e.g. "01"',
+      description: 'Small badge above the heading, e.g. "01". Leave blank to hide',
       type: 'string',
-      validation: (Rule) => Rule.required(),
     },
     {
       name: 'title',

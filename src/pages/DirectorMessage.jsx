@@ -48,33 +48,28 @@ const fallbackDirectorPage = {
 
 const fallbackSections = [
   {
-    number: '01',
     title: 'A privilege.',
     titleHighlight: 'privilege.',
     body: "SIMSREE has always stood for something beyond a degree. It stands for character - the kind that is forged through initiative, responsibility, and a deep engagement with the world of business.\n\nIt is a privilege to lead an institution that has spent four decades earning the trust of students, industry, and society. SIMSREE's address at Churchgate is not incidental - it reflects our belief that the best management education happens at the intersection of academia and real commerce.",
   },
   {
-    number: '02',
     title: 'Character first.',
     titleHighlight: 'first.',
     body: "Since {{foundedYear}}, we have been guided by a single ambition: to produce managers who are not just capable, but principled. Professionals who combine technical rigour with the human qualities - empathy, integrity, collaboration - that lasting leadership demands.\n\nAt SIMSREE, the curriculum is only half the story. The other half is what students do alongside it - running committees, organising flagship events, managing the placement process, leading social initiatives. By the time they graduate, they have not just studied management.",
     boldClosing: 'They have practised it.',
   },
   {
-    number: '03',
     title: 'Our people.',
     titleHighlight: 'people.',
     body: 'None of this happens without the people who make SIMSREE what it is. Our faculty bring scholarship and industry experience in equal measure. Our alumni give back generously - as mentors, recruiters, and advocates. And our students, above all, carry the spirit of the institution forward each year.',
     pills: ['Faculty · scholar-practitioners', 'Alumni · 5,000+ worldwide', 'Students · 13 committees'],
   },
   {
-    number: '04',
     title: 'Our programmes.',
     titleHighlight: 'programmes.',
     body: "At SIMSREE, we offer full-time master's programmes with specialisations in Finance, HR, Marketing, Operations, and Systems - supported by an active placement cell and a network that extends across India's leading organisations.\n\nOur executive programmes (MFM and MMM) serve working professionals seeking to deepen their expertise. Our doctoral programme produces original research that bridges scholarship and practice.",
   },
   {
-    number: '05',
     title: 'An invitation.',
     titleHighlight: 'invitation.',
     body: "We are proud of our past. We are more excited about what comes next. Whether you are a prospective student weighing your options, a recruiter looking for India's most distinctive management graduates, or an alumnus returning home - I invite you to be part of the SIMSREE story.",
@@ -170,7 +165,7 @@ function MailUnread({ size = 24, className = '' }) {
   );
 }
 
-// One numbered part of the letter. Figma "Content Left": padding 32, 16 gap —
+// One part of the letter. Figma "Content Left": padding 32, 16 gap —
 // a 12/150 white pill, an H2 52 title in #EAEAF1 with an italic Eastern Blue Light
 // highlight, then 18/150 white copy (24 gap). The first part opens with a teal 52px
 // drop cap and a Playfair H6 22 lead paragraph.
@@ -180,9 +175,11 @@ function DirectorSection({ number, title, titleHighlight, body, boldClosing, pil
   const rest = lead ? paras.slice(1) : paras;
   return (
     <div className="p-6 md:p-8 flex flex-col gap-4">
-      <span className="inline-flex w-fit items-center rounded-2xl bg-white px-2.5 py-1 text-navy-900 text-xs leading-[150%]">
-        {number}
-      </span>
+      {number && (
+        <span className="inline-flex w-fit items-center rounded-2xl bg-white px-2.5 py-1 text-navy-900 text-xs leading-[150%]">
+          {number}
+        </span>
+      )}
       <div className="flex flex-col gap-6">
         <Heading
           text={title}
@@ -374,7 +371,7 @@ export default function DirectorMessage() {
 
         <div id="message" className="relative z-10 mt-8 lg:-mt-[154px] bg-navy-900 rounded-2xl flex flex-col gap-6">
           {sections.map((sec, i) => (
-            <DirectorSection key={sec._id || sec.number} {...sec} lead={i === 0} />
+            <DirectorSection key={sec._id || sec.title} {...sec} lead={i === 0} />
           ))}
         </div>
       </Section>
