@@ -1,4 +1,3 @@
-import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowUpRight } from 'lucide-react';
 import { useFigmaWrap } from '../lib/useFigmaWrap';
@@ -9,7 +8,7 @@ import { Highlighted } from './ui';
 //
 // 1440 x 767 on desktop and 375 x 767 on mobile, with the transparent navbar laid
 // over its top. Content is bottom-aligned with a 72px bottom margin, stacked as:
-//   breadcrumb · 277px hairline · eyebrow · title · description · actions
+//   eyebrow · title · description · actions
 // with 16px between the top items, 24px title→description, 32px →actions.
 
 // Figma: a linear gradient layer at 30% over the photo, stops #000 0% / #333 51% /
@@ -19,38 +18,6 @@ const GRADIENT_DESKTOP =
   'linear-gradient(76deg, rgba(0,0,0,.3) 16.6%, rgba(51,51,51,.3) 56.7%, rgba(102,102,102,.3) 94.4%)';
 const GRADIENT_MOBILE =
   'linear-gradient(46.5deg, rgba(0,0,0,.3) 28.5%, rgba(51,51,51,.3) 56.2%, rgba(102,102,102,.3) 82.3%)';
-
-function Slash() {
-  return (
-    <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" className="shrink-0">
-      <path d="M10 1.5 4 12.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-export function Breadcrumb({ items, className = '' }) {
-  return (
-    <nav aria-label="Breadcrumb" className={`flex flex-wrap items-center gap-1 text-base leading-[150%] text-hero ${className}`}>
-      {items.map((item, i) => {
-        const last = i === items.length - 1;
-        return (
-          <Fragment key={`${item.label}-${i}`}>
-            {i > 0 && <Slash />}
-            {last || !item.to ? (
-              <span className={last ? 'font-semibold' : undefined} aria-current={last ? 'page' : undefined}>
-                {item.label}
-              </span>
-            ) : (
-              <Link to={item.to} className="hover:underline underline-offset-2">
-                {item.label}
-              </Link>
-            )}
-          </Fragment>
-        );
-      })}
-    </nav>
-  );
-}
 
 // One hero action. `to` is an in-app route, `href` an external/mailto/tel/PDF link.
 // Figma: 44px tall, padding 10/24, radius 6, Inter Medium 16/24. Primary is Eastern
@@ -90,7 +57,6 @@ export function HeroButton({ label, to, href, onClick, pressed, primary = false,
 
 /**
  * @param image        background photo URL (Sanity or /images/… fallback)
- * @param breadcrumb   [{label, to}] — last item is the current page
  * @param eyebrow      small line above the title
  * @param eyebrowStyle 'plain' (18/150) · 'pill' (navy pill) · 'rule' (16 semibold between 80px rules)
  * @param title        72px Playfair title; '\n' forces a line break
@@ -107,7 +73,6 @@ export function HeroButton({ label, to, href, onClick, pressed, primary = false,
 export default function PageHero({
   image,
   imagePosition = 'center',
-  breadcrumb,
   eyebrow,
   eyebrowStyle = 'plain',
   // Some frames set the plain eyebrow in capitals ("FOR RECRUITERS").
@@ -163,13 +128,6 @@ export default function PageHero({
           center ? 'items-center text-center' : ''
         }`}
       >
-        {breadcrumb?.length > 0 && (
-          <>
-            <Breadcrumb items={breadcrumb} className={center ? 'justify-center' : ''} />
-            <div className="w-[277px] h-px bg-white/20 my-4" />
-          </>
-        )}
-
         {eyebrow &&
           (eyebrowStyle === 'pill' ? (
             <span className="w-fit bg-navy-900 outline outline-1 -outline-offset-1 outline-black/20 rounded-[32px] px-4 py-2.5 text-[10px] md:text-lg leading-[150%] uppercase mb-4">

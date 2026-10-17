@@ -242,14 +242,6 @@ export default function Tedx() {
       {/* Hero — two-column, not a photo hero */}
       <section className="bg-white pt-32 pb-12 lg:pt-36 lg:pb-16">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="text-xs text-ink-400 mb-6 flex items-center">
-            <Link to="/" className="hover:text-navy-900">Home</Link>
-            <span className="mx-1.5">/</span>
-            <Link to="/events" className="hover:text-navy-900">Events</Link>
-            <span className="mx-1.5">/</span>
-            <span className="text-navy-900">TEDxSIMSREE</span>
-          </div>
-
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div>
               <span className="text-[11px] font-semibold tracking-widest uppercase text-navy-900 mb-4 block">

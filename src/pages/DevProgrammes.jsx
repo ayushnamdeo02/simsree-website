@@ -180,7 +180,6 @@ export default function DevProgrammes() {
     <div className="bg-white">
       <PageHero
         image={heroImage(dp.heroImage, '/images/events/dev-hero.webp', { stretch: true })}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Events', to: '/events' }, { label: 'Development Programmes' }]}
         eyebrow={dp.heroEyebrow}
         eyebrowUpper
         title={dp.heroTitle}

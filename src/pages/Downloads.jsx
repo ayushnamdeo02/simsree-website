@@ -105,7 +105,6 @@ export default function Downloads() {
     <div className="bg-white">
       <PageHero
         image={heroImage(dp.heroImage, '/images/admissions/downloads-hero.webp', { stretch: true })}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Admissions', to: '/admissions' }, { label: 'Downloads' }]}
         eyebrow={dp.heroEyebrow}
         eyebrowStyle="pill"
         title={dp.heroTitle}

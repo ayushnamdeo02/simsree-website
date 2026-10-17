@@ -823,12 +823,6 @@ export default function CommitteeDetail() {
     <div className="bg-white">
       <PageHero
         image={heroImageUrl}
-        breadcrumb={[
-          { label: 'Home', to: '/' },
-          { label: 'About Us', to: '/about' },
-          { label: 'Student Body Structure', to: '/students/body-structure' },
-          { label: c.name },
-        ]}
         eyebrow={c.heroEyebrow}
         title={c.name}
         titleWidth={706}

@@ -70,7 +70,6 @@ export default function Partners() {
     <div className="bg-white">
       <PageHero
         image={heroImage(pp.heroImage, '/images/placements/partners-hero.webp')}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Placement', to: '/placements' }, { label: 'Recruiting Partners' }]}
         eyebrow={pp.heroEyebrow}
         eyebrowUpper
         title={`${count}\n${pp.heroTitle}`}

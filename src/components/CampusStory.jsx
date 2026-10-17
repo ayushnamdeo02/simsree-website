@@ -53,7 +53,6 @@ export default function CampusStory({
   facilities,
   testimonials,
   heroFallback,
-  breadcrumb,
   numbers = 'tiles',
 }) {
   return (
@@ -61,7 +60,6 @@ export default function CampusStory({
       <PageHero
         align="center"
         image={heroImage(cp.heroImage, heroFallback, { stretch: true })}
-        breadcrumb={breadcrumb}
         eyebrow={cp.heroEyebrow}
         eyebrowUpper
         title={[cp.heroTitle, cp.heroTitleLine2].filter(Boolean).join('\n')}

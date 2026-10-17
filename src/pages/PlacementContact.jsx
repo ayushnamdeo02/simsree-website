@@ -123,7 +123,6 @@ export default function PlacementContact() {
     <div className="bg-white">
       <PageHero
         image={heroImage(cp.heroImage, '/images/placements/contact-hero.webp')}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Placement', to: '/placements' }, { label: 'Contact' }]}
         eyebrow={cp.heroEyebrow}
         eyebrowUpper
         title={cp.heroTitle}

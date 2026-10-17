@@ -180,7 +180,6 @@ export default function RecruiterEngagement() {
     <div className="bg-white">
       <PageHero
         image={heroImage(rp.heroImage, '/images/placements/engagement-hero.webp')}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Placement', to: '/placements' }, { label: 'Recruiter Engagement' }]}
         eyebrow={rp.heroEyebrow}
         eyebrowUpper
         title={rp.heroTitle}

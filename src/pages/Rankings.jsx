@@ -155,7 +155,6 @@ export default function Rankings() {
     <div>
       <PageHero
         image={heroImage(rp.heroImage, '/images/rankings/hero.webp')}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'About Us', to: '/about' }, { label: 'Rankings' }]}
         eyebrow={rp.heroEyebrow}
         eyebrowUpper
         title={rp.heroTitle}

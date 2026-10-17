@@ -227,7 +227,6 @@ export default function Simerations() {
     <div className="bg-white">
       <PageHero
         image={heroImage(sp.heroImage, '/images/events/sim-hero.webp', { stretch: true })}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Events', to: '/events' }, { label: 'Simerations' }]}
         eyebrow={sp.heroEyebrow}
         eyebrowUpper
         title={heroTitle}

@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, ChevronRight } from 'lucide-react';
-import { Breadcrumb, HeroButton } from '../components/PageHero';
+import { HeroButton } from '../components/PageHero';
 import { Section, Tagline, Heading, H5 } from '../components/ui';
 import { useFlagshipData } from '../lib/useFlagshipData';
 import { urlFor } from '../lib/sanity';
@@ -295,11 +295,7 @@ export default function Flagship() {
       <section className="px-5 md:px-[55px] pt-[222px] lg:pt-[204px] pb-[72px]">
         <div className="max-w-[1330px] mx-auto grid lg:grid-cols-[647px_647px] justify-between gap-9 items-center">
           <div className="flex flex-col gap-4">
-            <Breadcrumb
-              items={[{ label: 'Home', to: '/' }, { label: 'Events', to: '/events' }, { label: 'Flagship Events' }]}
-              className="!text-black"
-            />
-            <div className="mt-10 max-lg:px-6 max-w-[628px] flex flex-col gap-4">
+            <div className="max-lg:px-6 max-w-[628px] flex flex-col gap-4">
               <BlueTag>{fp.heroEyebrow}</BlueTag>
               <h1 className="font-display font-medium text-[36px] leading-[130%] md:text-[72px] md:leading-[120%] tracking-[-0.01em] text-navy-900">
                 {heroLines.map((l, i) => (

@@ -227,7 +227,6 @@ export default function Events() {
     <div className="bg-white">
       <PageHero
         image={heroImage(ep.heroImage, '/images/events/hero.webp', { stretch: true })}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Events' }]}
         eyebrow={ep.heroEyebrow}
         eyebrowUpper
         title={heroTitle}

@@ -1114,7 +1114,6 @@ export default function AdmissionDetail() {
     <div className="bg-white">
       <PageHero
         image={heroImage(ad.heroImage, `/images/admissions/hero-${slug}.webp`)}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Admissions', to: '/admissions' }, { label: ad.shortName }]}
         eyebrow={ad.heroEyebrow}
         eyebrowUpper
         title={ad.heroTitle}

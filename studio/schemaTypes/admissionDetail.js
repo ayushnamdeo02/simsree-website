@@ -25,7 +25,7 @@ export default {
       group: 'hero',
       validation: (Rule) => Rule.required(),
     },
-    {name: 'shortName', title: 'Short name', description: 'e.g. "MMS" - used in the breadcrumb', type: 'string', group: 'hero', validation: (Rule) => Rule.required()},
+    {name: 'shortName', title: 'Short name', description: 'e.g. "MMS" - used in the section menu ("MMS 2026 key dates")', type: 'string', group: 'hero', validation: (Rule) => Rule.required()},
 
     // Hero
     {name: 'heroEyebrow', title: 'Eyebrow', description: 'e.g. "MMS · AY 2026-27"', type: 'string', group: 'hero'},

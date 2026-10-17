@@ -111,7 +111,6 @@ export default function WhyRecruit() {
     <div className="bg-white">
       <PageHero
         image={heroImage(wp.heroImage, '/images/placements/why-recruit-hero.webp')}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Placement', to: '/placements' }, { label: 'Why Recruit' }]}
         eyebrow={wp.heroEyebrow}
         eyebrowUpper
         title={heroTitle}

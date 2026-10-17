@@ -139,7 +139,6 @@ export default function CampusLife() {
       facilities={facilities}
       testimonials={testimonials}
       heroFallback="/images/campus/hero.webp"
-      breadcrumb={[{ label: 'Home', to: '/' }, { label: 'About Us', to: '/about' }, { label: 'Campus Life & Facilities' }]}
     />
   );
 }

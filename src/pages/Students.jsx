@@ -262,7 +262,6 @@ export default function Students() {
     <div className="bg-white">
       <PageHero
         image={heroImage(sp.heroImage, '/images/students/hero.webp', { stretch: true })}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: "Student's Corner" }]}
         eyebrow={sp.heroEyebrow}
         eyebrowUpper
         title={heroTitle}

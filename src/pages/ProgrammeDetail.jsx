@@ -688,7 +688,6 @@ export default function ProgrammeDetail() {
     <div className="bg-white">
       <PageHero
         image={heroImage(pd.heroImage, `/images/academics/hero-${slug}.webp`)}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Academics', to: '/academics' }, { label: pd.shortName }]}
         eyebrow={pd.heroBadge}
         eyebrowUpper
         title={pd.heroTitle}

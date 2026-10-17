@@ -167,7 +167,6 @@ export default function IndustryEvents() {
     <div className="bg-white">
       <PageHero
         image="/images/events/industry-hero.webp"
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Events', to: '/events' }, { label: 'Industry Events Hub' }]}
         eyebrow={page.heroEyebrow}
         eyebrowUpper
         title={page.heroTitle}

@@ -199,7 +199,6 @@ export default function AlumniPortal() {
     <div>
       <PageHero
         image={heroImage(pp.heroImage, '/images/alumni-portal/hero.webp')}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'About Us', to: '/about' }, { label: 'Alumni Portal' }]}
         eyebrow={pp.heroEyebrow}
         title={pp.heroTitle}
         description={pp.heroDescription}

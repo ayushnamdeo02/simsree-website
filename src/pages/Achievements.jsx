@@ -237,7 +237,6 @@ export default function Achievements() {
     <div className="bg-white">
       <PageHero
         image={heroImage(ap.heroImage, '/images/students/achievements-hero.webp', { stretch: true })}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: "Student's Corner", to: '/students' }, { label: 'Achievements' }]}
         eyebrow={ap.heroEyebrow}
         eyebrowUpper
         title={ap.heroTitle}

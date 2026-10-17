@@ -120,7 +120,6 @@ export default function Leadership() {
     <div className="bg-white">
       <PageHero
         image="/images/students/leadership-hero.webp"
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: "Student's Corner", to: '/students' }, { label: 'Leadership Directory' }]}
         eyebrow={lp.heroEyebrow}
         eyebrowUpper
         title={lp.heroTitle}

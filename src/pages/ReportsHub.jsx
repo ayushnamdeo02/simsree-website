@@ -160,7 +160,6 @@ export default function ReportsHub() {
     <div className="bg-white">
       <PageHero
         image={heroImage(rp.heroImage, '/images/committees/hero-placement.webp')}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Placement', to: '/placements' }, { label: 'Placements Reports Hub' }]}
         eyebrow={rp.heroEyebrow}
         eyebrowUpper
         title={heroTitle}

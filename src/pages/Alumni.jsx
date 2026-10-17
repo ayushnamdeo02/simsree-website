@@ -267,7 +267,6 @@ export default function Alumni() {
     <div>
       <PageHero
         image={heroImage(ap.heroImage, '/images/alumni/hero.webp')}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'About Us', to: '/about' }, { label: 'Illustrious' }]}
         eyebrow={ap.heroEyebrow}
         title={ap.heroTitle}
         titleWidth={900}

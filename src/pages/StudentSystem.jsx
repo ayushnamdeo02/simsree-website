@@ -161,7 +161,6 @@ export default function StudentSystem() {
     <div>
       <PageHero
         image={heroImage(sp.heroImage, '/images/student-system/hero.webp')}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'About Us', to: '/about' }, { label: 'Student-Driven' }]}
         eyebrow={sp.heroEyebrow}
         title={[sp.heroTitle, sp.heroTitleLine2].filter(Boolean).join('\n')}
         titleWidth={900}

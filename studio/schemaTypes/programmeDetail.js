@@ -25,7 +25,7 @@ export default {
       group: 'hero',
       validation: (Rule) => Rule.required(),
     },
-    {name: 'shortName', title: 'Short name', description: 'e.g. "MMS" - used in the breadcrumb', type: 'string', group: 'hero', validation: (Rule) => Rule.required()},
+    {name: 'shortName', title: 'Short name', description: 'e.g. "MMS"', type: 'string', group: 'hero', validation: (Rule) => Rule.required()},
 
     // Hero
     {name: 'heroBadge', title: 'Badge line', description: 'e.g. "Full-time · 2 years · 120 seats · 2 years"', type: 'string', group: 'hero'},

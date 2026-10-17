@@ -144,7 +144,6 @@ export default function BatchProfile() {
     <div className="bg-white">
       <PageHero
         image={heroImage(bp.heroImage, '/images/students/batch-hero.webp', { stretch: true })}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: "Student's Corner", to: '/students' }, { label: 'Batch Profile' }]}
         eyebrow={bp.heroEyebrow}
         eyebrowUpper
         title={bIdx === -1 ? title : `${title.slice(0, bIdx + brk.length)}\n${title.slice(bIdx + brk.length).trim()}`}

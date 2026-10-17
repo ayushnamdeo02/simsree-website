@@ -168,7 +168,6 @@ export default function Life() {
       cp={cp}
       numbers="stats"
       heroFallback="/images/students/life-hero.webp"
-      breadcrumb={[{ label: 'Home', to: '/' }, { label: "Student's Corner", to: '/students' }, { label: 'Life @ SIMSREE' }]}
       features={features.map((f, i) => ({
         ...f,
         number: f.number || String(i + 1).padStart(2, '0'),

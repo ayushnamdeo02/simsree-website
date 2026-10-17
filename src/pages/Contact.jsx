@@ -468,7 +468,6 @@ export default function Contact() {
     <div className="bg-white">
       <PageHero
         image={heroImage(cp.heroImage, '/images/contact/hero.webp', { stretch: true })}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Contact Us' }]}
         eyebrow={cp.heroEyebrow}
         eyebrowUpper
         title={cp.heroTitle}

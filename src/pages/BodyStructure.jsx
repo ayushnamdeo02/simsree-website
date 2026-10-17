@@ -163,7 +163,6 @@ export default function BodyStructure() {
     <div className="bg-white">
       <PageHero
         image={heroImage(bp.heroImage, '/images/students/body-hero.webp', { stretch: true })}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: "Student's Corner", to: '/students' }, { label: 'Student Body Structure' }]}
         eyebrow={`${committees.length} ${bp.heroEyebrow}`}
         eyebrowUpper
         title={heroTitle}

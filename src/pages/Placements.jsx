@@ -226,7 +226,6 @@ export default function Placements() {
     <div className="bg-white">
       <PageHero
         image={heroImage(pp.heroImage, '/images/placements/hero.webp')}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'Placements' }]}
         eyebrow={pp.heroEyebrow}
         eyebrowUpper
         title={pp.heroTitle}

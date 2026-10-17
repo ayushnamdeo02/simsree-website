@@ -89,7 +89,6 @@ export default function Simarthan() {
     <div className="bg-white">
       <PageHero
         image={heroImage(sp.heroImage, '/images/simarthan/hero.webp')}
-        breadcrumb={[{ label: 'Home', to: '/' }, { label: 'About Us', to: '/about' }, { label: 'Simarthan' }]}
         eyebrow={sp.heroEyebrow}
         title={sp.heroTitle}
         description={sp.heroDescription}
