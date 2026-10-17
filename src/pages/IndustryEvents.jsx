@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { ArrowDown, ArrowUpRight } from 'lucide-react';
 import PageHero from '../components/PageHero';
 import SessionCard from '../components/SessionCard';
@@ -157,11 +158,15 @@ function FormatTag({ children }) {
 }
 
 export default function IndustryEvents() {
-  const [mobileTab, setMobileTab] = useState(SECTIONS[0].id);
-  // Mobile (Figma): the two session sections swap under the tabs; the archive
-  // always follows them, so its tab just scrolls there. Desktop shows all.
-  const mobileOnly = (id) => (mobileTab === id ? '' : 'max-lg:hidden');
-  const select = (id) => id !== archive.id && setMobileTab(id);
+  // One section at a time under the tabs (Guest Lectures, Corporate
+  // Interactions, Archive) on every screen size.
+  const [tab, setTab] = useState(SECTIONS[0].id);
+  // A link to #archive (or another section) opens that tab.
+  const { hash } = useLocation();
+  useEffect(() => {
+    const id = hash.slice(1);
+    if ([...SECTIONS.map((x) => x.id), archive.id].includes(id)) setTab(id);
+  }, [hash]);
 
   return (
     <div className="bg-white">
@@ -178,8 +183,8 @@ export default function IndustryEvents() {
 
       {/* Session sections — tabs, left title (48 below), 1280 wide cards 32 apart. */}
       {SECTIONS.map((sec) => (
-        <Section key={sec.id} id={sec.id} width={1280} className={`scroll-mt-24 ${mobileOnly(sec.id)}`}>
-          <Tabs active={sec.id} onSelect={select} />
+        <Section key={sec.id} id={sec.id} width={1280} className={`scroll-mt-24 ${tab === sec.id ? '' : 'hidden'}`}>
+          <Tabs active={sec.id} onSelect={setTab} />
           <SectionTitle className="mt-12" tagline={sec.eyebrow} title={sec.title} body={sec.body} />
           <div className="mt-12 flex flex-col gap-8">
             {sec.sessions.map((s, i) => (
@@ -191,8 +196,8 @@ export default function IndustryEvents() {
 
       {/* Archive — navy header row (16 semibold white), 64px rows zebra-striped
           white / #eaeaf1@50, format tag and a "Read the recap" outline button. */}
-      <Section id={archive.id} width={1280} className="scroll-mt-24">
-        <Tabs active={archive.id} onSelect={select} />
+      <Section id={archive.id} width={1280} className={`scroll-mt-24 ${tab === archive.id ? '' : 'hidden'}`}>
+        <Tabs active={archive.id} onSelect={setTab} />
         <SectionTitle className="mt-12" tagline={archive.eyebrow} title={archive.title} body={archive.body} />
         <div className="mt-12 overflow-x-auto rounded-lg">
           <table className="w-full min-w-[1000px] border-collapse text-left">
