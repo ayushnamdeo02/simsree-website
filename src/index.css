@@ -162,3 +162,24 @@ body {
   /* Breakdown bars grow from zero when their panel arrives. */
   .bar-grow { transition: width 0.9s cubic-bezier(0.2, 0.65, 0.3, 1); }
 }
+
+/* Hero-style buttons on navy sections (the closing "Ready to begin?" bands and
+   the like): white primary with navy-black text, white-outline secondary — the
+   Home CTA style. Unlayered so it wins over the buttons' utility classes. */
+:is(.bg-navy-900, .bg-navy-800) .hero-btn-primary {
+  background-color: #fff;
+  color: var(--color-ink-900);
+  outline-color: #fff;
+}
+:is(.bg-navy-900, .bg-navy-800) .hero-btn-primary:hover {
+  background-color: rgb(243 244 246);
+}
+:is(.bg-navy-900, .bg-navy-800) .hero-btn-secondary {
+  background-color: transparent;
+  color: #fff;
+  outline-color: rgb(255 255 255 / 0.6);
+}
+:is(.bg-navy-900, .bg-navy-800) .hero-btn-secondary:hover {
+  background-color: rgb(255 255 255 / 0.1);
+  outline-color: #fff;
+}

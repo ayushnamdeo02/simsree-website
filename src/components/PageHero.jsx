@@ -24,7 +24,7 @@ const GRADIENT_MOBILE =
 // Blue with a 12px icon gap and arrow (tone="navy" makes it Astronaut navy);
 // secondary is white with a 20% black hairline.
 export function HeroButton({ label, to, href, onClick, pressed, primary = false, tone, icon = primary, download, className = '' }) {
-  const cls = `${className} inline-flex items-center justify-center h-11 px-6 rounded-md text-base leading-[150%] font-medium whitespace-nowrap transition-colors ${
+  const cls = `${className} ${primary && tone !== 'navy' ? 'hero-btn-primary' : primary ? '' : 'hero-btn-secondary'} inline-flex items-center justify-center h-11 px-6 rounded-md text-base leading-[150%] font-medium whitespace-nowrap transition-colors ${
     primary && tone === 'navy'
       ? 'gap-3 bg-navy-900 outline outline-1 -outline-offset-1 outline-navy-900 text-white hover:bg-navy-800'
       : primary

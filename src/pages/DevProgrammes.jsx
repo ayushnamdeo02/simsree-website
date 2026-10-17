@@ -319,23 +319,23 @@ export default function DevProgrammes() {
         </div>
       </Section>
 
-      {/* FAQ — centred title; 768 hairline-boxed accordion, 22px Playfair
-          questions in 72px rows with a 32px chevron. */}
+      {/* FAQ — centred title with the highlight in Eastern Blue; an open accordion
+          divided by hairlines (no box), 22px Playfair questions, 24px chevron. */}
       <Section width={768}>
         <div className="text-center">
           <Tagline>{dp.faqEyebrow}</Tagline>
-          <Heading text={dp.faqTitle} className="mt-3 md:mt-4 text-navy-900" />
+          <Heading text={dp.faqTitle} highlight={dp.faqTitleHighlight} className="mt-3 md:mt-4 text-navy-900" />
         </div>
-        <div className="rounded-lg overflow-hidden rounded-lg overflow-hidden mt-10 md:mt-12 border border-black/20">
+        <div className="mt-10 md:mt-12 border-t border-black/20">
           {faqs.map((f, i) => (
-            <details key={f.question} open={i === 0} className="group">
-              <summary className="flex items-center gap-6 py-5 border-b border-black/20 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                <H6 as="h3" className="flex-1 text-black">
+            <details key={f.question} open={i === 0} className="group border-b border-black/20">
+              <summary className="flex items-center gap-6 py-6 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+                <H6 as="h3" className="flex-1 text-black font-normal">
                   {f.question}
                 </H6>
-                <ChevronDown size={32} strokeWidth={1.5} className="shrink-0 transition-transform group-open:rotate-180" />
+                <ChevronDown size={24} strokeWidth={1.75} className="shrink-0 transition-transform group-open:rotate-180" />
               </summary>
-              {f.answer && <p className="pt-4 pb-6 text-base leading-[150%] text-black border-b border-black/20">{f.answer}</p>}
+              {f.answer && <p className="-mt-1 pb-6 text-base leading-[150%] text-black">{f.answer}</p>}
             </details>
           ))}
         </div>
