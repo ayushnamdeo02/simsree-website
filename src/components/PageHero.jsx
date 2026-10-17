@@ -55,6 +55,11 @@ export function HeroButton({ label, to, href, onClick, pressed, primary = false,
   );
 }
 
+// A word joiner after a hyphen between letters stops the title wrapping inside
+// the word ("Course Co-" / "ordinators"), so "Co-ordinators" moves down whole.
+const keepHyphenated = (text) =>
+  typeof text === 'string' ? text.replace(/(\p{L})-(?=\p{L})/gu, '$1-⁠') : text;
+
 /**
  * @param image        background photo URL (Sanity or /images/… fallback)
  * @param eyebrow      small line above the title
@@ -155,9 +160,9 @@ export default function PageHero({
           style={{ maxWidth: titleWidth }}
         >
           {titleItalic ? (
-            <Highlighted text={figmaWrap(title)} highlight={titleItalic} highlightClass="italic" />
+            <Highlighted text={keepHyphenated(figmaWrap(title))} highlight={keepHyphenated(titleItalic)} highlightClass="italic" />
           ) : (
-            figmaWrap(title)
+            keepHyphenated(figmaWrap(title))
           )}
         </h1>
 

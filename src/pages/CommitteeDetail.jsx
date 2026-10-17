@@ -825,7 +825,8 @@ export default function CommitteeDetail() {
         image={heroImageUrl}
         eyebrow={c.heroEyebrow}
         title={c.name}
-        titleWidth={706}
+        // Room for the longest committee name on one line ("Entrepreneurship Cell").
+        titleWidth={1100}
         description={c.tagline}
         descriptionWidth={628}
         // The email + "All committees" buttons show only when switched on in the Studio.
