@@ -1,6 +1,7 @@
 import PageHero, { HeroButton } from './PageHero';
 import TestimonialCarousel from './TestimonialCarousel';
 import StatCard from './StatCard';
+import { UnitSuffix } from './CountUp';
 import { Section, SectionTitle, Heading } from './ui';
 import { urlFor } from '../lib/sanity';
 import { heroImage } from '../lib/heroImage';
@@ -33,6 +34,18 @@ function PhotoRow({ image, children }) {
       />
       <div className="min-w-0 flex-1 flex flex-col justify-center gap-6 px-6 py-8 lg:py-16 lg:pl-20 lg:pr-12">{children}</div>
     </div>
+  );
+}
+
+// A tile value with any word unit after the number set smaller ("2.4 acres").
+function TileValue({ value = '' }) {
+  const m = /^([^A-Za-z]*\d)(\s+[A-Za-z].*)$/.exec(String(value));
+  if (!m) return value;
+  return (
+    <>
+      {m[1]}
+      <UnitSuffix text={m[2]} small />
+    </>
   );
 }
 
@@ -73,7 +86,7 @@ export default function CampusStory({
       {/* The Numbers — Figma "Layout / 141 /": two 600 columns, 80 gap; 284x190
           hairline stat tiles with a soft shadow, value H2 52 over a 16 SemiBold label. */}
       <Section width={1280}>
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+        <div className="grid xl:grid-cols-2 gap-12 xl:gap-20 items-start">
           <SectionTitle
             tagline={cp.numbersEyebrow}
             title={composeTitle(cp.numbersTitle, cp.numbersTitleHighlight)}
@@ -86,7 +99,7 @@ export default function CampusStory({
             // Life: a 2x2 of StatCards, already in checkerboard order in the data.
             <div className="grid grid-cols-2 gap-4 md:gap-8">
               {(cp.numbersStats || []).map((s) => (
-                <StatCard key={s.label} {...s} />
+                <StatCard key={s.label} {...s} smallUnit />
               ))}
             </div>
           ) : (
@@ -97,7 +110,7 @@ export default function CampusStory({
                   className="rounded-lg flex flex-col justify-center gap-4 min-h-[150px] md:h-[190px] p-4 md:p-8 bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
                 >
                   <div className="font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em] text-black">
-                    {s.value}
+                    <TileValue value={s.value} />
                   </div>
                   <div className="text-base leading-[150%] font-semibold uppercase text-black">{s.label}</div>
                 </div>

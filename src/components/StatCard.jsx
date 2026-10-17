@@ -1,6 +1,6 @@
 import CountUp from './CountUp';
 
-export default function StatCard({ label, value, dark = false }) {
+export default function StatCard({ label, value, dark = false, smallUnit = false }) {
   // Figma: Body Regular Normal · 16/150 — Neutral/Lightest on navy, Neutral/Base on white.
   const labelEl = (
     <span className={`text-base leading-[150%] uppercase ${dark ? 'text-ink-50' : 'text-ink-400'}`}>
@@ -14,7 +14,7 @@ export default function StatCard({ label, value, dark = false }) {
         dark ? 'text-white' : 'text-navy-900'
       }`}
     >
-      <CountUp value={value} />
+      <CountUp value={value} smallUnit={smallUnit} />
     </span>
   );
 

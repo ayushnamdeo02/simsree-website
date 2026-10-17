@@ -16,7 +16,7 @@ const fallbackPage = {
     'SIMSREE sits inside a 1936 heritage block of Sydenham College - 2.4 acres in Churchgate, walking distance from the BSE, NSE, RBI, and the head offices of half the Nifty 50.',
   stats: [
     { label: 'Founded', value: '{{foundedYear}}', dark: true },
-    { label: 'Campus', value: '2.4ac', dark: false },
+    { label: 'Campus', value: '2.4 acres', dark: false },
     { label: 'Facilities', value: '9', dark: false },
     { label: 'To BSE', value: '5 min', dark: true },
   ],

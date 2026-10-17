@@ -27,12 +27,19 @@ function parse(value) {
 
 const easeOut = (t) => 1 - (1 - t) ** 3;
 
+// With `smallUnit`, a word after the number ("2.4 acres", "5 min") is set at
+// half size so the value stays on one line in narrow tiles.
+export function UnitSuffix({ text, small }) {
+  if (!small || !/^\s+[A-Za-z]/.test(text)) return text;
+  return <span className="text-[0.5em] leading-none tracking-normal">{text}</span>;
+}
+
 /**
  * Counts a stat up to its value the first time it scrolls into view. Anything
  * that isn't a number (or is a year) is rendered unchanged, as is the final
  * value for visitors who prefer reduced motion.
  */
-export default function CountUp({ value, duration = 1200, className }) {
+export default function CountUp({ value, duration = 1200, className, smallUnit = false }) {
   const parsed = parse(value);
   const ref = useRef(null);
   const [shown, setShown] = useState(() => (parsed ? 0 : null));
@@ -89,7 +96,7 @@ export default function CountUp({ value, duration = 1200, className }) {
     <span ref={ref} className={className}>
       {parsed.prefix}
       {text}
-      {parsed.suffix}
+      <UnitSuffix text={parsed.suffix} small={smallUnit} />
     </span>
   );
 }
