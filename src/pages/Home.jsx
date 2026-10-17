@@ -531,28 +531,23 @@ export default function Home() {
           <div className="max-w-[768px] mx-auto text-center">
             {/* Figma: Heading/Tagline 16/150, Colour/Neutral/White. */}
             <span className="text-base leading-[150%] font-semibold uppercase text-white">Take the Next Step</span>
-            <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-6">Ready to begin?</h2>
+            <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-medium tracking-[-0.01em] mt-6">Ready to begin?</h2>
             {/* Figma: Text/Medium/Normal 18/150, Color Scheme 3/Text (white). */}
             <p className="text-lg leading-[150%] text-white mt-6">
               MMS admissions open via Maharashtra CET. M.Sc. Finance, MFM, MMM and PhD have their own cycles - check
               Admissions for current notifications.
             </p>
             <div className="flex flex-wrap justify-center gap-3 mt-8">
+              {/* Figma: white primary with arrow, then a white-outline secondary on navy. */}
               <Link
                 to="/admissions"
-                className="bg-sky-600 outline outline-1 outline-sky-600 hover:bg-teal-600 transition-colors text-white text-base leading-[150%] font-medium px-6 py-2.5 rounded-md flex items-center gap-3"
+                className="bg-white hover:bg-gray-100 transition-colors text-ink-900 text-base leading-[150%] font-medium px-6 py-2.5 rounded-md flex items-center gap-3"
               >
-                Apply Now <ArrowUpRight size={16} />
-              </Link>
-              <Link
-                to="/contact"
-                className="bg-white hover:bg-gray-100 transition-colors text-ink-900 text-base leading-[150%] font-medium px-6 py-2.5 rounded-md"
-              >
-                Talk to a Student
+                Apply Now <ArrowUpRight size={20} strokeWidth={1.5} />
               </Link>
               <Link
                 to="/placements"
-                className="bg-white hover:bg-gray-100 transition-colors text-ink-900 text-base leading-[150%] font-medium px-6 py-2.5 rounded-md"
+                className="outline outline-1 -outline-offset-1 outline-white/60 hover:bg-white/10 hover:outline-white transition-colors text-white text-base leading-[150%] font-medium px-6 py-2.5 rounded-md"
               >
                 Hire from SIMSREE
               </Link>
