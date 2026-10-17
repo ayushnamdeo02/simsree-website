@@ -123,7 +123,6 @@ export const deskStructure = (S) =>
           id: 'rankingsPage',
           lists: [
             ['rankingFramework', 'Framework Cards'],
-            ['honour', 'Recent Honours'],
             ['accreditation', 'Accreditations'],
             ['verificationDoc', 'Verification Documents'],
           ],

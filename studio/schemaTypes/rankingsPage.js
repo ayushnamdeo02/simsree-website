@@ -6,7 +6,6 @@ export default {
     {name: 'hero', title: 'Hero'},
     {name: 'stats', title: 'Stats'},
     {name: 'frameworks', title: 'National Rankings Intro'},
-    {name: 'honours', title: 'Recent Honours Intro'},
     {name: 'accreditations', title: 'Accreditations Intro'},
     {name: 'verify', title: 'Verification & Documents'},
   ],
@@ -49,10 +48,6 @@ export default {
     {name: 'frameworksSubtitle', title: 'Subtitle', type: 'string', group: 'frameworks', initialValue: "Year-on-year position across India's most respected ranking frameworks."},
 
     // Recent Honours intro
-    {name: 'honoursEyebrow', title: 'Eyebrow', type: 'string', group: 'honours', initialValue: 'Awards & Recognition'},
-    {name: 'honoursTitle', title: 'Title', type: 'string', group: 'honours', initialValue: 'Recent honours'},
-    {name: 'honoursTitleHighlight', title: 'Title highlight word(s)', description: 'e.g. "honours"', type: 'string', group: 'honours', initialValue: 'honours'},
-    {name: 'honoursSubtitle', title: 'Subtitle', type: 'string', group: 'honours', initialValue: 'Independent recognition from industry bodies and government.'},
 
     // Accreditations intro
     {name: 'accreditationsEyebrow', title: 'Eyebrow', type: 'string', group: 'accreditations', initialValue: 'Accreditations'},

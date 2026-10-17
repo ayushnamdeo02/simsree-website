@@ -8,7 +8,6 @@ import directorPage from './directorPage'
 import directorSection from './directorSection'
 import rankingsPage from './rankingsPage'
 import rankingFramework from './rankingFramework'
-import honour from './honour'
 import accreditation from './accreditation'
 import verificationDoc from './verificationDoc'
 import campusPage from './campusPage'
@@ -119,7 +118,6 @@ export const schemaTypes = [
   directorSection,
   rankingsPage,
   rankingFramework,
-  honour,
   accreditation,
   verificationDoc,
   campusPage,

@@ -4,7 +4,6 @@ import { sanityClient } from './sanity';
 const QUERY = `{
   "rankingsPage": *[_type == "rankingsPage"][0],
   "frameworks": *[_type == "rankingFramework"] | order(order asc),
-  "honours": *[_type == "honour"] | order(order asc),
   "accreditations": *[_type == "accreditation"] | order(order asc),
   "verificationDocs": *[_type == "verificationDoc"] | order(order asc)
 }`;
