@@ -90,9 +90,9 @@ export default {
     {name: 'contactEyebrow', title: 'Eyebrow', type: 'string', group: 'contact', initialValue: 'Get in Touch'},
     {name: 'contactTitle', title: 'Title', type: 'string', group: 'contact', initialValue: 'Want to visit campus?'},
     {name: 'contactBody', title: 'Body', type: 'text', rows: 3, group: 'contact'},
-    {name: 'contactPrimaryCtaLabel', title: 'Primary CTA label', type: 'string', group: 'contact', initialValue: 'Book a campus visit'},
-    {name: 'contactPrimaryCtaUrl', title: 'Primary CTA URL', type: 'string', group: 'contact', initialValue: '/contact'},
-    {name: 'contactSecondaryCtaLabel', title: 'Secondary CTA label', type: 'string', group: 'contact', initialValue: 'Find your programme'},
+    {name: 'contactPrimaryCtaLabel', title: 'Primary CTA label', description: 'Leave blank to hide this button', type: 'string', group: 'contact'},
+    {name: 'contactPrimaryCtaUrl', title: 'Primary CTA URL', type: 'string', group: 'contact'},
+    {name: 'contactSecondaryCtaLabel', title: 'Secondary CTA label', description: 'Leave blank to hide this button', type: 'string', group: 'contact', initialValue: 'Find your programme'},
     {name: 'contactSecondaryCtaUrl', title: 'Secondary CTA URL', type: 'string', group: 'contact', initialValue: '/academics'},
   ],
   preview: {

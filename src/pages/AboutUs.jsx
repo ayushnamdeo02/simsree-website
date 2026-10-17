@@ -69,8 +69,6 @@ const fallbackAboutPage = {
   contactEyebrow: 'Get in Touch',
   contactTitle: 'Want to visit campus?',
   contactBody: 'B Road, Churchgate, Mumbai 400 020 · Mon–Sat · 11am–7pm. Two minutes from Churchgate station.',
-  contactPrimaryCtaLabel: 'Book a campus visit',
-  contactPrimaryCtaUrl: '/contact',
   contactSecondaryCtaLabel: 'Find your programme',
   contactSecondaryCtaUrl: '/academics',
 };
@@ -334,8 +332,9 @@ export default function AboutUs() {
       <Section bg="bg-navy-900" width={768} className="text-center">
         <SectionTitle center dark tagline={ap.contactEyebrow} title={ap.contactTitle} body={ap.contactBody} />
         <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <HeroButton label={ap.contactPrimaryCtaLabel} to={ap.contactPrimaryCtaUrl} primary />
-          <HeroButton label={ap.contactSecondaryCtaLabel} to={ap.contactSecondaryCtaUrl} />
+          {/* Each button shows only when it has a label in the Studio. */}
+          {ap.contactPrimaryCtaLabel && <HeroButton label={ap.contactPrimaryCtaLabel} to={ap.contactPrimaryCtaUrl} primary />}
+          {ap.contactSecondaryCtaLabel && <HeroButton label={ap.contactSecondaryCtaLabel} to={ap.contactSecondaryCtaUrl} />}
         </div>
       </Section>
     </div>
