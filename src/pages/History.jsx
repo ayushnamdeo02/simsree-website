@@ -48,12 +48,10 @@ const fallbackHistoryPage = {
   visionSectionTitleHighlight: 'Mission.',
   visionSectionSubtitle: 'Two statements that have not changed since {{foundedYear}}.',
   visionLabel: 'Our Vision',
-  visionNumber: '01',
   visionTitle: 'To be a leader in management education.',
   visionTitleHighlight: 'management education.',
   visionDescription: 'Recognised and respected for the academic rigour and outcomes of its programmes - a leader students want to join, employers want to hire from, and peers want to compete against.',
   missionLabel: 'Our Mission',
-  missionNumber: '02',
   missionTitle: 'Four commitments we make.',
   missionTitleHighlight: 'commitments',
   missionIntro: 'See the most recent placement report · sector split · firms that hire repeatedly · summer and executive outcomes.',
@@ -353,9 +351,11 @@ export default function History() {
             <div className="flex items-center gap-8">
               <Tagline className="text-white shrink-0">{hp.visionLabel}</Tagline>
               <span className="h-px flex-1 bg-white/20" aria-hidden="true" />
-              <span className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-white/50">
-                {hp.visionNumber}
-              </span>
+              {hp.visionNumber && (
+                <span className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-white/50">
+                  {hp.visionNumber}
+                </span>
+              )}
             </div>
             <div className="mt-8 flex flex-col gap-6 max-w-[513px]">
               <H5 className="text-white">
@@ -369,11 +369,13 @@ export default function History() {
             <div className="flex items-center gap-8">
               <Tagline className="text-navy-900 shrink-0">{hp.missionLabel}</Tagline>
               <span className="h-px flex-1 bg-black/20" aria-hidden="true" />
-              <span className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-navy-900/50">
-                {hp.missionNumber}
-              </span>
+              {hp.missionNumber && (
+                <span className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-navy-900/50">
+                  {hp.missionNumber}
+                </span>
+              )}
             </div>
-            <div className="mt-12 flex flex-col gap-4">
+            <div className="mt-8 flex flex-col gap-4">
               <H5 className="text-black">
                 <Highlighted text={hp.missionTitle} highlight={hp.missionTitleHighlight} />
               </H5>
