@@ -41,7 +41,15 @@ export default {
     {name: 'heroEyebrow', title: 'Eyebrow', description: 'e.g. "Corporate · Student-Run Committee"', type: 'string', group: 'hero'},
     {name: 'tagline', title: 'Tagline', description: 'The quoted line under the title', type: 'string', group: 'hero'},
     {name: 'heroImage', title: 'Hero image', type: 'image', options: {hotspot: true}, group: 'hero'},
-    {name: 'contactEmail', title: 'Contact email', type: 'string', group: 'hero'},
+    {name: 'contactEmail', title: 'Contact email', description: 'Used for the "Email …" hero button', type: 'string', group: 'hero'},
+    {
+      name: 'showHeroButtons',
+      title: 'Show hero buttons',
+      description: 'The "Email …" and "All committees" buttons under the hero text',
+      type: 'boolean',
+      group: 'hero',
+      initialValue: false,
+    },
     {
       name: 'stats',
       title: 'Stat cards',

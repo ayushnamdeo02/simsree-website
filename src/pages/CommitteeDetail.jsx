@@ -828,10 +828,15 @@ export default function CommitteeDetail() {
         titleWidth={706}
         description={c.tagline}
         descriptionWidth={628}
-        actions={[
-          ...(c.contactEmail ? [{ label: `Email ${c.contactEmail}`, href: `mailto:${c.contactEmail}`, primary: true }] : []),
-          { label: `All ${facts.committeeCount} committees`, to: '/students/body-structure' },
-        ]}
+        // The email + "All committees" buttons show only when switched on in the Studio.
+        actions={
+          c.showHeroButtons
+            ? [
+                ...(c.contactEmail ? [{ label: `Email ${c.contactEmail}`, href: `mailto:${c.contactEmail}`, primary: true }] : []),
+                { label: `All ${facts.committeeCount} committees`, to: '/students/body-structure' },
+              ]
+            : []
+        }
       />
 
       {/* Stats — Figma "Layout / 396": 64 padding, four 296x300 cards, 32 gap (2x2, 16 gap on mobile). */}
