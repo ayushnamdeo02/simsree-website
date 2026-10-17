@@ -101,7 +101,6 @@ import newsItem from './newsItem'
 import statCard from './statCard'
 import courseOffered from './courseOffered'
 import whySimsreeFactor from './whySimsreeFactor'
-import upcomingEvent from './upcomingEvent'
 import flagshipEvent from './flagshipEvent'
 import recruiter from './recruiter'
 
@@ -209,7 +208,6 @@ export const schemaTypes = [
   statCard,
   courseOffered,
   whySimsreeFactor,
-  upcomingEvent,
   flagshipEvent,
   recruiter,
 ]

@@ -48,7 +48,6 @@ export const deskStructure = (S) =>
           ['courseOffered', 'Courses Offered'],
           ['whySimsreeFactor', 'Why SIMSREE Factors'],
           ['studentVoice', 'Student Voices'],
-          ['upcomingEvent', 'Upcoming Events'],
           ['flagshipEvent', 'Flagship Events'],
           ['recruiter', 'Recruiting Partners'],
         ],

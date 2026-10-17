@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, Play, GraduationCap, Briefcase, BookOpen, FileSearch } from 'lucide-react';
 import StatCard from '../components/StatCard';
 import NewsCard from '../components/NewsCard';
-import EventCard from '../components/EventCard';
 import SectionHeading from '../components/SectionHeading';
 import { useHomepageData } from '../lib/useHomepageData';
 import { urlFor } from '../lib/sanity';
@@ -35,13 +34,6 @@ const fallbackFactors = [
   { tag: 'Academic Rigour', title: 'Excellence in every classroom.', description: "No matter what you study, the future demands both depth and breadth. So does SIMSREE. Our programmes push students beyond theory into practice - case-based teaching, live projects, and a curriculum refreshed against industry every two years.", linkLabel: 'Explore academics', linkUrl: '/academics' },
   { tag: 'Industry-Led Learning', title: 'Practitioners, not just professors.', description: "Learn from the people who do the work - SIMSREE brings in the best minds from India's corporate world, week after week. CXO guest lectures, live consulting briefs, and corporate visits aren't extras. They're the curriculum.", linkLabel: 'Meet our faculty', linkUrl: '/academics/faculty' },
   { tag: 'Outcomes', title: 'Careers prepared for, not promised.', description: "Top recruiters. Strong alumni network. An active placement cell that connects your skills to the right opportunities - from internship to offer. The Placement Committee, like every committee here, is run by students themselves.", linkLabel: 'Placement Outcomes', linkUrl: '/placements' },
-];
-
-const fallbackEvents = [
-  { day: 'Fri', date: '06', month: 'May', year: '2024', title: 'Guest Lecture · ESG @ Indian Banks', meta: 'Corporate Relations · 3pm Auditorium', cta: 'Reserve a seat' },
-  { day: 'Fri', date: '14', month: 'May', year: '2024', title: 'MDP · Data-Driven Decision Making', meta: '3-day · ₹15,000 · Hybrid', cta: 'Apply to attend', solidCta: true },
-  { day: 'Fri', date: '22', month: 'May', year: '2024', title: 'Finance Forum Quarterly', meta: 'Finance Forum · markets recap', cta: 'See event details' },
-  { day: 'Fri', date: '30', month: 'May', year: '2024', title: 'MDP · Negotiation Skills', meta: '2-day · ₹12,000', cta: 'Apply', solidCta: true },
 ];
 
 const fallbackFlagships = [
@@ -96,7 +88,6 @@ export default function Home() {
   const news = fillFactsDeep(data?.news?.length ? data.news : fallbackNews, facts);
   const courses = fillFactsDeep(data?.courses?.length ? data.courses : fallbackCourses, facts);
   const factors = fillFactsDeep(data?.factors?.length ? data.factors : fallbackFactors, facts);
-  const events = fillFactsDeep(data?.events?.length ? data.events : fallbackEvents, facts);
   const flagships = fillFactsDeep(data?.flagships?.length ? data.flagships : fallbackFlagships, facts);
   const recruiters = fillFactsDeep(data?.recruiters?.length ? data.recruiters : fallbackRecruiters, facts);
   // The recruiterCount key fact is the published figure staff maintain in one
@@ -445,34 +436,6 @@ export default function Home() {
           >
             See all {recruiterCountLabel} recruiters
           </Link>
-        </div>
-      </section>
-
-      {/* Upcoming Events — 1280 inner, 112px padding, 32px card gap (Figma) */}
-      <section className="bg-sky-50 py-12 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-12">
-            {/* Figma: Inter Semi Bold 16/150, letter-spacing 0, Color Scheme 1/Text. */}
-            <span className="text-base leading-[150%] font-semibold uppercase text-black">Always Something Happening</span>
-            <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6">
-              Upcoming on <span className="text-teal-500">campus.</span>
-            </h2>
-            {/* Figma: Text/Medium/Normal 18/150, Color Scheme 1/Text. */}
-            <p className="text-lg leading-[150%] text-black mt-6">Guest lectures, MDPs, flagship events - see the full calendar.</p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6 lg:gap-8 mb-10 lg:mb-12">
-            {events.map((e) => (
-              <EventCard key={e._id || e.title} {...e} />
-            ))}
-          </div>
-          <div className="text-center">
-            <Link
-              to="/events"
-              className="inline-flex items-center gap-2 bg-navy-900 outline outline-1 outline-teal-500 hover:bg-navy-800 transition-colors text-white text-base leading-[150%] font-medium px-6 py-2.5 rounded-md"
-            >
-              See the full calendar <ArrowRight size={16} />
-            </Link>
-          </div>
         </div>
       </section>
 

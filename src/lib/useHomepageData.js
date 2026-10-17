@@ -7,7 +7,6 @@ const QUERY = `{
   "news": *[_type == "newsItem"] | order(order asc),
   "courses": *[_type == "courseOffered"] | order(order asc),
   "factors": *[_type == "whySimsreeFactor"] | order(order asc),
-  "events": *[_type == "upcomingEvent"] | order(order asc),
   "flagships": *[_type == "flagshipEvent"] | order(order asc),
   "recruiters": *[_type == "recruiter"] | order(order asc),
   "recruiterCount": count(*[_type == "recruiter"]),
