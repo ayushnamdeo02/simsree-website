@@ -126,7 +126,7 @@ const fallbackBySlug = {
         footnote: 'Verification at Churchgate campus',
       },
       {
-        title: 'Pay fees · join induction',
+        title: 'Get onboarded',
         description:
           'Pay first-instalment fees via the State CET Cell payment gateway. Induction week begins early August. Welcome to SIMSREE.',
         footnote: 'First instalment · ~₹1.15L',
@@ -1278,10 +1278,10 @@ export default function AdmissionDetail() {
                       >
                         <span
                           className={`w-12 h-12 shrink-0 rounded-full flex items-center justify-center text-lg leading-[150%] ${
-                            s.complete ? 'bg-teal-500 outline outline-4 -outline-offset-4 outline-white/0 text-white' : 'bg-navy-900 text-white'
+                            s.complete ? 'bg-teal-500 outline outline-2 -outline-offset-[5px] outline-white text-white' : 'bg-navy-900 text-white'
                           }`}
                         >
-                          {s.complete ? <Check size={24} strokeWidth={2.5} /> : String(i + 1).padStart(2, '0')}
+                          {s.complete ? <Check size={20} strokeWidth={2.5} /> : String(i + 1).padStart(2, '0')}
                         </span>
                         <div className="min-w-0 flex flex-col gap-6">
                           <div className="flex flex-col gap-2">
