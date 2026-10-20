@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { Plus } from 'lucide-react';
 import { StatGrid } from '../components/StatCard';
 import PageHero, { HeroButton } from '../components/PageHero';
-import { Section, SectionTitle, H5 } from '../components/ui';
+import { Section, SectionTitle } from '../components/ui';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
 // Leadership Directory — built from the Figma "Leadership Directory" frame.
@@ -16,7 +15,6 @@ const page = {
   heroButtons: [
     { label: 'Email GS team', url: 'mailto:gs@simsree.org', primary: true },
     { label: 'Email Chairs', url: 'mailto:chairpersons@simsree.org' },
-    { label: "See how they're elected", url: '#election' },
   ],
   stats: [
     { label: 'GS portfolios', value: '4', dark: true },
@@ -43,20 +41,6 @@ const page = {
     'Sports', 'Operations', 'Marketing', 'Course Co',
     'Operations', 'Marketing', 'Operations', 'Infra-Tech',
   ].map((role) => ({ name: 'Mr. Ashish Bhasin', role })),
-  electionEyebrow: 'Year-2 chairs · 2025-26',
-  electionTitle: 'How leadership is elected.',
-  electionBody: 'Four-step process · runs in Week 4-8 of Year 2.',
-  steps: [
-    {
-      title: '1 · Nomination + 5 endorsement',
-      body: 'Self-nomination opens Week 4 of Year 2. Each candidate needs five batchmate endorsements to qualify.',
-    },
-    { title: '2 · Manifesto + open debate', body: '' },
-    { title: '3 · Secret ballot', body: '' },
-    { title: '4 · 2-week structured handover', body: '' },
-  ],
-  selectionTitle: 'Selection for Chairpersons (per committee)',
-  selectionBody: 'Three-step gate: Year-1 performance review by exiting chair → 5 peer endorsements → Director sign-off.',
   ctaEyebrow: 'For recruiters',
   ctaTitle: 'Reach the leadership team.',
   ctaBody: "For anything that doesn't fit a committee - student-welfare issues, inter-batch coordination, or institute-wide ideas.",
@@ -171,38 +155,6 @@ export default function Leadership() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Election — no tab of its own; always shown. Centred title, expandable 1280 rows (32px plus), then the
-            chairperson-selection card with a 5px Eastern Blue bar. */}
-        <div id="election" className="mt-20 md:mt-28 scroll-mt-40 flex flex-col gap-12 md:gap-16">
-          <SectionTitle center tagline={lp.electionEyebrow} title={lp.electionTitle} body={lp.electionBody} />
-          <div className="flex flex-col gap-12">
-            <div className="flex flex-col gap-12">
-              {lp.steps.map((s, i) => (
-                <details key={s.title} open={i === 0} className="rounded-lg group bg-white outline outline-1 -outline-offset-1 outline-black/20">
-                  <summary className="flex items-center gap-8 p-8 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
-                    <div className="flex-1 min-w-0 flex flex-col gap-6">
-                      <H5 as="h3" className="text-black">
-                        {s.title}
-                      </H5>
-                      {s.body && <p className="hidden group-open:block text-base leading-[150%] text-black">{s.body}</p>}
-                    </div>
-                    <Plus size={32} strokeWidth={1.5} className="shrink-0 transition-transform group-open:rotate-45" />
-                  </summary>
-                </details>
-              ))}
-              <div className="flex rounded-r-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20">
-                <span className="w-[5px] shrink-0 bg-teal-500" aria-hidden="true" />
-                <div className="flex flex-col gap-4 py-8 pl-8 pr-8">
-                  <H5 as="h3" className="text-black">
-                    {lp.selectionTitle}
-                  </H5>
-                  <p className="text-base leading-[150%] text-black">{lp.selectionBody}</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
