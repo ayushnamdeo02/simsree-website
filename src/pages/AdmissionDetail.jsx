@@ -126,12 +126,6 @@ const fallbackBySlug = {
         footnote: 'Verification at Churchgate campus',
       },
       {
-        title: 'GD-PI counselling (institute-level)',
-        description:
-          'SIMSREE conducts a group discussion + personal interview as part of counselling - used for shortlisting in some categories. Not a re-rank - your CET score remains the primary criterion.',
-        footnote: '~30 min total · Churchgate · Weekday',
-      },
-      {
         title: 'Pay fees · join induction',
         description:
           'Pay first-instalment fees via the State CET Cell payment gateway. Induction week begins early August. Welcome to SIMSREE.',
