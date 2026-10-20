@@ -232,7 +232,8 @@ const fallbackBySlug = {
       { title: 'Final Selection List', note: 'Get Your Admission Decision', icon: 'final' },
     ],
     datesEyebrow: 'Key Dates · AY 2026-27',
-    datesTitle: 'When does the M.Sc. Finance cycle run?',
+    datesTitle: 'When does the M.Sc. Finance process run?',
+    datesNavLabel: 'M.Sc. Fin 2026 dates',
     datesTitleHighlight: 'M.Sc. Finance',
     datesSubtitle:
       'A six-stage rolling timeline. Dates are tentative; the official Notification PDF carries the binding schedule.',
@@ -974,8 +975,8 @@ const fallbackBySlug = {
 };
 
 // The dates label carries the programme name, so it reads correctly per guide.
-const sectionsFor = (shortName) => [
-  { id: 'dates', label: `${shortName} 2026 key dates` },
+const sectionsFor = (shortName, datesLabel) => [
+  { id: 'dates', label: datesLabel || `${shortName} 2026 key dates` },
   { id: 'eligibility', label: 'Eligibility' },
   { id: 'process', label: 'Process' },
   { id: 'fees', label: 'Fees' },
@@ -1027,7 +1028,7 @@ export default function AdmissionDetail() {
   const ad = fillFactsDeep(data || fallback, facts);
 
   // Highlight the "On this page" entry for the section being read.
-  const activeId = useScrollSpy(ad ? sectionsFor(ad.shortName || '').map((s) => s.id) : []);
+  const activeId = useScrollSpy(ad ? sectionsFor(ad.shortName || '', ad.datesNavLabel).map((s) => s.id) : []);
 
   if (loading && !fallback) {
     return <div className="max-w-[1280px] mx-auto px-6 py-32 text-sm text-ink-600">Loading…</div>;
@@ -1052,7 +1053,7 @@ export default function AdmissionDetail() {
   const has = (k) => Array.isArray(ad[k]) && ad[k].length > 0;
 
   // A section only appears in the nav if the page actually has that content.
-  const navSections = sectionsFor(ad.shortName || '').filter((s) => {
+  const navSections = sectionsFor(ad.shortName || '', ad.datesNavLabel).filter((s) => {
     if (s.id === 'dates') return has('timeline');
     if (s.id === 'eligibility') return has('eligibilityCards');
     if (s.id === 'process') return has('processSteps');
@@ -1146,7 +1147,7 @@ export default function AdmissionDetail() {
                       <a
                         href={`#${s.id}`}
                         aria-current={active ? 'true' : undefined}
-                        className={`flex items-center min-h-12 pl-8 pr-1 border-l-[3px] text-base leading-[150%] whitespace-nowrap text-navy-900 ${
+                        className={`flex items-center min-h-12 pl-8 pr-1 border-l-[3px] text-base leading-[150%] text-navy-900 ${
                           active ? 'font-medium border-teal-500 shadow-small' : 'border-transparent'
                         }`}
                       >

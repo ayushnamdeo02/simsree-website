@@ -2,6 +2,7 @@
 // one line with non-breaking spaces in its headings. The CMS copy uses plain spaces,
 // so headings re-apply these to wrap where the design does.
 export const FIGMA_KEEP_TOGETHER = [
+  "process run?",
   "of distinctive management",
   "Your two-year leadership",
   "Hire practitioners. Not",

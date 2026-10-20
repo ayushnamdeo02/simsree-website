@@ -100,6 +100,7 @@ export default {
 
     // Key dates timeline
     {name: 'datesEyebrow', title: 'Eyebrow', type: 'string', group: 'dates', initialValue: 'Key Dates · AY 2026-27'},
+    {name: 'datesNavLabel', title: '"On this page" label', description: 'Short label for the key-dates link in the side menu; defaults to "<Short name> 2026 key dates"', type: 'string', group: 'dates'},
     {name: 'datesTitle', title: 'Title', type: 'string', group: 'dates', initialValue: 'When does the MMS cycle run?'},
     {name: 'datesTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'dates'},
     {name: 'datesSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'dates'},
