@@ -29,7 +29,7 @@ const fallbackBySlug = {
     ],
     overviewTitle: 'Two years that make you management-ready.',
     overviewTitleHighlight: 'management-ready.',
-    overviewSubtitle: 'M.Sc. Finance',
+    overviewSubtitle: 'MMS',
     glanceTitle: 'Programme at a glance',
     glanceRows: [
       { label: 'Duration', value: '2 years' },
