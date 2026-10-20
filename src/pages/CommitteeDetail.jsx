@@ -1,4 +1,5 @@
 import { Link, useParams } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
 import { StatGrid } from '../components/StatCard';
 import PageHero, { HeroButton } from '../components/PageHero';
 import { Section, SectionTitle, Tagline, Heading, H5, H6, AccentCard, Tag } from '../components/ui';
@@ -40,6 +41,18 @@ const fallbackBySlug = {
     skills: ['Client Relations', 'Negotiation', 'Process Ops', 'Stakeholder Management'],
     equivalentTitle: 'Real-world equivalent',
     equivalentValue: 'Talent Acquisition / Client Partner',
+    eventsEyebrow: 'Always Something Happening',
+    eventsTitle: 'Upcoming Placement Events',
+    eventsTitleHighlight: 'Placement Events',
+    eventsSubtitle: 'Key activities and recruitment events throughout the academic year.',
+    events: [
+      { date: '2024-05-06', title: 'Aptitude Training', description: 'Prepare with focused aptitude sessions.', ctaLabel: 'Register Now', ctaUrl: '/placements/contact' },
+      { date: '2024-05-14', title: 'Company Orientation', description: 'Meet recruiters and explore opportunities.', ctaLabel: 'Register Now', ctaUrl: '/placements/contact' },
+      { date: '2024-05-22', title: 'Mock Interviews', description: 'Practice interviews with expert feedback.', ctaLabel: 'Register Now', ctaUrl: '/placements/contact' },
+      { date: '2024-05-30', title: 'Pre-Placement Talks', description: 'Learn about roles and recruitment processes.', ctaLabel: 'Register Now', ctaUrl: '/placements/contact' },
+    ],
+    eventsCtaLabel: 'See the full calendar',
+    eventsCtaUrl: '/events#calendar',
     teamEyebrow: 'Members 2025-26',
     teamTitle: "Who's running this",
     teamTitleHighlight: 'running this',
@@ -788,6 +801,20 @@ const HERO_FALLBACK = Object.fromEntries(
 // Figma member portraits, in card order, for members without a photo yet.
 const MEMBER_FALLBACK = [1, 2, 3, 4, 5, 6].map((n) => `/images/committees/member-${n}.webp`);
 
+// Navy date tile for a committee event: weekday, day number, month + year.
+function EventDate({ date }) {
+  const d = new Date(`${date}T00:00:00`);
+  if (Number.isNaN(d.getTime())) return null;
+  const part = (opts) => d.toLocaleDateString('en-GB', opts);
+  return (
+    <div className="w-[96px] shrink-0 rounded-lg bg-navy-900 text-white flex flex-col items-center justify-center py-3 gap-0.5">
+      <span className="text-xs leading-[150%]">{part({ weekday: 'short' })}</span>
+      <span className="font-display font-medium text-[28px] leading-[120%]">{part({ day: '2-digit' })}</span>
+      <span className="text-xs leading-[150%] uppercase">{part({ month: 'short', year: 'numeric' })}</span>
+    </div>
+  );
+}
+
 export default function CommitteeDetail() {
   const { slug } = useParams();
   const facts = useKeyFacts();
@@ -899,6 +926,51 @@ export default function CommitteeDetail() {
               )}
             </div>
           </div>
+        </Section>
+      )}
+
+      {/* Upcoming events — white, centred header, 2-up hairline cards with a navy date
+          tile, title, line and an outline button, then the calendar link. */}
+      {has('events') && (
+        <Section width={1280}>
+          <SectionTitle
+            center
+            tagline={c.eventsEyebrow}
+            title={c.eventsTitle}
+            highlight={c.eventsTitleHighlight}
+            body={c.eventsSubtitle}
+          />
+          <div className="mt-10 md:mt-12 grid md:grid-cols-2 gap-6">
+            {c.events.map((e) => (
+              <div key={`${e.title}-${e.date}`} className="flex items-center gap-5 md:gap-6 p-5 md:p-6 rounded-xl bg-white outline outline-1 -outline-offset-1 outline-black/15 shadow-small">
+                <EventDate date={e.date} />
+                <div className="flex-1 min-w-0 flex flex-col items-start gap-2">
+                  <H6 as="h3" className="text-black">
+                    {e.title}
+                  </H6>
+                  {e.description && <p className="text-sm leading-[150%] text-black">{e.description}</p>}
+                  {e.ctaLabel && (
+                    <Link
+                      to={e.ctaUrl || '/placements/contact'}
+                      className="mt-1 inline-flex items-center h-9 px-4 rounded-md bg-white outline outline-1 -outline-offset-1 outline-black/20 text-sm leading-[150%] font-medium text-navy-900 hover:bg-navy-50 transition-colors"
+                    >
+                      {e.ctaLabel}
+                    </Link>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          {c.eventsCtaLabel && (
+            <div className="mt-10 md:mt-12 flex justify-center">
+              <Link
+                to={c.eventsCtaUrl || '/events#calendar'}
+                className="inline-flex items-center gap-2 h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors"
+              >
+                {c.eventsCtaLabel} <ArrowRight size={20} strokeWidth={1.5} />
+              </Link>
+            </div>
+          )}
         </Section>
       )}
 

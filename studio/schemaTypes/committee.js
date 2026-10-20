@@ -8,6 +8,7 @@ export default {
     {name: 'card', title: 'Directory Card'},
     {name: 'hero', title: 'Detail - Hero'},
     {name: 'about', title: 'Detail - What It Does'},
+    {name: 'events', title: 'Detail - Upcoming Events'},
     {name: 'team', title: 'Detail - Team'},
     {name: 'voice', title: 'Detail - Member Voice'},
     {name: 'join', title: 'Detail - Join CTA'},
@@ -91,6 +92,34 @@ export default {
     {name: 'skills', title: 'Skills', description: 'Shown as chips', type: 'array', of: [{type: 'string'}], group: 'about'},
     {name: 'equivalentTitle', title: 'Equivalent panel title', type: 'string', group: 'about', initialValue: 'Real-world equivalent'},
     {name: 'equivalentValue', title: 'Equivalent role', description: 'e.g. "Startup Founder / Venture Analyst"', type: 'string', group: 'about'},
+
+    // Upcoming events (optional; the section shows once events are added)
+    {name: 'eventsEyebrow', title: 'Eyebrow', type: 'string', group: 'events', initialValue: 'Always Something Happening'},
+    {name: 'eventsTitle', title: 'Title', description: 'e.g. "Upcoming Placement Events"', type: 'string', group: 'events'},
+    {name: 'eventsTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'events'},
+    {name: 'eventsSubtitle', title: 'Subtitle', type: 'string', group: 'events'},
+    {
+      name: 'events',
+      title: 'Events',
+      type: 'array',
+      group: 'events',
+      of: [
+        {
+          type: 'object',
+          name: 'committeeEvent',
+          fields: [
+            {name: 'date', title: 'Date', type: 'date', validation: (Rule) => Rule.required()},
+            {name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()},
+            {name: 'description', title: 'Description', type: 'string'},
+            {name: 'ctaLabel', title: 'Button label', type: 'string', initialValue: 'Register Now'},
+            {name: 'ctaUrl', title: 'Button URL', type: 'string'},
+          ],
+          preview: {select: {title: 'title', subtitle: 'date'}},
+        },
+      ],
+    },
+    {name: 'eventsCtaLabel', title: 'Calendar button label', type: 'string', group: 'events', initialValue: 'See the full calendar'},
+    {name: 'eventsCtaUrl', title: 'Calendar button URL', type: 'string', group: 'events', initialValue: '/events#calendar'},
 
     // Team
     {name: 'teamEyebrow', title: 'Eyebrow', type: 'string', group: 'team', initialValue: 'Spotlight'},
