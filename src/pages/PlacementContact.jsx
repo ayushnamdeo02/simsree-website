@@ -15,7 +15,7 @@ const fallbackPage = {
   heroTitleItalic: 'Placement Office.',
   heroDescription:
     'Two ways to reach us - call or WhatsApp the Placement Committee, or email the Placement Officer.',
-  heroPrimaryCtaLabel: 'Call Paras Surve',
+  heroPrimaryCtaLabel: 'Call Placement Committee',
   heroPrimaryCtaUrl: 'tel:+918830532100',
   heroSecondaryCtaLabel: 'Email the placement cell',
   heroSecondaryCtaUrl: 'mailto:placements@simsree.org',
