@@ -157,14 +157,14 @@ function NewsRow({ date, title, isDownload, actionLabel, fileUrl, url }) {
   const label = actionLabel || (isDownload ? 'PDF' : 'Read');
   const href = fileUrl || url;
   return (
-    <div className="rounded flex flex-col gap-4 md:flex-row md:items-center md:gap-20 min-h-20 px-8 py-5 outline outline-1 -outline-offset-1 outline-black/20">
+    <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-20 min-h-20 px-4 md:px-8 py-5 border-b border-black/10">
       <span className="md:w-28 shrink-0 text-base leading-[150%] font-semibold uppercase text-teal-500">{date}</span>
       <p className="flex-1 min-w-0 text-base leading-[150%] text-black">{title}</p>
       <a
         href={href || '/events/news'}
-        className="inline-flex items-center gap-2 w-fit h-[37px] md:h-10 px-5 rounded-md bg-navy-900 outline outline-1 -outline-offset-1 outline-black/20 text-white text-sm md:text-base leading-[150%] md:font-medium hover:bg-navy-800 transition-colors shrink-0"
+        className="inline-flex items-center gap-2 w-fit h-9 px-4 rounded-md bg-navy-900 text-white text-sm leading-[150%] font-medium hover:bg-navy-800 transition-colors shrink-0"
       >
-        {label} <ArrowUpRight size={20} strokeWidth={1.5} />
+        {label} <ArrowUpRight size={16} strokeWidth={1.75} />
       </a>
     </div>
   );
@@ -172,9 +172,9 @@ function NewsRow({ date, title, isDownload, actionLabel, fileUrl, url }) {
 
 // "Event / 4 /" block: tagline, H2, copy and a button, inset 32 at the sides.
 // Figma: 32 gaps desktop (24 mobile), 24 between title and copy; mobile insets 8.
-function StoryBlock({ tagline, children, action }) {
+function StoryBlock({ tagline, children, action, bg = '' }) {
   return (
-    <section className="px-5 py-12 md:px-16 md:py-20">
+    <section className={`${bg} px-5 py-12 md:px-16 md:py-20`}>
       <div className="max-w-[1312px] mx-auto px-2 md:px-8 flex flex-col gap-6 md:gap-8">
         <Tagline>{tagline}</Tagline>
         <div className="flex flex-col gap-6">{children}</div>
@@ -248,6 +248,7 @@ export default function AboutUs() {
       </StoryBlock>
 
       <StoryBlock
+        bg="bg-navy-50"
         tagline={ap.leadershipEyebrow}
         action={
           <Link to={ap.leadershipLinkUrl} className={outlineBtn}>
@@ -309,8 +310,9 @@ export default function AboutUs() {
         </div>
       </Section>
 
-      {/* News — Figma "FAQ / 1 /": 768 title (centred on mobile), 8px-gapped rows, navy CTA. */}
-      <Section width={1280} className="border-t border-white/20">
+      {/* News — on Astronaut Lightest: 768 title (centred on mobile), hairline-split
+          rows with a small navy action, navy CTA. */}
+      <Section bg="bg-navy-50" width={1280}>
         <SectionTitle
           className="text-center md:text-left"
           tagline={ap.newsEyebrow}
@@ -318,7 +320,7 @@ export default function AboutUs() {
           highlight={ap.newsTitleHighlight}
           body={ap.newsSubtitle}
         />
-        <div className="mt-10 md:mt-12 flex flex-col gap-2">
+        <div className="mt-10 md:mt-12 flex flex-col">
           {news.map((n) => (
             <NewsRow key={n._id || n.title} {...n} />
           ))}
@@ -334,7 +336,10 @@ export default function AboutUs() {
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           {/* Each button shows only when it has a label in the Studio. */}
           {ap.contactPrimaryCtaLabel && <HeroButton label={ap.contactPrimaryCtaLabel} to={ap.contactPrimaryCtaUrl} primary />}
-          {ap.contactSecondaryCtaLabel && <HeroButton label={ap.contactSecondaryCtaLabel} to={ap.contactSecondaryCtaUrl} />}
+          {ap.contactSecondaryCtaLabel && (
+            // Shown solid when it is the only button left.
+            <HeroButton label={ap.contactSecondaryCtaLabel} to={ap.contactSecondaryCtaUrl} primary={!ap.contactPrimaryCtaLabel} icon={false} />
+          )}
         </div>
       </Section>
     </div>
