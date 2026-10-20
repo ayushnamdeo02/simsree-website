@@ -20,7 +20,7 @@ export default {
     // Institution
     {name: 'alumniCount', title: 'Alumni count', description: 'e.g. "5000+"', type: 'string', group: 'institution', initialValue: '5000+'},
     {name: 'foundedYear', title: 'Founded year', description: 'e.g. "1983" - rendered as "Since 1983"', type: 'string', group: 'institution', initialValue: '1983'},
-    {name: 'affiliation', title: 'Affiliating university', description: 'e.g. "Mumbai University · Dr Homi Bhabha SU"', type: 'string', group: 'institution', initialValue: 'Mumbai University · Dr Homi Bhabha SU'},
+    {name: 'affiliation', title: 'Affiliating university', description: 'e.g. "Dr Homi Bhabha SU"', type: 'string', group: 'institution', initialValue: 'Dr Homi Bhabha SU'},
     {name: 'committeeCount', title: 'Student committee count', description: 'e.g. "13"', type: 'string', group: 'institution', initialValue: '13'},
 
     // Contact

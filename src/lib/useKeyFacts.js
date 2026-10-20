@@ -12,7 +12,7 @@ export const FACT_DEFAULTS = {
   recruiterCount: '120+',
   alumniCount: '5000+',
   foundedYear: '1983',
-  affiliation: 'Mumbai University · Dr Homi Bhabha SU',
+  affiliation: 'Dr Homi Bhabha SU',
   committeeCount: '13',
   address: 'B-Road, Churchgate, Mumbai 400 020',
   placementEmail: 'placements@simsree.org',
