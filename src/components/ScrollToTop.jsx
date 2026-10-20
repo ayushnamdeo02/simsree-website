@@ -13,13 +13,20 @@ export default function ScrollToTop() {
   const { pathname, hash, key } = useLocation();
   const navigationType = useNavigationType();
   const positions = useRef(new Map());
+  const prevLocation = useRef(null);
 
   useEffect(() => {
     if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
   }, []);
 
   useLayoutEffect(() => {
-    if (navigationType === 'POP') {
+    // A plain "#section" link on the same page also arrives as a POP (and shares
+    // the page's history key), so treat a hash change within a page as a jump to
+    // that section rather than a back/forward restore.
+    const prev = prevLocation.current;
+    prevLocation.current = { pathname, hash };
+    const sectionJump = hash && prev && prev.pathname === pathname && prev.hash !== hash;
+    if (navigationType === 'POP' && !sectionJump) {
       const saved = positions.current.get(key) ?? 0;
       // The page may still be growing, so aim again over the next few frames.
       const timers = [0, 60, 200, 450].map((delay) => setTimeout(() => window.scrollTo(0, saved), delay));
