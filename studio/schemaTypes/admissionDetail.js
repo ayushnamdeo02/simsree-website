@@ -223,6 +223,24 @@ export default {
     },
     {name: 'documentsCtaLabel', title: 'CTA label', type: 'string', group: 'documents', initialValue: 'Download all forms (PDF)'},
     {name: 'documentsCtaUrl', title: 'CTA URL', type: 'string', group: 'documents', initialValue: '/admissions/downloads'},
+    {
+      name: 'documentsLinks',
+      title: 'Extra links',
+      description: 'Outline buttons beside the CTA, e.g. individual affidavit PDFs',
+      type: 'array',
+      group: 'documents',
+      of: [
+        {
+          type: 'object',
+          name: 'documentsLink',
+          fields: [
+            {name: 'label', title: 'Label', type: 'string', validation: (Rule) => Rule.required()},
+            {name: 'url', title: 'URL', description: 'A page (/admissions/downloads) or a PDF link', type: 'string'},
+          ],
+          preview: {select: {title: 'label', subtitle: 'url'}},
+        },
+      ],
+    },
 
     // FAQ
     {name: 'faqEyebrow', title: 'Eyebrow', type: 'string', group: 'faq', initialValue: 'FAQ'},

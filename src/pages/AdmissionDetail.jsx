@@ -175,6 +175,10 @@ const fallbackBySlug = {
     ],
     documentsCtaLabel: 'Download all forms (PDF)',
     documentsCtaUrl: '/admissions/downloads',
+    documentsLinks: [
+      { label: 'Anti-ragging affidavit', url: '/admissions/downloads' },
+      { label: 'Gap certificate affidavit', url: '/admissions/downloads' },
+    ],
     faqEyebrow: 'FAQ',
     faqTitle: 'Your questions, answered.',
     faqTitleHighlight: 'answered.',
@@ -1323,14 +1327,15 @@ export default function AdmissionDetail() {
               </div>
             )}
 
-            {/* Documents — two bar cards with 14/150 disc lists, navy CTA. */}
+            {/* Documents — two square bar cards with 14/150 disc lists, then the navy
+                CTA and any extra outline links (affidavit PDFs) in one row. */}
             {has('documentGroups') && (
               <div id="documents" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
                 <PillHeader tone="yellow" pill={ad.documentsEyebrow} title={ad.documentsTitle} highlight={ad.documentsTitleHighlight} />
                 <div className="flex flex-col gap-8">
                   <div className="grid md:grid-cols-2 gap-8">
                     {ad.documentGroups.map((g) => (
-                      <AccentCard key={g.title}>
+                      <AccentCard key={g.title} className="!rounded-none">
                         <H6 as="h3">{g.title}</H6>
                         <ul className="mt-4 list-disc pl-5 text-sm leading-[150%] text-black">
                           {(g.items || []).map((item) => (
@@ -1340,14 +1345,35 @@ export default function AdmissionDetail() {
                       </AccentCard>
                     ))}
                   </div>
-                  {ad.documentsCtaLabel && (
-                    <Link
-                      to={ad.documentsCtaUrl || '/admissions/downloads'}
-                      className="inline-flex items-center gap-3 w-fit h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors"
-                    >
-                      {ad.documentsCtaLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
-                    </Link>
-                  )}
+                  <div className="flex flex-wrap gap-4 md:gap-6">
+                    {ad.documentsCtaLabel && (
+                      <Link
+                        to={ad.documentsCtaUrl || '/admissions/downloads'}
+                        className="inline-flex items-center gap-3 w-fit h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors"
+                      >
+                        {ad.documentsCtaLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
+                      </Link>
+                    )}
+                    {(ad.documentsLinks || []).map((l) => {
+                      const cls =
+                        'inline-flex items-center gap-3 w-fit h-11 px-6 rounded-md bg-white outline outline-1 -outline-offset-1 outline-black/20 text-black text-base leading-[150%] font-medium hover:bg-navy-50 transition-colors';
+                      const url = l.url || '/admissions/downloads';
+                      const inner = (
+                        <>
+                          {l.label} <ArrowUpRight size={20} strokeWidth={1.5} />
+                        </>
+                      );
+                      return url.startsWith('/') ? (
+                        <Link key={l.label} to={url} className={cls}>
+                          {inner}
+                        </Link>
+                      ) : (
+                        <a key={l.label} href={url} target="_blank" rel="noreferrer" className={cls}>
+                          {inner}
+                        </a>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )}
