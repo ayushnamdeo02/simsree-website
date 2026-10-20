@@ -45,17 +45,17 @@ const fallbackBySlug = {
       { label: 'Status', value: 'Pre-launch', note: 'CET dates announced via State CET Cell' },
     ],
     datesEyebrow: 'Key Dates · AY 2026-27',
-    datesTitle: 'When does the MMS cycle run?',
+    datesTitle: 'When does the MMS process run?',
     datesTitleHighlight: 'MMS',
     datesSubtitle:
-      'A six-stage rolling timeline. Dates are tentative; CET publishes binding dates in the Notification PDF.',
+      'A six-stage rolling timeline. Dates are tentative; CET Cell publishes binding dates in the Notification PDF.',
     timeline: [
       { month: 'Apr 2026', label: 'Notification', note: 'Official PDF released' },
-      { month: 'May 2026', label: 'Applications open', note: 'Register on CET portal' },
-      { month: 'Jun 2026', label: 'Applications close', note: '30 Jun deadline' },
-      { month: 'Jul 2026', label: 'Entrance & CAP-PI', note: 'GD-PI counselling' },
-      { month: 'Aug 2026', label: 'Result & merit list', note: 'Seat allotment' },
-      { month: 'Aug 2026', label: 'Induction', note: 'Session starts', highlight: true },
+      { month: 'May 2026', label: 'Applications open', note: 'CET Cell portal' },
+      { month: 'Jun 2026', label: 'Applications close', note: 'Late fee window: 1 wk' },
+      { month: 'Jul 2026', label: 'Entrance & GD-PI', note: 'CET → counselling' },
+      { month: 'Aug 2026', label: 'Result & merit list', note: 'CAP I, II, III rounds' },
+      { month: 'Aug 2026', label: 'Induction', note: 'Campus joins · 2026 batch', highlight: true },
     ],
     eligibilityEyebrow: 'Eligibility',
     eligibilityTitle: 'See if you qualify.',
@@ -1209,15 +1209,32 @@ export default function AdmissionDetail() {
                 <div className="overflow-x-auto">
                   <ol className="min-w-[720px] m-0 list-none flex justify-between gap-2 px-8 md:px-16 py-12 rounded-2xl bg-navy-900 text-white">
                     {ad.timeline.map((t, i) => (
-                      <li key={`${t.label}-${i}`} className="flex-1 flex flex-col items-center gap-4 text-center">
-                        <span className="text-base leading-[150%] uppercase text-teal-400">{t.month}</span>
-                        <span
-                          className={`w-[60px] h-[60px] rounded-full flex items-center justify-center font-display font-medium text-[22px] outline outline-1 -outline-offset-1 outline-teal-500 ${
-                            t.highlight ? 'bg-white text-navy-900' : 'bg-navy-950 text-white'
-                          }`}
-                        >
-                          {t.highlight ? <Check size={24} /> : i + 1}
-                        </span>
+                      <li key={`${t.label}-${i}`} className="relative flex-1 flex flex-col items-center gap-4 text-center">
+                        {/* Connector from the previous step: dotted for the first stretch, then a faint rule. */}
+                        {i > 0 && (
+                          <span
+                            aria-hidden="true"
+                            className={`absolute top-[62px] right-[calc(50%+30px)] w-[calc(100%-52px)] ${
+                              i < 3 ? 'border-t border-dashed border-white/40' : 'h-px bg-white/20'
+                            }`}
+                          />
+                        )}
+                        <span className={`text-base leading-[150%] uppercase ${t.highlight ? 'text-white' : 'text-teal-400'}`}>{t.month}</span>
+                        {t.highlight ? (
+                          <span className="w-11 h-11 rounded-full bg-white flex items-center justify-center">
+                            <span className="w-7 h-7 rounded-full bg-navy-900 text-white flex items-center justify-center">
+                              <Check size={16} strokeWidth={2.5} />
+                            </span>
+                          </span>
+                        ) : (
+                          <span
+                            className={`w-11 h-11 rounded-full flex items-center justify-center font-display font-medium text-lg text-navy-900 ${
+                              i === 0 ? 'bg-navy-50' : 'bg-white'
+                            }`}
+                          >
+                            {i + 1}
+                          </span>
+                        )}
                         <span className="flex flex-col gap-2">
                           <span className="font-display font-medium text-sm leading-[140%]">{t.label}</span>
                           {t.note && <span className="text-xs leading-[150%] text-navy-50">{t.note}</span>}
