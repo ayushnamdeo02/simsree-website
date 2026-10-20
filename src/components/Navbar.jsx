@@ -19,6 +19,10 @@ function DropdownEntry({ entry, onNavigate, mobile = false }) {
   const subRow = mobile
     ? 'block pl-14 pr-10 py-1.5 text-xs leading-[150%] text-ink-600'
     : 'block pl-6 pr-4 py-1.5 text-xs leading-[150%] text-ink-600 hover:bg-gray-50 hover:text-navy-800';
+  // A link marked `outdent` lines up with the labels instead of sitting under one.
+  const subOutdent = mobile
+    ? 'block pl-12 pr-10 pt-2.5 pb-1.5 text-xs leading-[150%] text-ink-600'
+    : 'block pl-4 pr-4 pt-2.5 pb-1.5 text-xs leading-[150%] text-ink-600 hover:bg-gray-50 hover:text-navy-800';
   const subLabel = mobile
     ? 'block pl-12 pr-10 pt-2.5 pb-1 text-[11px] leading-[150%] font-semibold uppercase tracking-wide text-ink-400'
     : 'block pl-4 pr-4 pt-2.5 pb-1 text-[11px] leading-[150%] font-semibold uppercase tracking-wide text-ink-400';
@@ -57,7 +61,7 @@ function DropdownEntry({ entry, onNavigate, mobile = false }) {
       {open &&
         entry.children.map((sub, i) =>
           sub.path ? (
-            <Link key={i} to={sub.path} onClick={onNavigate} className={subRow}>
+            <Link key={i} to={sub.path} onClick={onNavigate} className={sub.outdent ? subOutdent : subRow}>
               {sub.label}
             </Link>
           ) : (

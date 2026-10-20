@@ -33,6 +33,13 @@ export default {
               description: 'Leave blank to make this a small label over the links below it (like "Full Time")',
               type: 'string',
             },
+            {
+              name: 'outdent',
+              title: 'Line up with the labels',
+              description: 'Show this link at the same level as labels like "Executive", not indented under one',
+              type: 'boolean',
+              initialValue: false,
+            },
           ],
           preview: {
             select: {title: 'label', subtitle: 'path'},

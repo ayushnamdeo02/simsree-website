@@ -40,7 +40,7 @@ export const mainNav = [
           { label: 'Executive' },
           { label: "Master's Degree in Marketing Management", path: '/academics/mmm' },
           { label: "Master's Degree in Finance Management", path: '/academics/mfm' },
-          { label: 'Doctor of Philosophy (Ph.D.)', path: '/academics/phd' },
+          { label: 'Doctor of Philosophy (Ph.D.)', path: '/academics/phd', outdent: true },
         ],
       },
       {
