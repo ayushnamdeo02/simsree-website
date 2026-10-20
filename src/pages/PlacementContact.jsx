@@ -26,8 +26,8 @@ const fallbackPage = {
   contactsSubtitle: 'Every number below is current',
 
   channelsEyebrow: 'What to Send When',
-  channelsTitle: 'Email vs. WhatsApp',
-  channelsTitleHighlight: 'vs.',
+  channelsTitle: 'Email and WhatsApp',
+  channelsTitleHighlight: 'WhatsApp',
   channelsSubtitle: 'Match the right channel to the right need.',
   channelCards: [
     {
