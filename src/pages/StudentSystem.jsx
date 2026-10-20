@@ -117,8 +117,6 @@ const fallbackPage = {
     'Committee selection happens during induction week. Your first responsibility starts sooner than you think - that is the point.',
   ctaPrimaryLabel: 'Start your application',
   ctaPrimaryUrl: '/admissions/mms',
-  ctaSecondaryLabel: 'Talk to a current student',
-  ctaSecondaryUrl: '/contact',
   ctaTertiaryLabel: 'Download the brochure (PDF)',
   ctaTertiaryUrl: '/brochure',
 };
@@ -382,9 +380,10 @@ export default function StudentSystem() {
             <p className="mt-6 max-w-[504px] text-base md:text-lg leading-[150%]">{sp.ctaSubtitle}</p>
           </div>
           <div className="mt-8 flex flex-col md:flex-row gap-3.5">
-            <HeroButton label={sp.ctaPrimaryLabel} to={sp.ctaPrimaryUrl} primary icon={false} />
-            <HeroButton label={sp.ctaSecondaryLabel} to={sp.ctaSecondaryUrl} />
-            <HeroButton label={sp.ctaTertiaryLabel} href={sp.ctaTertiaryUrl} />
+            {/* Each button shows only when it has a label in the Studio. */}
+            {sp.ctaPrimaryLabel && <HeroButton label={sp.ctaPrimaryLabel} to={sp.ctaPrimaryUrl} primary icon={false} />}
+            {sp.ctaSecondaryLabel && <HeroButton label={sp.ctaSecondaryLabel} to={sp.ctaSecondaryUrl} />}
+            {sp.ctaTertiaryLabel && <HeroButton label={sp.ctaTertiaryLabel} href={sp.ctaTertiaryUrl} />}
           </div>
         </div>
       </section>
