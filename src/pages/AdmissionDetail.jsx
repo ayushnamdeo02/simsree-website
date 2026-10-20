@@ -4,6 +4,7 @@ import {
   Check,
   ClipboardCheck,
   FileText,
+  IndianRupee,
   Info,
   ListChecks,
   Minus,
@@ -134,21 +135,17 @@ const fallbackBySlug = {
       },
     ],
     feesEyebrow: 'Fees',
-    feesTitle: 'What you will pay.',
+    feesTitle: "What you'll pay.",
+    feesTitleHighlight: 'pay.',
+    feesTitleHighlight: 'pay.',
     feesSubtitle:
       'Approximate breakdown for AY 2026-27. Final fees and revisions appear in the official Notification PDF.',
     feesTotalLabel: 'Programme total',
     feesTotalValue: '~₹4.5L',
     feesTotalNote: 'Across 4 semesters · 2 years',
-    feesBreakdown: [
-      { label: 'Tuition', value: '~₹3.2L' },
-      { label: 'Development', value: '~₹0.4L' },
-      { label: 'Library / Lab / Exam', value: '~₹0.6L' },
-      { label: 'Caution deposit (refundable)', value: '~₹0.3L' },
-    ],
     feesPanels: [
       { label: 'Per instalment', value: '~₹1.15L', note: '4 instalments · 1 per semester' },
-      { label: 'Scholarships', value: 'EBC · SC · ST · OBC', note: 'Per Govt. of Maharashtra reimbursement' },
+      { label: 'Scholarships', value: 'EBC · SC/ST · OBC', note: 'Per Govt. of Maharashtra reimbursement' },
       { label: 'Payment via', value: 'CET Cell portal', note: 'Online · UPI / NEFT / Card' },
     ],
     documentsEyebrow: 'Documents Required',
@@ -332,17 +329,12 @@ const fallbackBySlug = {
     ],
     feesEyebrow: 'Fees',
     feesTitle: "What you'll pay.",
+    feesTitleHighlight: 'pay.',
     feesSubtitle:
       'Approximate breakdown for AY 2026-27. Final fees and any revisions appear in the official Notification PDF.',
     feesTotalLabel: 'Programme total',
     feesTotalValue: '~₹3.8L',
     feesTotalNote: 'Across 4 semesters · 2 years',
-    feesBreakdown: [
-      { label: 'Tuition', value: '~₹2.7L' },
-      { label: 'Development', value: '~₹0.4L' },
-      { label: 'Library / Lab / Exam', value: '~₹0.4L' },
-      { label: 'Caution deposit (refundable)', value: '~₹0.3L' },
-    ],
     feesPanels: [
       { label: 'Per instalment', value: '~₹0.95L', note: '4 instalments · 1 per semester' },
       { label: 'Scholarships', value: 'EBC · SC · ST · OBC', note: 'Per Govt. of Maharashtra reimbursement' },
@@ -527,17 +519,12 @@ const fallbackBySlug = {
     ],
     feesEyebrow: 'Fees',
     feesTitle: "What you'll pay.",
+    feesTitleHighlight: 'pay.',
     feesSubtitle:
       'Approximate breakdown for the 3-year MMM Executive cohort starting AY 2026-27.',
     feesTotalLabel: 'Programme total',
     feesTotalValue: '~₹2.8L',
     feesTotalNote: 'Across 6 semesters · 3 years',
-    feesBreakdown: [
-      { label: 'Tuition', value: '~₹2.1L' },
-      { label: 'Library / Lab / Exam', value: '~₹0.3L' },
-      { label: 'Industry interaction levy', value: '~₹0.2L' },
-      { label: 'Caution deposit (refundable)', value: '~₹0.2L' },
-    ],
     feesPanels: [
       { label: 'Per instalment', value: '~₹0.55L', note: '6 instalments · 1 per semester' },
       {
@@ -720,17 +707,12 @@ const fallbackBySlug = {
     ],
     feesEyebrow: 'Fees',
     feesTitle: "What you'll pay.",
+    feesTitleHighlight: 'pay.',
     feesSubtitle:
       'Approximate breakdown for the 3-year MFM Executive cohort starting AY 2026-27.',
     feesTotalLabel: 'Programme total',
     feesTotalValue: '~₹2.8L',
     feesTotalNote: 'Across 6 semesters · 3 years',
-    feesBreakdown: [
-      { label: 'Tuition', value: '~₹2.1L' },
-      { label: 'Library / Lab / Exam', value: '~₹0.3L' },
-      { label: 'Industry interaction levy', value: '~₹0.2L' },
-      { label: 'Caution deposit (refundable)', value: '~₹0.2L' },
-    ],
     feesPanels: [
       { label: 'Per instalment', value: '~₹0.55L', note: '6 instalments · 1 per semester' },
       {
@@ -915,17 +897,12 @@ const fallbackBySlug = {
     feesEyebrow: 'Fees',
     feesTitle: "What you'll pay.",
     feesTitleHighlight: 'pay.',
+    feesTitleHighlight: 'pay.',
     feesSubtitle:
       'PhD fees are set by the affiliating university · approximate annual amounts shown for AY 2026-27.',
     feesTotalLabel: 'Programme total',
     feesTotalValue: '~₹1.5L',
     feesTotalNote: 'Per year programme · fees paid annually',
-    feesBreakdown: [
-      { label: 'University tuition', value: '~₹0.9L' },
-      { label: 'Library / Lab / Research', value: '~₹0.3L' },
-      { label: 'DRC + viva fees', value: '~₹0.1L' },
-      { label: 'Caution deposit (refundable)', value: '~₹0.2L' },
-    ],
     feesPanels: [
       {
         label: 'Fellowships',
@@ -1303,39 +1280,34 @@ export default function AdmissionDetail() {
               <div id="fees" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
                 <PillHeader tone="yellow" pill={ad.feesEyebrow} title={ad.feesTitle} highlight={ad.feesTitleHighlight} body={ad.feesSubtitle} />
                 <div className="flex flex-col gap-8">
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <div className="flex flex-col gap-6 p-8 md:p-12 rounded-2xl bg-navy-900 text-white">
-                      <div className="flex flex-col gap-4">
-                        <Tagline className="text-teal-400">{ad.feesTotalLabel}</Tagline>
-                        <div className="flex flex-col gap-2">
-                          <span className="font-display font-medium text-[52px] leading-[120%] tracking-[-0.01em] text-teal-400">
-                            {ad.feesTotalValue}
-                          </span>
-                          {ad.feesTotalNote && <span className="text-base leading-[150%] text-navy-50">{ad.feesTotalNote}</span>}
-                        </div>
+                  {/* Total — a navy card sized to its content: ₹ disc, label, then the
+                      figure with its note beside it. Panels sit in a row underneath. */}
+                  <div className="w-fit max-w-full flex items-start gap-5 md:gap-6 p-8 md:px-10 md:py-9 rounded-2xl bg-navy-900 text-white">
+                    <span className="w-11 h-11 shrink-0 rounded-full bg-teal-500 outline outline-2 -outline-offset-[5px] outline-white flex items-center justify-center" aria-hidden="true">
+                      <IndianRupee size={20} strokeWidth={2} />
+                    </span>
+                    <div className="flex flex-col gap-3">
+                      <Tagline className="text-teal-400">{ad.feesTotalLabel}</Tagline>
+                      <div className="flex flex-wrap items-end gap-x-6 gap-y-1">
+                        <span className="font-display font-medium text-[44px] md:text-[52px] leading-[110%] tracking-[-0.01em] text-white">
+                          {ad.feesTotalValue}
+                        </span>
+                        {ad.feesTotalNote && <span className="pb-1.5 text-sm md:text-base leading-[150%] text-navy-50">{ad.feesTotalNote}</span>}
                       </div>
-                      <dl className="flex flex-col border-t border-white/20">
-                        {(ad.feesBreakdown || []).map((r) => (
-                          <div key={r.label} className="flex justify-between gap-4 py-3 border-b border-white/20 last:border-b-0 text-sm leading-[150%]">
-                            <dt className="text-navy-50">{r.label}</dt>
-                            <dd className="m-0 text-teal-400">{r.value}</dd>
-                          </div>
-                        ))}
-                      </dl>
                     </div>
-                    <div className="flex flex-col gap-4">
-                      {(ad.feesPanels || []).map((f) => (
-                        <AccentCard key={f.label} className="[&>div]:py-4">
-                          <div className="flex flex-col gap-3">
-                            <Tagline className="text-teal-500">{f.label}</Tagline>
-                            <div className="flex flex-col gap-2">
-                              <H5>{f.value}</H5>
-                              {f.note && <p className="text-base leading-[150%] text-black">{f.note}</p>}
-                            </div>
+                  </div>
+                  <div className="grid md:grid-cols-3 gap-4 md:gap-6">
+                    {(ad.feesPanels || []).map((f) => (
+                      <AccentCard key={f.label} className="[&>div]:py-6 [&>div]:pl-6 [&>div]:pr-6">
+                        <div className="flex flex-col gap-3">
+                          <Tagline className="text-teal-500 !text-sm">{f.label}</Tagline>
+                          <div className="flex flex-col gap-2">
+                            <H5 className="!text-[24px]">{f.value}</H5>
+                            {f.note && <p className="text-sm leading-[150%] text-black">{f.note}</p>}
                           </div>
-                        </AccentCard>
-                      ))}
-                    </div>
+                        </div>
+                      </AccentCard>
+                    ))}
                   </div>
                   {ad.feesFootnote && (
                     <p

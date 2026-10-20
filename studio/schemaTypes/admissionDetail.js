@@ -179,22 +179,6 @@ export default {
     {name: 'feesTotalValue', title: 'Total value', description: 'e.g. "~₹4.5L"', type: 'string', group: 'fees'},
     {name: 'feesTotalNote', title: 'Total note', description: 'e.g. "Across 4 semesters · 2 years"', type: 'string', group: 'fees'},
     {
-      name: 'feesBreakdown',
-      title: 'Total panel rows',
-      type: 'array',
-      group: 'fees',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {name: 'label', title: 'Label', type: 'string'},
-            {name: 'value', title: 'Value', type: 'string'},
-          ],
-          preview: {select: {title: 'label', subtitle: 'value'}},
-        },
-      ],
-    },
-    {
       name: 'feesPanels',
       title: 'Side panels',
       description: 'Small panels beside the total, e.g. per instalment, scholarships, payment via',
