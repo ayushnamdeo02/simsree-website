@@ -28,7 +28,7 @@ const fallbackTabs = [
   {
     pillLabel: 'Final 2024-25',
     tabLabel: 'Download the final report · 2024-25',
-    eyebrow: 'MMS · M.Sc. Finance',
+    eyebrow: 'MMS',
     title: '100% placed - final 2024-25.',
     subtitle: '{{placementRate}} placement · {{avgCtc}} avg · 120 recruiters.',
     fileTitle: 'SIMSREE Final Placement Report · 2024-25',

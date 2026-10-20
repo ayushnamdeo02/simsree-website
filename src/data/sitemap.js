@@ -122,7 +122,6 @@ export const mainNav = [
       { label: 'Why Recruit at SIMSREE', path: '/placements/why-recruit' },
       { label: 'List of Recruiters', path: '/placements/partners' },
       { label: 'MMS Placement Reports', path: '/placements/reports' },
-      { label: 'MSc Finance Placement Reports', path: '/placements/reports' },
     ],
   },
   { label: 'Contact Us', path: '/contact' },
