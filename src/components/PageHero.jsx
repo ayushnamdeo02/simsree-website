@@ -95,7 +95,9 @@ export default function PageHero({
   // Extra block between the description and the actions (Director credentials).
   details,
   children,
-  height = 'h-[767px]',
+  // Ends 767px down the page like the Home hero (it starts below the 48px top
+  // bar), and shrinks to the window on shorter screens so the buttons stay in view.
+  height = 'h-[767px] md:h-[clamp(600px,calc(100svh-48px),719px)]',
   mobileOverlay = 'gradient',
   // Mobile title size: most frames use H4 36/130, a few (About, History) use 40/120.
   mobileTitle = 'text-[36px] leading-[130%]',

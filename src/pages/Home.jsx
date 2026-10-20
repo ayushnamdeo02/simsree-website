@@ -118,7 +118,7 @@ export default function Home() {
       {/* Hero */}
       <section>
         <div
-          className="min-h-[600px] md:h-[767px] bg-gray-400 relative overflow-hidden bg-cover bg-center"
+          className="min-h-[600px] md:h-[clamp(600px,100svh,767px)] bg-gray-400 relative overflow-hidden bg-cover bg-center"
           style={{
             backgroundImage: heroImageUrl
               ? `url('${heroImageUrl}')`
