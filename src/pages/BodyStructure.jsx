@@ -29,9 +29,8 @@ const fallbackPage = {
   heroDescription:
     'Each committee runs a real domain with real accountability - the full student-leadership directory.',
   heroButtons: [
-    { label: 'Email GS team', url: 'mailto:placements@simsree.org', primary: true },
-    { label: 'Email Chairs', url: 'mailto:placements@simsree.org', primary: false },
-    { label: 'Election process', url: '#ladder', primary: false },
+    { label: 'Email to Chairperson', url: 'mailto:placements@simsree.org', primary: true },
+    { label: 'Email to General Secretary', url: 'mailto:placements@simsree.org', primary: false },
   ],
   stats: [
     { label: 'GS portfolios', value: '4', dark: true },
@@ -39,6 +38,14 @@ const fallbackPage = {
     { label: 'Year of leadership', value: '2', dark: true },
     { label: 'Elected', value: '100%', dark: false },
   ],
+  orgEyebrow: 'SMA Hierarchy',
+  orgTitle: 'Student Body Structure',
+  orgSubtitle: 'Explore the structure of the Sydenham Management Association (SMA) and the 13 committees that drive it forward.',
+  orgTopTitle: 'Director',
+  orgTopSubtitle: 'General Secretary',
+  orgLeft: 'Placement Committee',
+  orgRight: 'Sydenham Management Association',
+  orgMiddle: 'Chairperson',
   calloutTitle: 'Student Body Structure - what is this page?',
   calloutBody:
     'This page is the organisational chart for all 13 student-run committees at SIMSREE - showing how committees report into the General Secretary structure, with each committee’s chairperson, members, and mandate. Use this to understand how the student body is organised. For a directory-style grid of each committee’s landing page, see All Committees.',
@@ -46,40 +53,21 @@ const fallbackPage = {
   filterTitle: 'Pick a category',
   filterSubtitle: 'Filter by type - academic, corporate, cultural, social, leadership.',
   cardCtaLabel: 'See what they run',
-  ladderEyebrow: 'The Leadership Ladder',
-  ladderTitle: 'From member to GS',
-  ladderTitleHighlight: 'GS',
+  ladderEyebrow: 'From Student to Leader',
+  ladderTitle: 'Your two-year leadership track.',
+  ladderTitleHighlight: 'two-year',
   ladderSubtitle:
-    'Every student starts as a member. Two years later, the top end up as Chairpersons, Council members, or GS.',
+    'Every SIMSREE student follows the same arc - arriving as a learner, leaving as a proven leader with 24 months of hands-on management experience.',
   ladderSteps: [
-    {
-      stage: 'Step 1',
-      title: 'Year 1 · Member',
-      description:
-        'Apply during induction · execute under chair guidance · learn the rhythm of your committee.',
-      cohort: 'Cohort: ~110 / batch',
-    },
-    {
-      stage: 'Step 2',
-      title: 'Year 2 · Chair',
-      description:
-        'Lead a committee · own outcomes · mentor juniors · run the budget & calendar end-to-end.',
-      cohort: 'Cohort: 13 chairs / batch',
-    },
-    {
-      stage: 'Step 3',
-      title: 'Year 2 · Council',
-      description: 'Coordinate across committees · shape institute strategy.',
-      cohort: 'Cohort: 5 council seats',
-    },
-    {
-      stage: 'Apex',
-      title: 'Year 2 · General Secretary',
-      description:
-        'Elected by the batch · the apex student leader · represents SIMSREE to industry, alumni, faculty.',
-      cohort: 'Cohort: 1 GS / batch',
-    },
+    { title: 'Induction', description: 'Orientation & committee selection process.' },
+    { title: 'Join a Committee', description: 'Apply for committee roles via internal selection.' },
+    { title: 'Lead Projects', description: 'Run real events, deals, and campaigns.' },
+    { title: 'Take Chairpership', description: 'Year 2 · senior students lead committees.' },
+    { title: 'Join Council', description: 'Cross-committee strategy & coordination.' },
+    { title: 'Graduate Ready', description: 'Real management CV, not just a degree.' },
   ],
+  ladderNoteTitle: 'What makes this rare',
+  ladderNoteBody: 'Most management institutes teach about leadership. SIMSREE assigns it. The difference is everything.',
 };
 
 // Figma card order and photos for the committee grid.
@@ -93,6 +81,66 @@ const figmaRank = (c) => {
   const i = FIGMA_ORDER.indexOf(slugOf(c));
   return i === -1 ? FIGMA_ORDER.length : i;
 };
+
+// Org chart boxes: navy (top), white (second tier), Eastern Blue (middle).
+const ORG_BOX = {
+  navy: 'bg-navy-900 text-white',
+  white: 'bg-white text-navy-900 outline outline-1 -outline-offset-1 outline-black/10',
+  blue: 'bg-teal-500 text-white',
+};
+function OrgBox({ title, subtitle, tone = 'white', className = '' }) {
+  return (
+    <div className={`rounded-xl px-6 py-4 md:px-8 md:py-5 text-center shadow-small ${ORG_BOX[tone]} ${className}`}>
+      <p className="font-display font-medium text-[24px] md:text-[34px] leading-[120%] tracking-[-0.01em]">{title}</p>
+      {subtitle && <p className="mt-1 text-xs md:text-sm leading-[150%] opacity-80">{subtitle}</p>}
+    </div>
+  );
+}
+const VLine = () => <span className="block mx-auto w-px h-8 md:h-10 bg-black/20" aria-hidden="true" />;
+
+// SMA hierarchy: Director, then Placement Committee | Sydenham Management
+// Association, then Chairperson, then the committee pills (each links to its page).
+function OrgChart({ bp, committees }) {
+  const pills = committees.filter((c) => !['placement', 'chairpersons-council'].includes(slugOf(c)));
+  return (
+    <div className="flex flex-col items-center">
+      <OrgBox tone="navy" title={bp.orgTopTitle} subtitle={bp.orgTopSubtitle} />
+      <VLine />
+      {/* Branch: a rule across both columns with a drop to each box (desktop). */}
+      <div className="w-full max-w-[1100px] grid md:grid-cols-2 gap-6 md:gap-10 relative">
+        <span className="hidden md:block absolute top-0 left-1/4 right-1/4 h-px bg-black/20" aria-hidden="true" />
+        <div className="flex flex-col items-center">
+          <span className="hidden md:block w-px h-10 bg-black/20" aria-hidden="true" />
+          <OrgBox title={bp.orgLeft} className="w-full md:max-w-[400px]" />
+        </div>
+        <div className="flex flex-col items-center">
+          <span className="hidden md:block w-px h-10 bg-black/20" aria-hidden="true" />
+          <OrgBox title={bp.orgRight} className="w-full md:max-w-[520px]" />
+        </div>
+      </div>
+      {/* From the Association down to the Chairperson. */}
+      <div className="w-full max-w-[1100px] relative h-8 md:h-16">
+        <span className="hidden md:block absolute left-3/4 top-0 h-8 w-px bg-black/20" aria-hidden="true" />
+        <span className="hidden md:block absolute left-1/2 right-1/4 top-8 h-px bg-black/20" aria-hidden="true" />
+        <span className="absolute left-1/2 top-0 md:top-8 h-8 w-px bg-black/20" aria-hidden="true" />
+      </div>
+      <OrgBox tone="blue" title={bp.orgMiddle} className="w-full max-w-[380px]" />
+      <VLine />
+      <ul className="m-0 p-0 list-none max-w-[1000px] flex flex-wrap justify-center gap-3 md:gap-4">
+        {pills.map((c) => (
+          <li key={slugOf(c) || c.name}>
+            <Link
+              to={`/students/committees/${slugOf(c)}`}
+              className="block rounded-xl bg-white px-5 py-3 md:px-6 md:py-4 font-display font-medium text-base md:text-lg leading-[140%] text-navy-900 outline outline-1 -outline-offset-1 outline-black/10 shadow-small hover:bg-navy-50 transition-colors"
+            >
+              {c.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 // Figma card: 284x456 hairline box, 284 square photo, 16-padded copy: category tag
 // (radius 16), H6 22 black name, "See what they run ↗".
@@ -175,11 +223,18 @@ export default function BodyStructure() {
         <StatGrid stats={bp.stats} />
       </section>
 
-      {/* Info banner — #eaeaf1 band, 64 padding; white hairline box with a 3px
-          Eastern Blue bar, chat icon + H6 title, 14/150 body. */}
-      {bp.calloutTitle && (
+      {/* SMA hierarchy + info banner — #eaeaf1 band: centred title, org chart, then a
+          white hairline box with a 3px Eastern Blue bar, chat icon + H6 title. */}
+      {(bp.orgTitle || bp.calloutTitle) && (
         <section className="bg-navy-50 px-5 py-12 md:px-16 md:py-20">
-          <div className="max-w-[1280px] mx-auto">
+          <div className="max-w-[1280px] mx-auto flex flex-col gap-12 md:gap-16">
+            {bp.orgTitle && (
+              <div className="flex flex-col gap-10 md:gap-14">
+                <SectionTitle center tagline={bp.orgEyebrow} title={bp.orgTitle} body={bp.orgSubtitle} />
+                <OrgChart bp={bp} committees={committees} />
+              </div>
+            )}
+            {bp.calloutTitle && (
             <AccentCard className="[&>div]:py-6 [&>div]:pl-8">
               <div className="flex flex-col gap-4">
                 <div className="flex items-center gap-4">
@@ -191,6 +246,7 @@ export default function BodyStructure() {
                 <p className="text-sm leading-[150%] text-black">{bp.calloutBody}</p>
               </div>
             </AccentCard>
+            )}
           </div>
         </section>
       )}
@@ -220,11 +276,11 @@ export default function BodyStructure() {
         </div>
       </Section>
 
-      {/* Leadership ladder — 600 title + 600 photo | steps with 48px outlined circles
-          and 2px connectors: stage, H6 title, copy, hairline, 14/150 cohort. */}
-      <Section id="ladder" width={1280} className="scroll-mt-24">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-          <div className="flex flex-col gap-[52px]">
+      {/* Leadership track — on #eaeaf1: title + photo | numbered navy discs joined by
+          hairlines (title, short copy; optional stage / cohort lines), then a note. */}
+      <Section id="ladder" bg="bg-navy-50" width={1280} className="scroll-mt-24">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          <div className="flex flex-col gap-10">
             <SectionTitle
               tagline={bp.ladderEyebrow}
               title={composeTitle(bp.ladderTitle, bp.ladderTitleHighlight)}
@@ -232,21 +288,21 @@ export default function BodyStructure() {
               body={bp.ladderSubtitle}
               width={600}
             />
-            <div className="h-[300px] lg:h-[600px] bg-navy-50 bg-cover bg-center" style={{ backgroundImage: `url('${ladderImageUrl}')` }} />
+            <div className="h-[260px] lg:h-[360px] bg-navy-100 bg-cover bg-center" style={{ backgroundImage: `url('${ladderImageUrl}')` }} />
           </div>
-          <ol className="list-none m-0 p-0 flex flex-col gap-8">
+          <ol className="list-none m-0 p-0 flex flex-col">
             {ladderSteps.map((s, i) => (
-              <li key={s.title} className="flex gap-6 md:gap-10">
-                <div className="flex flex-col items-center gap-4 shrink-0">
-                  <span className="w-12 h-12 rounded-full bg-white outline outline-1 -outline-offset-1 outline-navy-900 flex items-center justify-center text-lg leading-[150%] text-navy-900">
+              <li key={s.title} className="flex gap-6 md:gap-8">
+                <div className="flex flex-col items-center shrink-0">
+                  <span className="w-11 h-11 rounded-full bg-navy-900 flex items-center justify-center text-sm leading-[150%] text-white">
                     {String(i + 1).padStart(2, '0')}
                   </span>
-                  {i < ladderSteps.length - 1 && <span className="flex-1 w-0.5 min-h-14 bg-black/20" aria-hidden="true" />}
+                  {i < ladderSteps.length - 1 && <span className="flex-1 w-px min-h-10 bg-black/20" aria-hidden="true" />}
                 </div>
-                <div className="flex-1 min-w-0 flex flex-col gap-4 text-black">
+                <div className={`flex-1 min-w-0 flex flex-col gap-3 text-black pt-1.5 ${i < ladderSteps.length - 1 ? 'pb-8' : ''}`}>
                   {s.stage && <span className="text-base leading-[150%] uppercase">{s.stage}</span>}
                   <div className="flex flex-col gap-2">
-                    <H6 as="h3" className="text-black">
+                    <H6 as="h3" className="text-navy-900">
                       {s.title}
                     </H6>
                     {s.description && <p className="text-base leading-[150%]">{s.description}</p>}
@@ -257,6 +313,14 @@ export default function BodyStructure() {
             ))}
           </ol>
         </div>
+        {bp.ladderNoteTitle && (
+          <AccentCard className="mt-12 md:mt-16 [&>div]:py-6">
+            <H6 as="p" className="text-navy-900">
+              {bp.ladderNoteTitle}
+            </H6>
+            {bp.ladderNoteBody && <p className="mt-2 text-sm md:text-base leading-[150%] text-black">{bp.ladderNoteBody}</p>}
+          </AccentCard>
+        )}
       </Section>
     </div>
   );

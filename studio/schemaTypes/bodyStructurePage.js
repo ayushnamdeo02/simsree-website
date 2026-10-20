@@ -7,6 +7,7 @@ export default {
   groups: [
     {name: 'hero', title: 'Hero'},
     {name: 'stats', title: 'Stats'},
+    {name: 'org', title: 'SMA Hierarchy'},
     {name: 'callout', title: 'Info Callout'},
     {name: 'filter', title: 'Filter Intro'},
     {name: 'ladder', title: 'Leadership Ladder'},
@@ -56,6 +57,16 @@ export default {
     },
 
     // Info callout
+    // SMA hierarchy (org chart). The committee pills come from the Committees list.
+    {name: 'orgEyebrow', title: 'Eyebrow', type: 'string', group: 'org', initialValue: 'SMA Hierarchy'},
+    {name: 'orgTitle', title: 'Title', description: 'Leave empty to hide the org chart', type: 'string', group: 'org', initialValue: 'Student Body Structure'},
+    {name: 'orgSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'org'},
+    {name: 'orgTopTitle', title: 'Top box', type: 'string', group: 'org', initialValue: 'Director'},
+    {name: 'orgTopSubtitle', title: 'Top box subtitle', type: 'string', group: 'org', initialValue: 'General Secretary'},
+    {name: 'orgLeft', title: 'Second row, left box', type: 'string', group: 'org', initialValue: 'Placement Committee'},
+    {name: 'orgRight', title: 'Second row, right box', type: 'string', group: 'org', initialValue: 'Sydenham Management Association'},
+    {name: 'orgMiddle', title: 'Third row box', description: 'Sits above the committee pills', type: 'string', group: 'org', initialValue: 'Chairperson'},
+
     {name: 'calloutTitle', title: 'Callout title', description: 'Leave empty to hide the callout', type: 'string', group: 'callout', initialValue: 'Student Body Structure - what is this page?'},
     {name: 'calloutBody', title: 'Callout body', type: 'text', rows: 4, group: 'callout'},
 
@@ -70,6 +81,8 @@ export default {
     {name: 'ladderTitle', title: 'Title', type: 'string', group: 'ladder', initialValue: 'From member to GS'},
     {name: 'ladderTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'ladder', initialValue: 'GS'},
     {name: 'ladderSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'ladder'},
+    {name: 'ladderNoteTitle', title: 'Note title', description: 'Box under the steps; leave empty to hide', type: 'string', group: 'ladder'},
+    {name: 'ladderNoteBody', title: 'Note body', type: 'text', rows: 2, group: 'ladder'},
     {name: 'ladderImage', title: 'Section image', type: 'image', options: {hotspot: true}, group: 'ladder'},
     {
       name: 'ladderSteps',
