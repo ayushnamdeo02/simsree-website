@@ -45,8 +45,8 @@ const page = {
   ctaTitle: 'Reach the leadership team.',
   ctaBody: "For anything that doesn't fit a committee - student-welfare issues, inter-batch coordination, or institute-wide ideas.",
   ctaButtons: [
-    { label: 'Email GS Team', url: 'mailto:gs@simsree.org', primary: true },
-    { label: 'Email Chairs', url: 'mailto:chairpersons@simsree.org' },
+    { label: 'Email to Chairperson', url: 'mailto:chairpersons@simsree.org', primary: true },
+    { label: 'Email to General Secretary', url: 'mailto:gs@simsree.org' },
   ],
 };
 
