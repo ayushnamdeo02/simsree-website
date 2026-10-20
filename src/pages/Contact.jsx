@@ -642,7 +642,6 @@ export default function Contact() {
                 >
                   Open in Google Maps <ArrowUpRight size={24} strokeWidth={1.5} />
                 </a>
-                <HeroButton label="Walking directions" href={cp.mapsUrl} />
               </div>
               {cp.directions?.length > 0 && (
                 <BarCard title={cp.directionsTitle}>
