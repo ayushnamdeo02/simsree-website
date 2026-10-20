@@ -9,6 +9,7 @@ export default {
     {name: 'hero', title: 'Detail - Hero'},
     {name: 'about', title: 'Detail - What It Does'},
     {name: 'events', title: 'Detail - Upcoming Events'},
+    {name: 'year', title: 'Detail - Year in the Committee'},
     {name: 'team', title: 'Detail - Team'},
     {name: 'voice', title: 'Detail - Member Voice'},
     {name: 'join', title: 'Detail - Join CTA'},
@@ -129,6 +130,31 @@ export default {
     },
     {name: 'eventsCtaLabel', title: 'Calendar button label', type: 'string', group: 'events', initialValue: 'See the full calendar'},
     {name: 'eventsCtaUrl', title: 'Calendar button URL', type: 'string', group: 'events', initialValue: '/events#calendar'},
+
+    // A year in the committee (optional; shows once entries are added)
+    {name: 'yearEyebrow', title: 'Eyebrow', type: 'string', group: 'year', initialValue: 'A Year in the Committee'},
+    {name: 'yearTitle', title: 'Title', description: 'e.g. "What we ran in 2025-26"', type: 'string', group: 'year'},
+    {name: 'yearTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'year'},
+    {name: 'yearSubtitle', title: 'Subtitle', type: 'string', group: 'year'},
+    {
+      name: 'yearItems',
+      title: 'Timeline',
+      type: 'array',
+      group: 'year',
+      of: [
+        {
+          type: 'object',
+          name: 'yearItem',
+          fields: [
+            {name: 'month', title: 'Month', type: 'string', validation: (Rule) => Rule.required()},
+            {name: 'title', title: 'Title', type: 'string', validation: (Rule) => Rule.required()},
+            {name: 'tag', title: 'Tag', description: 'e.g. "Flagship", "Internal"', type: 'string'},
+            {name: 'description', title: 'Description', type: 'string'},
+          ],
+          preview: {select: {title: 'title', subtitle: 'month'}},
+        },
+      ],
+    },
 
     // Team
     {name: 'teamEyebrow', title: 'Eyebrow', type: 'string', group: 'team', initialValue: 'Spotlight'},

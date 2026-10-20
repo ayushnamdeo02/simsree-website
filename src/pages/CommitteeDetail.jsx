@@ -359,6 +359,20 @@ const fallbackBySlug = {
     skills: ['Relationship Building', 'Event Management', 'Coordination', 'Long-Form Comms'],
     equivalentTitle: 'Real-world equivalent',
     equivalentValue: 'Community / Customer Success',
+    yearEyebrow: 'A Year in the Committee',
+    yearTitle: 'What we ran in 2025-26',
+    yearTitleHighlight: '2025-26',
+    yearSubtitle: 'Twelve months of activities, from induction week to the annual reunion and handover.',
+    yearItems: [
+      { month: 'July', title: 'Induction & Team Formation', tag: 'Internal', description: 'New batch inducted, roles assigned across mentorship, events and outreach verticals.' },
+      { month: 'August', title: 'Alumni Batchmeet - Mumbai', tag: 'Flagship', description: '180+ alumni across batches reconnected at the flagship Mumbai chapter meet.' },
+      { month: 'September', title: 'Mentorship Pairing Drive', tag: 'Mentorship', description: '1:1 matching of 240 students with alumni mentors by sector and role interest.' },
+      { month: 'October', title: 'Mock GDPI Rounds', tag: 'Placements', description: 'Six rounds of mock group discussions and interviews with practising alumni recruiters.' },
+      { month: 'December', title: 'Bangalore & Delhi Chapters', tag: 'Chapters', description: 'Regional batchmeets hosted to widen the network beyond the Mumbai base.' },
+      { month: 'February', title: 'Alumni Speaker Series', tag: 'Learning', description: 'Four sessions on consulting, BFSI, product and operations career tracks.' },
+      { month: 'April', title: 'Annual Reunion', tag: 'Flagship', description: 'Campus-wide reunion with the felicitation ceremony and legacy batch honours.' },
+      { month: 'June', title: 'Year Report & Handover', tag: 'Internal', description: 'Impact report published and the committee handed over to the incoming team.' },
+    ],
     teamEyebrow: 'Members 2025-26',
     teamTitle: "Who's running this",
     teamTitleHighlight: 'running this',
@@ -1010,6 +1024,36 @@ export default function CommitteeDetail() {
               </Link>
             </div>
           )}
+        </Section>
+      )}
+
+      {/* A year in the committee — #eaeaf1: left title, then a timeline of months:
+          navy dot + rule, month label, white card (Playfair title, outline tag, line). */}
+      {has('yearItems') && (
+        <Section bg="bg-navy-50" width={1312}>
+          <SectionTitle tagline={c.yearEyebrow} title={c.yearTitle} highlight={c.yearTitleHighlight} body={c.yearSubtitle} />
+          <ol className="mt-10 md:mt-16 m-0 p-0 list-none flex flex-col gap-8 md:gap-[76px]">
+            {c.yearItems.map((y) => (
+              <li key={`${y.month}-${y.title}`} className="grid grid-cols-[26px_1fr] md:grid-cols-[26px_200px_1fr] lg:grid-cols-[26px_270px_1fr] gap-x-5 md:gap-x-10 items-start">
+                <div className="row-span-2 md:row-span-1 flex flex-col items-center self-stretch">
+                  <span className="w-[26px] h-[26px] rounded-full bg-navy-900 shrink-0" aria-hidden="true" />
+                  <span className="mt-3 flex-1 w-0.5 bg-navy-900 md:min-h-[80px]" aria-hidden="true" />
+                </div>
+                <p className="self-center text-base md:text-[22px] leading-[150%] uppercase text-navy-900">{y.month}</p>
+                <div className="col-start-2 md:col-start-auto mt-3 md:mt-0 flex flex-col gap-3 p-6 md:p-8 rounded-xl bg-white outline outline-1 -outline-offset-1 outline-black/15 shadow-small">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <h3 className="font-display font-medium text-[22px] md:text-[28px] leading-[140%] tracking-[-0.01em] text-navy-900">{y.title}</h3>
+                    {y.tag && (
+                      <span className="inline-flex items-center h-7 px-3 rounded-2xl outline outline-1 -outline-offset-1 outline-black/20 text-xs md:text-sm leading-[150%] uppercase text-navy-900">
+                        {y.tag}
+                      </span>
+                    )}
+                  </div>
+                  {y.description && <p className="text-base leading-[150%] text-black">{y.description}</p>}
+                </div>
+              </li>
+            ))}
+          </ol>
         </Section>
       )}
 
