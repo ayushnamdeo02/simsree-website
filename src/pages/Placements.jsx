@@ -209,7 +209,8 @@ export default function Placements() {
   const facts = useKeyFacts();
   const { data } = usePlacementsData();
   const pp = fillFactsDeep({ ...fallbackPage, ...(data?.page || {}) }, facts);
-  const partners = fillFactsDeep(data?.partners?.length ? data.partners : fallbackPartners, facts);
+  // The Partners page lists every partner; this page shows the first five rows of eight.
+  const partners = fillFactsDeep(data?.partners?.length ? data.partners : fallbackPartners, facts).slice(0, 40);
   const hiringSteps = fillFactsDeep(data?.hiringSteps?.length ? data.hiringSteps : fallbackHiringSteps, facts);
   const reports = fillFactsDeep(data?.reports?.length ? data.reports : fallbackReports, facts);
   const journeySteps = fillFactsDeep(data?.journeySteps?.length ? data.journeySteps : fallbackJourneySteps, facts);
