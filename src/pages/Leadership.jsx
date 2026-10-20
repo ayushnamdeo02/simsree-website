@@ -71,26 +71,28 @@ const TABS = [
   { id: 'chairs', label: 'Chairpersons ({{committeeCount}})' },
 ];
 
-// Figma "Filters": 44px tabs, radius 4, the section's own tab navy. On desktop Figma
-// shows all three sections, each under its own bar, so the tabs jump between them.
-// The mobile frames are one per tab, so there a tab swaps the visible section.
+// Figma "Filters": 44px tabs, radius 4, the active tab navy. A tab swaps which
+// section (GS team / Chairpersons) is shown.
 function Tabs({ active, tabs, onSelect, className = '' }) {
   return (
-    <nav aria-label="Leadership sections" className={`flex flex-wrap justify-center ${className}`}>
+    <div role="tablist" aria-label="Leadership sections" className={`flex flex-wrap justify-center ${className}`}>
       {tabs.map((t) => (
-        <a
+        <button
           key={t.id}
-          href={`#${t.id}`}
-          onClick={() => onSelect?.(t.id)}
-          aria-current={t.id === active ? 'true' : undefined}
+          type="button"
+          role="tab"
+          id={`tab-${t.id}`}
+          aria-controls={t.id}
+          aria-selected={t.id === active}
+          onClick={() => onSelect(t.id)}
           className={`h-11 px-4 inline-flex items-center rounded text-base leading-[150%] ${
             t.id === active ? 'bg-navy-900 text-white font-medium outline outline-1 -outline-offset-1 outline-black/20' : 'text-black hover:bg-navy-50'
           }`}
         >
           {t.label}
-        </a>
+        </button>
       ))}
-    </nav>
+    </div>
   );
 }
 
@@ -111,9 +113,7 @@ export default function Leadership() {
   const facts = useKeyFacts();
   const lp = fillFactsDeep(page, facts);
   const tabs = fillFactsDeep(TABS, facts);
-  const [mobileTab, setMobileTab] = useState('gs');
-  // On mobile only the chosen tab's section shows; desktop shows all of them.
-  const mobileOnly = (id) => (mobileTab === id ? '' : 'max-lg:hidden');
+  const [tab, setTab] = useState(() => (typeof window !== 'undefined' && window.location.hash === '#chairs' ? 'chairs' : 'gs'));
 
   return (
     <div className="bg-white">
@@ -134,9 +134,8 @@ export default function Leadership() {
       {/* One 112-padded section holding the three parts, 80 apart. */}
       <Section width={1280} className="border-t border-white/20">
         {/* GS team — tabs, centred title, four 284 portrait cards (48 gaps). */}
-        <Tabs active={mobileTab} tabs={tabs} onSelect={setMobileTab} className="lg:hidden mb-12" />
-        <div id="gs" className={`scroll-mt-40 flex flex-col gap-12 md:gap-16 ${mobileOnly('gs')}`}>
-          <Tabs active="gs" tabs={tabs} className="max-lg:hidden" />
+        <Tabs active={tab} tabs={tabs} onSelect={setTab} className="mb-12 md:mb-16" />
+        <div id="gs" role="tabpanel" aria-labelledby="tab-gs" hidden={tab !== 'gs'} className={`scroll-mt-40 flex-col gap-12 md:gap-16 ${tab === 'gs' ? 'flex' : 'hidden'}`}>
           <SectionTitle center tagline={lp.gsEyebrow} title={lp.gsTitle} body={lp.gsBody} />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
             {lp.gs.map((p, i) => (
@@ -156,10 +155,9 @@ export default function Leadership() {
         </div>
 
         {/* Chairs — centred title, tabs, 198px round portraits (99 column gap). */}
-        <div id="chairs" className={`lg:mt-12 scroll-mt-40 flex flex-col gap-12 md:gap-16 ${mobileOnly('chairs')}`}>
+        <div id="chairs" role="tabpanel" aria-labelledby="tab-chairs" hidden={tab !== 'chairs'} className={`scroll-mt-40 flex-col gap-12 md:gap-16 ${tab === 'chairs' ? 'flex' : 'hidden'}`}>
           <SectionTitle center tagline={lp.chairsEyebrow} title={lp.chairsTitle} body={lp.chairsBody} />
-          <div className="-mt-8 flex flex-col gap-12">
-            <Tabs active="chairs" tabs={tabs} className="max-lg:hidden" />
+          <div className="flex flex-col gap-12">
             <div className="max-w-[1089px] mx-auto w-full grid grid-cols-2 md:grid-cols-4 gap-x-6 lg:gap-x-[99px] gap-y-12">
               {lp.chairs.map((p, i) => (
                 <div key={i} className="flex flex-col items-center gap-4 text-center text-black">
@@ -179,9 +177,9 @@ export default function Leadership() {
 
         {/* Election — no tab of its own; always shown. Centred title, expandable 1280 rows (32px plus), then the
             chairperson-selection card with a 5px Eastern Blue bar. */}
-        <div id="election" className="mt-12 scroll-mt-40 flex flex-col gap-12 md:gap-16">
+        <div id="election" className="mt-20 md:mt-28 scroll-mt-40 flex flex-col gap-12 md:gap-16">
           <SectionTitle center tagline={lp.electionEyebrow} title={lp.electionTitle} body={lp.electionBody} />
-          <div className="-mt-8 flex flex-col gap-12">
+          <div className="flex flex-col gap-12">
             <div className="flex flex-col gap-12">
               {lp.steps.map((s, i) => (
                 <details key={s.title} open={i === 0} className="rounded-lg group bg-white outline outline-1 -outline-offset-1 outline-black/20">
