@@ -120,17 +120,10 @@ const fallbackPage = {
 
 // Defaults below follow the Figma "Placements" frame.
 const fallbackPartners = [
-  ['Barclays', 'Deloitte', 'Citi', 'Deutsche Bank', 'Godrej & Boyce', 'Piramal', 'Arcesium', 'Wells Fargo'],
-  ['Morgan Stanley', 'GEP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T'],
-  ['Infosys', 'GEP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T'],
-  ['Wipro', 'Deloitte', 'Citi', 'Deutsche Bank', 'Godrej & Boyce', 'Piramal', 'Arcesium', 'Wells Fargo'],
-  ['Cipla', 'GEP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T'],
-  ['Standard Chartered', 'GEP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T'],
-  ['Adobe', 'GEP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T'],
-  ['Paytm', 'GEP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T'],
-]
-  .flat()
-  .map((name, i) => ({ name, order: i + 1 }));
+  'Barclays', 'Deloitte', 'Citi', 'Deutsche Bank', 'Godrej & Boyce', 'Piramal', 'Arcesium', 'Wells Fargo',
+  'Morgan Stanley', 'GEP', 'De Shaw', 'HUL', 'Asian Paints', 'Marico', 'Bajaj Finserv', 'L&T',
+  'Infosys', 'Wipro', 'Cipla', 'Standard Chartered', 'Adobe', 'Paytm',
+].map((name, i) => ({ name, order: i + 1 }));
 
 const fallbackHiringSteps = [
   ['Day 0 · 45-60 min', 'Pre-Placement Talk', 'You brief students on the role and projects.', 'Run by: Placement Committee'],

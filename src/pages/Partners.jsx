@@ -36,18 +36,8 @@ const fallbackPartners = [
   ['Godrej & Boyce', 'Manufacturing'], ['Piramal', 'Pharma'], ['Arcesium', 'IT. Tech'], ['Wells Fargo', 'BFSI'],
   ['Morgan Stanley', 'BFSI'], ['GEP', 'Consulting'], ['De Shaw', 'BFSI'], ['HUL', 'FMCG'],
   ['Asian Paints', 'Manufacturing'], ['Marico', 'FMCG'], ['Bajaj Finserv', 'BFSI'], ['L&T', 'Manufacturing'],
-  ['Infosys', 'IT. Tech'], ['GEP', 'Consulting'], ['De Shaw', 'BFSI'], ['HUL', 'FMCG'],
-  ['Asian Paints', 'Manufacturing'], ['Marico', 'FMCG'], ['Bajaj Finserv', 'BFSI'], ['L&T', 'Manufacturing'],
-  ['Wipro', 'IT. Tech'], ['Deloitte', 'Consulting'], ['Citi', 'BFSI'], ['Deutsche Bank', 'BFSI'],
-  ['Godrej & Boyce', 'Manufacturing'], ['Piramal', 'Pharma'], ['Arcesium', 'IT. Tech'], ['Wells Fargo', 'BFSI'],
-  ['Cipla', 'Pharma'], ['GEP', 'Consulting'], ['De Shaw', 'BFSI'], ['HUL', 'FMCG'],
-  ['Asian Paints', 'Manufacturing'], ['Marico', 'FMCG'], ['Bajaj Finserv', 'BFSI'], ['L&T', 'Manufacturing'],
-  ['Standard Chartered', 'BFSI'], ['GEP', 'Consulting'], ['De Shaw', 'BFSI'], ['HUL', 'FMCG'],
-  ['Asian Paints', 'Manufacturing'], ['Marico', 'FMCG'], ['Bajaj Finserv', 'BFSI'], ['L&T', 'Manufacturing'],
-  ['Adobe', 'IT. Tech'], ['GEP', 'Consulting'], ['De Shaw', 'BFSI'], ['HUL', 'FMCG'],
-  ['Asian Paints', 'Manufacturing'], ['Marico', 'FMCG'], ['Bajaj Finserv', 'BFSI'], ['L&T', 'Manufacturing'],
-  ['Paytm', 'BFSI'], ['GEP', 'Consulting'], ['De Shaw', 'BFSI'], ['HUL', 'FMCG'],
-  ['Asian Paints', 'Manufacturing'], ['Marico', 'FMCG'], ['Bajaj Finserv', 'BFSI'], ['L&T', 'Manufacturing'],
+  ['Infosys', 'IT. Tech'], ['Wipro', 'IT. Tech'], ['Cipla', 'Pharma'], ['Standard Chartered', 'BFSI'],
+  ['Adobe', 'IT. Tech'], ['Paytm', 'BFSI'],
 ].map(([name, sector], i) => ({ name, sector, order: i + 1 }));
 
 export default function Partners() {
