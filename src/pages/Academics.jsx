@@ -320,7 +320,7 @@ function ProgrammeCard({ p }) {
   return (
     <div className="hover-card flex flex-col gap-6 p-6 md:p-8 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
       <div
-        className="h-[260px] md:h-[490px] rounded-2xl bg-navy-50 bg-cover bg-center"
+        className="h-[260px] md:h-[490px] shrink-0 rounded-2xl bg-navy-50 bg-cover bg-center"
         style={src ? { backgroundImage: `url('${src}')` } : undefined}
       />
       {p.badge && (
@@ -337,7 +337,10 @@ function ProgrammeCard({ p }) {
         <p className="text-base md:text-lg leading-[150%] text-black">{p.description}</p>
         <Points points={p.points} boldLead={p.tier === 'fullTime'} />
       </div>
-      <ProgrammeActions p={p} />
+      {/* Pinned to the card's foot so the buttons line up across a row. */}
+      <div className="mt-auto">
+        <ProgrammeActions p={p} />
+      </div>
     </div>
   );
 }
@@ -449,7 +452,7 @@ export default function Academics() {
           width={881}
         />
         <p className="mt-5 md:mt-6 max-w-[678px] text-base md:text-lg leading-[150%] text-black">{ap.fullTimeSubtitle}</p>
-        <div className="mt-10 md:mt-12 grid md:grid-cols-2 gap-8 items-start">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2 gap-8">
           {fullTime.map((p) => (
             <ProgrammeCard key={p._id || p.name} p={p} />
           ))}
@@ -464,7 +467,7 @@ export default function Academics() {
           highlight={ap.executiveTitleHighlight}
           body={ap.executiveSubtitle}
         />
-        <div className="mt-10 md:mt-12 grid md:grid-cols-2 gap-8 items-start">
+        <div className="mt-10 md:mt-12 grid md:grid-cols-2 gap-8">
           {executive.map((p) => (
             <ProgrammeCard key={p._id || p.name} p={p} />
           ))}
