@@ -61,7 +61,7 @@ const fallbackBySlug = {
     eligibilityTitle: 'See if you qualify.',
     eligibilityTitleHighlight: 'qualify.',
     eligibilitySubtitle:
-      'Five criteria a candidate must satisfy. Each is verified during CET counselling and document upload.',
+      'Four criteria a candidate must satisfy. Each is verified during CET counselling and document upload.',
     eligibilityCards: [
       {
         title: "Bachelor's degree",
@@ -86,12 +86,6 @@ const fallbackBySlug = {
         description:
           'Maharashtra State Home State candidates and All-India candidates both eligible · seat matrix per State CET Cell rules.',
         footnote: '85% MS · 15% AI quota',
-      },
-      {
-        title: 'Age of medical fitness',
-        description:
-          'Minimum age 21 on the date of admission. Medical fitness certificate at the time of joining.',
-        footnote: '21+ · Medically fit',
       },
       {
         title: '{{noQuotaShort}}',
