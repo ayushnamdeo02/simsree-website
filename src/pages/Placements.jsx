@@ -14,8 +14,8 @@ const fallbackPage = {
   heroTitleItalic: '2024-26 batch.',
   heroDescription:
     '120 students. 38% women. 62% with prior work-ex. Placement window opens January 2026 - book your interview slot now.',
-  heroPrimaryCtaLabel: 'Book a campus visit',
-  heroPrimaryCtaUrl: '/placements/contact',
+  heroPrimaryCtaLabel: '',
+  heroPrimaryCtaUrl: '',
   heroSecondaryCtaLabel: 'See why recruit here',
   heroSecondaryCtaUrl: '/placements/why-recruit',
   heroTertiaryCtaLabel: 'Download the recruiter brochure (PDF)',
@@ -237,7 +237,7 @@ export default function Placements() {
           { label: pp.heroPrimaryCtaLabel, to: pp.heroPrimaryCtaUrl, primary: true },
           { label: pp.heroSecondaryCtaLabel, to: pp.heroSecondaryCtaUrl },
           { label: pp.heroTertiaryCtaLabel, href: pp.heroTertiaryCtaUrl },
-        ]}
+        ].filter((a) => a.label)}
       />
 
       <section className="px-5 py-12 md:px-16 md:py-20">
