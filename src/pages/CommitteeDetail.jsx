@@ -880,48 +880,44 @@ export default function CommitteeDetail() {
         <Section bg="bg-navy-900" className="text-white">
           <Tagline className="text-white">About this committee</Tagline>
           <Heading text={c.aboutTitle} highlight={c.name} className="text-white mt-6 md:mt-8" highlightClass="text-teal-400" />
-          {c.aboutBody && <p className="mt-6 max-w-[900px] text-base md:text-lg leading-[150%] text-white/90">{c.aboutBody}</p>}
+          {c.aboutBody && <p className="mt-6 max-w-[1240px] text-base md:text-lg leading-[150%] text-white/90">{c.aboutBody}</p>}
 
-          <div className="mt-10 md:mt-12 grid grid-cols-1 lg:grid-cols-[3fr_1fr] gap-8 lg:gap-10 items-start">
+          {/* Figma: three 284x364 cards 24 apart (900) | 48 gap | 364 column whose
+              equivalent card sits on the cards' bottom edge. */}
+          <div className="mt-12 md:mt-16 grid grid-cols-1 lg:grid-cols-[900fr_364fr] gap-10 lg:gap-12 items-stretch">
             {has('activities') && (
-              <ol className="m-0 p-0 list-none grid sm:grid-cols-3 gap-5">
+              <ol className="m-0 p-0 list-none grid sm:grid-cols-3 gap-6">
                 {c.activities.map((a, i) => (
-                  <li key={a.title} className="flex flex-col gap-5 p-6 rounded-2xl bg-white text-black shadow-small">
-                    <span className="w-14 h-14 rounded-lg bg-navy-900 flex items-center justify-center font-display font-medium text-[26px] text-white">
+                  <li key={a.title} className="flex flex-col gap-8 p-8 lg:min-h-[364px] rounded-2xl bg-white text-black shadow-small">
+                    <span className="w-[68px] h-[78px] shrink-0 rounded-2xl bg-navy-900 flex items-center justify-center font-display font-medium text-[36px] leading-none text-white">
                       {String(i + 1).padStart(2, '0')}
                     </span>
-                    <div className="flex flex-col gap-3">
-                      <H6 as="h3" className="text-navy-900">
-                        {a.title}
-                      </H6>
-                      <p className="text-sm leading-[150%] text-black">{a.description}</p>
+                    <div className="flex flex-col gap-4">
+                      <h3 className="font-display font-medium text-[24px] md:text-[28px] leading-[140%] tracking-[-0.01em] text-navy-900">{a.title}</h3>
+                      <p className="text-base leading-[150%] text-black">{a.description}</p>
                     </div>
                   </li>
                 ))}
               </ol>
             )}
 
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col justify-between gap-10">
               {has('skills') && (
                 <div>
-                  <H6 as="h3" className="text-white">
-                    {c.skillsTitle}
-                  </H6>
-                  <div className="mt-5 flex flex-wrap gap-2">
+                  <h3 className="font-display font-medium text-[24px] md:text-[28px] leading-[140%] tracking-[-0.01em] text-white">{c.skillsTitle}</h3>
+                  <div className="mt-8 flex flex-wrap gap-x-3 gap-y-3.5">
                     {c.skills.map((s) => (
-                      <Tag key={s} className="bg-white text-navy-900 !text-xs">
+                      <span key={s} className="inline-flex items-center h-[29px] px-3 rounded-2xl bg-white text-sm leading-[150%] text-navy-900">
                         {s}
-                      </Tag>
+                      </span>
                     ))}
                   </div>
                 </div>
               )}
               {c.equivalentValue && (
-                <AccentCard className="!rounded-none [&>div]:py-6 [&>div]:pl-6">
-                  <H6 as="p" className="text-navy-900">
-                    {c.equivalentTitle}
-                  </H6>
-                  <p className="mt-2 text-sm leading-[150%] text-black">{c.equivalentValue}</p>
+                <AccentCard className="!rounded-none [&>div]:py-8 [&>div]:pl-8">
+                  <p className="font-display font-medium text-[24px] md:text-[28px] leading-[140%] tracking-[-0.01em] text-navy-900">{c.equivalentTitle}</p>
+                  <p className="mt-4 text-base leading-[150%] text-black">{c.equivalentValue}</p>
                 </AccentCard>
               )}
             </div>
