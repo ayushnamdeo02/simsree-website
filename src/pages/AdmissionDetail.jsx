@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   ArrowUpRight,
@@ -16,6 +15,7 @@ import { Section, SectionTitle, Tagline, Heading, H5, H6, AccentCard } from '../
 import { heroImage } from '../lib/heroImage';
 import { composeTitle } from '../lib/text';
 import { useAdmissionDetailData } from '../lib/useAdmissionDetailData';
+import { useScrollSpy } from '../lib/useScrollSpy';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 import CountUp from '../components/CountUp';
 
@@ -1056,26 +1056,8 @@ export default function AdmissionDetail() {
   const fallback = fallbackBySlug[slug];
   const ad = fillFactsDeep(data || fallback, facts);
 
-  const [activeId, setActiveId] = useState('dates');
-
-  // Scroll-spy: highlight the nav entry for whichever section is in view.
-  useEffect(() => {
-    if (!ad) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActiveId(visible[0].target.id);
-      },
-      { rootMargin: '-140px 0px -55% 0px', threshold: 0 }
-    );
-    for (const s of sectionsFor(ad.shortName || '')) {
-      const el = document.getElementById(s.id);
-      if (el) observer.observe(el);
-    }
-    return () => observer.disconnect();
-  }, [ad]);
+  // Highlight the "On this page" entry for the section being read.
+  const activeId = useScrollSpy(ad ? sectionsFor(ad.shortName || '').map((s) => s.id) : []);
 
   if (loading && !fallback) {
     return <div className="max-w-[1280px] mx-auto px-6 py-32 text-sm text-ink-600">Loading…</div>;

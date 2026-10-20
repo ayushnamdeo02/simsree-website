@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowUpRight, ChevronDown } from 'lucide-react';
 import { StatGrid } from '../components/StatCard';
@@ -7,6 +7,7 @@ import { SectionTitle, Tagline, Heading, H5, H6, AccentCard } from '../component
 import { heroImage } from '../lib/heroImage';
 import { composeTitle } from '../lib/text';
 import { useProgrammeDetailData } from '../lib/useProgrammeDetailData';
+import { useScrollSpy } from '../lib/useScrollSpy';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
@@ -628,27 +629,9 @@ export default function ProgrammeDetail() {
   const fallback = fallbackBySlug[slug];
   const pd = fillFactsDeep(data || fallback, facts);
 
-  const [activeId, setActiveId] = useState(SECTIONS[0].id);
+  // Highlight the "On this page" entry for the section being read.
+  const activeId = useScrollSpy(SECTIONS.map((s) => s.id));
   const sectionRefs = useRef({});
-
-  // Scroll-spy: highlight the nav entry for whichever section is in view.
-  useEffect(() => {
-    if (!pd) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible[0]) setActiveId(visible[0].target.id);
-      },
-      { rootMargin: '-140px 0px -55% 0px', threshold: 0 }
-    );
-    for (const s of SECTIONS) {
-      const el = document.getElementById(s.id);
-      if (el) observer.observe(el);
-    }
-    return () => observer.disconnect();
-  }, [pd]);
 
   if (loading && !fallback) {
     return <div className="max-w-[1280px] mx-auto px-6 py-32 text-sm text-ink-600">Loading…</div>;
@@ -722,6 +705,7 @@ export default function ProgrammeDetail() {
                     <li key={s.id}>
                       <a
                         href={`#${s.id}`}
+                        aria-current={active ? 'true' : undefined}
                         className={`flex items-center min-h-12 pl-8 pr-1 text-base leading-[150%] whitespace-nowrap text-navy-900 ${
                           active ? 'font-medium border-l-[3px] border-teal-500 shadow-small' : 'border-l-[3px] border-transparent'
                         }`}
