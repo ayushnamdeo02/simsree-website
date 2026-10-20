@@ -1229,7 +1229,8 @@ export default function AdmissionDetail() {
             )}
 
             {/* Eligibility — three 303 bar cards per row: H5 number, H6 title,
-                16/150 copy, teal uppercase footnote; the warning card is yellow. */}
+                16/150 copy, teal uppercase footnote; the warning card is cream with a
+                yellow "Important" pill and a hairline over its footnote. */}
             {has('eligibilityCards') && (
               <div id="eligibility" className="scroll-mt-40 flex flex-col gap-12 md:gap-16">
                 <PillHeader
@@ -1243,17 +1244,17 @@ export default function AdmissionDetail() {
                   {ad.eligibilityCards.map((c, i) => (
                     <div
                       key={c.title}
-                      className={`rounded-xl overflow-hidden rounded-xl overflow-hidden flex min-h-[378px] outline outline-1 -outline-offset-1 shadow-small ${
-                        c.warning ? 'bg-[#fffbec] outline-[#dfb400]' : 'bg-white outline-black/20'
+                      className={`rounded-xl overflow-hidden flex min-h-[378px] outline outline-1 -outline-offset-1 shadow-small ${
+                        c.warning ? 'bg-[#fffbec] outline-black/20' : 'bg-white outline-black/20'
                       }`}
                     >
-                      <span className={`w-[3px] shrink-0 ${c.warning ? 'bg-[#dfb400]' : 'bg-teal-500'}`} aria-hidden="true" />
+                      <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
                       <div className="flex-1 flex flex-col justify-between gap-12 py-8 pl-6 pr-6">
                         <div className="flex flex-col gap-4">
                           {c.warning ? (
-                            <Pill tone="yellow" small>
-                              Important
-                            </Pill>
+                            <span className="w-fit inline-flex items-center gap-1.5 px-3 py-1 rounded-2xl bg-[#ffdb43] text-navy-900 text-sm leading-[150%] uppercase">
+                              <Info size={16} strokeWidth={1.75} aria-hidden="true" /> Important
+                            </span>
                           ) : (
                             <H5 as="span">{String(i + 1).padStart(2, '0')}</H5>
                           )}
@@ -1263,7 +1264,7 @@ export default function AdmissionDetail() {
                           <p className="text-base leading-[150%] text-black">{c.description}</p>
                         </div>
                         {c.footnote && (
-                          <p className={`text-base leading-[150%] font-semibold uppercase ${c.warning ? 'text-[#dfb400]' : 'text-teal-500'}`}>
+                          <p className={`text-base leading-[150%] font-semibold uppercase text-teal-500 ${c.warning ? 'pt-6 border-t border-black/15' : ''}`}>
                             {c.footnote}
                           </p>
                         )}
