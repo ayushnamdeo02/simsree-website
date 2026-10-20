@@ -239,6 +239,9 @@ export default function Students() {
   const sp = fillFactsDeep({ ...fallbackPage, ...(data?.page || {}) }, facts);
   const paths = fillFactsDeep(data?.paths?.length ? data.paths : fallbackPaths, facts);
   const cards = fillFactsDeep(data?.cards?.length ? data.cards : fallbackCards, facts);
+  // The Studio title omits the count ("places to start"); prefix it as a word.
+  const COUNT_WORDS = ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten'];
+  const exploreTitle = /^[A-Z0-9]/.test(sp.exploreTitle || '') ? sp.exploreTitle : `${COUNT_WORDS[cards.length] || cards.length} ${sp.exploreTitle}`;
   const testimonials = fillFactsDeep(data?.testimonials?.length ? data.testimonials : fallbackTestimonials, facts).map(
     (t, i) => ({
       ...t,
@@ -309,7 +312,7 @@ export default function Students() {
 
       {/* Explore — centred title; 3-up 405x506 cards, then the wide card centred. */}
       <Section width={1280}>
-        <SectionTitle center tagline={sp.exploreEyebrow} title={sp.exploreTitle} body={sp.exploreSubtitle} />
+        <SectionTitle center tagline={sp.exploreEyebrow} title={exploreTitle} body={sp.exploreSubtitle} />
         <div className="mt-10 md:mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {gridCards.map((c, i) => (
             <ExploreCard key={c.title} c={c} image={img(c.image, CARD_PHOTOS[i], 810)} />
