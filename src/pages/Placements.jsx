@@ -14,10 +14,10 @@ const fallbackPage = {
   heroTitleItalic: '2024-26 batch.',
   heroDescription:
     '120 students. 38% women. 62% with prior work-ex. Placement window opens January 2026 - book your interview slot now.',
-  heroPrimaryCtaLabel: '',
-  heroPrimaryCtaUrl: '',
-  heroSecondaryCtaLabel: 'See why recruit here',
-  heroSecondaryCtaUrl: '/placements/why-recruit',
+  heroPrimaryCtaLabel: 'See why recruit here',
+  heroPrimaryCtaUrl: '/placements/why-recruit',
+  heroSecondaryCtaLabel: '',
+  heroSecondaryCtaUrl: '',
   heroTertiaryCtaLabel: 'Download the recruiter brochure (PDF)',
   heroTertiaryCtaUrl: '#reports',
 
@@ -306,16 +306,23 @@ export default function Placements() {
         </div>
         <div className="mt-10 md:mt-12 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-x-2.5 gap-y-[30px]">
           {partners.map((p, i) => {
-            const logo = p.logo ? urlFor(p.logo).height(96).auto('format').url() : null;
+            const logo = p.logo ? urlFor(p.logo).height(192).auto('format').url() : null;
+            // Logos sit in white on the navy grid; hover brings the tile up to white
+            // with the logo in its own colours.
             return (
               <div
                 key={p._id || `${p.name}-${i}`}
-                className="h-[120px] lg:h-[148px] rounded-xl outline outline-1 -outline-offset-1 outline-white flex items-center justify-center p-6 text-center transition-colors hover:bg-white/10"
+                className="group h-[120px] lg:h-[148px] rounded-xl outline outline-1 -outline-offset-1 outline-white flex items-center justify-center p-3 text-center transition-colors duration-300 hover:bg-white"
               >
                 {logo ? (
-                  <img src={logo} alt={p.name} className="max-h-12 max-w-full object-contain" />
+                  <img
+                    src={logo}
+                    alt={p.name}
+                    loading="lazy"
+                    className={`w-full max-h-[72px] object-contain ${p.keepLogoColour ? '' : 'brightness-0 invert transition-[filter] duration-300 group-hover:filter-none'}`}
+                  />
                 ) : (
-                  <span className="text-sm leading-[150%] text-white">{p.name}</span>
+                  <span className="text-sm leading-[150%] text-white transition-colors duration-300 group-hover:text-navy-900">{p.name}</span>
                 )}
               </div>
             );

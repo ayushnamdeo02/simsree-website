@@ -6,6 +6,13 @@ export default {
     {name: 'name', title: 'Company name', type: 'string', validation: (Rule) => Rule.required()},
     {name: 'logo', title: 'Logo', type: 'image', options: {hotspot: true}},
     {
+      name: 'keepLogoColour',
+      title: 'Keep logo colours on the Placements grid',
+      description: 'Logos show in white on the navy grid. Turn this on for logos that are a solid coloured badge (e.g. Wells Fargo), which would otherwise become a blank shape.',
+      type: 'boolean',
+      initialValue: false,
+    },
+    {
       name: 'sector',
       title: 'Sector',
       description: 'Drives the filter chips on the Recruiting Partners page',
