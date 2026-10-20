@@ -178,7 +178,10 @@ export default function CampusStory({
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           {/* Each button shows only when it has a label in the Studio. */}
           {cp.ctaPrimaryLabel && <HeroButton label={cp.ctaPrimaryLabel} to={cp.ctaPrimaryUrl} primary />}
-          {cp.ctaSecondaryLabel && <HeroButton label={cp.ctaSecondaryLabel} to={cp.ctaSecondaryUrl} />}
+          {cp.ctaSecondaryLabel && (
+            // Shown solid when it is the only button left.
+            <HeroButton label={cp.ctaSecondaryLabel} to={cp.ctaSecondaryUrl} primary={!cp.ctaPrimaryLabel} icon={false} />
+          )}
         </div>
       </Section>
     </div>
