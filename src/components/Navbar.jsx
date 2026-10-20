@@ -9,14 +9,19 @@ import { urlFor } from '../lib/sanity';
 const TRANSPARENT_HERO_ROUTES = ['/', '/about', '/about/history', '/about/directors-message', '/about/rankings', '/about/campus-life', '/about/alumni', '/about/student-driven-system', '/alumni-portal', '/about/simarthan', '/placements', '/placements/why-recruit', '/placements/reports', '/placements/partners', '/placements/contact', '/placements/recruiter-engagement', '/academics', '/academics/mms', '/academics/msc-finance', '/academics/mfm', '/academics/mmm', '/academics/phd', '/academics/faculty', '/admissions', '/admissions/mms', '/admissions/msc-finance', '/admissions/mfm', '/admissions/mmm', '/admissions/phd', '/admissions/downloads', '/students', '/students/achievements', '/students/batch-profile', '/students/leadership', '/students/body-structure', '/students/life', '/contact', '/events', '/events/simerations', '/events/development-programmes', '/events/career-catalyst', '/events/industry-events'];
 
 // A dropdown entry. Plain links render as one row; an entry with sub-links is a
-// group (Figma "NEW Tabs"): a heading row with a chevron that folds its smaller,
-// indented sub-links. A group without a path ("Full Time") is a heading only.
+// group (Figma "NEW Tabs"): a heading row with a chevron that unfolds its smaller,
+// indented sub-links (folded until clicked). A group without a path ("Courses
+// Offered") only opens and closes. Inside a group, a sub-link without a path
+// ("Full Time") is a small label over the links that follow it.
 function DropdownEntry({ entry, onNavigate, mobile = false }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const row = mobile ? 'px-10 py-2 text-sm text-ink-600' : 'px-4 py-2 text-sm text-ink-600 hover:bg-gray-50 hover:text-navy-800';
   const subRow = mobile
     ? 'block pl-14 pr-10 py-1.5 text-xs leading-[150%] text-ink-600'
-    : 'block pl-4 pr-4 py-1.5 text-xs leading-[150%] text-ink-600 hover:bg-gray-50 hover:text-navy-800';
+    : 'block pl-6 pr-4 py-1.5 text-xs leading-[150%] text-ink-600 hover:bg-gray-50 hover:text-navy-800';
+  const subLabel = mobile
+    ? 'block pl-12 pr-10 pt-2.5 pb-1 text-[11px] leading-[150%] font-semibold uppercase tracking-wide text-ink-400'
+    : 'block pl-4 pr-4 pt-2.5 pb-1 text-[11px] leading-[150%] font-semibold uppercase tracking-wide text-ink-400';
 
   if (!entry.children?.length) {
     return (
@@ -50,11 +55,17 @@ function DropdownEntry({ entry, onNavigate, mobile = false }) {
         </button>
       </div>
       {open &&
-        entry.children.map((sub, i) => (
-          <Link key={i} to={sub.path} onClick={onNavigate} className={subRow}>
-            {sub.label}
-          </Link>
-        ))}
+        entry.children.map((sub, i) =>
+          sub.path ? (
+            <Link key={i} to={sub.path} onClick={onNavigate} className={subRow}>
+              {sub.label}
+            </Link>
+          ) : (
+            <span key={i} className={subLabel}>
+              {sub.label}
+            </span>
+          ),
+        )}
     </div>
   );
 }

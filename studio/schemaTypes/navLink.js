@@ -27,9 +27,17 @@ export default {
           title: 'Sub-link',
           fields: [
             {name: 'label', title: 'Label', type: 'string', validation: (Rule) => Rule.required()},
-            {name: 'path', title: 'Path', type: 'string', validation: (Rule) => Rule.required()},
+            {
+              name: 'path',
+              title: 'Path',
+              description: 'Leave blank to make this a small label over the links below it (like "Full Time")',
+              type: 'string',
+            },
           ],
-          preview: {select: {title: 'label', subtitle: 'path'}},
+          preview: {
+            select: {title: 'label', subtitle: 'path'},
+            prepare: ({title, subtitle}) => ({title, subtitle: subtitle || 'Label'}),
+          },
         },
       ],
     },

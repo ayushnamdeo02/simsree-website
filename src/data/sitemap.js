@@ -31,22 +31,18 @@ export const mainNav = [
     label: 'Academics',
     path: '/academics',
     children: [
-      { label: 'Courses Offered', path: '/academics' },
       {
-        label: 'Full Time',
+        label: 'Courses Offered',
         children: [
+          { label: 'Full Time' },
           { label: 'Master of Management Studies', path: '/academics/mms' },
           { label: 'Master of Science in Finance', path: '/academics/msc-finance' },
-        ],
-      },
-      {
-        label: 'Executive',
-        children: [
+          { label: 'Executive' },
           { label: "Master's Degree in Marketing Management", path: '/academics/mmm' },
           { label: "Master's Degree in Finance Management", path: '/academics/mfm' },
+          { label: 'Doctor of Philosophy (Ph.D.)', path: '/academics/phd' },
         ],
       },
-      { label: 'Doctor of Philosophy (Ph.D.)', path: '/academics/phd' },
       {
         label: 'Faculty',
         path: '/academics/faculty',
