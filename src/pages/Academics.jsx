@@ -537,17 +537,22 @@ export default function Academics() {
         <p className="mt-5 md:mt-6 max-w-[678px] text-base md:text-lg leading-[150%] text-black">{ap.differentiatorsSubtitle}</p>
         <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
           {differentiators.map((d, i) => (
+            // 3px Eastern Blue bar down the left edge and a soft shadow; content
+            // starts at the top so the numbers line up across a row.
             <div
               key={d._id || d.title}
-              className="flex flex-col justify-center gap-2 min-h-[221px] p-8 rounded-2xl bg-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small"
+              className="flex min-h-[221px] rounded-2xl overflow-hidden bg-white outline outline-1 -outline-offset-1 outline-black/10 shadow-[0_10px_28px_-14px_rgb(15_20_80/0.22)]"
             >
-              <span className="font-display font-medium text-[36px] leading-[130%] tracking-[-0.01em] text-navy-900">
-                {String(d.order ?? i + 1).padStart(2, '0')}
-              </span>
-              <H6 as="h3" className="text-black">
-                {d.title}
-              </H6>
-              <p className="text-sm leading-[150%] text-black">{d.description}</p>
+              <span className="w-[3px] shrink-0 bg-teal-500" aria-hidden="true" />
+              <div className="flex-1 flex flex-col gap-2 p-8">
+                <span className="font-display font-medium text-[36px] leading-[130%] tracking-[-0.01em] text-navy-900">
+                  {String(d.order ?? i + 1).padStart(2, '0')}
+                </span>
+                <H6 as="h3" className="text-black">
+                  {d.title}
+                </H6>
+                <p className="text-sm leading-[150%] text-black">{d.description}</p>
+              </div>
             </div>
           ))}
         </div>
