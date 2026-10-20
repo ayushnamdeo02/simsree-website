@@ -58,7 +58,6 @@ const fallbackPage = {
     'MMS 2026-28 admissions are open - via Maharashtra CET, {{noQuotaShort}}.',
   ctaButtons: [
     { label: 'Start your MMS application', url: '/admissions/mms', primary: true },
-    { label: 'Talk to a Student', url: '/contact', primary: false },
     { label: 'See the batch profile', url: '/students/batch-profile', primary: false },
   ],
 };
