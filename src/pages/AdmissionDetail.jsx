@@ -1387,7 +1387,7 @@ export default function AdmissionDetail() {
                     <details
                       key={f.question}
                       open={i === 0}
-                      className="group p-6 rounded-2xl outline outline-1 -outline-offset-1 outline-navy-100 bg-white open:bg-[#fffbec]"
+                      className="group p-6 rounded-2xl outline outline-1 -outline-offset-1 outline-navy-100 bg-white open:bg-[#fffbec] open:shadow-[0_6px_16px_-6px_rgb(15_20_80/0.2)] transition-shadow"
                     >
                       <summary className="flex items-center justify-between gap-6 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                         <H6 as="span">{f.question}</H6>
