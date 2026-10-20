@@ -309,7 +309,8 @@ export default function StudentSystem() {
         </div>
       </Section>
 
-      {/* Spotlight — #24295c, three 405x348 navy cards. */}
+      {/* Spotlight — #24295c, three 405x348 navy cards: content from the top, the link
+          pinned to the foot so the rows line up. */}
       <Section bg="bg-navy-800" width={1280} className="border-t border-white/20">
         <SectionTitle
           center
@@ -324,7 +325,7 @@ export default function StudentSystem() {
           {(sp.spotlightCards || []).map((c) => (
             <div
               key={c.title}
-              className="flex flex-col justify-center gap-4 min-h-[348px] p-8 rounded-2xl bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-white/20 shadow-small"
+              className="flex flex-col gap-4 min-h-[348px] p-8 rounded-2xl bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-white/20 shadow-small"
             >
               <span className="text-sm leading-[150%] text-teal-100">{c.label}</span>
               <div className="flex flex-col gap-2">
@@ -333,7 +334,7 @@ export default function StudentSystem() {
                 </H6>
                 <p className="text-sm leading-[150%] text-ink-50">{c.description}</p>
               </div>
-              <Link to={c.linkUrl} className="flex items-center gap-2 w-fit text-sm leading-[150%] hover:underline underline-offset-2">
+              <Link to={c.linkUrl} className="mt-auto pt-2 flex items-center gap-2 w-fit text-sm leading-[150%] hover:underline underline-offset-2">
                 {c.linkLabel} <ArrowRight size={24} strokeWidth={1.5} />
               </Link>
             </div>
