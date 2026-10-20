@@ -326,7 +326,7 @@ const fallbackBySlug = {
         footnote: '40 seats · Merit only',
       },
       {
-        title: 'Pay fees · join induction',
+        title: 'Get onboarded',
         description:
           'Pay first-instalment fees online. Induction starts early August with the CFP® pathway orientation.',
         footnote: 'First instalment · ~₹0.95L',
@@ -375,6 +375,10 @@ const fallbackBySlug = {
     ],
     documentsCtaLabel: 'Download all forms (PDF)',
     documentsCtaUrl: '/admissions/downloads',
+    documentsLinks: [
+      { label: 'Anti-ragging affidavit', url: '/admissions/downloads' },
+      { label: 'Gap certificate affidavit', url: '/admissions/downloads' },
+    ],
     faqEyebrow: 'FAQ',
     faqTitle: 'Your questions, answered.',
     faqTitleHighlight: 'answered.',
@@ -516,7 +520,7 @@ const fallbackBySlug = {
         footnote: '60 seats · 3-year cohort',
       },
       {
-        title: 'Pay fees · join induction',
+        title: 'Get onboarded',
         description:
           'Pay first-semester instalment online. Orientation Saturday in early August · classes start the following weekend.',
         footnote: 'First instalment · ~₹0.55L',
@@ -569,6 +573,10 @@ const fallbackBySlug = {
     ],
     documentsCtaLabel: 'Download all forms (PDF)',
     documentsCtaUrl: '/admissions/downloads',
+    documentsLinks: [
+      { label: 'Anti-ragging affidavit', url: '/admissions/downloads' },
+      { label: 'Gap certificate affidavit', url: '/admissions/downloads' },
+    ],
     faqEyebrow: 'FAQ',
     faqTitle: 'Your questions, answered.',
     faqTitleHighlight: 'answered.',
@@ -704,7 +712,7 @@ const fallbackBySlug = {
         footnote: '60 seats · 3-year cohort',
       },
       {
-        title: 'Pay fees · weekend induction',
+        title: 'Get onboarded',
         description:
           'Pay first-semester instalment online. Orientation Saturday in early August · classes start the following weekend.',
         footnote: 'First instalment · ~₹0.55L',
@@ -757,6 +765,10 @@ const fallbackBySlug = {
     ],
     documentsCtaLabel: 'Download all forms (PDF)',
     documentsCtaUrl: '/admissions/downloads',
+    documentsLinks: [
+      { label: 'Anti-ragging affidavit', url: '/admissions/downloads' },
+      { label: 'Gap certificate affidavit', url: '/admissions/downloads' },
+    ],
     faqEyebrow: 'FAQ',
     faqTitle: 'Your questions, answered.',
     faqTitleHighlight: 'answered.',
@@ -893,7 +905,7 @@ const fallbackBySlug = {
         footnote: 'Held at Churchgate · Dec 2026',
       },
       {
-        title: 'Register · coursework begins',
+        title: 'Get onboarded',
         description:
           'DRC publishes the final 8-12 admits. Pay first-year fees, register with the affiliating university, begin coursework.',
         footnote: 'First-year fees · ~₹1.5L',
@@ -948,6 +960,10 @@ const fallbackBySlug = {
     ],
     documentsCtaLabel: 'Download all forms (PDF)',
     documentsCtaUrl: '/admissions/downloads',
+    documentsLinks: [
+      { label: 'Anti-ragging affidavit', url: '/admissions/downloads' },
+      { label: 'Gap certificate affidavit', url: '/admissions/downloads' },
+    ],
     faqEyebrow: 'FAQ',
     faqTitle: 'Your questions, answered.',
     faqTitleHighlight: 'answered.',
