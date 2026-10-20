@@ -138,7 +138,7 @@ const fallbackProgrammes = [
     badge: 'Short Workshops',
     description: 'CV clinic · mock case · interview bootcamp · for early-career professionals.',
     ctaLabel: 'Open',
-    ctaUrl: '/events/industry-events',
+    ctaUrl: '/events/career-catalyst',
     order: 2,
   },
   {
