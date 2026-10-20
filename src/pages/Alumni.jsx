@@ -142,7 +142,6 @@ const fallbackEmployers = [
   { name: 'Barclays' }, { name: 'McKinsey' }, { name: 'ICICI Bank' }, { name: 'Morgan Stanley' },
   { name: 'Citi' }, { name: 'Deutsche Bank' }, { name: 'HDFC Bank' }, { name: 'Deloitte' },
   { name: 'EY-Parthenon' }, { name: 'Star India' }, { name: 'Network18' }, { name: 'Disney+ Hotstar' },
-  { name: 'Hindustan Unilever' }, { name: 'Procter & Gamble' }, { name: 'BCG' }, { name: 'KPMG' },
 ];
 
 // An alumnus's voice (Figma), not the student voices used on the Home page.
