@@ -13,8 +13,8 @@ const fallbackPage = {
   heroTitleBreakAfter: 'practitioners.',
   heroDescription:
     "SIMSREE students don't just learn management - they practise it for two years before you meet them. Six proof points.",
-  heroPrimaryCtaLabel: 'Book a campus visit',
-  heroPrimaryCtaUrl: '/placements/contact',
+  heroPrimaryCtaLabel: 'Call Placement Committee',
+  heroPrimaryCtaUrl: 'tel:+918830532100',
   heroSecondaryCtaLabel: 'Download the recruiter brochure (PDF)',
   heroSecondaryCtaUrl: '#',
 
