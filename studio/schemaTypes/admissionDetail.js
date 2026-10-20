@@ -71,6 +71,7 @@ export default {
     },
 
     // Steps band — optional navy strip of icon cards under the stats
+    {name: 'stepsBandEyebrow', title: 'Steps band eyebrow', description: 'Small heading above the title, e.g. "Admission Process"', type: 'string', group: 'stats'},
     {name: 'stepsBandTitle', title: 'Steps band title', description: 'Optional navy band under the stat cards, e.g. "Steps for Admission". Leave empty to hide it.', type: 'string', group: 'stats'},
     {name: 'stepsBandSubtitle', title: 'Steps band subtitle', type: 'string', group: 'stats'},
     {

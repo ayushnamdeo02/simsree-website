@@ -222,12 +222,13 @@ const fallbackBySlug = {
       { label: 'Total fees', value: '~₹3.8L', note: '4 instalments · 2-year programme' },
       { label: 'Status', value: 'Pre-launch', note: 'CFP® partnership track included' },
     ],
+    stepsBandEyebrow: 'Admission Process',
     stepsBandTitle: 'Steps for Admission',
     stepsBandSubtitle: 'The Process is as follows:',
     stepsBand: [
       { title: 'Online Application', note: 'Start Your Application', icon: 'form' },
-      { title: 'Candidate Shortlisting', note: 'Merit-based screening', icon: 'shortlist' },
-      { title: 'Assessment Round', note: 'Entrance + Personal Interview', icon: 'assessment' },
+      { title: 'Candidate Shortlisting', note: 'Profile Review & Selection', icon: 'shortlist' },
+      { title: 'Assessment Round', note: 'GD & Personal Interview', icon: 'assessment' },
       { title: 'Final Selection List', note: 'Get Your Admission Decision', icon: 'final' },
     ],
     datesEyebrow: 'Key Dates · AY 2026-27',
@@ -1095,26 +1096,33 @@ export default function AdmissionDetail() {
         </section>
       )}
 
-      {/* Optional navy band of icon steps (PhD). */}
+      {/* Optional navy band of icon steps: lavender icon discs joined by short
+          rules on a white panel, numbered titles and a small note. */}
       {ad.stepsBandTitle && has('stepsBand') && (
         <Section bg="bg-navy-900" width={1280} className="text-white">
-          <SectionTitle dark title={ad.stepsBandTitle} body={ad.stepsBandSubtitle} />
-          <div className="mt-12 bg-white rounded-2xl p-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <SectionTitle dark tagline={ad.stepsBandEyebrow} title={ad.stepsBandTitle} body={ad.stepsBandSubtitle} />
+          <ol className="mt-10 md:mt-12 m-0 list-none bg-white rounded-2xl px-6 py-10 md:px-10 grid sm:grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6">
             {ad.stepsBand.map((s, i) => {
               const Icon = STEP_ICONS[s.icon] || FileText;
               return (
-                <div key={s.title} className="flex flex-col items-center text-center gap-3 text-navy-900">
-                  <span className="w-14 h-14 rounded-full outline outline-1 -outline-offset-1 outline-navy-900 flex items-center justify-center">
-                    <Icon size={24} strokeWidth={1.5} />
+                <li key={s.title} className="relative flex flex-col items-center text-center gap-3 text-navy-900">
+                  {i > 0 && (
+                    <span
+                      aria-hidden="true"
+                      className="hidden lg:block absolute top-[38px] -left-8 w-10 h-px bg-navy-100"
+                    />
+                  )}
+                  <span className="w-[76px] h-[76px] rounded-full bg-navy-50 outline outline-1 -outline-offset-1 outline-navy-900/50 flex items-center justify-center">
+                    <Icon size={30} strokeWidth={1.75} />
                   </span>
-                  <H6 as="p">
+                  <p className="mt-1 font-display font-medium text-lg leading-[140%]">
                     {i + 1}. {s.title}
-                  </H6>
-                  {s.note && <p className="text-sm leading-[150%] text-black">{s.note}</p>}
-                </div>
+                  </p>
+                  {s.note && <p className="-mt-1 text-xs leading-[150%] text-black">{s.note}</p>}
+                </li>
               );
             })}
-          </div>
+          </ol>
         </Section>
       )}
 
