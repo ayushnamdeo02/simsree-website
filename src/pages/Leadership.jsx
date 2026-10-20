@@ -69,7 +69,6 @@ const page = {
 const TABS = [
   { id: 'gs', label: 'General Secretaries' },
   { id: 'chairs', label: 'Chairpersons ({{committeeCount}})' },
-  { id: 'election', label: 'Election process' },
 ];
 
 // Figma "Filters": 44px tabs, radius 4, the section's own tab navy. On desktop Figma
@@ -113,7 +112,7 @@ export default function Leadership() {
   const lp = fillFactsDeep(page, facts);
   const tabs = fillFactsDeep(TABS, facts);
   const [mobileTab, setMobileTab] = useState('gs');
-  // On mobile only the chosen section shows; desktop shows all three.
+  // On mobile only the chosen tab's section shows; desktop shows all of them.
   const mobileOnly = (id) => (mobileTab === id ? '' : 'max-lg:hidden');
 
   return (
@@ -178,12 +177,11 @@ export default function Leadership() {
           </div>
         </div>
 
-        {/* Election — centred title, tabs, expandable 1280 rows (32px plus), then the
+        {/* Election — no tab of its own; always shown. Centred title, expandable 1280 rows (32px plus), then the
             chairperson-selection card with a 5px Eastern Blue bar. */}
-        <div id="election" className={`lg:mt-12 scroll-mt-40 flex flex-col gap-12 md:gap-16 ${mobileOnly('election')}`}>
+        <div id="election" className="mt-12 scroll-mt-40 flex flex-col gap-12 md:gap-16">
           <SectionTitle center tagline={lp.electionEyebrow} title={lp.electionTitle} body={lp.electionBody} />
           <div className="-mt-8 flex flex-col gap-12">
-            <Tabs active="election" tabs={tabs} className="max-lg:hidden" />
             <div className="flex flex-col gap-12">
               {lp.steps.map((s, i) => (
                 <details key={s.title} open={i === 0} className="rounded-lg group bg-white outline outline-1 -outline-offset-1 outline-black/20">
