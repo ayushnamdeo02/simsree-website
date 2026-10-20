@@ -4,8 +4,8 @@ import { Section, SectionTitle } from '../components/ui';
 import { heroImage } from '../lib/heroImage';
 import { composeTitle } from '../lib/text';
 import { usePartnersData } from '../lib/usePartnersData';
-import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
+import PartnerTile from '../components/PartnerTile';
 
 const SECTORS = ['BFSI', 'Consulting', 'FMCG', 'IT. Tech', 'Pharma', 'Manufacturing', 'Media'];
 
@@ -99,22 +99,9 @@ export default function Partners() {
           // Figma's mobile frame crams all 8 columns into 33px cells, which overflows
           // the names; 4 shorter columns keep the grid's height without the overflow.
           <div className="mt-10 md:mt-12 grid grid-cols-4 lg:grid-cols-8 gap-2.5 lg:gap-y-[30px]">
-            {visible.map((p, i) => {
-              const logoUrl = p.logo ? urlFor(p.logo).height(96).auto('format').url() : null;
-              return (
-                <div
-                  key={p._id || `${p.name}-${i}`}
-                  title={p.sector ? `${p.name} · ${p.sector}` : p.name}
-                  className="h-[78px] lg:h-[148px] rounded-xl outline outline-1 -outline-offset-1 outline-white flex items-center justify-center p-1.5 lg:p-6 text-center transition-colors hover:bg-white/10"
-                >
-                  {logoUrl ? (
-                    <img src={logoUrl} alt={p.name} className="max-h-12 max-w-full object-contain" />
-                  ) : (
-                    <span className="text-xs lg:text-sm leading-[150%] text-white">{p.name}</span>
-                  )}
-                </div>
-              );
-            })}
+            {visible.map((p, i) => (
+              <PartnerTile key={p._id || `${p.name}-${i}`} partner={p} className="h-[78px] lg:h-[148px] p-1.5 lg:p-3" />
+            ))}
           </div>
         ) : (
           <p className="mt-10 md:mt-12 text-base leading-[150%] text-white/70">No partners listed in {sector} yet.</p>
