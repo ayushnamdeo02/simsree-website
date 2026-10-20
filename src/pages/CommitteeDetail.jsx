@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom';
 import { StatGrid } from '../components/StatCard';
 import PageHero, { HeroButton } from '../components/PageHero';
-import { Section, SectionTitle, Tagline, Heading, H5, AccentCard, Tag } from '../components/ui';
+import { Section, SectionTitle, Tagline, Heading, H5, H6, AccentCard, Tag } from '../components/ui';
 import { useCommitteeData } from '../lib/useCommitteeData';
 import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
@@ -847,40 +847,54 @@ export default function CommitteeDetail() {
         </section>
       )}
 
-      {/* What it does — tagline/title/body, then activities card and skills column, 80 gap. */}
+      {/* What it does — navy band: white title (committee name in teal) and body, then
+          the activities as white numbered cards beside a skills + equivalent column. */}
       {(c.aboutTitle || has('activities')) && (
-        <Section>
-          <Tagline>About this committee</Tagline>
-          <Heading text={c.aboutTitle} highlight={c.name} className="text-navy-900 mt-8" />
-          {c.aboutBody && <p className="mt-6 text-base md:text-lg leading-[150%] text-black">{c.aboutBody}</p>}
+        <Section bg="bg-navy-900" className="text-white">
+          <Tagline className="text-white">About this committee</Tagline>
+          <Heading text={c.aboutTitle} highlight={c.name} className="text-white mt-6 md:mt-8" highlightClass="text-teal-400" />
+          {c.aboutBody && <p className="mt-6 max-w-[900px] text-base md:text-lg leading-[150%] text-white/90">{c.aboutBody}</p>}
 
-          <div className="mt-10 md:mt-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+          <div className="mt-10 md:mt-12 grid grid-cols-1 lg:grid-cols-[3fr_1fr] gap-8 lg:gap-10 items-start">
             {has('activities') && (
-              <AccentCard>
+              <ol className="m-0 p-0 list-none grid sm:grid-cols-3 gap-5">
                 {c.activities.map((a, i) => (
-                  <div key={a.title} className={i > 0 ? 'mt-6 pt-12 border-t border-black/20' : ''}>
-                    <H5>{a.title}</H5>
-                    <p className="mt-4 text-base leading-[150%] text-black">{a.description}</p>
-                  </div>
+                  <li key={a.title} className="flex flex-col gap-5 p-6 rounded-2xl bg-white text-black shadow-small">
+                    <span className="w-14 h-14 rounded-lg bg-navy-900 flex items-center justify-center font-display font-medium text-[26px] text-white">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                    <div className="flex flex-col gap-3">
+                      <H6 as="h3" className="text-navy-900">
+                        {a.title}
+                      </H6>
+                      <p className="text-sm leading-[150%] text-black">{a.description}</p>
+                    </div>
+                  </li>
                 ))}
-              </AccentCard>
+              </ol>
             )}
 
             <div className="flex flex-col gap-8">
               {has('skills') && (
                 <div>
-                  <H5>{c.skillsTitle}</H5>
-                  <div className="mt-8 flex flex-wrap gap-3.5 max-w-[364px]">
+                  <H6 as="h3" className="text-white">
+                    {c.skillsTitle}
+                  </H6>
+                  <div className="mt-5 flex flex-wrap gap-2">
                     {c.skills.map((s) => (
-                      <Tag key={s}>{s}</Tag>
+                      <Tag key={s} className="bg-white text-navy-900 !text-xs">
+                        {s}
+                      </Tag>
                     ))}
                   </div>
                 </div>
               )}
               {c.equivalentValue && (
-                <AccentCard accent="bg-navy-900">
-                  <H5>{c.equivalentTitle}</H5>
-                  <p className="mt-4 text-base leading-[150%] text-black">{c.equivalentValue}</p>
+                <AccentCard className="!rounded-none [&>div]:py-6 [&>div]:pl-6">
+                  <H6 as="p" className="text-navy-900">
+                    {c.equivalentTitle}
+                  </H6>
+                  <p className="mt-2 text-sm leading-[150%] text-black">{c.equivalentValue}</p>
                 </AccentCard>
               )}
             </div>
