@@ -10,6 +10,7 @@ import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 const fallbackBySlug = {
   placement: {
     showJoin: false,
+    aboutStyle: 'cards',
     name: 'Placement Committee',
     heroEyebrow: 'Corporate · Student-Run Committee',
     tagline: '"We connect you to the companies that matter."',
@@ -874,9 +875,51 @@ export default function CommitteeDetail() {
         </section>
       )}
 
-      {/* What it does — navy band: white title (committee name in teal) and body, then
+      {/* What it does (default "list" layout) — white: tagline/title/body, then an
+          activities card and skills column, 80 gap. */}
+      {c.aboutStyle !== 'cards' && (c.aboutTitle || has('activities')) && (
+        <Section>
+          <Tagline>About this committee</Tagline>
+          <Heading text={c.aboutTitle} highlight={c.name} className="text-navy-900 mt-8" />
+          {c.aboutBody && <p className="mt-6 text-base md:text-lg leading-[150%] text-black">{c.aboutBody}</p>}
+
+          <div className="mt-10 md:mt-12 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
+            {has('activities') && (
+              <AccentCard>
+                {c.activities.map((a, i) => (
+                  <div key={a.title} className={i > 0 ? 'mt-6 pt-12 border-t border-black/20' : ''}>
+                    <H5>{a.title}</H5>
+                    <p className="mt-4 text-base leading-[150%] text-black">{a.description}</p>
+                  </div>
+                ))}
+              </AccentCard>
+            )}
+
+            <div className="flex flex-col gap-8">
+              {has('skills') && (
+                <div>
+                  <H5>{c.skillsTitle}</H5>
+                  <div className="mt-8 flex flex-wrap gap-3.5 max-w-[364px]">
+                    {c.skills.map((s) => (
+                      <Tag key={s}>{s}</Tag>
+                    ))}
+                  </div>
+                </div>
+              )}
+              {c.equivalentValue && (
+                <AccentCard accent="bg-navy-900">
+                  <H5>{c.equivalentTitle}</H5>
+                  <p className="mt-4 text-base leading-[150%] text-black">{c.equivalentValue}</p>
+                </AccentCard>
+              )}
+            </div>
+          </div>
+        </Section>
+      )}
+
+      {/* What it does ("cards" layout, e.g. Placement) — navy band: white title (committee name in teal) and body, then
           the activities as white numbered cards beside a skills + equivalent column. */}
-      {(c.aboutTitle || has('activities')) && (
+      {c.aboutStyle === 'cards' && (c.aboutTitle || has('activities')) && (
         <Section bg="bg-navy-900" className="text-white">
           <Tagline className="text-white">About this committee</Tagline>
           <Heading text={c.aboutTitle} highlight={c.name} className="text-white mt-6 md:mt-8" highlightClass="text-teal-400" />

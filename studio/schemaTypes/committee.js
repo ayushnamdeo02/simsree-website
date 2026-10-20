@@ -70,6 +70,15 @@ export default {
     },
 
     // About
+    {
+      name: 'aboutStyle',
+      title: 'Layout',
+      description: 'List: white section with the activities in one card. Cards: navy section with numbered activity cards.',
+      type: 'string',
+      group: 'about',
+      options: {list: [{title: 'List (white)', value: 'list'}, {title: 'Cards (navy)', value: 'cards'}], layout: 'radio'},
+      initialValue: 'list',
+    },
     {name: 'aboutTitle', title: 'Title', description: 'The committee name is highlighted automatically if it appears here', type: 'string', group: 'about'},
     {name: 'aboutBody', title: 'Body', type: 'text', rows: 4, group: 'about'},
     {
