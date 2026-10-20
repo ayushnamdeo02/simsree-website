@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { urlFor } from '../lib/sanity';
+import { committeeHref } from '../lib/committeeHref';
 
 // Figma tag colours per committee category.
 const CATEGORY_TAG = {
@@ -28,7 +29,7 @@ export default function CommitteeCard({ committee: c, className = '' }) {
   const slug = c.slug?.current || c.slug;
   const img = photoUrl(c);
   return (
-    <Link to={slug ? `/students/committees/${slug}` : '#'} className={`group flex flex-col gap-6 ${className}`}>
+    <Link to={committeeHref(slug) || '#'} className={`group flex flex-col gap-6 ${className}`}>
       <div
         className="aspect-square bg-navy-50 bg-cover bg-center transition-opacity group-hover:opacity-90"
         style={img ? { backgroundImage: `url('${img}')` } : undefined}

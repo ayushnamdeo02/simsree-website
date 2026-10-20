@@ -8,6 +8,7 @@ import { heroImage } from '../lib/heroImage';
 import { composeTitle } from '../lib/text';
 import { useBodyStructureData } from '../lib/useBodyStructureData';
 import { urlFor } from '../lib/sanity';
+import { committeeHref } from '../lib/committeeHref';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 import { fallbackCommittees } from '../data/committees';
 
@@ -130,7 +131,7 @@ function OrgChart({ bp, committees }) {
         {pills.map((c) => (
           <li key={slugOf(c) || c.name}>
             <Link
-              to={`/students/committees/${slugOf(c)}`}
+              to={committeeHref(slugOf(c))}
               className="block rounded-xl bg-white px-5 py-3 md:px-6 md:py-4 font-display font-medium text-base md:text-lg leading-[140%] text-navy-900 outline outline-1 -outline-offset-1 outline-black/10 shadow-small hover:bg-navy-50 transition-colors"
             >
               {c.name}
@@ -147,7 +148,7 @@ function OrgChart({ bp, committees }) {
 function CommitteeTile({ c, ctaLabel }) {
   const slug = slugOf(c);
   const photo = c.image ? urlFor(c.image).width(568).height(568).fit('crop').auto('format').url() : slug && `/images/committees/body-${slug}.webp`;
-  const href = slug ? `/students/committees/${slug}` : c.linkUrl;
+  const href = committeeHref(slug) || c.linkUrl;
   const inner = (
     <>
       <div className="aspect-square bg-navy-50 bg-cover bg-center" style={photo ? { backgroundImage: `url('${photo}')` } : undefined} />

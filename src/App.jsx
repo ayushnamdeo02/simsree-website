@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import Home from './pages/Home';
 import AboutUs from './pages/AboutUs';
@@ -112,6 +112,7 @@ export default function App() {
           <Route path="/events/career-catalyst" element={<CareerCatalyst />} />
           <Route path="/events/industry-events" element={<IndustryEvents />} />
           <Route path="/events/news" element={<News />} />
+          <Route path="/students/committees/chairpersons-council" element={<Navigate to="/students/leadership" replace />} />
           <Route path="/students/committees/:slug" element={<CommitteeDetail />} />
           <Route path="/admissions/:slug" element={<AdmissionDetail />} />
           {stubRoutes.map((r) => (
