@@ -42,8 +42,6 @@ const fallbackDirectorPage = {
   contactCallLabel: 'PA to Director · Mon–Sat · 11am–7pm',
   contactEmailAddress: 'director@simsree.org',
   contactEmailLabel: 'Institutional matters · partnerships · visits',
-  contactVisitAddress: 'B-Road, Churchgate',
-  contactVisitLabel: '2 min from Churchgate station · Mumbai 400 020',
 };
 
 const fallbackSections = [
@@ -125,18 +123,6 @@ function StackedEmail({ size = 48, className = '' }) {
     <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className} aria-hidden="true">
       <path
         d="M11.5496 35.9293C10.6263 35.9293 9.82578 35.583 9.14811 34.8903C8.47011 34.198 8.13111 33.4048 8.13111 32.5108V9.0723C8.13111 8.1493 8.47011 7.3488 9.14811 6.6708C9.82578 5.99313 10.6263 5.6543 11.5496 5.6543H42.8681C43.7881 5.6543 44.5858 5.99313 45.2611 6.6708C45.9368 7.3488 46.2746 8.1493 46.2746 9.0723V32.5108C46.2746 33.4048 45.9368 34.198 45.2611 34.8903C44.5858 35.583 43.7881 35.9293 42.8681 35.9293H11.5496ZM26.1571 24.8183L11.5496 12.7488V32.5108H42.8681V12.7488L28.2606 24.8183C27.9513 25.0676 27.5979 25.1923 27.2006 25.1923C26.8036 25.1923 26.4558 25.0676 26.1571 24.8183ZM27.2031 21.7398L42.6181 9.0723H11.7996L27.2031 21.7398ZM5.13111 42.3358C4.21111 42.3358 3.41344 41.9896 2.73811 41.2973C2.06244 40.605 1.72461 39.8156 1.72461 38.9293V12.8258C1.72461 12.3451 1.88911 11.9411 2.21811 11.6138C2.54711 11.2861 2.95328 11.1223 3.43661 11.1223C3.91994 11.1223 4.32311 11.2861 4.64611 11.6138C4.96944 11.9411 5.13111 12.3451 5.13111 12.8258V38.9293H39.4281C39.9088 38.9293 40.3128 39.0938 40.6401 39.4228C40.9674 39.7518 41.1311 40.158 41.1311 40.6413C41.1311 41.1243 40.9674 41.5275 40.6401 41.8508C40.3128 42.1741 39.9088 42.3358 39.4281 42.3358H5.13111Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
-// Figma: location_city — exported vector, filled path on a 48x48 viewBox.
-function LocationCity({ size = 48, className = '' }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" className={className} aria-hidden="true">
-      <path
-        d="M5.59375 39.0009V17.1009C5.59375 16.1525 5.92525 15.3457 6.58825 14.6804C7.25125 14.015 8.05525 13.6824 9.00025 13.6824H17.9438V10.7629C17.9438 10.3002 18.0268 9.85903 18.1928 9.43936C18.3588 9.01936 18.6116 8.66019 18.9513 8.36186L21.6133 5.78786C22.2633 5.14153 23.0578 4.81836 23.9967 4.81836C24.9361 4.81836 25.7329 5.14153 26.3873 5.78786L29.0373 8.33786C29.3769 8.65219 29.6338 9.02219 29.8078 9.44786C29.9818 9.87386 30.0688 10.3202 30.0688 10.7869V21.9824H39.0003C39.9486 21.9824 40.7554 22.315 41.4207 22.9804C42.0861 23.6457 42.4188 24.4525 42.4188 25.4009V39.0009C42.4188 39.9459 42.0861 40.7499 41.4207 41.4129C40.7554 42.0759 39.9486 42.4074 39.0003 42.4074H9.00025C8.05525 42.4074 7.25125 42.0759 6.58825 41.4129C5.92525 40.7499 5.59375 39.9459 5.59375 39.0009ZM9.00025 39.0009H14.3003V33.7009H9.00025V39.0009ZM9.00025 30.7009H14.3003V25.4009H9.00025V30.7009ZM9.00025 22.4009H14.3003V17.1009H9.00025V22.4009ZM21.3503 39.0009H26.6503V33.7009H21.3503V39.0009ZM21.3503 30.7009H26.6503V25.4009H21.3503V30.7009ZM21.3503 22.4009H26.6503V17.1009H21.3503V22.4009ZM21.3503 14.1009H26.6503V8.80086H21.3503V14.1009ZM33.7003 39.0009H39.0003V33.7009H33.7003V39.0009ZM33.7003 30.7009H39.0003V25.4009H33.7003V30.7009Z"
         fill="currentColor"
       />
     </svg>
@@ -376,7 +362,7 @@ export default function DirectorMessage() {
         </div>
       </Section>
 
-      {/* Get in Touch — 1280 section, 80px gap, 405.33x222 cards (Figma) */}
+      {/* Get in Touch — 1280 section, 80px gap, two cards: Call | Email (Figma) */}
       <section className="bg-navy-800 py-12 lg:py-20">
         <div className="max-w-[1280px] mx-auto px-6 lg:px-0 flex flex-col gap-12 md:gap-16">
           <div className="text-center max-w-[768px] mx-auto">
@@ -392,7 +378,7 @@ export default function DirectorMessage() {
             <p className="text-lg leading-[150%] text-white">{dp.contactSubtitle}</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             <ContactCard
               icon={<PhoneCalling size={48} className="text-white shrink-0" />}
               label="Call"
@@ -409,14 +395,6 @@ export default function DirectorMessage() {
               actionLabel="Compose email"
               href={`mailto:${dp.contactEmailAddress}`}
               breakAll
-            />
-            <ContactCard
-              icon={<LocationCity size={48} className="text-white shrink-0" />}
-              label="Visit"
-              value={dp.contactVisitAddress}
-              meta={dp.contactVisitLabel}
-              actionLabel="Schedule a visit"
-              to="/contact"
             />
           </div>
         </div>

@@ -63,8 +63,6 @@ export default {
     {name: 'contactCallLabel', title: 'Phone sub-label', type: 'string', group: 'contact', initialValue: 'PA to Director · Mon–Sat · 11am–7pm'},
     {name: 'contactEmailAddress', title: 'Email address', type: 'string', group: 'contact', initialValue: 'director@simsree.org'},
     {name: 'contactEmailLabel', title: 'Email sub-label', type: 'string', group: 'contact', initialValue: 'Institutional matters · partnerships · visits'},
-    {name: 'contactVisitAddress', title: 'Visit address', type: 'string', group: 'contact', initialValue: 'B-Road, Churchgate'},
-    {name: 'contactVisitLabel', title: 'Visit sub-label', type: 'string', group: 'contact', initialValue: '2 min from Churchgate station · Mumbai 400 020'},
   ],
   preview: {
     prepare() {
