@@ -575,12 +575,7 @@ const fallbackBySlug = {
     teamTitleHighlight: 'running this',
     teamSubtitle: 'Refreshed annually after induction.',
     team: [
-      { name: 'Dr. Anand Mehta', role: 'Chairperson' },
-      { name: 'Dr. Anand Mehta', role: 'Vice-Chair' },
-      { name: 'Dr. Anand Mehta', role: 'Member' },
-      { name: 'Dr. Anand Mehta', role: 'Member' },
-      { name: 'Dr. Anand Mehta', role: 'Member' },
-      { name: 'Dr. Anand Mehta', role: 'Member' },
+      { name: 'Shravan Dubey', role: 'Senior Member', photoUrl: '/images/committees/team/marketing-media-shravan-dubey.webp' },
     ],
     voiceEyebrow: 'Member Voice',
     voiceTitle: 'In their own words',
@@ -1114,7 +1109,16 @@ export default function CommitteeDetail() {
               ))}
             </div>
           )}
-          <div className="mt-10 md:mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* One or two members sit centred, at the 3-up card width. */}
+          <div
+            className={`mt-10 md:mt-12 grid grid-cols-1 gap-8 ${
+              teamShown.length === 1
+                ? 'max-w-[405px] mx-auto'
+                : teamShown.length === 2
+                  ? 'md:grid-cols-2 max-w-[842px] mx-auto'
+                  : 'md:grid-cols-2 lg:grid-cols-3'
+            }`}
+          >
             {teamShown.map((m, i) => {
               const photoUrl = m.photo
                 ? urlFor(m.photo).width(700).auto('format').url()
