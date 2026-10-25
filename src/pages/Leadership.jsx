@@ -35,12 +35,11 @@ const page = {
   chairsEyebrow: 'Year-2 chairs · 2025-26',
   chairsTitle: 'Cross-committee forum.',
   chairsBody:
-    'Year-2 chairs of each committee form a single leadership forum - the Chairpersons Council. Current chairs: Sumedh Deshpande &\nYash Raj Pandey · chairpersons@simsree.org',
+    'Year-2 chairs of each committee form a single leadership forum - the Chairpersons Council. Current chairs: Harshwardhan Ugale & Shriya Aphale · chairpersons@simsree.org',
   chairs: [
-    'Placement', 'Finance Forum', 'E-Cell', 'Marketing',
-    'Sports', 'Operations', 'Marketing', 'Course Co',
-    'Operations', 'Marketing', 'Operations', 'Infra-Tech',
-  ].map((role) => ({ name: 'Mr. Ashish Bhasin', role })),
+    { name: 'Harshwardhan Ugale', role: 'Chairperson', photo: '/images/students/chair-harshwardhan-ugale.webp' },
+    { name: 'Shriya Aphale', role: 'Chairperson', photo: '/images/students/chair-shriya-aphale.webp' },
+  ],
   ctaEyebrow: 'For recruiters',
   ctaTitle: 'Reach the leadership team.',
   ctaBody: "For anything that doesn't fit a committee - student-welfare issues, inter-batch coordination, or institute-wide ideas.",
@@ -52,7 +51,7 @@ const page = {
 
 const TABS = [
   { id: 'gs', label: 'General Secretaries' },
-  { id: 'chairs', label: 'Chairpersons ({{committeeCount}})' },
+  { id: 'chairs', label: 'Chairpersons' },
 ];
 
 // Figma "Filters": 44px tabs, radius 4, the active tab navy. A tab swaps which
@@ -142,12 +141,12 @@ export default function Leadership() {
         <div id="chairs" role="tabpanel" aria-labelledby="tab-chairs" hidden={tab !== 'chairs'} className={`scroll-mt-40 flex-col gap-12 md:gap-16 ${tab === 'chairs' ? 'flex' : 'hidden'}`}>
           <SectionTitle center tagline={lp.chairsEyebrow} title={lp.chairsTitle} body={lp.chairsBody} />
           <div className="flex flex-col gap-12">
-            <div className="max-w-[1089px] mx-auto w-full grid grid-cols-2 md:grid-cols-4 gap-x-6 lg:gap-x-[99px] gap-y-12">
+            <div className="max-w-[1089px] mx-auto w-full flex flex-wrap justify-center gap-x-6 lg:gap-x-[99px] gap-y-12">
               {lp.chairs.map((p, i) => (
-                <div key={i} className="flex flex-col items-center gap-4 text-center text-black">
+                <div key={p.name || i} className="w-[calc(50%-12px)] md:w-[260px] flex flex-col items-center gap-4 text-center text-black">
                   <div
                     className="w-[150px] h-[150px] md:w-[198px] md:h-[198px] rounded-full bg-navy-50 bg-cover bg-center"
-                    style={{ backgroundImage: `url('/images/students/chair-${String(i + 1).padStart(2, '0')}.webp')` }}
+                    style={{ backgroundImage: `url('${p.photo || `/images/students/chair-${String(i + 1).padStart(2, '0')}.webp`}')` }}
                   />
                   <div>
                     <p className="text-[22px] leading-[150%] font-semibold">{p.name}</p>
