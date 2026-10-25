@@ -514,12 +514,10 @@ const fallbackBySlug = {
     teamTitleHighlight: 'running this',
     teamSubtitle: 'Refreshed annually after induction.',
     team: [
-      { name: 'Dr. Anand Mehta', role: 'Chairperson' },
-      { name: 'Dr. Anand Mehta', role: 'Vice-Chair' },
-      { name: 'Dr. Anand Mehta', role: 'Member' },
-      { name: 'Dr. Anand Mehta', role: 'Member' },
-      { name: 'Dr. Anand Mehta', role: 'Member' },
-      { name: 'Dr. Anand Mehta', role: 'Member' },
+      { name: 'Bushra Mulla', role: 'Coordinator', photoUrl: '/images/committees/team/hrudaya-ops-bushra-mulla.webp' },
+      { name: 'Rohit Hugge', role: 'Coordinator', photoUrl: '/images/committees/team/hrudaya-ops-rohit-hugge.webp' },
+      { name: 'Chetan Patil', role: 'Senior Member', photoUrl: '/images/committees/team/hrudaya-ops-chetan-patil.webp' },
+      { name: 'Kalyan Reddy Baddamwar', role: 'Senior Member', photoUrl: '/images/committees/team/hrudaya-ops-kalyan-reddy-baddamwar.webp' },
     ],
     voiceEyebrow: 'Member Voice',
     voiceTitle: 'In their own words',
@@ -1109,12 +1107,12 @@ export default function CommitteeDetail() {
               ))}
             </div>
           )}
-          {/* One or two members sit centred, at the 3-up card width. */}
+          {/* One, two or four members sit centred (1-up / 2-up), at the 3-up card width. */}
           <div
             className={`mt-10 md:mt-12 grid grid-cols-1 gap-8 ${
               teamShown.length === 1
                 ? 'max-w-[405px] mx-auto'
-                : teamShown.length === 2
+                : teamShown.length === 2 || teamShown.length === 4
                   ? 'md:grid-cols-2 max-w-[842px] mx-auto'
                   : 'md:grid-cols-2 lg:grid-cols-3'
             }`}
