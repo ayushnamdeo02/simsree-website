@@ -51,7 +51,7 @@ const fallbackPage = {
       label: 'Prospect Path',
       title: 'See where SIMSREE students land',
       body: 'See the latest report, the sector split, and the firms that hire again and again.',
-      primaryCtaLabel: 'Download the 2024-25 final report (PDF)',
+      primaryCtaLabel: 'Download the 2024-26 final report (PDF)',
       primaryCtaUrl: '#reports',
       secondaryCtaLabel: 'See all {{recruiterCount}} recruiters',
       secondaryCtaUrl: '/placements/partners',
@@ -62,7 +62,7 @@ const fallbackPage = {
   partnersTitle: 'Pick a sector. We have a partner there.',
   partnersSubtitle:
     '120+ companies recruit at SIMSREE every cycle - banking, consulting, FMCG, tech, manufacturing, pharma, payments and beyond. Move your cursor over the grid to bring any logo into focus.',
-  partnersCtaLabel: 'Final Report 2024-25',
+  partnersCtaLabel: 'Final Report 2024-26',
   partnersCtaUrl: '#reports',
 
   processEyebrow: 'How Placement Works',
@@ -73,7 +73,7 @@ const fallbackPage = {
   reportsEyebrow: 'Reports',
   reportsTitle: 'Detailed outcomes per year',
   reportsTitleHighlight: 'outcomes',
-  reportsSubtitle: 'Three reports · final, summer, executive · current year + multi-year archive.',
+  reportsSubtitle: 'Final and summer placement reports for the MMS programme.',
 
   cellEyebrow: 'Direct Line to the Cell',
   cellTitle: 'Speak to the Placement Office.',
@@ -138,24 +138,19 @@ const fallbackHiringSteps = [
 const fallbackReports = [
   {
     title: 'Final Placement Report',
-    tag: 'Current + Archive',
-    description: '{{placementRate}} placement · {{avgCtc}} avg CTC · top 12 recruiters listed.',
+    tag: 'MMS · Batch 2024-26',
+    description: '₹14.98L average CTC · ₹21L highest · 80+ recruiters.',
+    fileUrl: 'https://cdn.sanity.io/files/go86psxs/production/8e8e660624d9fd088f6a34c1ba19189ca69ff9f7.pdf?dl=SIMSREE-Final-Placement-Report-2024-26.pdf',
     downloadLabel: 'Download',
     order: 1,
   },
   {
     title: 'Summer Placement Report',
-    tag: 'Year-1 internships',
-    description: '100% summer · ₹85K avg stipend · 62% PPO conversion.',
+    tag: 'MMS · Batch 2025-27',
+    description: '₹2L highest stipend · 65+ recruiters · 30+ new.',
+    fileUrl: 'https://cdn.sanity.io/files/go86psxs/production/04b5e701751b5dea88507df879b51d8e15ef87a2.pdf?dl=SIMSREE-Summer-Placement-Report-2025-27.pdf',
     downloadLabel: 'Download',
     order: 2,
-  },
-  {
-    title: 'Executive Placement Report',
-    tag: 'MFM / MMM',
-    description: '+38% CTC delta · 62% role switch · 28% promoted within.',
-    downloadLabel: 'Download',
-    order: 3,
   },
 ];
 
@@ -348,7 +343,7 @@ export default function Placements() {
           highlight={pp.reportsTitleHighlight}
           body={pp.reportsSubtitle}
         />
-        <div className="mt-10 md:mt-12 grid md:grid-cols-3 gap-8">
+        <div className={`mt-10 md:mt-12 grid gap-8 ${reports.length === 2 ? 'md:grid-cols-2' : 'md:grid-cols-3'}`}>
           {reports.map((r, i) => {
             const img = r.image ? urlFor(r.image).width(810).auto('format').url() : REPORT_FALLBACK[i];
             const fileUrl = r.file?.asset?.url || r.fileUrl;
@@ -365,7 +360,7 @@ export default function Placements() {
                   </div>
                   <a
                     href={fileUrl || '/placements/reports'}
-                    className="flex items-center gap-2 w-fit text-base leading-[150%] text-black hover:underline underline-offset-2"
+                    className="mt-auto flex items-center gap-2 w-fit text-base leading-[150%] text-black hover:underline underline-offset-2"
                   >
                     {r.downloadLabel || 'Download'} <ChevronRight size={24} strokeWidth={1.5} />
                   </a>
