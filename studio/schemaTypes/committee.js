@@ -18,6 +18,13 @@ export default {
     // Directory card
     {name: 'name', title: 'Name', type: 'string', group: 'card', validation: (Rule) => Rule.required()},
     {name: 'image', title: 'Image', type: 'image', options: {hotspot: true}, group: 'card'},
+    {
+      name: 'logo',
+      title: 'Logo',
+      description: 'Shown on the committee directory card (Student-Driven System). Use a transparent or white-background PNG; when empty, the card shows the image above.',
+      type: 'image',
+      group: 'card',
+    },
     {name: 'description', title: 'Description', type: 'text', rows: 2, group: 'card', validation: (Rule) => Rule.required()},
     {
       name: 'category',
@@ -217,5 +224,5 @@ export default {
     },
   ],
   orderings: [{title: 'Display order', name: 'orderAsc', by: [{field: 'order', direction: 'asc'}]}],
-  preview: {select: {title: 'name', subtitle: 'category', media: 'image'}},
+  preview: {select: {title: 'name', subtitle: 'category', media: 'logo'}},
 }

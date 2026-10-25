@@ -296,7 +296,7 @@ export default function StudentSystem() {
           </div>
         </div>
         {/* Mobile: one sideways-scrolling row of 284 cards (Figma); desktop: 4-up grid. */}
-        <div className="mt-10 md:mt-12 -mx-5 px-5 lg:mx-0 lg:px-0 flex lg:grid lg:grid-cols-4 gap-12 overflow-x-auto lg:overflow-visible snap-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <div className="mt-10 md:mt-12 -mx-5 px-5 scroll-px-5 lg:mx-0 lg:px-0 flex lg:grid lg:grid-cols-4 gap-12 overflow-x-auto lg:overflow-visible snap-x [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {visible.map((c) => (
             <CommitteeCard
               key={c._id || c.slug?.current || c.name}
