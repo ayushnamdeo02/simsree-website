@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { StatGrid } from '../components/StatCard';
@@ -59,12 +60,25 @@ const fallbackBySlug = {
     teamTitleHighlight: 'running this',
     teamSubtitle: 'Refreshed annually after induction.',
     team: [
-      { name: 'Dr. Anand Mehta', role: 'Chairperson' },
-      { name: 'Dr. Anand Mehta', role: 'Vice-Chair' },
-      { name: 'Dr. Anand Mehta', role: 'Member' },
-      { name: 'Dr. Anand Mehta', role: 'Member' },
-      { name: 'Dr. Anand Mehta', role: 'Member' },
-      { name: 'Dr. Anand Mehta', role: 'Member' },
+      { name: 'Mandar Yadav', role: 'Coordinator', group: 'MMS', photoUrl: '/images/committees/team/placement-mandar-yadav.webp' },
+      { name: 'Nakul Nandanwar', role: 'Coordinator', group: 'MMS', photoUrl: '/images/committees/team/placement-nakul-nandanwar.webp' },
+      { name: 'Abhishek Mishra', role: 'Senior Member', group: 'MMS', photoUrl: '/images/committees/team/placement-abhishek-mishra.webp' },
+      { name: 'Astha Agrawal', role: 'Senior Member', group: 'MMS', photoUrl: '/images/committees/team/placement-astha-agrawal.webp' },
+      { name: 'Atharva Deshkar', role: 'Senior Member', group: 'MMS', photoUrl: '/images/committees/team/placement-atharva-deshkar.webp' },
+      { name: 'Damya Singh', role: 'Senior Member', group: 'MMS', photoUrl: '/images/committees/team/placement-damya-singh.webp' },
+      { name: 'Esha Shet', role: 'Senior Member', group: 'MMS', photoUrl: '/images/committees/team/placement-esha-shet.webp' },
+      { name: 'Niraj Chavan', role: 'Senior Member', group: 'MMS', photoUrl: '/images/committees/team/placement-niraj-chavan.webp' },
+      { name: 'Nischay Nisar', role: 'Senior Member', group: 'MMS', photoUrl: '/images/committees/team/placement-nischay-nisar.webp' },
+      { name: 'Pranav Shete', role: 'Senior Member', group: 'MMS', photoUrl: '/images/committees/team/placement-pranav-shete.webp' },
+      { name: 'Rahul Kumbhare', role: 'Senior Member', group: 'MMS', photoUrl: '/images/committees/team/placement-rahul-kumbhare.webp' },
+      { name: 'Shriya Parab', role: 'Senior Member', group: 'MMS', photoUrl: '/images/committees/team/placement-shriya-parab.webp' },
+      { name: 'Tashu Rastogi', role: 'Senior Member', group: 'MMS', photoUrl: '/images/committees/team/placement-tashu-rastogi.webp' },
+      { name: 'Vaishnavi Bangale', role: 'Senior Member', group: 'MMS', photoUrl: '/images/committees/team/placement-vaishnavi-bangale.webp' },
+      { name: 'Sahil Nathwani', role: 'Member', group: 'MSc', photoUrl: '/images/committees/team/placement-sahil-nathwani.webp' },
+      { name: 'Tejas Patil', role: 'Member', group: 'MSc', photoUrl: '/images/committees/team/placement-tejas-patil.webp' },
+      { name: 'Vidhi Nanvani', role: 'Member', group: 'MSc', photoUrl: '/images/committees/team/placement-vidhi-nanvani.webp' },
+      { name: 'Deepesh Gupta', role: 'Member', group: 'MSc', photoUrl: '/images/committees/team/placement-deepesh-gupta.webp' },
+      { name: 'Prachiti Sathe', role: 'Member', group: 'MSc', photoUrl: '/images/committees/team/placement-prachiti-sathe.webp' },
     ],
     voiceEyebrow: 'Member Voice',
     voiceTitle: 'In their own words',
@@ -834,6 +848,7 @@ export default function CommitteeDetail() {
   const { slug } = useParams();
   const facts = useKeyFacts();
   const { data, loading } = useCommitteeData(slug);
+  const [teamGroup, setTeamGroup] = useState(null);
   const fallback = fallbackBySlug[slug] || genericCommittee(slug);
   const c = fillFactsDeep(data || fallback, facts);
 
@@ -860,6 +875,10 @@ export default function CommitteeDetail() {
       : HERO_FALLBACK[slug];
 
   const has = (k) => Array.isArray(c[k]) && c[k].length > 0;
+  // Team tabs: one per programme (in order of first appearance) when members carry one.
+  const teamGroups = has('team') ? [...new Set(c.team.map((m) => m.group).filter(Boolean))] : [];
+  const activeGroup = teamGroups.includes(teamGroup) ? teamGroup : teamGroups[0];
+  const teamShown = teamGroups.length > 1 ? c.team.filter((m) => m.group === activeGroup) : c.team || [];
 
   return (
     <div className="bg-white">
@@ -1057,7 +1076,8 @@ export default function CommitteeDetail() {
         </Section>
       )}
 
-      {/* Team — Figma "CTA / 57" on #24295c: centred header, 3-up 405x522 navy cards. */}
+      {/* Team — Figma "CTA / 57" on #24295c: centred header, 3-up 405x522 navy cards.
+          When members carry a programme (MMS / MSc), underline tabs switch between them. */}
       {has('team') && (
         <Section bg="bg-navy-800" width={1280} className="border-t border-white/20">
           <SectionTitle
@@ -1068,11 +1088,29 @@ export default function CommitteeDetail() {
             highlight={c.teamTitleHighlight}
             body={c.teamSubtitle}
           />
+          {teamGroups.length > 1 && (
+            <div role="tablist" aria-label="Team by programme" className="mt-10 md:mt-12 flex justify-center gap-8">
+              {teamGroups.map((g) => (
+                <button
+                  key={g}
+                  type="button"
+                  role="tab"
+                  aria-selected={g === activeGroup}
+                  onClick={() => setTeamGroup(g)}
+                  className={`pb-2 border-b-2 text-base leading-[150%] uppercase transition-colors ${
+                    g === activeGroup ? 'border-teal-400 text-white font-medium' : 'border-transparent text-white/70 hover:text-white'
+                  }`}
+                >
+                  {g}
+                </button>
+              ))}
+            </div>
+          )}
           <div className="mt-10 md:mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {c.team.map((m, i) => {
+            {teamShown.map((m, i) => {
               const photoUrl = m.photo
                 ? urlFor(m.photo).width(700).auto('format').url()
-                : MEMBER_FALLBACK[i % MEMBER_FALLBACK.length];
+                : m.photoUrl || MEMBER_FALLBACK[i % MEMBER_FALLBACK.length];
               return (
                 <div
                   key={`${m.name}-${i}`}
