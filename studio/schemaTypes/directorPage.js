@@ -5,7 +5,7 @@ export default {
   groups: [
     {name: 'hero', title: 'Hero'},
     {name: 'quote', title: 'Pull Quote'},
-    {name: 'portrait', title: 'Signature Portrait'},
+    {name: 'portrait', title: "Director's Message"},
     {name: 'contact', title: 'Get in Touch'},
   ],
   fields: [
@@ -48,9 +48,12 @@ export default {
 
     // Signature Portrait
     {name: 'portraitImage', title: 'Portrait photo', type: 'image', options: {hotspot: true}, group: 'portrait'},
+    {name: 'messageTitle', title: 'Title', type: 'string', group: 'portrait', initialValue: "Director's Message"},
+    {name: 'messageTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'portrait', initialValue: 'Message'},
+    {name: 'messageBody', title: 'Message', description: 'Leave a blank line between paragraphs.', type: 'text', rows: 14, group: 'portrait'},
     {name: 'signatureImage', title: 'Signature image', description: 'Scanned/drawn signature graphic', type: 'image', group: 'portrait'},
     {name: 'portraitName', title: 'Name', type: 'string', group: 'portrait', initialValue: 'Dr. Shriniwas Dhure'},
-    {name: 'portraitRole', title: 'Role', type: 'string', group: 'portrait', initialValue: 'Director, SIMSREE · Churchgate, Mumbai'},
+    {name: 'portraitRole', title: 'Role', type: 'string', group: 'portrait', initialValue: 'Director, SIMSREE'},
     {name: 'portraitPhone', title: 'Phone line', type: 'string', group: 'portrait', initialValue: "Reach the Director's office · 022 6151 0700"},
     {name: 'portraitEmail', title: 'Email', type: 'string', group: 'portrait', initialValue: 'director@simsree.org'},
 

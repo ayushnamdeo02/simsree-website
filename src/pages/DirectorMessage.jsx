@@ -29,8 +29,12 @@ const fallbackDirectorPage = {
   quoteName: 'Dr. Shriniwas Dhure',
   quoteMeta: 'Director, SIMSREE · 2021–present',
 
-  portraitName: 'Dr. Shriniwas Dhure',
-  portraitRole: 'Director, SIMSREE · Churchgate, Mumbai',
+  messageTitle: "Director's Message",
+  messageTitleHighlight: 'Message',
+  messageBody:
+    "Welcome to the Sydenham Institute of Management Studies, Research and Entrepreneurship Education (SIMSREE).\n\nSince its inception in 1983, SIMSREE has proudly carried forward the distinguished “Sydenham Tradition” of academic excellence, professional rigour and industry-oriented management education. Over the decades, the institute has built a strong reputation for nurturing talented professionals who have contributed significantly to business, industry and society.\n\nLocated in Churchgate, at the heart of Mumbai's corporate and financial ecosystem, SIMSREE enjoys a distinctive advantage. Our students are surrounded by the dynamic world of business, finance, entrepreneurship and innovation, enabling us to create a meaningful connection between academic learning and professional practice.\n\nManagement education today is shaped by rapid technological change, artificial intelligence, digital transformation, globalization and evolving business models. At SIMSREE, we continuously adapt our academic approach to these developments while preserving the values and academic standards that define our institution.\n\nOur association as a primary constituent college of Dr. Homi Bhabha State University (HBSU) provides an opportunity to further strengthen interdisciplinary learning, research, innovation and industry engagement.",
+  portraitName: 'Dr. Rupesh Raut',
+  portraitRole: 'Director, SIMSREE',
   portraitPhone: "Reach the Director's office · 022 6151 0700",
   portraitEmail: 'director@simsree.org',
 
@@ -43,36 +47,6 @@ const fallbackDirectorPage = {
   contactEmailAddress: 'director@simsree.org',
   contactEmailLabel: 'Institutional matters · partnerships · visits',
 };
-
-const fallbackSections = [
-  {
-    title: 'A privilege.',
-    titleHighlight: 'privilege.',
-    body: "SIMSREE has always stood for something beyond a degree. It stands for character - the kind that is forged through initiative, responsibility, and a deep engagement with the world of business.\n\nIt is a privilege to lead an institution that has spent four decades earning the trust of students, industry, and society. SIMSREE's address at Churchgate is not incidental - it reflects our belief that the best management education happens at the intersection of academia and real commerce.",
-  },
-  {
-    title: 'Character first.',
-    titleHighlight: 'first.',
-    body: "Since {{foundedYear}}, we have been guided by a single ambition: to produce managers who are not just capable, but principled. Professionals who combine technical rigour with the human qualities - empathy, integrity, collaboration - that lasting leadership demands.\n\nAt SIMSREE, the curriculum is only half the story. The other half is what students do alongside it - running committees, organising flagship events, managing the placement process, leading social initiatives. By the time they graduate, they have not just studied management.",
-    boldClosing: 'They have practised it.',
-  },
-  {
-    title: 'Our people.',
-    titleHighlight: 'people.',
-    body: 'None of this happens without the people who make SIMSREE what it is. Our faculty bring scholarship and industry experience in equal measure. Our alumni give back generously - as mentors, recruiters, and advocates. And our students, above all, carry the spirit of the institution forward each year.',
-    pills: ['Faculty · scholar-practitioners', 'Alumni · 5,000+ worldwide', 'Students · 13 committees'],
-  },
-  {
-    title: 'Our programmes.',
-    titleHighlight: 'programmes.',
-    body: "At SIMSREE, we offer full-time master's programmes with specialisations in Finance, HR, Marketing, Operations, and Systems - supported by an active placement cell and a network that extends across India's leading organisations.\n\nOur executive programmes (MFM and MMM) serve working professionals seeking to deepen their expertise. Our doctoral programme produces original research that bridges scholarship and practice.",
-  },
-  {
-    title: 'An invitation.',
-    titleHighlight: 'invitation.',
-    body: "We are proud of our past. We are more excited about what comes next. Whether you are a prospective student weighing your options, a recruiter looking for India's most distinctive management graduates, or an alumnus returning home - I invite you to be part of the SIMSREE story.",
-  },
-];
 
 function imgUrl(image, width) {
   if (!image) return undefined;
@@ -129,82 +103,6 @@ function StackedEmail({ size = 48, className = '' }) {
   );
 }
 
-// Figma: mail_unread — envelope with a filled notification dot (24x24).
-function MailUnread({ size = 24, className = '' }) {
-  return (
-    <svg
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden="true"
-    >
-      <path d="M21 10.5V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9.5" />
-      <path d="m3 7 8.6 5.4a2 2 0 0 0 2.1 0L18 9.8" />
-      <circle cx="19" cy="5" r="2.6" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-// One part of the letter. Figma "Content Left": padding 32, 16 gap —
-// a 12/150 white pill, an H2 52 title in #EAEAF1 with an italic Eastern Blue Light
-// highlight, then 18/150 white copy (24 gap). The first part opens with a teal 52px
-// drop cap and a Playfair H6 22 lead paragraph.
-function DirectorSection({ number, title, titleHighlight, body, boldClosing, pills, lead = false }) {
-  const paras = (body || '').split('\n\n');
-  const first = paras[0] || '';
-  const rest = lead ? paras.slice(1) : paras;
-  return (
-    <div className="p-6 md:p-8 flex flex-col gap-4">
-      {number && (
-        <span className="inline-flex w-fit items-center rounded-2xl bg-white px-2.5 py-1 text-navy-900 text-xs leading-[150%]">
-          {number}
-        </span>
-      )}
-      <div className="flex flex-col gap-6">
-        <Heading
-          text={title}
-          highlight={titleHighlight}
-          className="text-navy-50"
-          highlightClass="text-teal-400 italic"
-        />
-        {lead && first && (
-          <p className="font-display font-medium text-[22px] leading-[140%] tracking-[-0.01em] text-white">
-            {/* Enlarged first letter sits inside the first word, so only the
-                first line carries it and later lines start at the margin. */}
-            <span className="text-[52px] leading-none text-teal-400">{first[0]}</span>
-            {first.slice(1)}
-          </p>
-        )}
-        {(rest.length > 0 || boldClosing) && (
-          <div className="text-base md:text-lg leading-[150%] text-white">
-            {rest.map((para, i) => (
-              <p key={i} className={i > 0 ? 'mt-[1.5em]' : undefined}>
-                {para}
-              </p>
-            ))}
-            {boldClosing && <p className="font-semibold">{boldClosing}</p>}
-          </div>
-        )}
-        {pills?.length > 0 && (
-          <div className="flex flex-wrap gap-3">
-            {pills.map((pl) => (
-              <span key={pl} className="bg-navy-50 text-navy-900 text-xs md:text-sm leading-[150%] px-4 md:px-5 py-2 rounded-full uppercase whitespace-nowrap">
-                {pl}
-              </span>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
 // Figma: 405.33x222 card, radius 16, padding 32; icon sits beside the label,
 // inner stack 341.33x137 with a 16px gap.
 function ContactCard({ icon, label, value, meta, actionLabel, href, to, breakAll }) {
@@ -245,11 +143,9 @@ export default function DirectorMessage() {
   const { data } = useDirectorPageData();
 
   const dp = fillFactsDeep({ ...fallbackDirectorPage, ...(data?.directorPage || {}) }, facts);
-  const sections = fillFactsDeep(data?.sections?.length ? data.sections : fallbackSections, facts);
 
   const quotePhotoUrl = imgUrl(dp.quotePhoto, 192) || '/images/director/avatar.webp';
-  const portraitImageUrl = imgUrl(dp.portraitImage, 1216) || '/images/director/portrait.webp';
-  const signatureUrl = imgUrl(dp.signatureImage, 390);
+  const portraitImageUrl = imgUrl(dp.portraitImage, 1216) || '/images/director/portrait-rupesh-raut.webp';
 
   return (
     <div>
@@ -325,40 +221,38 @@ export default function DirectorMessage() {
         </div>
       </Section>
 
-      {/* Portrait + letter — Figma "Blog / 36 /" on #eaeaf1. A 1280 row (608 photo,
-          64 gap, 608 content padded 32), then the navy letter card, pulled up 154px
-          so it overlaps the portrait. */}
+      {/* Director's message — on #eaeaf1: one Eastern Blue hairline frame holding the
+          portrait (rounded, left) and the letter: title, paragraphs, name and role. */}
       <Section bg="bg-navy-50" width={1280}>
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div id="message" className="scroll-mt-32 grid lg:grid-cols-[minmax(0,420px)_1fr] gap-8 lg:gap-14 p-5 md:p-8 lg:p-10 bg-navy-50 outline outline-1 -outline-offset-1 outline-teal-500">
           <div
-            className="h-[420px] lg:h-[702px] rounded-2xl bg-cover bg-top"
+            className="h-[460px] md:h-[560px] lg:h-full lg:min-h-[640px] rounded-2xl bg-cover bg-center"
             style={{ backgroundImage: `url('${portraitImageUrl}')` }}
+            role="img"
+            aria-label={dp.portraitName}
           />
-          <div className="flex flex-col gap-4 p-2 lg:p-8 lg:pb-[186px]">
-            {signatureUrl && (
-              <img src={signatureUrl} alt="" className="w-[195px] h-[130px] object-contain object-left" />
-            )}
-            <div className="flex flex-col gap-3">
-              <p className="font-display font-medium text-[36px] leading-[130%] tracking-[-0.01em] text-navy-900">
+          <div className="flex flex-col gap-8 lg:py-4">
+            <Heading
+              text={dp.messageTitle}
+              highlight={dp.messageTitleHighlight}
+              className="text-navy-900"
+              highlightClass="text-teal-500 italic"
+            />
+            <div className="flex flex-col gap-[1.25em] text-base md:text-lg leading-[150%] text-black">
+              {(dp.messageBody || '')
+                .split(/\n\s*\n/)
+                .filter(Boolean)
+                .map((para, i) => (
+                  <p key={i}>{para}</p>
+                ))}
+            </div>
+            <div className="flex flex-col gap-2">
+              <p className="font-display font-medium text-[28px] md:text-[36px] leading-[130%] tracking-[-0.01em] text-navy-900">
                 {dp.portraitName}
               </p>
-              <p className="text-lg md:text-[22px] leading-[150%] text-black">{dp.portraitRole}</p>
-            </div>
-            <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm leading-[150%] text-black">
-              <p className="flex items-center gap-4">
-                <PhoneCalling size={24} className="text-navy-900 shrink-0" /> {dp.portraitPhone}
-              </p>
-              <p className="flex items-center gap-4">
-                <MailUnread size={24} className="text-navy-900 shrink-0" /> {dp.portraitEmail}
-              </p>
+              <p className="text-base md:text-lg leading-[150%] text-black">{dp.portraitRole}</p>
             </div>
           </div>
-        </div>
-
-        <div id="message" className="relative z-10 mt-8 lg:-mt-[154px] bg-navy-900 rounded-2xl flex flex-col gap-6">
-          {sections.map((sec, i) => (
-            <DirectorSection key={sec._id || sec.title} {...sec} lead={i === 0} />
-          ))}
         </div>
       </Section>
 
