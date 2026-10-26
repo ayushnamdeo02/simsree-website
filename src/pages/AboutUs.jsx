@@ -333,7 +333,7 @@ export default function AboutUs() {
       {/* Get in touch — Figma "CTA / 57 /" navy: centred 768 column, 32 gap to buttons. */}
       <Section bg="bg-navy-900" width={768} className="text-center">
         <SectionTitle center dark tagline={ap.contactEyebrow} title={ap.contactTitle} body={ap.contactBody} />
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
+        <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 max-sm:[&>*]:w-full">
           {/* Each button shows only when it has a label in the Studio. */}
           {ap.contactPrimaryCtaLabel && <HeroButton label={ap.contactPrimaryCtaLabel} to={ap.contactPrimaryCtaUrl} primary />}
           {ap.contactSecondaryCtaLabel && (

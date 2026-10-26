@@ -183,3 +183,12 @@ body {
   background-color: rgb(255 255 255 / 0.1);
   outline-color: #fff;
 }
+
+/* Wide tables scroll sideways on phones; fade the right edge so the hidden
+   columns read as "more to the right" rather than clipped. */
+@media (max-width: 767px) {
+  .table-scroll {
+    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
+    mask-image: linear-gradient(90deg, #000 85%, transparent);
+  }
+}

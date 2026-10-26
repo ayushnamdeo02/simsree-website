@@ -48,7 +48,7 @@ export function Heading({ text, highlight, className = 'text-navy-900', as: Tag 
   const figmaWrap = useFigmaWrap();
   return (
     <Tag
-      className={`font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em] whitespace-pre-line ${className}`}
+      className={`font-display font-medium text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em] whitespace-pre-line max-md:hyphens-auto max-md:break-words ${className}`}
     >
       <Highlighted text={figmaWrap(text)} highlight={highlight} highlightClass={highlightClass} />
     </Tag>
@@ -116,7 +116,7 @@ export function AccentCard({ accent = 'bg-teal-500', bg = 'bg-white', className 
   return (
     <div className={`rounded-lg overflow-hidden relative flex ${bg} outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${className}`}>
       <span className={`w-[3px] shrink-0 ${accent}`} aria-hidden="true" />
-      <div className="flex-1 min-w-0 py-8 pl-8 pr-8">{children}</div>
+      <div className="flex-1 min-w-0 py-6 px-5 md:py-8 md:pl-8 md:pr-8">{children}</div>
     </div>
   );
 }

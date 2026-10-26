@@ -58,7 +58,7 @@ const TABS = [
 // section (GS team / Chairpersons) is shown.
 function Tabs({ active, tabs, onSelect, className = '' }) {
   return (
-    <div role="tablist" aria-label="Leadership sections" className={`flex flex-wrap justify-center ${className}`}>
+    <div role="tablist" aria-label="Leadership sections" className={`grid grid-cols-2 md:flex md:flex-wrap md:justify-center ${className}`}>
       {tabs.map((t) => (
         <button
           key={t.id}
@@ -68,7 +68,7 @@ function Tabs({ active, tabs, onSelect, className = '' }) {
           aria-controls={t.id}
           aria-selected={t.id === active}
           onClick={() => onSelect(t.id)}
-          className={`h-11 px-4 inline-flex items-center rounded text-base leading-[150%] ${
+          className={`h-11 px-4 inline-flex items-center justify-center rounded text-base leading-[150%] ${
             t.id === active ? 'bg-navy-900 text-white font-medium outline outline-1 -outline-offset-1 outline-black/20' : 'text-black hover:bg-navy-50'
           }`}
         >
@@ -162,7 +162,7 @@ export default function Leadership() {
       {/* CTA — navy, centred 768 column. */}
       <Section bg="bg-navy-900" width={768} className="text-center">
         <SectionTitle center dark tagline={lp.ctaEyebrow} title={lp.ctaTitle} body={lp.ctaBody} />
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
+        <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 max-sm:[&>*]:w-full">
           {lp.ctaButtons.map((b) => (
             <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} />
           ))}

@@ -175,7 +175,7 @@ export default function CampusStory({
       {/* Plan Your Visit — navy "CTA / 57 /": centred 768 column, 32 gaps. */}
       <Section bg="bg-navy-900" width={768} className="text-center">
         <SectionTitle center dark tagline={cp.ctaEyebrow} title={cp.ctaTitle} body={cp.ctaSubtitle} />
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
+        <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 max-sm:[&>*]:w-full">
           {/* Each button shows only when it has a label in the Studio. */}
           {cp.ctaPrimaryLabel && <HeroButton label={cp.ctaPrimaryLabel} to={cp.ctaPrimaryUrl} primary />}
           {cp.ctaSecondaryLabel && (

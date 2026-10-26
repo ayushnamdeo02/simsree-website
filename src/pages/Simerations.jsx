@@ -244,7 +244,7 @@ export default function Simerations() {
       <Section width={1280}>
         <SectionTitle tagline={sp.editionsEyebrow} title={sp.editionsTitle} body={sp.editionsSubtitle} />
         <div className="mt-10 md:mt-12 flex flex-col gap-12">
-          <div className="flex flex-wrap">
+          <div className="flex max-md:overflow-x-auto max-md:-mx-5 max-md:px-5 max-md:[scrollbar-width:none] max-md:[&>*]:shrink-0 max-md:[&>*]:whitespace-nowrap md:flex-wrap">
             {chips.map((c) => (
               <button
                 key={c}
@@ -379,7 +379,7 @@ export default function Simerations() {
       {/* Sponsor CTA — navy, centred 768 column. */}
       <Section bg="bg-navy-900" width={768} className="text-center border-t border-white/20">
         <SectionTitle center dark tagline={sp.sponsorEyebrow} title={sp.sponsorTitle} body={sp.sponsorSubtitle} />
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
+        <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 max-sm:[&>*]:w-full">
           {sponsorButtons.map((b) => (
             <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} />
           ))}

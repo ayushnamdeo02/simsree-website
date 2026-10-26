@@ -243,8 +243,8 @@ export default function Placements() {
         />
         <div className="mt-10 md:mt-12 grid lg:grid-cols-2 gap-10 lg:gap-20">
           {recruiter && (
-            <div className="rounded-xl flex items-center p-8 bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
-              <div className="flex flex-col gap-8">
+            <div className="rounded-xl flex items-center p-6 md:p-8 bg-navy-900 text-white outline outline-1 -outline-offset-1 outline-black/20 shadow-small">
+              <div className="min-w-0 flex flex-col gap-8">
                 <div className="flex flex-col gap-4">
                   <Tagline className="text-white">{recruiter.label}</Tagline>
                   <div className="flex flex-col gap-6">
@@ -256,7 +256,7 @@ export default function Placements() {
                     </ol>
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-col sm:flex-row sm:flex-wrap gap-4 [&>*]:w-full sm:[&>*]:w-auto">
                   <HeroButton label={recruiter.primaryCtaLabel} to={recruiter.primaryCtaUrl} primary />
                   <HeroButton label={recruiter.secondaryCtaLabel} href={recruiter.secondaryCtaUrl} />
                 </div>
@@ -271,10 +271,10 @@ export default function Placements() {
                   <H5 className="text-black">{prospect.title}</H5>
                   <p className="text-base leading-[150%] text-black">{prospect.body}</p>
                 </div>
-                <div className="flex flex-col items-start gap-4">
+                <div className="flex flex-col items-start gap-4 max-sm:[&>*]:w-full">
                   <a
                     href={prospect.primaryCtaUrl}
-                    className="inline-flex items-center gap-3 h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors"
+                    className="inline-flex items-center justify-center gap-3 min-h-11 py-2.5 px-6 max-sm:w-full rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors"
                   >
                     {prospect.primaryCtaLabel} <ArrowUpRight size={24} strokeWidth={1.5} />
                   </a>
@@ -377,7 +377,7 @@ export default function Placements() {
         <div className="max-w-[873px] mx-auto text-center flex flex-col items-center gap-8">
           <SectionTitle center dark tagline={pp.cellEyebrow} title={pp.cellTitle} />
           <p className="-mt-2 max-w-[598px] text-base md:text-lg leading-[150%]">{pp.cellSubtitle}</p>
-          <div className="flex flex-wrap justify-center gap-3.5">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-3.5 max-sm:[&>*]:w-full">
             {cellButtons.map((b) => {
               const isWhatsApp = /whatsapp/i.test(b.label);
               return b.primary ? (
@@ -386,7 +386,7 @@ export default function Placements() {
                 <a
                   key={b.label}
                   href={b.url || '#'}
-                  className="inline-flex items-center gap-2 h-11 px-6 rounded-md bg-white outline outline-1 -outline-offset-1 outline-black/20 text-base leading-[150%] font-medium text-black hover:bg-navy-50 transition-colors"
+                  className="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-md bg-white outline outline-1 -outline-offset-1 outline-black/20 text-base leading-[150%] font-medium text-black hover:bg-navy-50 transition-colors"
                 >
                   {isWhatsApp && <WhatsAppIcon />}
                   {b.label}

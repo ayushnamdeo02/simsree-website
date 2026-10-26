@@ -53,7 +53,7 @@ export default function BreakdownPanel({
   return (
     <figure
       ref={ref}
-      className={`rounded-xl m-0 p-8 flex flex-col gap-6 outline outline-1 -outline-offset-1 outline-black/20 ${dark ? 'bg-navy-900' : 'bg-white'} ${
+      className={`rounded-xl m-0 p-5 md:p-8 flex flex-col gap-6 outline outline-1 -outline-offset-1 outline-black/20 ${dark ? 'bg-navy-900' : 'bg-white'} ${
         accent ? 'border-l-[3px] border-l-teal-500' : ''
       } ${className}`}
     >
@@ -68,8 +68,9 @@ export default function BreakdownPanel({
       )}
       <div className="flex flex-col gap-4">
         {rows.map((r, i) => (
-          <div key={r.label} className="flex items-center gap-6 md:gap-12" title={`${r.label}: ${r.value}%`}>
-            <span className={`shrink-0 text-base leading-[150%] ${upperLabels ? 'uppercase' : ''} ${text}`}>{r.label}</span>
+          // Mobile: label on its own line, then bar + value; desktop: one row.
+          <div key={r.label} className="grid grid-cols-[1fr_auto] items-center gap-x-4 gap-y-1.5 md:flex md:gap-12" title={`${r.label}: ${r.value}%`}>
+            <span className={`col-span-2 md:shrink-0 text-sm md:text-base leading-[150%] ${upperLabels ? 'uppercase' : ''} ${text}`}>{r.label}</span>
             <div className="flex-1 h-[7px] rounded-2xl overflow-hidden" style={{ backgroundColor: track }}>
               <div
                 className="h-full rounded-2xl bar-grow"

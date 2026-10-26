@@ -87,7 +87,10 @@ export default function CareerCatalyst() {
             style={{ backgroundImage: `url('${momentsImage}')` }}
           />
           <div className="flex flex-col justify-center gap-6 p-6 md:p-10 lg:p-12">
-            <Heading text={`${cp.momentsTitle}\n${cp.momentsTitleHighlight}`} highlight={cp.momentsTitleHighlight} />
+            <Heading
+              text={`${(cp.momentsTitle || '').replace(/ (\S+)$/, ' $1')}\n${cp.momentsTitleHighlight}`}
+              highlight={cp.momentsTitleHighlight}
+            />
             <p className="text-base leading-[150%] text-black whitespace-pre-line">{cp.momentsBody}</p>
           </div>
         </div>

@@ -58,6 +58,8 @@ export default function TestimonialCarousel({ testimonials }) {
         })}
       </div>
 
+      {/* Controls only when there is more than one page to move between. */}
+      {pageCount > 1 && (
       <div className="flex items-center justify-between h-12">
         <div className="flex items-center gap-2">
           {Array.from({ length: pageCount }).map((_, i) => (
@@ -85,6 +87,7 @@ export default function TestimonialCarousel({ testimonials }) {
           ))}
         </div>
       </div>
+      )}
     </div>
   );
 }

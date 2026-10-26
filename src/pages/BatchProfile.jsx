@@ -241,7 +241,7 @@ export default function BatchProfile() {
       {/* Recruiter CTA — navy, centred 768 column. */}
       <Section bg="bg-navy-900" width={1280} className="text-center">
         <SectionTitle center dark tagline={bp.ctaEyebrow} title={bp.ctaTitle} body={bp.ctaSubtitle} />
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
+        <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 max-sm:[&>*]:w-full">
           {ctaButtons.map((b) => (
             <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} />
           ))}

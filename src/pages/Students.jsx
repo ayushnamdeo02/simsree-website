@@ -345,7 +345,7 @@ export default function Students() {
       {/* Apply — navy, centred 768 column. */}
       <Section bg="bg-navy-900" width={768} className="text-center">
         <SectionTitle center dark title={sp.ctaTitle} body={sp.ctaSubtitle} />
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
+        <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 max-sm:[&>*]:w-full">
           {ctaButtons.map((b) => (
             <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} />
           ))}

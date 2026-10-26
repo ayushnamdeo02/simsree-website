@@ -1024,7 +1024,7 @@ export default function CommitteeDetail() {
           />
           <div className="mt-10 md:mt-12 grid md:grid-cols-2 gap-6">
             {c.events.map((e) => (
-              <div key={`${e.title}-${e.date}`} className="flex items-center gap-5 md:gap-6 p-5 md:p-6 rounded-xl bg-white outline outline-1 -outline-offset-1 outline-black/15 shadow-small">
+              <div key={`${e.title}-${e.date}`} className="flex items-start md:items-center gap-5 md:gap-6 p-5 md:p-6 rounded-xl bg-white outline outline-1 -outline-offset-1 outline-black/15 shadow-small">
                 <EventDate date={e.date} />
                 <div className="flex-1 min-w-0 flex flex-col items-start gap-2">
                   <H6 as="h3" className="text-black">
@@ -1044,10 +1044,10 @@ export default function CommitteeDetail() {
             ))}
           </div>
           {c.eventsCtaLabel && (
-            <div className="mt-10 md:mt-12 flex justify-center">
+            <div className="mt-10 md:mt-12 flex justify-center max-sm:[&>*]:w-full">
               <Link
                 to={c.eventsCtaUrl || '/events#calendar'}
-                className="inline-flex items-center gap-2 h-11 px-6 rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors"
+                className="inline-flex items-center justify-center gap-2 h-11 px-6 max-sm:w-full rounded-md bg-navy-900 text-white text-base leading-[150%] font-medium hover:bg-navy-800 transition-colors"
               >
                 {c.eventsCtaLabel} <ArrowRight size={20} strokeWidth={1.5} />
               </Link>
@@ -1118,12 +1118,12 @@ export default function CommitteeDetail() {
           )}
           {/* One, two or four members sit centred (1-up / 2-up), at the 3-up card width. */}
           <div
-            className={`mt-10 md:mt-12 grid grid-cols-1 gap-8 ${
+            className={`mt-10 md:mt-12 grid gap-3 md:gap-8 ${
               teamShown.length === 1
-                ? 'max-w-[405px] mx-auto'
+                ? 'grid-cols-1 max-w-[405px] mx-auto'
                 : teamShown.length === 2 || teamShown.length === 4
-                  ? 'md:grid-cols-2 max-w-[842px] mx-auto'
-                  : 'md:grid-cols-2 lg:grid-cols-3'
+                  ? 'grid-cols-2 max-w-[842px] mx-auto'
+                  : 'grid-cols-2 lg:grid-cols-3'
             }`}
           >
             {teamShown.map((m, i) => {
@@ -1133,17 +1133,17 @@ export default function CommitteeDetail() {
               return (
                 <div
                   key={`${m.name}-${i}`}
-                  className="hover-card bg-navy-900 rounded-2xl outline outline-1 -outline-offset-1 outline-white/20 shadow-small p-8 flex flex-col gap-16"
+                  className="hover-card bg-navy-900 rounded-2xl outline outline-1 -outline-offset-1 outline-white/20 shadow-small p-3 md:p-8 flex flex-col gap-3 md:gap-16"
                 >
                   <div
-                    className="h-80 rounded-2xl bg-white/10 bg-cover bg-center"
+                    className="aspect-[342/320] md:aspect-auto md:h-80 rounded-xl md:rounded-2xl bg-white/10 bg-cover bg-center"
                     style={photoUrl ? { backgroundImage: `url('${photoUrl}')` } : undefined}
                   />
-                  <div className="flex flex-col gap-2 text-white">
-                    <H5 as="p" className="text-white">
+                  <div className="flex flex-col gap-1 md:gap-2 text-white">
+                    <H5 as="p" className="text-white max-md:text-base max-md:leading-[130%]">
                       {m.name}
                     </H5>
-                    <p className="text-lg leading-[150%]">{m.role}</p>
+                    <p className="text-sm md:text-lg leading-[150%]">{m.role}</p>
                   </div>
                 </div>
               );

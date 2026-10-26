@@ -163,12 +163,12 @@ const img = (image, fallback, w) =>
 function AchievementRow({ a, photo, defaultOpen }) {
   return (
     <details open={defaultOpen} className="hover-card rounded-lg overflow-hidden group flex bg-white outline outline-1 -outline-offset-1 outline-black/20">
-      <summary className="flex items-stretch cursor-pointer list-none [&::-webkit-details-marker]:hidden">
+      <summary className="flex flex-col md:flex-row md:items-stretch cursor-pointer list-none [&::-webkit-details-marker]:hidden">
         <div
-          className="w-[110px] md:w-48 shrink-0 min-h-[140px] md:min-h-48 bg-navy-50 bg-cover bg-center group-open:md:min-h-[329px]"
+          className="w-full h-[200px] md:h-auto md:w-48 shrink-0 md:min-h-48 bg-navy-50 bg-cover bg-center group-open:md:min-h-[329px]"
           style={photo ? { backgroundImage: `url('${photo}')` } : undefined}
         />
-        <div className="flex-1 min-w-0 flex items-center gap-8 p-5 md:p-8">
+        <div className="flex-1 min-w-0 flex items-start md:items-center gap-4 md:gap-8 p-5 md:p-8">
           <div className="flex-1 min-w-0 flex flex-col gap-4">
             {a.badge && (
               <span className="w-fit px-2.5 py-1 rounded bg-navy-50 outline outline-1 -outline-offset-1 outline-[#d8d8d8] text-sm leading-[150%] uppercase text-navy-900">
@@ -250,7 +250,7 @@ export default function Achievements() {
           1280 rows 32 apart; centred navy "load more". */}
       <Section id="list" width={1280} className="scroll-mt-24">
         <SectionTitle center tagline={ap.filterEyebrow} title={ap.filterTitle} body={ap.filterSubtitle} />
-        <div className="mt-10 md:mt-12 flex flex-wrap justify-center">
+        <div className="mt-10 md:mt-12 flex max-md:overflow-x-auto max-md:-mx-5 max-md:px-5 max-md:[scrollbar-width:none] max-md:[&>*]:shrink-0 max-md:[&>*]:whitespace-nowrap md:flex-wrap md:justify-center">
           {['All', ...CATEGORIES].map((c) => (
             <button
               key={c}
@@ -305,11 +305,11 @@ export default function Achievements() {
                 <HeroButton label={ap.submitCtaLabel} href={ap.submitCtaUrl || '#'} primary />
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-3 gap-3 md:gap-6">
               {submitStats.map((s) => (
-                <div key={s.label} className="flex flex-col gap-4 px-4 py-8">
-                  <span className="font-display font-medium text-[36px] md:text-[44px] leading-[120%] tracking-[-0.01em]"><CountUp value={s.value} /></span>
-                  <span className="text-sm leading-[150%] uppercase">{s.label}</span>
+                <div key={s.label} className="min-w-0 flex flex-col gap-2 md:gap-4 py-6 md:px-4 md:py-8">
+                  <span className="font-display font-medium text-[28px] md:text-[44px] leading-[120%] tracking-[-0.01em]"><CountUp value={s.value} /></span>
+                  <span className="text-xs md:text-sm leading-[150%] uppercase break-words">{s.label}</span>
                 </div>
               ))}
             </div>

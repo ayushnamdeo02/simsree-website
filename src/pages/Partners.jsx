@@ -80,7 +80,7 @@ export default function Partners() {
           body={pp.gridSubtitle}
           titleClass="text-white [&_span]:text-teal-400"
         />
-        <div className="mt-10 md:mt-12 flex flex-wrap gap-2">
+        <div className="mt-10 md:mt-12 flex max-md:overflow-x-auto max-md:-mx-5 max-md:px-5 max-md:[scrollbar-width:none] max-md:[&>*]:shrink-0 max-md:[&>*]:whitespace-nowrap md:flex-wrap gap-2">
           {['All', ...SECTORS].map((s) => (
             <button
               key={s}
@@ -98,9 +98,9 @@ export default function Partners() {
         {visible.length > 0 ? (
           // Figma's mobile frame crams all 8 columns into 33px cells, which overflows
           // the names; 4 shorter columns keep the grid's height without the overflow.
-          <div className="mt-10 md:mt-12 grid grid-cols-4 lg:grid-cols-8 gap-2.5 lg:gap-y-[30px]">
+          <div className="mt-10 md:mt-12 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 lg:gap-y-[30px]">
             {visible.map((p, i) => (
-              <PartnerTile key={p._id || `${p.name}-${i}`} partner={p} className="h-[78px] lg:h-[148px] p-1.5 lg:p-3" />
+              <PartnerTile key={p._id || `${p.name}-${i}`} partner={p} className="h-[100px] lg:h-[148px] p-2 lg:p-3" />
             ))}
           </div>
         ) : (

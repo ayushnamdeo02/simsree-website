@@ -3,14 +3,14 @@ import CountUp from './CountUp';
 export default function StatCard({ label, value, dark = false, smallUnit = false }) {
   // Figma: Body Regular Normal · 16/150 — Neutral/Lightest on navy, Neutral/Base on white.
   const labelEl = (
-    <span className={`text-base leading-[150%] uppercase ${dark ? 'text-ink-50' : 'text-ink-400'}`}>
+    <span className={`text-sm md:text-base leading-[150%] uppercase break-words ${dark ? 'text-ink-50' : 'text-ink-400'}`}>
       {label}
     </span>
   );
   // Figma: Heading H2 · Playfair Medium 52/120, -0.5 tracking.
   const valueEl = (
     <span
-      className={`font-display text-[36px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em] font-medium ${
+      className={`font-display text-[36px] max-[359px]:text-[30px] leading-[130%] md:text-[52px] md:leading-[120%] tracking-[-0.01em] font-medium ${
         dark ? 'text-white' : 'text-navy-900'
       }`}
     >

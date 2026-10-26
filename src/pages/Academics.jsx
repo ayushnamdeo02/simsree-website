@@ -497,7 +497,7 @@ export default function Academics() {
           highlight={ap.compareTitleHighlight}
           body={ap.compareSubtitle}
         />
-        <div className="mt-12 overflow-x-auto rounded-lg">
+        <div className="mt-12 overflow-x-auto rounded-lg table-scroll">
           <table className="w-full min-w-[900px] border-collapse text-left">
             <thead>
               <tr className="bg-navy-900 text-hero h-16">

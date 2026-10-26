@@ -306,7 +306,7 @@ export default function News() {
     <div className="bg-white">
       {/* Hero — white. 674 copy column (72px title, 18/150 body, dot tags) | 532
           collage of four photos in two 12-gapped rows. */}
-      <section className="px-5 md:px-[55px] pt-[222px] lg:pt-[204px] pb-[72px]">
+      <section className="px-5 md:px-[55px] pt-10 md:pt-[222px] lg:pt-[204px] pb-[72px]">
         <div className="max-w-[1330px] mx-auto grid lg:grid-cols-[762px_532px] justify-between gap-9 items-center">
           <div className="flex flex-col gap-4">
             <div className="max-w-[674px] flex flex-col gap-6 lg:gap-8">
@@ -435,7 +435,7 @@ export default function News() {
             <Heading text={np.listTitle} className="text-navy-900" />
             <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-8">
               <span className="text-sm leading-[150%] font-semibold uppercase text-black">{np.filterLabel}:</span>
-              <div className="flex flex-wrap">
+              <div className="flex max-md:overflow-x-auto max-md:-mx-5 max-md:px-5 max-md:[scrollbar-width:none] max-md:[&>*]:shrink-0 max-md:[&>*]:whitespace-nowrap md:flex-wrap">
                 {chips.map((c) => (
                   <button
                     key={c}
@@ -649,7 +649,7 @@ export default function News() {
 
                 <button
                   type="submit"
-                  className="mt-6 h-11 px-6 rounded-md bg-navy-900 hover:bg-navy-800 outline outline-1 -outline-offset-1 outline-navy-900 text-white text-base leading-[150%] font-medium inline-flex items-center gap-3 transition-colors"
+                  className="mt-6 h-11 px-6 rounded-md bg-navy-900 hover:bg-navy-800 outline outline-1 -outline-offset-1 outline-navy-900 text-white text-base leading-[150%] font-medium inline-flex items-center justify-center max-sm:w-full gap-3 transition-colors"
                 >
                   {sending && <Loader2 size={20} className="animate-spin" />}
                   {sending ? 'Sending…' : np.pressSubmitLabel}

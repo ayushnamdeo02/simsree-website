@@ -288,7 +288,7 @@ export default function Events() {
         </div>
 
         <div className="mt-10 md:mt-12 flex flex-col gap-12">
-          <div className="flex flex-wrap">
+          <div className="flex max-md:overflow-x-auto max-md:-mx-5 max-md:px-5 max-md:[scrollbar-width:none] max-md:[&>*]:shrink-0 max-md:[&>*]:whitespace-nowrap md:flex-wrap">
             {chips.map((c) => (
               <button
                 key={c.label}

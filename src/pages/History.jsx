@@ -155,7 +155,7 @@ const VALUE_ICONS = {
 function CardHeading({ text, dark = false }) {
   return (
     <div className="flex items-center gap-6">
-      <span className={`h-px flex-1 ${dark ? 'bg-white/20' : 'bg-black/20'}`} aria-hidden="true" />
+      <span className={`hidden md:block h-px flex-1 ${dark ? 'bg-white/20' : 'bg-black/20'}`} aria-hidden="true" />
       <h3
         className={`font-display font-medium text-[32px] md:text-[44px] leading-[120%] tracking-[-0.01em] shrink-0 ${
           dark ? 'text-white' : 'text-navy-900'
@@ -171,7 +171,7 @@ function CardHeading({ text, dark = false }) {
 function StatementRow({ n, text, dark = false }) {
   return (
     <li
-      className={`rounded flex items-center gap-5 px-4 py-3 min-h-[47px] outline outline-1 -outline-offset-1 ${
+      className={`rounded flex items-center gap-3 md:gap-5 px-3 md:px-4 py-3 min-h-[47px] outline outline-1 -outline-offset-1 ${
         dark ? 'outline-white/20' : 'outline-black/20 shadow-small'
       }`}
     >
@@ -198,7 +198,7 @@ function TimelineCard({ category, title, description, source, align = 'left', va
   return (
     <div
       className={`${v.card} rounded-2xl p-6 md:p-8 outline outline-1 -outline-offset-1 outline-black/20 shadow-small ${
-        right ? 'text-right' : 'text-left'
+        right ? 'text-left lg:text-right' : 'text-left'
       }`}
     >
       {/* The year itself sits in the large faded figure beside the spine (and in

@@ -298,7 +298,7 @@ export default function RecruiterEngagement() {
                             onBlur={() => handleBlur(f.name)}
                             placeholder={f.placeholder}
                             aria-invalid={!!err}
-                            className={`${base} resize-y`}
+                            className={`${base} resize-y max-md:min-h-[76px]`}
                           />
                         ) : (
                           <input
@@ -342,7 +342,7 @@ export default function RecruiterEngagement() {
 
                 <button
                   type="submit"
-                  className="mt-6 h-11 bg-navy-900 hover:bg-navy-800 disabled:hover:bg-navy-900 transition-colors text-white text-base leading-[150%] font-medium px-6 rounded-md flex items-center gap-2"
+                  className="mt-6 h-11 bg-navy-900 hover:bg-navy-800 disabled:hover:bg-navy-900 transition-colors text-white text-base leading-[150%] font-medium px-6 rounded-md flex items-center justify-center max-sm:w-full gap-2"
                 >
                   {sending && <Loader2 size={15} className="animate-spin" />}
                   {sending ? 'Sending…' : rp.submitLabel}

@@ -24,7 +24,7 @@ const GRADIENT_MOBILE =
 // Blue with a 12px icon gap and arrow (tone="navy" makes it Astronaut navy);
 // secondary is white with a 20% black hairline.
 export function HeroButton({ label, to, href, onClick, pressed, primary = false, tone, icon = primary, download, className = '' }) {
-  const cls = `${className} ${primary && tone !== 'navy' ? 'hero-btn-primary' : primary ? '' : 'hero-btn-secondary'} inline-flex items-center justify-center h-11 px-6 rounded-md text-base leading-[150%] font-medium whitespace-nowrap transition-colors ${
+  const cls = `${className} ${primary && tone !== 'navy' ? 'hero-btn-primary' : primary ? '' : 'hero-btn-secondary'} inline-flex items-center justify-center min-h-11 md:h-11 max-w-full px-6 py-2.5 md:py-0 rounded-md text-base leading-[150%] font-medium text-center max-md:whitespace-normal md:whitespace-nowrap transition-colors ${
     primary && tone === 'navy'
       ? 'gap-3 bg-navy-900 outline outline-1 -outline-offset-1 outline-navy-900 text-white hover:bg-navy-800'
       : primary
@@ -61,7 +61,8 @@ export function HeroButton({ label, to, href, onClick, pressed, primary = false,
 // A word joiner after a hyphen between letters stops the title wrapping inside
 // the word ("Course Co-" / "ordinators"), so "Co-ordinators" moves down whole.
 const keepHyphenated = (text) =>
-  typeof text === 'string' ? text.replace(/(\p{L})-(?=\p{L})/gu, '$1-⁠') : text;
+  // ...and a spaced dash (" - ") stays with the word before it instead of starting a line.
+  typeof text === 'string' ? text.replace(/(\p{L})-(?=\p{L})/gu, '$1-⁠').replace(/ - /g, ' - ') : text;
 
 /**
  * @param image        background photo URL (Sanity or /images/… fallback)
@@ -161,7 +162,7 @@ export default function PageHero({
           ))}
 
         <h1
-          className={`font-display font-medium ${mobileTitle} tracking-[-0.01em] md:text-[72px] md:leading-[120%] whitespace-pre-line`}
+          className={`font-display font-medium ${mobileTitle} tracking-[-0.01em] md:text-[72px] md:leading-[120%] whitespace-pre-line max-md:hyphens-auto max-md:break-words`}
           style={{ maxWidth: titleWidth }}
         >
           {titleItalic ? (
@@ -183,10 +184,10 @@ export default function PageHero({
           <div
             className={`mt-8 gap-4 md:flex md:flex-row md:flex-wrap md:items-center ${
               mobileActions === 'grid'
-                ? 'grid grid-cols-2 [&>*]:w-full md:[&>*]:w-auto'
+                ? 'grid grid-cols-2 [&>*]:w-full md:[&>*]:w-auto max-md:[&>*]:px-3 max-md:[&_svg]:hidden'
                 : mobileActions === 'full'
                   ? 'flex flex-col [&>*]:w-full md:[&>*]:w-auto'
-                  : 'flex flex-col items-start'
+                  : 'flex flex-col [&>*]:w-full md:[&>*]:w-auto'
             }`}
           >
             {actions.map(({ mobileLast, ...a }) => (

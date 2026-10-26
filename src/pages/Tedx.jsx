@@ -240,11 +240,11 @@ export default function Tedx() {
   return (
     <div className="bg-white">
       {/* Hero — two-column, not a photo hero */}
-      <section className="bg-white pt-32 pb-12 lg:pt-36 lg:pb-16">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
+      <section className="bg-white pt-10 md:pt-32 pb-12 lg:pt-36 lg:pb-16">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
             <div>
-              <span className="text-[11px] font-semibold tracking-widest uppercase text-navy-900 mb-4 block">
+              <span className="text-[13px] md:text-[11px] font-semibold tracking-widest uppercase text-navy-900 mb-4 block">
                 {tp.heroEyebrow}
               </span>
               <h1 className="font-display text-4xl md:text-5xl font-semibold text-navy-900 mb-5">
@@ -290,9 +290,9 @@ export default function Tedx() {
       {/* Navy fact strip */}
       {factStrip.length > 0 && (
         <section className="bg-navy-900 text-white py-4">
-          <div className="max-w-[1280px] mx-auto px-6 lg:px-0 flex flex-wrap items-center gap-x-8 gap-y-2">
+          <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0 flex flex-wrap items-center gap-x-8 gap-y-2">
             {factStrip.map((f) => (
-              <span key={f} className="text-[10px] font-semibold tracking-widest uppercase">
+              <span key={f} className="text-xs md:text-[10px] font-semibold tracking-widest uppercase">
                 {f}
               </span>
             ))}
@@ -302,7 +302,7 @@ export default function Tedx() {
 
       {/* What we do */}
       <section className="py-12 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center mb-12">
             <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
               {tp.whatEyebrow}
@@ -327,7 +327,7 @@ export default function Tedx() {
                     style={imgUrl ? { backgroundImage: `url('${imgUrl}')` } : undefined}
                   />
                   <div className="p-6 flex flex-col flex-1">
-                    <span className="text-[11px] font-semibold text-ink-400 mb-3">
+                    <span className="text-[13px] md:text-[11px] font-semibold text-ink-400 mb-3">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     <h3 className="font-display text-lg font-semibold text-navy-900 mb-3">
@@ -352,7 +352,7 @@ export default function Tedx() {
 
       {/* Editions */}
       <section id="editions" className="py-12 lg:py-20 scroll-mt-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center mb-12">
             <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
               {tp.editionsEyebrow}
@@ -379,11 +379,11 @@ export default function Tedx() {
                 >
                   <div className="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/30 to-transparent" />
                   <div className="absolute inset-0 p-5 flex flex-col justify-end text-white">
-                    <span className="text-[10px] font-semibold tracking-widest uppercase text-white/70 mb-1">
+                    <span className="text-xs md:text-[10px] font-semibold tracking-widest uppercase text-white/70 mb-1">
                       {e.year}
                     </span>
                     <h3 className="font-display text-xl font-semibold mb-1">{e.theme}</h3>
-                    <p className="text-[11px] text-white/75 leading-relaxed">{e.description}</p>
+                    <p className="text-[13px] md:text-[11px] text-white/75 leading-relaxed">{e.description}</p>
                   </div>
                 </div>
               );
@@ -405,7 +405,7 @@ export default function Tedx() {
 
       {/* Reach */}
       <section className="bg-navy-900 text-white py-12 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center mb-12">
             <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
               {tp.reachEyebrow}
@@ -421,7 +421,7 @@ export default function Tedx() {
               <div key={s.label} className="border-t border-white/20 pt-5">
                 <p className="font-display text-4xl font-semibold mb-2"><CountUp value={s.value} /></p>
                 <p className="text-xs font-medium mb-2">{s.label}</p>
-                <p className="text-[11px] text-white/55 leading-relaxed">{s.note}</p>
+                <p className="text-[13px] md:text-[11px] text-white/55 leading-relaxed">{s.note}</p>
               </div>
             ))}
           </div>
@@ -430,7 +430,7 @@ export default function Tedx() {
 
       {/* Themes */}
       <section className="py-12 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center mb-12">
             <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
               {tp.themesEyebrow}
@@ -459,13 +459,13 @@ export default function Tedx() {
                       </span>
                     )}
                     <h3 className="font-display text-lg font-semibold mb-2">{c.title}</h3>
-                    <p className="text-[11px] text-white/75 leading-relaxed mb-3">
+                    <p className="text-[13px] md:text-[11px] text-white/75 leading-relaxed mb-3">
                       {c.description}
                     </p>
                     {c.linkLabel && (
                       <a
                         href={c.linkUrl || '#'}
-                        className="text-[11px] font-medium text-white inline-flex items-center gap-1"
+                        className="text-[13px] md:text-[11px] font-medium text-white inline-flex items-center gap-1"
                       >
                         {c.linkLabel} <ChevronRight size={12} />
                       </a>
@@ -480,7 +480,7 @@ export default function Tedx() {
 
       {/* Talks */}
       <section id="talks" className="py-12 lg:py-20 scroll-mt-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center mb-12">
             <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
               {tp.talksEyebrow}
@@ -509,12 +509,12 @@ export default function Tedx() {
                   <h3 className="font-display text-base font-semibold text-navy-900 mb-1">
                     {t.speaker}
                   </h3>
-                  <p className="text-[11px] text-ink-400 mb-2">{t.role}</p>
-                  <p className="text-[11px] text-ink-600 leading-relaxed mb-3">{t.title}</p>
+                  <p className="text-[13px] md:text-[11px] text-ink-400 mb-2">{t.role}</p>
+                  <p className="text-[13px] md:text-[11px] text-ink-600 leading-relaxed mb-3">{t.title}</p>
                   {t.watchLabel !== null && (
                     <a
                       href={t.watchUrl || '#'}
-                      className="text-[11px] font-medium text-navy-900 inline-flex items-center gap-1 mt-auto"
+                      className="text-[13px] md:text-[11px] font-medium text-navy-900 inline-flex items-center gap-1 mt-auto"
                     >
                       <Play size={11} /> {t.watchLabel || 'Watch the talk'}
                     </a>
@@ -528,7 +528,7 @@ export default function Tedx() {
 
       {/* Get involved */}
       <section id="involved" className="py-12 lg:py-20 scroll-mt-24">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center mb-12">
             <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
               {tp.involvedEyebrow}
@@ -543,7 +543,7 @@ export default function Tedx() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {involvedCards.map((c, i) => (
               <div key={c.title} className="border border-navy-100 rounded-lg p-6 flex flex-col">
-                <span className="text-[11px] font-semibold text-ink-400 mb-3">
+                <span className="text-[13px] md:text-[11px] font-semibold text-ink-400 mb-3">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <h3 className="font-display text-lg font-semibold text-navy-900 mb-3">
@@ -566,7 +566,7 @@ export default function Tedx() {
 
       {/* History */}
       <section className="bg-navy-900 text-white py-12 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0">
           <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
             {tp.historyEyebrow}
           </span>
@@ -584,7 +584,7 @@ export default function Tedx() {
             {milestones.map((m, i) => (
               <li key={m._id || m.title} className="flex gap-5 pb-10 last:pb-0">
                 <div className="flex flex-col items-center shrink-0">
-                  <span className="w-9 h-9 rounded-full border border-white/30 flex items-center justify-center text-[11px] font-semibold">
+                  <span className="w-9 h-9 rounded-full border border-white/30 flex items-center justify-center text-[13px] md:text-[11px] font-semibold">
                     {String(m.order ?? i + 1).padStart(2, '0')}
                   </span>
                   {i < milestones.length - 1 && (
@@ -603,7 +603,7 @@ export default function Tedx() {
 
       {/* Licence */}
       <section className="py-12 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14 items-start">
             <div>
               <span className="text-xs font-semibold tracking-widest uppercase text-navy-900">
@@ -640,7 +640,7 @@ export default function Tedx() {
 
       {/* Closing CTA */}
       <section className="bg-navy-900 text-white py-12 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0 text-center">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0 text-center">
           <span className="text-xs font-semibold tracking-widest uppercase text-white/70">
             {tp.ctaEyebrow}
           </span>
@@ -652,12 +652,12 @@ export default function Tedx() {
           <p className="text-sm text-white/75 mb-8 max-w-xl mx-auto leading-relaxed">
             {tp.ctaSubtitle}
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-3 max-sm:[&>*]:w-full">
             {ctaButtons.map((b) => (
               <a
                 key={b.label}
                 href={b.url || '#'}
-                className={`text-sm font-medium px-4 py-2.5 rounded-md transition-colors ${
+                className={`text-center text-sm font-medium px-4 py-2.5 rounded-md transition-colors ${
                   b.primary
                     ? 'bg-sky-600 hover:bg-teal-600 text-white'
                     : 'bg-white hover:bg-gray-100 text-navy-900'

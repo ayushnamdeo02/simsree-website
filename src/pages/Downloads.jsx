@@ -155,7 +155,7 @@ export default function Downloads() {
               <AccentCard key={f._id || f.title} className="min-h-[298px] [&>div]:flex [&>div]:flex-col">
                 <div className="flex-1 flex flex-col justify-between gap-6">
                   <div className="flex flex-col gap-4">
-                    <H5 as="h3">{f.title}</H5>
+                    <H5 as="h3">{(f.title || '').replace(/ · /g, ' · ')}</H5>
                     <p className="text-base leading-[150%] text-black">{f.description}</p>
                   </div>
                   <a

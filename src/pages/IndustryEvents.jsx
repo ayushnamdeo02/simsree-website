@@ -138,7 +138,7 @@ const TABS = [...SECTIONS.map((s) => ({ id: s.id, label: s.tab })), { id: archiv
 // all three sections, each under its own bar, so a tab jumps to its section.
 function Tabs({ active, onSelect }) {
   return (
-    <nav aria-label="Industry events sections" className="flex flex-wrap max-md:justify-center">
+    <nav aria-label="Industry events sections" className="flex max-md:overflow-x-auto max-md:-mx-5 max-md:px-5 max-md:[scrollbar-width:none] max-md:[&>*]:shrink-0 max-md:[&>*]:whitespace-nowrap md:flex-wrap md:justify-center">
       {TABS.map((t) => (
         <a
           key={t.id}
@@ -203,7 +203,7 @@ export default function IndustryEvents() {
       <Section id={archive.id} width={1280} className={`scroll-mt-24 ${tab === archive.id ? '' : 'hidden'}`}>
         <Tabs active={archive.id} onSelect={setTab} />
         <SectionTitle className="mt-12" tagline={archive.eyebrow} title={archive.title} highlight={archive.highlight} body={archive.body} />
-        <div className="mt-12 overflow-x-auto rounded-lg">
+        <div className="mt-12 overflow-x-auto rounded-lg table-scroll">
           <table className="w-full min-w-[1000px] border-collapse text-left">
             <thead>
               <tr className="bg-navy-900 text-white">

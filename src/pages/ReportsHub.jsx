@@ -170,7 +170,7 @@ export default function ReportsHub() {
       <Section className="border-t border-white/20" width={1280}>
         {/* Tabs — Figma "Filters": 818 wide, centred; active tab navy Medium with a
             3px Eastern Blue underline, others #6c709d. */}
-        <div role="tablist" aria-label="Placement reports" className="flex flex-wrap justify-center">
+        <div role="tablist" aria-label="Placement reports" className="flex max-md:overflow-x-auto max-md:-mx-5 max-md:px-5 max-md:[scrollbar-width:none] max-md:[&>*]:shrink-0 max-md:[&>*]:whitespace-nowrap md:flex-wrap md:justify-center">
           {tabs.map((t, i) => (
             <button
               key={t._id || t.tabLabel}

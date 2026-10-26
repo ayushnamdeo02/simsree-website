@@ -193,7 +193,7 @@ export default function DevProgrammes() {
       {/* Tracks — centred underline tabs (active navy 500 over a 3px Eastern Blue
           rule, others #6c709d), then the tab's title and content 64 below. */}
       <Section id="tabs" width={1280} className="scroll-mt-24">
-        <div role="tablist" aria-label="Programme tracks" className="flex flex-wrap justify-center">
+        <div role="tablist" aria-label="Programme tracks" className="flex max-md:overflow-x-auto max-md:-mx-5 max-md:px-5 max-md:[scrollbar-width:none] max-md:[&>*]:shrink-0 max-md:[&>*]:whitespace-nowrap md:flex-wrap md:justify-center">
           {tabs.map((t, i) => (
             <button
               key={t}
@@ -216,7 +216,7 @@ export default function DevProgrammes() {
             <div className="flex flex-col gap-12">
               <SectionTitle tagline={dp.mdpEyebrow} title={dp.mdpTitle} body={dp.mdpSubtitle} />
               {/* Figma table: navy 64px header (14/150 white uppercase), 64px white rows. */}
-              <div className="overflow-x-auto rounded-lg">
+              <div className="overflow-x-auto rounded-lg table-scroll">
                 <table className="w-full min-w-[900px] border-collapse text-left">
                   <thead>
                     <tr className="bg-navy-900 text-white">
@@ -287,7 +287,7 @@ export default function DevProgrammes() {
       {/* Calendar — centred title, radius-4 filter tabs, wide session cards. */}
       <Section id="calendar" width={1280} className="scroll-mt-24">
         <SectionTitle center tagline={dp.calendarEyebrow} title={dp.calendarTitle} body={dp.calendarSubtitle} />
-        <div className="mt-10 md:mt-12 flex flex-wrap justify-center">
+        <div className="mt-10 md:mt-12 flex max-md:overflow-x-auto max-md:-mx-5 max-md:px-5 max-md:[scrollbar-width:none] max-md:[&>*]:shrink-0 max-md:[&>*]:whitespace-nowrap md:flex-wrap md:justify-center">
           {trackChips.map((c) => (
             <button
               key={c}
@@ -345,7 +345,7 @@ export default function DevProgrammes() {
       <section className="bg-navy-900 px-5 py-12 md:px-16 md:py-20">
         <div className="max-w-[768px] mx-auto text-center">
           <SectionTitle center dark tagline={dp.ctaEyebrow} title={dp.ctaTitle} body={dp.ctaSubtitle} />
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
+          <div className="mt-8 flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 max-sm:[&>*]:w-full">
             {ctaButtons.map((b) => (
               <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} />
             ))}

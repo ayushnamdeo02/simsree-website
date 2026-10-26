@@ -451,7 +451,7 @@ export default function Contact() {
 
           <button
             type="submit"
-            className="mt-2 h-11 px-6 rounded-md bg-teal-500 hover:bg-teal-600 outline outline-1 -outline-offset-1 outline-teal-500 text-white text-base leading-[150%] font-medium inline-flex items-center gap-2 transition-colors"
+            className="mt-2 h-11 px-6 rounded-md bg-teal-500 hover:bg-teal-600 outline outline-1 -outline-offset-1 outline-teal-500 text-white text-base leading-[150%] font-medium inline-flex items-center justify-center max-sm:w-full gap-2 transition-colors"
           >
             {sending && <Loader2 size={20} className="animate-spin" />}
             {sending ? 'Sending…' : submitLabel}

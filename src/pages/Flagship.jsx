@@ -272,10 +272,10 @@ export default function Flagship() {
     <div className="bg-white">
       {/* Hero — white. 628 copy column (tag, 72px three-line title, 18/150 body,
           button + 36px stats) | 647 collage of four photos in two 12-gapped rows. */}
-      <section className="px-5 md:px-[55px] pt-[222px] lg:pt-[204px] pb-[72px]">
+      <section className="px-5 md:px-[55px] pt-10 md:pt-[222px] lg:pt-[204px] pb-[72px]">
         <div className="max-w-[1330px] mx-auto grid lg:grid-cols-[647px_647px] justify-between gap-9 items-center">
           <div className="flex flex-col gap-4">
-            <div className="max-lg:px-6 max-w-[628px] flex flex-col gap-4">
+            <div className="max-md:px-0 md:max-lg:px-6 max-w-[628px] flex flex-col gap-4">
               <BlueTag>{fp.heroEyebrow}</BlueTag>
               <h1 className="font-display font-medium text-[36px] leading-[130%] md:text-[72px] md:leading-[120%] tracking-[-0.01em] text-navy-900">
                 {heroLines.map((l, i) => (
@@ -501,7 +501,7 @@ export default function Flagship() {
             {fp.ctaTitle}
           </h2>
           {fp.ctaSubtitle && <p className="-mt-2 text-base md:text-lg leading-[150%]">{fp.ctaSubtitle}</p>}
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-4 max-sm:[&>*]:w-full">
             {ctaButtons.map((b) => (
               <HeroButton key={b.label} label={b.label} href={b.url} primary={b.primary} />
             ))}
