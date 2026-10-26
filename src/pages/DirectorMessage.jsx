@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MapPin } from 'lucide-react';
 import { useDirectorPageData } from '../lib/useDirectorPageData';
 import PageHero from '../components/PageHero';
 import { Section, Heading, Highlighted } from '../components/ui';
@@ -12,8 +12,8 @@ const fallbackDirectorPage = {
   heroEyebrow: 'Office of the Director · Since 2021',
   heroTitle: 'A word from the Director.',
   heroTitleHighlight: 'Director.',
-  heroDescription: 'Dr. Shriniwas Dhure on what SIMSREE stands for, the character it forges, and where the institution is heading next.',
-  heroName: 'Dr. Shriniwas Dhure',
+  heroDescription: 'Dr. Rupesh Raut on what SIMSREE stands for, the character it forges, and where the institution is heading next.',
+  heroName: 'Dr. Rupesh Raut',
   heroRole: 'Director · SIMSREE',
   heroStats: [
     { value: '22 yrs', label: 'In Management Education' },
@@ -26,8 +26,8 @@ const fallbackDirectorPage = {
 
   quoteText: 'SIMSREE has always stood for something beyond a degree - for character forged through initiative, responsibility, and a deep engagement with the world of business.',
   quoteHighlight: 'beyond a degree',
-  quoteName: 'Dr. Shriniwas Dhure',
-  quoteMeta: 'Director, SIMSREE · 2021–present',
+  quoteName: 'Dr. Rupesh Raut',
+  quoteMeta: 'Director, SIMSREE',
 
   messageTitle: "Director's Message",
   messageTitleHighlight: 'Message',
@@ -42,11 +42,40 @@ const fallbackDirectorPage = {
   contactTitle: 'Get in touch.',
   contactTitleHighlight: 'touch.',
   contactSubtitle: "For institutional matters, partnerships, recruiter relationships, and campus visits - the Director's office is here.",
+  contactLocation: "Director's office - 3rd Floor, SIMSREE",
   contactCallNumber: '022 6151 0700',
   contactCallLabel: 'PA to Director · Mon–Sat · 11am–7pm',
   contactEmailAddress: 'director@simsree.org',
   contactEmailLabel: 'Institutional matters · partnerships · visits',
 };
+
+const fallbackSections = [
+  {
+    title: "Learning Beyond the Classroom",
+    titleHighlight: "Classroom",
+    body: "At SIMSREE, education extends beyond textbooks and examinations. We encourage our students to think critically, analyze deeply, communicate effectively and apply knowledge to real-world situations.\n\nOur programmes are enriched through industry interaction, experiential learning, research, entrepreneurship initiatives, live projects and professional engagement. Supported by our committed faculty, dedicated administration, vibrant student community and accomplished alumni network, we strive to provide an environment where curiosity is encouraged and ideas are translated into meaningful outcomes. Our educational philosophy is anchored in five enduring values:\n\nExcellence | Collaboration | Integrity | Wisdom | Empathy\nThese values encourage our students to combine professional competence with ethical responsibility and a broader understanding of their role in society.",
+  },
+  {
+    title: "A Meaningful Partnership with Industry",
+    titleHighlight: "with Industry",
+    body: "Industry is an important part of the SIMSREE ecosystem. We value our corporate partners not only as recruiters, but as partners in learning and knowledge creation. Their participation through internships, live projects, guest sessions, industry interactions, research, mentoring and recruitment helps students understand contemporary business challenges and workplace expectations.\n\nAt the same time, our students bring fresh perspectives, analytical capabilities, enthusiasm and innovative ideas to organizations. We welcome deeper engagement with businesses and institutions that share our commitment to developing talent, exchanging knowledge and creating meaningful value.",
+  },
+  {
+    title: "To Our Students",
+    titleHighlight: "Students",
+    body: "To our prospective students, I invite you to look beyond a management qualification. Use your time at SIMSREE to question, explore, experiment, collaborate and discover your strengths. Develop a strong foundation in management, but also cultivate curiosity, integrity, adaptability and the confidence to make informed decisions. The SIMSREE experience should equip you not only with knowledge, but with the perspective and capabilities to navigate diverse professional and social environments.",
+  },
+  {
+    title: "To Our Alumni and Partners",
+    titleHighlight: "and Partners",
+    body: "Our alumni remain an important part of the Sydenham family. Their accomplishments across industries and geographies reflect the enduring value of the SIMSREE experience. We look forward to strengthening these relationships and creating greater opportunities for alumni to engage with our students and institution. To our corporate and academic partners, I extend an invitation to collaborate with us in education, research, innovation, talent development and knowledge exchange.",
+  },
+  {
+    title: "Continuing the Sydenham Tradition",
+    titleHighlight: "Sydenham Tradition",
+    body: "As SIMSREE moves ahead, our commitment is clear: to preserve our heritage while continuously improving the quality and relevance of management education. We aspire to create an institution where:\nKnowledge meets application.\nIdeas meet opportunity.\nAcademia meets industry.\nAnd excellence is guided by values.\nI warmly invite you to become a part of the SIMSREE journey - whether as a student, corporate partner, academic collaborator or alumnus. Together, let us continue to strengthen the Sydenham legacy of excellence, integrity and achievement.\n\nDr. Rupesh Raut\nDirector, SIMSREE",
+  },
+];
 
 function imgUrl(image, width) {
   if (!image) return undefined;
@@ -103,6 +132,29 @@ function StackedEmail({ size = 48, className = '' }) {
   );
 }
 
+// One part of the letter (Figma "Content Left", no number badge): an H2 title in
+// #EAEAF1 with an italic Eastern Blue highlight; the first part opens with a Playfair
+// lead paragraph. Blank lines split paragraphs; single line breaks are kept.
+function DirectorSection({ title, titleHighlight, body, lead }) {
+  const paras = (body || '').split(/\n\s*\n/).filter(Boolean);
+  const rest = lead ? paras.slice(1) : paras;
+  return (
+    <div className="p-6 md:p-8 flex flex-col gap-6">
+      <Heading text={title} highlight={titleHighlight} className="text-navy-50" highlightClass="text-teal-400 italic" />
+      {lead && paras[0] && (
+        <p className="font-display font-medium text-[20px] md:text-[22px] leading-[140%] tracking-[-0.01em] text-white">{paras[0]}</p>
+      )}
+      <div className="flex flex-col gap-[1.5em] text-base md:text-lg leading-[150%] text-white">
+        {rest.map((para, i) => (
+          <p key={i} className="whitespace-pre-line">
+            {para}
+          </p>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // Figma: 405.33x222 card, radius 16, padding 32; icon sits beside the label,
 // inner stack 341.33x137 with a 16px gap.
 function ContactCard({ icon, label, value, meta, actionLabel, href, to, breakAll }) {
@@ -143,8 +195,9 @@ export default function DirectorMessage() {
   const { data } = useDirectorPageData();
 
   const dp = fillFactsDeep({ ...fallbackDirectorPage, ...(data?.directorPage || {}) }, facts);
+  const sections = fillFactsDeep(data?.sections?.length ? data.sections : fallbackSections, facts);
 
-  const quotePhotoUrl = imgUrl(dp.quotePhoto, 192) || '/images/director/avatar.webp';
+  const quotePhotoUrl = imgUrl(dp.quotePhoto, 192) || '/images/director/avatar-rupesh-raut.webp';
   const portraitImageUrl = imgUrl(dp.portraitImage, 1216) || '/images/director/portrait-rupesh-raut.webp';
 
   return (
@@ -254,6 +307,11 @@ export default function DirectorMessage() {
             </div>
           </div>
         </div>
+        <div className="mt-8 md:mt-12 bg-navy-900 rounded-2xl flex flex-col gap-6 md:gap-10 py-2 md:py-4">
+          {sections.map((sec, i) => (
+            <DirectorSection key={sec._id || sec.title} {...sec} lead={i === 0} />
+          ))}
+        </div>
       </Section>
 
       {/* Get in Touch — 1280 section, 80px gap, two cards: Call | Email (Figma) */}
@@ -270,6 +328,11 @@ export default function DirectorMessage() {
             />
             {/* Figma: Text/Medium/Normal 18/150, Color Scheme 3/Text. */}
             <p className="text-lg leading-[150%] text-white">{dp.contactSubtitle}</p>
+            {dp.contactLocation && (
+              <p className="mt-6 flex items-center justify-center gap-3 text-base leading-[150%] text-white">
+                <MapPin size={20} strokeWidth={1.5} className="shrink-0" /> {dp.contactLocation}
+              </p>
+            )}
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">

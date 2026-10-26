@@ -15,7 +15,7 @@ export default {
     {name: 'heroTitleHighlight', title: 'Title highlight word(s)', description: 'e.g. "Director."', type: 'string', group: 'hero', initialValue: 'Director.'},
     {name: 'heroDescription', title: 'Description', type: 'text', rows: 3, group: 'hero'},
     {name: 'heroImage', title: 'Hero image', type: 'image', options: {hotspot: true}, group: 'hero'},
-    {name: 'heroName', title: 'Name', type: 'string', group: 'hero', initialValue: 'Dr. Shriniwas Dhure'},
+    {name: 'heroName', title: 'Name', type: 'string', group: 'hero', initialValue: 'Dr. Rupesh Raut'},
     {name: 'heroRole', title: 'Role', type: 'string', group: 'hero', initialValue: 'Director · SIMSREE'},
     {
       name: 'heroStats',
@@ -43,7 +43,7 @@ export default {
     {name: 'quoteText', title: 'Quote', type: 'text', rows: 3, group: 'quote', initialValue: 'SIMSREE has always stood for something beyond a degree - for character forged through initiative, responsibility, and a deep engagement with the world of business.'},
     {name: 'quoteHighlight', title: 'Quote highlight word(s)', description: 'e.g. "beyond a degree"', type: 'string', group: 'quote', initialValue: 'beyond a degree'},
     {name: 'quotePhoto', title: 'Small circular photo', type: 'image', options: {hotspot: true}, group: 'quote'},
-    {name: 'quoteName', title: 'Name', type: 'string', group: 'quote', initialValue: 'Dr. Shriniwas Dhure'},
+    {name: 'quoteName', title: 'Name', type: 'string', group: 'quote', initialValue: 'Dr. Rupesh Raut'},
     {name: 'quoteMeta', title: 'Meta line', type: 'string', group: 'quote', initialValue: 'Director, SIMSREE · 2021–present'},
 
     // Signature Portrait
@@ -52,7 +52,7 @@ export default {
     {name: 'messageTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'portrait', initialValue: 'Message'},
     {name: 'messageBody', title: 'Message', description: 'Leave a blank line between paragraphs.', type: 'text', rows: 14, group: 'portrait'},
     {name: 'signatureImage', title: 'Signature image', description: 'Scanned/drawn signature graphic', type: 'image', group: 'portrait'},
-    {name: 'portraitName', title: 'Name', type: 'string', group: 'portrait', initialValue: 'Dr. Shriniwas Dhure'},
+    {name: 'portraitName', title: 'Name', type: 'string', group: 'portrait', initialValue: 'Dr. Rupesh Raut'},
     {name: 'portraitRole', title: 'Role', type: 'string', group: 'portrait', initialValue: 'Director, SIMSREE'},
     {name: 'portraitPhone', title: 'Phone line', type: 'string', group: 'portrait', initialValue: "Reach the Director's office · 022 6151 0700"},
     {name: 'portraitEmail', title: 'Email', type: 'string', group: 'portrait', initialValue: 'director@simsree.org'},
@@ -62,6 +62,7 @@ export default {
     {name: 'contactTitle', title: 'Title', type: 'string', group: 'contact', initialValue: 'Get in touch.'},
     {name: 'contactTitleHighlight', title: 'Title highlight word(s)', description: 'e.g. "touch."', type: 'string', group: 'contact', initialValue: 'touch.'},
     {name: 'contactSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'contact', initialValue: "For institutional matters, partnerships, recruiter relationships, and campus visits - the Director's office is here."},
+    {name: 'contactLocation', title: 'Location line', description: 'Shown under the subtitle with a pin icon', type: 'string', group: 'contact', initialValue: "Director's office - 3rd Floor, SIMSREE"},
     {name: 'contactCallNumber', title: 'Phone number', type: 'string', group: 'contact', initialValue: '022 6151 0700'},
     {name: 'contactCallLabel', title: 'Phone sub-label', type: 'string', group: 'contact', initialValue: 'PA to Director · Mon–Sat · 11am–7pm'},
     {name: 'contactEmailAddress', title: 'Email address', type: 'string', group: 'contact', initialValue: 'director@simsree.org'},
