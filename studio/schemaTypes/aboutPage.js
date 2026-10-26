@@ -55,7 +55,7 @@ export default {
     {name: 'leadershipTitle', title: 'Title', type: 'string', group: 'leadership', initialValue: "From the Director's desk."},
     {name: 'leadershipTitleHighlight', title: 'Title highlight word(s)', description: 'e.g. "Director\'s"', type: 'string', group: 'leadership', initialValue: "Director's"},
     {name: 'leadershipQuote', title: 'Quote', type: 'text', rows: 4, group: 'leadership'},
-    {name: 'leadershipName', title: 'Name', type: 'string', group: 'leadership', initialValue: 'Dr. Shriniwas Dhure'},
+    {name: 'leadershipName', title: 'Name', type: 'string', group: 'leadership', initialValue: 'Dr. Rupesh Raut'},
     {name: 'leadershipRole', title: 'Role', type: 'string', group: 'leadership', initialValue: 'Director, SIMSREE'},
     {name: 'leadershipLinkLabel', title: 'Link label', type: 'string', group: 'leadership', initialValue: 'Read the full message'},
     {name: 'leadershipLinkUrl', title: 'Link URL', type: 'string', group: 'leadership', initialValue: '/about/directors-message'},

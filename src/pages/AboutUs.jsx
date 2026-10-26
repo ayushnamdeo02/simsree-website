@@ -38,7 +38,7 @@ const fallbackAboutPage = {
   leadershipTitleHighlight: "Director's",
   leadershipTitleSuffix: 'desk.',
   leadershipQuote: 'SIMSREE has always stood for something beyond a degree - for character forged through initiative, responsibility, and a deep engagement with the world of business.',
-  leadershipName: 'Dr. Shriniwas Dhure',
+  leadershipName: 'Dr. Rupesh Raut',
   leadershipRole: 'Director, SIMSREE',
   leadershipLinkLabel: 'Read the full message',
   leadershipLinkUrl: '/about/directors-message',

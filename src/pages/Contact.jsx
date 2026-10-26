@@ -59,7 +59,7 @@ const fallbackPage = {
   directoryTitle: 'Direct department contacts',
   directorySubtitle: 'Every number and email below is current and official.',
   departments: [
-    { name: 'Dr. Shriniwas Dhure', role: 'Director', phone: '+91 22 6151 0700' },
+    { name: 'Dr. Rupesh Raut', role: 'Director', phone: '+91 22 6151 0700' },
     { name: 'Mr. Ravindra Nannaware', role: 'Administration', phone: '+91 22 6151 0700' },
     { name: 'Vinayak Khanvilkar', role: 'MMS Admissions', phone: '+91 22 6151 0700' },
     { name: 'Library', role: '', phone: '022 6151 0708 / 0709' },
