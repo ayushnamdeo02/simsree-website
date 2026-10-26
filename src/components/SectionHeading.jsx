@@ -20,7 +20,8 @@ export default function SectionHeading({
     ) : (
       <>
         {title.slice(0, idx).trimEnd()}
-        {breakBeforeHighlight ? <br className="hidden md:block" /> : ' '}
+        {' '}
+        {breakBeforeHighlight && <br className="hidden md:block" />}
         <span className="text-teal-500">{highlight}</span>
         {title.slice(idx + highlight.length)}
       </>

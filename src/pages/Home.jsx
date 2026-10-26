@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, ArrowUpRight, Play, GraduationCap, Briefcase, BookOpen, FileSearch } from 'lucide-react';
-import StatCard from '../components/StatCard';
+import { StatGrid } from '../components/StatCard';
 import NewsCard from '../components/NewsCard';
 import SectionHeading from '../components/SectionHeading';
 import { useHomepageData } from '../lib/useHomepageData';
@@ -135,31 +135,31 @@ export default function Home() {
               so darken the top band rather than depending on the image. */}
           <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/45 to-transparent" />
           {/* pt clears the fixed header; pb-[72px] + 36px gaps match the Figma content frame */}
-          <div className="relative max-w-[1440px] mx-auto px-6 lg:px-16 pt-32 pb-12 md:pb-[72px] md:h-full flex flex-col justify-end text-white">
-            <span className="inline-block w-fit bg-navy-900 text-white text-[18px] leading-[150%] uppercase px-4 py-2.5 rounded-full mb-9">
+          <div className="relative max-w-[1440px] mx-auto px-5 md:px-6 lg:px-16 pt-32 pb-12 md:pb-[72px] md:h-full flex flex-col justify-end text-white">
+            <span className="inline-block w-fit bg-navy-900 text-white text-[10px] leading-[150%] whitespace-nowrap md:whitespace-normal md:text-[18px] uppercase px-4 py-1.5 md:py-2.5 rounded-full mb-6 md:mb-9">
               {hp.heroBadge}
             </span>
-            <h1 className="font-display text-5xl md:text-[72px] md:leading-[120px] font-semibold text-hero mb-3">
+            <h1 className="font-display text-[40px] leading-[120%] md:text-[72px] md:leading-[120px] font-semibold text-hero mb-3">
               {hp.heroTitle}
             </h1>
             <p className="text-white/90 mb-1">{hp.heroSubtitle}</p>
             <p className="max-w-xl text-white/80 mb-9">{hp.heroDescription}</p>
-            <div className="flex flex-wrap gap-3 items-center">
+            <div className="flex flex-col md:flex-row md:flex-wrap gap-3 md:items-center">
               <Link
                 to={hp.heroPrimaryCtaUrl}
-                className="bg-sky-600 outline outline-1 outline-sky-600 hover:bg-sky-500 hover:outline-sky-500 transition-colors text-white font-medium px-6 py-2.5 rounded-md flex items-center gap-3"
+                className="justify-center bg-sky-600 outline outline-1 outline-sky-600 hover:bg-sky-500 hover:outline-sky-500 transition-colors text-white font-medium px-6 py-2.5 rounded-md flex items-center gap-3"
               >
                 {hp.heroPrimaryCtaLabel} <ArrowUpRight size={16} />
               </Link>
               <Link
                 to={hp.heroSecondaryCtaUrl}
-                className="bg-white hover:bg-gray-100 transition-colors text-navy-900 font-medium px-6 py-2.5 rounded-md"
+                className="text-center bg-white hover:bg-gray-100 transition-colors text-navy-900 font-medium px-6 py-2.5 rounded-md"
               >
                 {hp.heroSecondaryCtaLabel}
               </Link>
-              <button className="flex items-center gap-2 text-white/90 text-sm font-medium ml-2">
-                <span className="w-9 h-9 rounded-full border border-white/40 flex items-center justify-center">
-                  <Play size={14} />
+              <button className="flex w-fit items-center gap-3 md:gap-2 text-white/90 text-base md:text-sm font-medium mt-1 md:mt-0 md:ml-2">
+                <span className="w-10 h-10 md:w-9 md:h-9 rounded-full border-2 md:border border-white/80 md:border-white/40 flex items-center justify-center">
+                  <Play size={16} className="md:w-3.5 md:h-3.5" />
                 </span>
                 Watch the film · 0:48
               </button>
@@ -168,25 +168,22 @@ export default function Home() {
         </div>
 
         {/* Stat cards below hero - 1408px frame, 80px padding like every section, 1280px row, 32px gap */}
-        <div className="max-w-[1408px] mx-auto px-6 lg:px-16 py-12 lg:py-20">
-          <div className="max-w-[1280px] mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
-            {stats.map((s) => (
-              <StatCard key={s._id || s.label} {...s} />
-            ))}
-          </div>
+        <div className="max-w-[1408px] mx-auto px-5 md:px-6 lg:px-16 py-12 lg:py-20">
+          <StatGrid stats={stats} />
         </div>
       </section>
 
       {/* News & Announcements — 1280px inner, 112px vertical padding, 80px block gaps (Figma) */}
-      <section className="bg-sky-50 py-12 lg:py-20">
-        <div className="max-w-[1408px] mx-auto px-6 lg:px-16">
+      <section className="bg-white md:bg-sky-50 py-12 lg:py-20">
+        <div className="max-w-[1408px] mx-auto px-5 md:px-6 lg:px-16">
           <div className="mb-10 lg:mb-12">
             {/* Figma: Inter Semi Bold 16/150 */}
-            <span className="text-base leading-[150%] font-semibold tracking-widest uppercase text-navy-700">
+            <span className="text-base leading-[150%] font-semibold md:tracking-widest uppercase text-black md:text-navy-700">
               Latest News &amp; Announcements
             </span>
             <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-2">
-              News from Churchgate
+              News <br className="md:hidden" />
+              from Churchgate
             </h2>
             <p className="text-ink-600 mt-2 text-lg leading-[150%]">
               Straight from the institute · updated every business day.
@@ -213,10 +210,10 @@ export default function Home() {
 
       {/* Courses Offered — 1280px inner, 112px vertical padding, 80px block gaps (Figma) */}
       <section className="py-12 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
-          <div className="text-center mb-10 lg:mb-12">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0">
+          <div className="text-left md:text-center mb-10 lg:mb-12">
             {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text */}
-            <span className="text-base leading-[150%] font-semibold tracking-widest uppercase text-black">
+            <span className="text-base leading-[150%] font-semibold md:tracking-widest uppercase text-black">
               I&apos;m looking for…
             </span>
             {/* Figma: Heading H2 52/120, Colour/Astronaut/Base */}
@@ -229,9 +226,9 @@ export default function Home() {
               const Icon = ICONS[c.icon] || GraduationCap;
               // Figma: card radius 0, gap 32 between icon and text
               return (
-                <div key={c._id || c.title} className="rounded-lg border border-black/15 shadow-sm p-6 flex gap-5 items-start">
+                <div key={c._id || c.title} className="rounded-lg border border-black/15 shadow-sm p-4 md:p-6 flex flex-col md:flex-row gap-6 md:gap-5 items-start">
                   {/* Figma: 36x36 tile, radius 0 */}
-                  <span className="shrink-0 w-9 h-9 bg-navy-50 flex items-center justify-center">
+                  <span className="shrink-0 w-11 h-11 rounded-md md:rounded-none md:w-9 md:h-9 bg-navy-50 flex items-center justify-center">
                     <Icon className="text-navy-900" size={22} strokeWidth={1.5} />
                   </span>
                   <div className="min-w-0">
@@ -239,20 +236,20 @@ export default function Home() {
                     <h4 className="font-display text-2xl md:text-[28px] md:leading-[140%] font-medium text-navy-900">
                       {c.title}
                     </h4>
-                    <p className="text-base leading-[150%] text-ink-600 mt-2">{c.description}</p>
+                    <p className="text-base leading-[150%] text-black md:text-ink-600 mt-2">{c.description}</p>
                   </div>
                 </div>
               );
             })}
           </div>
           {/* 1280 x 117, 24px padding, 16px radius, 1px inside border (Figma) */}
-          <div className="rounded-lg bg-navy-900 border border-black/15 text-white p-6 flex flex-wrap items-center gap-8 justify-between text-left">
+          <div className="rounded-2xl md:rounded-lg bg-navy-900 border border-black/15 text-white p-6 flex flex-col md:flex-row md:flex-wrap items-start md:items-center gap-6 md:gap-8 justify-between text-left">
             <div className="flex flex-col items-start gap-[11px]">
               <span className="bg-navy-50 text-navy-900 text-sm px-5 py-2 rounded-full uppercase shrink-0">Admission Alert</span>
               {/* Figma: Body medium Normal 18/150 */}
               <p className="text-lg leading-[150%]">{hp.admissionAlertText}</p>
             </div>
-            <Link to={hp.admissionAlertLinkUrl} className="text-sm font-medium flex items-center gap-1 shrink-0 hover:text-sky-300 transition-colors">
+            <Link to={hp.admissionAlertLinkUrl} className="text-base md:text-sm font-medium flex items-center gap-1 shrink-0 hover:text-sky-300 transition-colors">
               {hp.admissionAlertLinkLabel} <ArrowRight size={14} />
             </Link>
           </div>
@@ -261,7 +258,7 @@ export default function Home() {
 
       {/* Why SIMSREE — Astronaut Light bg, 1280 inner, 112 padding, 80 gap (Figma) */}
       <section className="bg-navy-50 py-12 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0">
           <div className="mb-10 lg:mb-12">
             <SectionHeading
               eyebrow="Why SIMSREE"
@@ -278,7 +275,7 @@ export default function Home() {
               return (
                 <div key={f._id || f.title} className="hover-card rounded-xl flex flex-col bg-white outline outline-1 outline-black/15 overflow-hidden">
                   <div
-                    className="h-[277px] bg-gray-200 bg-cover bg-center shrink-0"
+                    className="h-[220px] md:h-[277px] bg-gray-200 bg-cover bg-center shrink-0"
                     style={factorImg ? { backgroundImage: `url('${factorImg}')` } : undefined}
                   />
                   <div className="flex flex-col flex-1 p-6">
@@ -291,7 +288,7 @@ export default function Home() {
                     {f.linkLabel && (
                       <Link
                         to={f.linkUrl || '#'}
-                        className="text-lg leading-[150%] text-teal-500 flex items-center gap-2 mt-auto w-fit hover:underline"
+                        className="text-sm md:text-lg leading-[150%] text-teal-500 flex items-center gap-2 mt-auto w-fit hover:underline"
                       >
                         {f.linkLabel} <ArrowUpRight size={16} />
                       </Link>
@@ -306,39 +303,39 @@ export default function Home() {
 
       {/* Location Advantage — 1312 card (680 image + 632 content), 112px section padding (Figma) */}
       <section className="py-12 lg:py-20">
-        <div className="max-w-[1312px] mx-auto px-6 lg:px-0">
+        <div className="max-w-[1312px] mx-auto px-5 md:px-6 lg:px-0">
           {/* Figma: radius 16, stroke #000 at 15% Inside, effect small, gap 48. */}
-          <div className="bg-white rounded-2xl border border-black/15 shadow-sm overflow-hidden grid lg:grid-cols-[632px_1fr]">
+          <div className="bg-white lg:rounded-2xl lg:border border-black/15 lg:shadow-sm lg:overflow-hidden grid lg:grid-cols-[632px_1fr]">
             <div
-              className="h-64 lg:h-[674px] bg-gray-200 bg-cover bg-center"
+              className="h-[357px] rounded-2xl lg:rounded-none lg:h-[674px] bg-gray-200 bg-cover bg-center"
               style={locationImageUrl ? { backgroundImage: `url('${locationImageUrl}')` } : undefined}
             />
-            <div className="flex flex-col justify-center gap-6 p-8 lg:px-8 lg:py-[57px]">
+            <div className="flex flex-col justify-center gap-6 pt-10 lg:px-8 lg:py-[57px]">
               {/* Figma: Inter Semi Bold 16/150, letter-spacing 0, Color Scheme 1/Text. */}
               <span className="text-base leading-[150%] font-semibold uppercase text-black">{hp.locationEyebrow}</span>
               <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900">
                 {/* Figma breaks between the title and the highlighted phrase, so
                     "Mumbai's financial core." sits on line 2. */}
-                {hp.locationTitle}
+                {hp.locationTitle}{' '}
                 <br className="hidden lg:block" />
                 {hp.locationLine2 ? `${hp.locationLine2} ` : ''}
                 <span className="text-teal-500">{hp.locationHighlight}</span>
               </h2>
               <div>
                 {(hp.locationDescription || '').split('\n\n').map((para, i) => (
-                  <p key={i} className="text-lg leading-[150%] text-black mb-4 last:mb-0">{para}</p>
+                  <p key={i} className="text-base md:text-lg leading-[150%] text-black mb-6 md:mb-4 last:mb-0">{para}</p>
                 ))}
               </div>
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-col sm:flex-row sm:flex-wrap gap-3">
                 <Link
                   to="/about/campus-life"
-                  className="bg-navy-900 hover:bg-navy-800 transition-colors text-white text-base leading-[150%] font-medium px-5 py-3 rounded-md flex items-center gap-2"
+                  className="justify-center bg-navy-900 hover:bg-navy-800 transition-colors text-white text-base leading-[150%] font-medium px-5 py-3 rounded-md flex items-center gap-2"
                 >
                   See a day on campus <ArrowUpRight size={16} />
                 </Link>
                 <Link
                   to="/about/campus-life"
-                  className="border border-black/15 hover:bg-navy-50 transition-colors text-ink-900 text-base leading-[150%] font-medium px-5 py-3 rounded-md"
+                  className="text-center border border-black/15 hover:bg-navy-50 transition-colors text-ink-900 text-base leading-[150%] font-medium px-5 py-3 rounded-md"
                 >
                   Tour the facilities
                 </Link>
@@ -350,7 +347,7 @@ export default function Home() {
 
       {/* Student Voices — 1440x785 navy, 768px heading block, carousel (Figma) */}
       <section className="bg-navy-900 text-white py-12 lg:py-20">
-        <div className="max-w-[768px] mx-auto px-6 text-center">
+        <div className="max-w-[768px] mx-auto px-5 md:px-6 text-center">
           {/* Figma: Heading/Tagline 16/150, Colour/Neutral/White. */}
           <span className="text-base leading-[150%] font-semibold uppercase text-white">Student Voices</span>
           <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold mt-6">
@@ -392,7 +389,7 @@ export default function Home() {
 
       {/* Recruiting Partners — 1440x664, full-bleed logo marquee (Figma) */}
       <section className="py-12 lg:py-20 overflow-hidden">
-        <div className="max-w-[768px] mx-auto px-6 text-center">
+        <div className="max-w-[768px] mx-auto px-5 md:px-6 text-center">
           {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
           <span className="text-base leading-[150%] font-semibold uppercase text-black">Our Recruiting Partners</span>
           <h2 className="font-display text-4xl md:text-[52px] md:leading-[120%] font-semibold text-navy-900 mt-6">
@@ -441,7 +438,7 @@ export default function Home() {
 
       {/* Flagship Events — 1280 inner, 112px padding, cards w/ border + shadow (Figma) */}
       <section className="py-12 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center mb-10 lg:mb-12">
             {/* Figma: Heading/Tagline 16/150, Color Scheme 1/Text. */}
             <span className="text-base leading-[150%] font-semibold uppercase text-black">Flagship</span>
@@ -462,7 +459,7 @@ export default function Home() {
                   className="hover-card rounded-xl flex flex-col bg-white outline outline-1 outline-black/15 overflow-hidden"
                 >
                   <div
-                    className="h-[285px] bg-gray-200 bg-cover bg-center shrink-0"
+                    className="h-[222px] md:h-[285px] bg-gray-200 bg-cover bg-center shrink-0"
                     style={flagshipImg ? { backgroundImage: `url('${flagshipImg}')` } : undefined}
                   />
                   <div className="flex flex-col flex-1 p-6">
@@ -475,7 +472,7 @@ export default function Home() {
                     {f.linkLabel && (
                       <Link
                         to={f.linkUrl || '#'}
-                        className="text-lg leading-[150%] text-teal-500 flex items-center gap-2 mt-auto w-fit hover:underline"
+                        className="text-sm md:text-lg leading-[150%] text-teal-500 flex items-center gap-2 mt-auto w-fit hover:underline"
                       >
                         {f.linkLabel} <ArrowRight size={16} />
                       </Link>
@@ -490,7 +487,7 @@ export default function Home() {
 
       {/* CTA — 1440x680, 64px padding (Figma). The disclaimer is now a site-wide popup. */}
       <section className="bg-navy-900 text-white py-12 lg:py-20">
-        <div className="max-w-[1280px] mx-auto px-6 lg:px-0">
+        <div className="max-w-[1280px] mx-auto px-5 md:px-6 lg:px-0">
           <div className="max-w-[768px] mx-auto text-center">
             {/* Figma: Heading/Tagline 16/150, Colour/Neutral/White. */}
             <span className="text-base leading-[150%] font-semibold uppercase text-white">Take the Next Step</span>
@@ -500,17 +497,17 @@ export default function Home() {
               MMS admissions open via Maharashtra CET. M.Sc. Finance, MFM, MMM and PhD have their own cycles - check
               Admissions for current notifications.
             </p>
-            <div className="flex flex-wrap justify-center gap-3 mt-8">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-3 mt-8">
               {/* Figma: white primary with arrow, then a white-outline secondary on navy. */}
               <Link
                 to="/admissions"
-                className="bg-white hover:bg-gray-100 transition-colors text-ink-900 text-base leading-[150%] font-medium px-6 py-2.5 rounded-md flex items-center gap-3"
+                className="justify-center bg-white hover:bg-gray-100 transition-colors text-ink-900 text-base leading-[150%] font-medium px-6 py-2.5 rounded-md flex items-center gap-3"
               >
                 Apply Now <ArrowUpRight size={20} strokeWidth={1.5} />
               </Link>
               <Link
                 to="/placements"
-                className="outline outline-1 -outline-offset-1 outline-white/60 hover:bg-white/10 hover:outline-white transition-colors text-white text-base leading-[150%] font-medium px-6 py-2.5 rounded-md"
+                className="text-center outline outline-1 -outline-offset-1 outline-white/60 hover:bg-white/10 hover:outline-white transition-colors text-white text-base leading-[150%] font-medium px-6 py-2.5 rounded-md"
               >
                 Hire from SIMSREE
               </Link>
