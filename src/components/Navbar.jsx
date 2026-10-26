@@ -115,6 +115,28 @@ export default function Navbar() {
     setScrolled(false);
   }, [location.pathname]);
 
+  // While the mobile menu is open, the page behind it must not scroll; only the
+  // menu panel scrolls. Released on close, on navigation and on unmount.
+  useEffect(() => {
+    if (!mobileOpen) return undefined;
+    const els = [document.documentElement, document.body];
+    const prev = els.map((el) => el.style.overflow);
+    els.forEach((el) => (el.style.overflow = 'hidden'));
+    return () => els.forEach((el, i) => (el.style.overflow = prev[i]));
+  }, [mobileOpen]);
+
+  // Close the mobile menu on navigation (incl. back/forward) and when the window
+  // grows to the desktop layout, so the scroll lock never outlives the menu.
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1280px)');
+    const onChange = (e) => e.matches && setMobileOpen(false);
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+
   return (
     <header
       className={`${isTransparentRoute ? 'fixed' : 'sticky'} top-0 left-0 right-0 z-50`}
@@ -210,7 +232,7 @@ export default function Navbar() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="xl:hidden bg-white border-t border-gray-100 max-h-[80vh] overflow-y-auto">
+        <div className="xl:hidden bg-white border-t border-gray-100 max-h-[80vh] overflow-y-auto overscroll-contain">
           {mainNav.map((item) => (
             <div key={item.path} className="border-b border-gray-50">
               <Link
