@@ -2,10 +2,7 @@ import { useEffect, useState } from 'react';
 import { sanityClient } from './sanity';
 
 const QUERY = `{
-  "page": *[_type == "devProgrammesPage"][0],
-  "mdps": *[_type == "mdpProgramme"] | order(order asc),
-  "workshops": *[_type == "catalystWorkshop"] | order(order asc),
-  "calendar": *[_type == "programmeCalendarItem"] | order(order asc)
+  "page": *[_type == "devProgrammesPage"][0]
 }`;
 
 export function useDevProgrammesData() {

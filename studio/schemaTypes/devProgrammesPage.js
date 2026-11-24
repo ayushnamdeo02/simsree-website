@@ -1,15 +1,40 @@
+// Development Programmes page — the Naval Dockyard MDP story, top to bottom.
+const button = {
+  type: 'object',
+  fields: [
+    {name: 'label', title: 'Label', type: 'string'},
+    {name: 'url', title: 'URL', type: 'string'},
+    {name: 'primary', title: 'Primary (filled) style?', type: 'boolean', initialValue: false},
+  ],
+  preview: {select: {title: 'label', subtitle: 'url'}},
+}
+
+const photo = {
+  type: 'image',
+  options: {hotspot: true},
+  fields: [{name: 'alt', title: 'Alt text', type: 'string'}],
+}
+
+const titleFields = (group, defaults = {}) => [
+  {name: `${group}Eyebrow`, title: 'Eyebrow', type: 'string', group, initialValue: defaults.eyebrow},
+  {name: `${group}Title`, title: 'Title', type: 'string', group},
+  {name: `${group}TitleHighlight`, title: 'Title highlight word(s)', description: 'Shown in Eastern Blue', type: 'string', group},
+]
+
 export default {
   name: 'devProgrammesPage',
   title: 'Development Programmes Page',
   type: 'document',
   groups: [
     {name: 'hero', title: 'Hero'},
-    {name: 'mdp', title: 'MDP Tab'},
-    {name: 'catalyst', title: 'Career Catalyst Tab'},
-    {name: 'custom', title: 'Custom In-Company Tab'},
-    {name: 'calendar', title: 'Calendar Intro'},
-    {name: 'faq', title: 'FAQ'},
-    {name: 'cta', title: 'Closing CTA'},
+    {name: 'facts', title: 'Key Facts'},
+    {name: 'overview', title: '01 Overview'},
+    {name: 'curriculum', title: '02 Curriculum'},
+    {name: 'experiential', title: 'Experiential Learning'},
+    {name: 'culmination', title: '04 Culmination'},
+    {name: 'pictures', title: 'Programme in Pictures'},
+    {name: 'people', title: '05 People'},
+    {name: 'cta', title: '06 Reflection & CTA'},
   ],
   fields: [
     // Hero
@@ -18,112 +43,137 @@ export default {
     {name: 'heroTitleItalic', title: 'Italic portion of title', type: 'string', group: 'hero', initialValue: 'Programmes.'},
     {name: 'heroDescription', title: 'Description', type: 'text', rows: 3, group: 'hero'},
     {name: 'heroImage', title: 'Hero image', type: 'image', options: {hotspot: true}, group: 'hero'},
+    {name: 'heroButtons', title: 'Buttons', type: 'array', group: 'hero', of: [button]},
+
+    // Key facts
     {
-      name: 'heroButtons',
-      title: 'Buttons',
+      name: 'facts',
+      title: 'Key facts',
+      description: 'The four cards under the hero',
       type: 'array',
-      group: 'hero',
+      group: 'facts',
       of: [
         {
           type: 'object',
           fields: [
-            {name: 'label', title: 'Label', type: 'string'},
-            {name: 'url', title: 'URL', type: 'string'},
-            {name: 'primary', title: 'Primary (filled) style?', type: 'boolean', initialValue: false},
+            {name: 'value', title: 'Value', description: 'e.g. "10 Days"', type: 'string'},
+            {name: 'label', title: 'Label', description: 'e.g. "Programme duration"', type: 'string'},
           ],
-          preview: {select: {title: 'label', subtitle: 'url'}},
+          preview: {select: {title: 'value', subtitle: 'label'}},
         },
       ],
     },
 
-    // MDP tab
-    {name: 'mdpTabLabel', title: 'Tab label', type: 'string', group: 'mdp', initialValue: 'MDP'},
-    {name: 'mdpEyebrow', title: 'Eyebrow', type: 'string', group: 'mdp', initialValue: 'For Working Professionals'},
-    {name: 'mdpTitle', title: 'Title', type: 'string', group: 'mdp', initialValue: 'MDPs · 2-5 day intensives.'},
-    {name: 'mdpTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'mdp', initialValue: 'MDPs'},
-    {name: 'mdpSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'mdp'},
+    // 01 Overview
+    ...titleFields('overview'),
+    {name: 'overviewBody', title: 'Body', description: 'Leave a blank line between paragraphs.', type: 'text', rows: 10, group: 'overview'},
+    {name: 'overviewImage', title: 'Photo', ...photo, group: 'overview'},
+    {name: 'overviewQuote', title: 'Quote bar', type: 'string', group: 'overview'},
+    {name: 'overviewQuoteSource', title: 'Quote source', type: 'string', group: 'overview'},
 
-    // Career Catalyst tab
-    {name: 'catalystTabLabel', title: 'Tab label', type: 'string', group: 'catalyst', initialValue: 'Career Catalyst'},
-    {name: 'catalystEyebrow', title: 'Eyebrow', type: 'string', group: 'catalyst', initialValue: 'For Early-Career Professionals'},
-    {name: 'catalystTitle', title: 'Title', type: 'string', group: 'catalyst', initialValue: 'Career Catalyst · short workshops.'},
-    {name: 'catalystTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'catalyst', initialValue: 'Career Catalyst'},
-    {name: 'catalystSubtitle', title: 'Subtitle', type: 'string', group: 'catalyst', initialValue: 'CV clinics, mock case workshops, interview bootcamps. Three productised tracks.'},
+    // 02 Curriculum
+    ...titleFields('curriculum'),
+    {name: 'curriculumIntro', title: 'Intro (right of the title)', type: 'text', rows: 3, group: 'curriculum'},
     {
-      name: 'catalystOutcomes',
-      title: 'Outcome stats',
-      description: 'The three cards under the workshop list',
+      name: 'pillars',
+      title: 'Pillars',
+      description: 'Numbered 01, 02… automatically in this order',
       type: 'array',
-      group: 'catalyst',
+      group: 'curriculum',
       of: [
         {
           type: 'object',
           fields: [
-            {name: 'value', title: 'Value', description: 'e.g. "62%"', type: 'string'},
+            {name: 'title', title: 'Title', type: 'string'},
+            {name: 'description', title: 'Description', type: 'text', rows: 2},
+            {name: 'methods', title: 'Methods line', description: 'e.g. "Interactive lectures · Strategic diagnostics"', type: 'string'},
+          ],
+          preview: {select: {title: 'title', subtitle: 'methods'}},
+        },
+      ],
+    },
+
+    // Experiential learning
+    ...titleFields('experiential'),
+    {name: 'experientialBody', title: 'Body', description: 'Leave a blank line between paragraphs.', type: 'text', rows: 8, group: 'experiential'},
+    {name: 'experientialImage', title: 'Photo', ...photo, group: 'experiential'},
+    {name: 'experientialTags', title: 'Tags', type: 'array', of: [{type: 'string'}], group: 'experiential'},
+
+    // 04 Culmination
+    ...titleFields('culmination'),
+    {name: 'culminationSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'culmination'},
+    {
+      name: 'milestones',
+      title: 'Rows',
+      type: 'array',
+      group: 'culmination',
+      of: [
+        {
+          type: 'object',
+          fields: [
+            {name: 'label', title: 'Label', description: 'e.g. "01 / Recognition"', type: 'string'},
+            {name: 'title', title: 'Title', type: 'string'},
             {name: 'description', title: 'Description', type: 'text', rows: 2},
           ],
-          preview: {select: {title: 'value', subtitle: 'description'}},
+          preview: {select: {title: 'title', subtitle: 'label'}},
         },
       ],
     },
-
-    // Custom tab
-    {name: 'customTabLabel', title: 'Tab label', type: 'string', group: 'custom', initialValue: 'Custom in-company'},
-    {name: 'customEyebrow', title: 'Eyebrow', type: 'string', group: 'custom', initialValue: 'Custom For Your Team'},
-    {name: 'customTitle', title: 'Title', type: 'string', group: 'custom', initialValue: 'In-company MDP.'},
-    {name: 'customTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'custom', initialValue: 'MDP.'},
-    {name: 'customSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'custom'},
-    {name: 'customCtaLabel', title: 'CTA label', type: 'string', group: 'custom', initialValue: 'Talk to MDP Office'},
-    {name: 'customCtaUrl', title: 'CTA URL', type: 'string', group: 'custom'},
-
-    // Calendar
-    {name: 'calendarEyebrow', title: 'Eyebrow', type: 'string', group: 'calendar', initialValue: 'Calendar · 2026'},
-    {name: 'calendarTitle', title: 'Title', type: 'string', group: 'calendar', initialValue: 'Upcoming programmes.'},
-    {name: 'calendarTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'calendar', initialValue: 'programmes.'},
-    {name: 'calendarSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'calendar'},
-
-    // FAQ
-    {name: 'faqEyebrow', title: 'Eyebrow', type: 'string', group: 'faq', initialValue: 'FAQ'},
-    {name: 'faqTitle', title: 'Title', type: 'string', group: 'faq', initialValue: 'Common questions.'},
-    {name: 'faqTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'faq', initialValue: 'questions.'},
     {
-      name: 'faqs',
-      title: 'Questions',
+      name: 'gallery',
+      title: 'Photo mosaic',
+      description: 'Five photos: the first is the large one on the left.',
       type: 'array',
-      group: 'faq',
+      group: 'culmination',
+      of: [photo],
+      options: {layout: 'grid'},
+    },
+
+    // Programme in pictures
+    ...titleFields('pictures'),
+    {name: 'picturesSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'pictures'},
+    {name: 'pictures', title: 'Photos', description: 'Three photos in a row', type: 'array', group: 'pictures', of: [photo], options: {layout: 'grid'}},
+
+    // 05 People
+    ...titleFields('people'),
+    {name: 'peopleSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'people'},
+    {
+      name: 'peopleRows',
+      title: 'Rows',
+      type: 'array',
+      group: 'people',
       of: [
         {
           type: 'object',
           fields: [
-            {name: 'question', title: 'Question', type: 'string', validation: (Rule) => Rule.required()},
-            {name: 'answer', title: 'Answer', type: 'text', rows: 3},
+            {name: 'heading', title: 'Heading', type: 'string'},
+            {
+              name: 'entries',
+              title: 'Entries',
+              description: 'Each entry is one paragraph: the bold lead (e.g. a name) followed by the rest.',
+              type: 'array',
+              of: [
+                {
+                  type: 'object',
+                  fields: [
+                    {name: 'lead', title: 'Bold lead', type: 'string'},
+                    {name: 'text', title: 'Rest of the paragraph', type: 'text', rows: 3},
+                  ],
+                  preview: {select: {title: 'lead', subtitle: 'text'}},
+                },
+              ],
+            },
           ],
-          preview: {select: {title: 'question', subtitle: 'answer'}},
+          preview: {select: {title: 'heading'}},
         },
       ],
     },
 
-    // CTA
-    {name: 'ctaEyebrow', title: 'Eyebrow', type: 'string', group: 'cta', initialValue: 'Need Something Different?'},
-    {name: 'ctaTitle', title: 'Title', type: 'string', group: 'cta', initialValue: 'A custom MDP for your team.'},
-    {name: 'ctaSubtitle', title: 'Subtitle', type: 'text', rows: 2, group: 'cta'},
-    {
-      name: 'ctaButtons',
-      title: 'Buttons',
-      type: 'array',
-      group: 'cta',
-      of: [
-        {
-          type: 'object',
-          fields: [
-            {name: 'label', title: 'Label', type: 'string'},
-            {name: 'url', title: 'URL', type: 'string'},
-            {name: 'primary', title: 'Primary (filled) style?', type: 'boolean', initialValue: false},
-          ],
-          preview: {select: {title: 'label', subtitle: 'url'}},
-        },
-      ],
-    },
+    // 06 Reflection & CTA
+    ...titleFields('cta'),
+    {name: 'ctaBody', title: 'Body', description: 'Leave a blank line between paragraphs.', type: 'text', rows: 8, group: 'cta'},
+    {name: 'ctaButtonLabel', title: 'Button label', type: 'string', group: 'cta'},
+    {name: 'ctaButtonUrl', title: 'Button URL', type: 'string', group: 'cta'},
   ],
   preview: {prepare() { return {title: 'Development Programmes Page'} }},
 }

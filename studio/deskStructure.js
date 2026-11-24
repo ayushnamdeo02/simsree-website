@@ -256,16 +256,7 @@ export const deskStructure = (S) =>
             ['festTestimonial', 'Testimonials'],
           ],
         }),
-        page(S, {
-          title: 'Development Programmes Page',
-          type: 'devProgrammesPage',
-          id: 'devProgrammesPage',
-          lists: [
-            ['mdpProgramme', 'MDPs'],
-            ['catalystWorkshop', 'Career Catalyst Workshops'],
-            ['programmeCalendarItem', 'Calendar Items'],
-          ],
-        }),
+        page(S, {title: 'Development Programmes Page', type: 'devProgrammesPage', id: 'devProgrammesPage'}),
         page(S, {title: 'Career Catalyst Program Page', type: 'careerCatalystPage', id: 'careerCatalystPage'}),
         page(S, {
           title: 'News Page',
