@@ -43,7 +43,7 @@ import { mainNav, utilityLinks } from './data/sitemap';
 import ScrollToTop from './components/ScrollToTop';
 
 // Routes with a real, built-out page (not a stub).
-const builtRoutes = new Set(['/', '/about', '/about/history', '/about/directors-message', '/about/rankings', '/about/campus-life', '/about/alumni', '/about/student-driven-system', '/alumni-portal', '/about/simarthan', '/placements', '/placements/why-recruit', '/placements/reports', '/placements/partners', '/placements/contact', '/placements/recruiter-engagement', '/academics', '/academics/mms', '/academics/msc-finance', '/academics/mfm', '/academics/mmm', '/academics/phd', '/academics/faculty', '/admissions', '/admissions/mms', '/admissions/msc-finance', '/admissions/mfm', '/admissions/mmm', '/admissions/phd', '/admissions/downloads', '/students', '/students/achievements', '/students/batch-profile', '/students/leadership', '/students/committees/placement', '/students/body-structure', '/students/life', '/contact', '/events', '/events/simerations', '/events/tedxsimsree', '/events/flagship', '/events/development-programmes', '/events/career-catalyst', '/events/industry-events', '/events/news']);
+const builtRoutes = new Set(['/', '/about', '/about/history', '/about/directors-message', '/about/rankings', '/about/campus-life', '/about/alumni', '/about/student-driven-system', '/alumni-portal', '/about/simarthan', '/placements', '/placements/why-recruit', '/placements/reports', '/placements/msc-reports', '/placements/partners', '/placements/contact', '/placements/recruiter-engagement', '/academics', '/academics/mms', '/academics/msc-finance', '/academics/mfm', '/academics/mmm', '/academics/phd', '/academics/faculty', '/admissions', '/admissions/mms', '/admissions/msc-finance', '/admissions/mfm', '/admissions/mmm', '/admissions/phd', '/admissions/downloads', '/students', '/students/achievements', '/students/batch-profile', '/students/leadership', '/students/committees/placement', '/students/body-structure', '/students/life', '/contact', '/events', '/events/simerations', '/events/tedxsimsree', '/events/flagship', '/events/development-programmes', '/events/career-catalyst', '/events/industry-events', '/events/news']);
 
 // Flatten every route (nav items, their dropdown links and sub-links, utility
 // links) into a single list, skipping routes that already have a real page.
@@ -89,6 +89,7 @@ export default function App() {
           <Route path="/placements" element={<Placements />} />
           <Route path="/placements/why-recruit" element={<WhyRecruit />} />
           <Route path="/placements/reports" element={<ReportsHub />} />
+          <Route path="/placements/msc-reports" element={<ReportsHub programme="msc" />} />
           <Route path="/placements/partners" element={<Partners />} />
           <Route path="/placements/contact" element={<PlacementContact />} />
           <Route path="/placements/recruiter-engagement" element={<RecruiterEngagement />} />

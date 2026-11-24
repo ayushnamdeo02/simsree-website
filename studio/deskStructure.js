@@ -297,11 +297,26 @@ export const deskStructure = (S) =>
           lists: [['recruitReason', 'Reasons']],
         }),
         page(S, {
-          title: 'Reports Hub Page',
+          title: 'Reports Hub Page (MMS)',
           type: 'reportsHubPage',
           id: 'reportsHubPage',
-          lists: [['reportTab', 'Report Tabs']],
+          lists: [['reportTab', 'Report Tabs (all programmes)']],
         }),
+        S.listItem()
+          .title('MSc Placement Reports Page')
+          .child(
+            S.list()
+              .title('MSc Placement Reports Page')
+              .items([
+                S.listItem()
+                  .title('Page content')
+                  .child(S.document().schemaType('reportsHubPage').documentId('reportsHubPageMsc').title('MSc Placement Reports Page')),
+                S.divider(),
+                S.listItem()
+                  .title('M.Sc. Finance report tabs')
+                  .child(S.documentList().title('M.Sc. Finance report tabs').schemaType('reportTab').filter('_type == "reportTab" && programme == "msc"')),
+              ])
+          ),
         page(S, {
           title: 'Recruiting Partners Page',
           type: 'partnersPage',

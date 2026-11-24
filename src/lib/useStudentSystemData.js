@@ -3,7 +3,7 @@ import { sanityClient } from './sanity';
 
 const QUERY = `{
   "page": *[_type == "studentSystemPage"][0],
-  "committees": *[_type == "committee"] | order(order asc)
+  "committees": *[_type == "committee" && hideFromDirectory != true] | order(order asc)
 }`;
 
 export function useStudentSystemData() {

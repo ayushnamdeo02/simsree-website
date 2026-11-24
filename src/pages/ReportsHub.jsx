@@ -108,6 +108,74 @@ const LOGO_FALLBACK = {
   Oracle: 'oracle',
 };
 
+// M.Sc. Finance reports page: same layout, its own copy.
+const fallbackMsc = {
+  page: {
+    "heroEyebrow": "M.Sc. Finance",
+    "heroTitle": "M.Sc. Finance placement results.",
+    "heroTitleBreakAfter": "Finance",
+    "heroDescription": "Summer placement results and the batch profile for the M.Sc. Finance programme.",
+    "stats": [
+      {
+        "label": "Batch of 2027",
+        "value": "32",
+        "dark": true
+      },
+      {
+        "label": "Summer placement",
+        "value": "100%",
+        "dark": false
+      },
+      {
+        "label": "Highest stipend",
+        "value": "₹1.2L",
+        "dark": true
+      },
+      {
+        "label": "Recruiters",
+        "value": "22",
+        "dark": false
+      }
+    ]
+  },
+  tabs: [{
+    "pillLabel": "Summer 2026",
+    "tabLabel": "Download the summer report · SIP 2026",
+    "eyebrow": "M.Sc. Finance · Batch of 2027",
+    "title": "100% placed - summer 2026.",
+    "titleHighlight": "summer 2026.",
+    "subtitle": "₹1.2L highest stipend · ₹46,500 average · 22 recruiters.",
+    "fileTitle": "SIMSREE M.Sc. Finance Placement Brochure · SIP 2026",
+    "fileMeta": "5 pages · 3.8 MB · PDF",
+    "fileCtaLabel": "Download the brochure (PDF)",
+    "fileUrl": "https://cdn.sanity.io/files/go86psxs/production/1f181c9f95c571375b4f95c4423c5bf33fdaccd2.pdf",
+    "statPanel": {
+      "title": "Placement success",
+      "description": "The entire batch secured summer internships, in investment banking, equity research, risk advisory, wealth management and asset management.",
+      "value": "100%"
+    },
+    "metricCards": [
+      {
+        "value": "₹1,20,000",
+        "label": "Highest stipend."
+      },
+      {
+        "value": "₹86,000",
+        "label": "Top 25% average."
+      },
+      {
+        "value": "₹46,500",
+        "label": "Average stipend."
+      },
+      {
+        "value": "₹45,000",
+        "label": "Median stipend."
+      }
+    ],
+    "order": 1
+  }],
+};
+
 function PdfIcon() {
   return <FileText size={36} strokeWidth={1.25} className="shrink-0" aria-hidden="true" />;
 }
@@ -124,11 +192,12 @@ function DownloadButton({ href, label = 'Download' }) {
   );
 }
 
-export default function ReportsHub() {
+export default function ReportsHub({ programme = 'mms' }) {
   const facts = useKeyFacts();
-  const { data } = useReportsHubData();
-  const rp = fillFactsDeep({ ...fallbackPage, ...(data?.page || {}) }, facts);
-  const tabs = fillFactsDeep(data?.tabs?.length ? data.tabs : fallbackTabs, facts);
+  const { data } = useReportsHubData(programme);
+  const fb = programme === 'msc' ? fallbackMsc : { page: fallbackPage, tabs: fallbackTabs };
+  const rp = fillFactsDeep({ ...fb.page, ...(data?.page || {}) }, facts);
+  const tabs = fillFactsDeep(data?.tabs?.length ? data.tabs : fb.tabs, facts);
   const [active, setActive] = useState(0);
   const tab = tabs[Math.min(active, tabs.length - 1)] || {};
 

@@ -19,6 +19,7 @@ export default {
     // Directory card
     {name: 'name', title: 'Name', type: 'string', group: 'card', validation: (Rule) => Rule.required()},
     {name: 'image', title: 'Image', type: 'image', options: {hotspot: true}, group: 'card'},
+    {name: 'hideFromDirectory', title: 'Hide from committee directories', description: 'For pages reached from the menu only (e.g. the M.Sc. Finance Placement Committee), so they do not appear in the committee lists and hierarchy.', type: 'boolean', group: 'card', initialValue: false},
     {
       name: 'logo',
       title: 'Logo',

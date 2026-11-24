@@ -119,9 +119,11 @@ export const mainNav = [
     path: '/placements',
     children: [
       { label: 'Placements Committee', path: '/placements/contact' },
+      { label: 'MSc Placement Committee', path: '/students/committees/msc-placement' },
       { label: 'Why Recruit at SIMSREE', path: '/placements/why-recruit' },
       { label: 'List of Recruiters', path: '/placements/partners' },
       { label: 'MMS Placement Reports', path: '/placements/reports' },
+      { label: 'MSc Placement Reports', path: '/placements/msc-reports' },
     ],
   },
   { label: 'Contact Us', path: '/contact' },

@@ -8,6 +8,7 @@ export default {
     {name: 'panels', title: 'Panels'},
   ],
   fields: [
+    {name: 'programme', title: 'Programme', description: 'Which reports page this tab appears on', type: 'string', options: {list: [{title: 'MMS', value: 'mms'}, {title: 'M.Sc. Finance', value: 'msc'}], layout: 'radio'}, initialValue: 'mms', group: 'tab'},
     // Tab & heading
     {name: 'pillLabel', title: 'Hero pill label', description: 'Short label on the hero buttons, e.g. "Final 2024-25"', type: 'string', group: 'tab', validation: (Rule) => Rule.required()},
     {name: 'tabLabel', title: 'Tab label', description: 'Longer label on the tab row, e.g. "Download the final report · 2024-25"', type: 'string', group: 'tab', validation: (Rule) => Rule.required()},
@@ -125,5 +126,5 @@ export default {
     {name: 'order', title: 'Display order', type: 'number', validation: (Rule) => Rule.required()},
   ],
   orderings: [{title: 'Display order', name: 'orderAsc', by: [{field: 'order', direction: 'asc'}]}],
-  preview: {select: {title: 'pillLabel', subtitle: 'title'}},
+  preview: {select: {title: 'pillLabel', subtitle: 'programme'}, prepare: ({title, subtitle}) => ({title, subtitle: subtitle === 'msc' ? 'M.Sc. Finance' : 'MMS'})},
 }

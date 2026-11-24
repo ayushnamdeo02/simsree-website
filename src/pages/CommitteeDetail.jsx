@@ -9,6 +9,88 @@ import { urlFor } from '../lib/sanity';
 import { useKeyFacts, fillFactsDeep } from '../lib/useKeyFacts';
 
 const fallbackBySlug = {
+  'msc-placement': {
+    name: "M.Sc. Finance Placement Committee",
+    category: "Corporate",
+    description: "Runs summer and final placements for the M.Sc. Finance programme.",
+    heroEyebrow: "M.Sc. Finance · Student-Run Committee",
+    tagline: "\"Developing future finance leaders.\"",
+    stats: [
+      {
+        "label": "Batch of 2027",
+        "value": "32",
+        "dark": true
+      },
+      {
+        "label": "Summer placement",
+        "value": "100%",
+        "dark": false
+      },
+      {
+        "label": "Recruiters",
+        "value": "22",
+        "dark": true
+      },
+      {
+        "label": "Highest stipend",
+        "value": "₹1.2L",
+        "dark": false
+      }
+    ],
+    aboutStyle: "cards",
+    aboutTitle: "What the M.Sc. Finance Placement Committee does",
+    aboutBody: "The committee runs placements for the M.Sc. Finance programme - recruiter outreach, the summer internship process and the batch profile recruiters receive.",
+    activities: [
+      {
+        "title": "Recruiter Outreach",
+        "description": "Connect finance recruiters with the M.Sc. Finance batch."
+      },
+      {
+        "title": "Summer Internships",
+        "description": "Run the summer internship process from shortlists to offers."
+      },
+      {
+        "title": "Batch Profile & Reports",
+        "description": "Compile the batch profile and publish the placement results."
+      }
+    ],
+    skillsTitle: "Skills you build",
+    skills: [
+      "Client Relations",
+      "Negotiation",
+      "Process Ops",
+      "Stakeholder Management"
+    ],
+    equivalentTitle: "Real-world equivalent",
+    equivalentValue: "Talent Acquisition / Client Partner",
+    teamEyebrow: "Members 2025-26",
+    teamTitle: "Who's running this",
+    teamTitleHighlight: "running this",
+    teamSubtitle: "Refreshed annually after induction.",
+    showJoin: true,
+    joinEyebrow: "Contact",
+    joinTitle: "Contact the M.Sc. Finance Placement Committee",
+    joinBody: "Placement Officer: Amit Godkar · amitgodkar@simsree.org. For recruitment and internship enquiries, write to mfin.placements@simsree.in.",
+    joinButtons: [
+      {
+        "label": "Email mfin.placements@simsree.in",
+        "url": "mailto:mfin.placements@simsree.in",
+        "primary": true
+      },
+      {
+        "label": "Email the Placement Officer",
+        "url": "mailto:amitgodkar@simsree.org",
+        "primary": false
+      }
+    ],
+    team: [
+      { name: 'Sahil Nathwani', role: 'Member', photoUrl: '/images/committees/team/placement-sahil-nathwani.webp' },
+      { name: 'Tejas Patil', role: 'Member', photoUrl: '/images/committees/team/placement-tejas-patil.webp' },
+      { name: 'Vidhi Nanvani', role: 'Member', photoUrl: '/images/committees/team/placement-vidhi-nanvani.webp' },
+      { name: 'Deepesh Gupta', role: 'Member', photoUrl: '/images/committees/team/placement-deepesh-gupta.webp' },
+      { name: 'Prachiti Sathe', role: 'Member', photoUrl: '/images/committees/team/placement-prachiti-sathe.webp' },
+    ],
+  },
   placement: {
     showJoin: false,
     aboutStyle: 'cards',
@@ -847,6 +929,7 @@ const HERO_FALLBACK = Object.fromEntries(
     'events', 'finance-forum', 'infra-tech', 'marketing-media', 'hrudaya-ops', 'research-consulting', 'ssr',
   ].map((s) => [s, `/images/committees/hero-${s}.webp`]),
 );
+HERO_FALLBACK['msc-placement'] = '/images/committees/hero-placement.webp';
 // Figma member portraits, in card order, for members without a photo yet.
 const MEMBER_FALLBACK = [1, 2, 3, 4, 5, 6].map((n) => `/images/committees/member-${n}.webp`);
 
