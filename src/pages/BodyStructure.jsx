@@ -89,10 +89,10 @@ const ORG_BOX = {
   white: 'bg-white text-navy-900 outline outline-1 -outline-offset-1 outline-black/10',
   blue: 'bg-teal-500 text-white',
 };
-function OrgBox({ title, subtitle, tone = 'white', className = '' }) {
+function OrgBox({ title, subtitle, tone = 'white', small = false, className = '' }) {
   return (
-    <div className={`rounded-xl px-6 py-4 md:px-8 md:py-5 text-center shadow-small ${ORG_BOX[tone]} ${className}`}>
-      <p className="font-display font-medium text-[24px] md:text-[34px] leading-[120%] tracking-[-0.01em]">{title}</p>
+    <div className={`rounded-xl ${small ? 'px-3 py-3' : 'px-6 py-4'} md:px-8 md:py-5 text-center shadow-small ${ORG_BOX[tone]} ${className}`}>
+      <p className={`font-display font-medium ${small ? 'text-[17px]' : 'text-[24px]'} md:text-[34px] leading-[120%] tracking-[-0.01em]`}>{title}</p>
       {subtitle && <p className="mt-1 text-xs md:text-sm leading-[150%] opacity-80">{subtitle}</p>}
     </div>
   );
@@ -107,23 +107,24 @@ function OrgChart({ bp, committees }) {
     <div className="flex flex-col items-center">
       <OrgBox tone="navy" title={bp.orgTopTitle} subtitle={bp.orgTopSubtitle} />
       <VLine />
-      {/* Branch: a rule across both columns with a drop to each box (desktop). */}
-      <div className="w-full max-w-[1100px] grid md:grid-cols-2 gap-6 md:gap-10 relative">
-        <span className="hidden md:block absolute top-0 left-1/4 right-1/4 h-px bg-black/20" aria-hidden="true" />
+      {/* Branch: Placement Committee and the Association side by side at the same
+          level (on every screen), a rule across both columns with a drop to each. */}
+      <div className="w-full max-w-[1100px] grid grid-cols-2 gap-3 md:gap-10 relative">
+        <span className="absolute top-0 left-1/4 right-1/4 h-px bg-black/20" aria-hidden="true" />
         <div className="flex flex-col items-center">
-          <span className="hidden md:block w-px h-10 bg-black/20" aria-hidden="true" />
-          <OrgBox title={bp.orgLeft} className="w-full md:max-w-[400px]" />
+          <span className="w-px h-6 md:h-10 bg-black/20" aria-hidden="true" />
+          <OrgBox small title={bp.orgLeft} className="w-full flex-1 flex flex-col justify-center md:max-w-[400px]" />
         </div>
         <div className="flex flex-col items-center">
-          <span className="hidden md:block w-px h-10 bg-black/20" aria-hidden="true" />
-          <OrgBox title={bp.orgRight} className="w-full md:max-w-[520px]" />
+          <span className="w-px h-6 md:h-10 bg-black/20" aria-hidden="true" />
+          <OrgBox small title={bp.orgRight} className="w-full flex-1 flex flex-col justify-center md:max-w-[520px]" />
         </div>
       </div>
       {/* From the Association down to the Chairperson. */}
-      <div className="w-full max-w-[1100px] relative h-8 md:h-16">
-        <span className="hidden md:block absolute left-3/4 top-0 h-8 w-px bg-black/20" aria-hidden="true" />
-        <span className="hidden md:block absolute left-1/2 right-1/4 top-8 h-px bg-black/20" aria-hidden="true" />
-        <span className="absolute left-1/2 top-0 md:top-8 h-8 w-px bg-black/20" aria-hidden="true" />
+      <div className="w-full max-w-[1100px] relative h-12 md:h-16">
+        <span className="absolute left-3/4 top-0 h-6 md:h-8 w-px bg-black/20" aria-hidden="true" />
+        <span className="absolute left-1/2 right-1/4 top-6 md:top-8 h-px bg-black/20" aria-hidden="true" />
+        <span className="absolute left-1/2 top-6 md:top-8 h-6 md:h-8 w-px bg-black/20" aria-hidden="true" />
       </div>
       <OrgBox tone="blue" title={bp.orgMiddle} className="w-full max-w-[380px]" />
       <VLine />
