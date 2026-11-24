@@ -11,6 +11,7 @@ export default {
     {name: 'events', title: 'Detail - Upcoming Events'},
     {name: 'year', title: 'Detail - Year in the Committee'},
     {name: 'team', title: 'Detail - Team'},
+    {name: 'reports', title: 'Detail - Events & Reports'},
     {name: 'voice', title: 'Detail - Member Voice'},
     {name: 'join', title: 'Detail - Join CTA'},
   ],
@@ -189,6 +190,33 @@ export default {
             },
           ],
           preview: {select: {title: 'name', subtitle: 'role', group: 'group', media: 'photo'}, prepare: ({title, subtitle, group, media}) => ({title, subtitle: [group, subtitle].filter(Boolean).join(' · '), media})},
+        },
+      ],
+    },
+
+    // Events & activity reports (optional; the section shows once reports are added)
+    {name: 'reportsEyebrow', title: 'Eyebrow', description: 'Defaults to the committee name', type: 'string', group: 'reports'},
+    {name: 'reportsTitle', title: 'Title', type: 'string', group: 'reports', initialValue: 'Events & Activities'},
+    {name: 'reportsTitleHighlight', title: 'Title highlight word(s)', type: 'string', group: 'reports', initialValue: 'Activities'},
+    {name: 'reportsSubtitle', title: 'Subtitle', type: 'string', group: 'reports', initialValue: 'Explore the events organised by our committee and read the reports documenting each activity.'},
+    {
+      name: 'reports',
+      title: 'Reports',
+      description: 'Numbered 01, 02… in this order. Each card opens its PDF.',
+      type: 'array',
+      group: 'reports',
+      of: [
+        {
+          type: 'object',
+          name: 'committeeReport',
+          fields: [
+            {name: 'title', title: 'Event name', description: 'e.g. "Futsal 2025"', type: 'string', validation: (Rule) => Rule.required()},
+            {name: 'category', title: 'Category', description: 'e.g. "Sports event", "Cultural event", "Event report"', type: 'string'},
+            {name: 'image', title: 'Cover photo', type: 'image', options: {hotspot: true}},
+            {name: 'file', title: 'Report (PDF)', type: 'file', options: {accept: 'application/pdf'}},
+            {name: 'fileUrl', title: 'Or report link', description: 'Used when no PDF is uploaded', type: 'string'},
+          ],
+          preview: {select: {title: 'title', subtitle: 'category', media: 'image'}},
         },
       ],
     },

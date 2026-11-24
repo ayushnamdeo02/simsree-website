@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { sanityClient } from './sanity';
 
-const QUERY = `*[_type == "committee" && slug.current == $slug][0]`;
+const QUERY = `*[_type == "committee" && slug.current == $slug][0]{..., "reports": reports[]{..., file{asset->{url}}}}`;
 
 export function useCommitteeData(slug) {
   const [data, setData] = useState(null);

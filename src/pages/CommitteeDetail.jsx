@@ -637,6 +637,16 @@ const fallbackBySlug = {
     teamTitle: "Who's running this",
     teamTitleHighlight: 'running this',
     teamSubtitle: 'Refreshed annually after induction.',
+    reportsTitle: 'Events & Activities',
+    reportsTitleHighlight: 'Activities',
+    reportsSubtitle: 'Explore the events organised by our committee and read the reports documenting each activity.',
+    reports: [
+      { title: 'Foundation Day 2025', category: 'Event report', imageUrl: '/images/committees/reports/foundation-day-2025.webp', fileUrl: 'https://cdn.sanity.io/files/go86psxs/production/37ca280cdc4bbae55742f391ff647698b613ea17.pdf' },
+      { title: 'Futsal 2025', category: 'Sports event', imageUrl: '/images/committees/reports/futsal-2025.webp', fileUrl: 'https://cdn.sanity.io/files/go86psxs/production/71130ac59b154668706f30d091048d141b5df34e.pdf' },
+      { title: 'Garba Night 2025', category: 'Cultural event', imageUrl: '/images/committees/reports/garba-night-2025.webp', fileUrl: 'https://cdn.sanity.io/files/go86psxs/production/dc0d9876deca22fd43779300246bd9cbd29f38cf.pdf' },
+      { title: 'Housecup 2025', category: 'Sports event', imageUrl: '/images/committees/reports/housecup-2025.webp', fileUrl: 'https://cdn.sanity.io/files/go86psxs/production/40aaafb0f913b2b49aa3a93780d27b074d3abf11.pdf' },
+      { title: 'SIA 2025', category: 'Event report', imageUrl: '/images/committees/reports/sia-2025.webp', fileUrl: 'https://cdn.sanity.io/files/go86psxs/production/7e16355f06347a992de556a6720b26e5248fbdb9.pdf' },
+    ],
     team: [
       { name: 'Darshil Kothari', role: 'Coordinator', photoUrl: '/images/committees/team/events-darshil-kothari.webp' },
       { name: 'Prachiti Thakare', role: 'Coordinator', photoUrl: '/images/committees/team/events-prachiti-thakare.webp' },
@@ -1146,6 +1156,57 @@ export default function CommitteeDetail() {
                     <p className="text-sm md:text-lg leading-[150%]">{m.role}</p>
                   </div>
                 </div>
+              );
+            })}
+          </div>
+        </Section>
+      )}
+
+      {/* Events & activities — centred header, 3-up hairline cards: photo, number,
+          Playfair name, uppercase category, rule, "View report" (opens the PDF). */}
+      {has('reports') && (
+        <Section width={1280}>
+          <SectionTitle
+            center
+            tagline={c.reportsEyebrow || c.name}
+            title={c.reportsTitle || 'Events & Activities'}
+            highlight={c.reportsTitleHighlight}
+            body={c.reportsSubtitle}
+            width={560}
+          />
+          <div className="mt-10 md:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {c.reports.map((r, i) => {
+              const cover = r.image?.asset ? urlFor(r.image).width(840).auto('format').url() : r.imageUrl;
+              const href = r.file?.asset?.url || r.fileUrl;
+              return (
+                <a
+                  key={r._key || r.title}
+                  href={href || '#'}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group hover-card rounded-2xl overflow-hidden flex flex-col bg-white outline outline-1 -outline-offset-1 outline-black/15"
+                >
+                  <div className="aspect-[416/463] overflow-hidden bg-navy-50">
+                    {cover && (
+                      <img
+                        src={cover}
+                        alt={r.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover transition-transform duration-[600ms] ease-[cubic-bezier(0.2,0.65,0.3,1)] motion-safe:group-hover:scale-[1.05]"
+                      />
+                    )}
+                  </div>
+                  <div className="flex-1 flex flex-col gap-4 p-6">
+                    <span className="text-base leading-[150%] font-semibold text-black">{String(i + 1).padStart(2, '0')}</span>
+                    <div className="flex flex-col gap-2">
+                      <h3 className="font-display font-medium text-[24px] md:text-[28px] leading-[140%] tracking-[-0.01em] text-black">{r.title}</h3>
+                      {r.category && <p className="text-base leading-[150%] uppercase text-black">{r.category}</p>}
+                    </div>
+                    <span className="mt-auto pt-4 border-t border-black/15 inline-flex items-center gap-2 text-base leading-[150%] uppercase text-navy-900 group-hover:text-teal-500 transition-colors">
+                      View report <ArrowRight size={20} strokeWidth={1.5} />
+                    </span>
+                  </div>
+                </a>
               );
             })}
           </div>
