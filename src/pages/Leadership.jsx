@@ -27,10 +27,8 @@ const page = {
   gsBody:
     'Above every committee chairperson sits the GS team - the apex student leadership for the institute, elected by the batch.',
   gs: [
-    { name: 'Mr. Ashish Bhasin', role: 'GS · Academics' },
-    { name: 'Mr. Ashish Bhasin', role: 'GS · Academics' },
-    { name: 'Mr. Ashish Bhasin', role: 'GS · Academics' },
-    { name: 'Mr. Ashish Bhasin', role: 'GS · Academics' },
+    { name: 'Amit Chavan', role: 'General Secretary', photo: '/images/students/gs-amit-chavan.webp' },
+    { name: 'Kaustubh Kachare', role: 'General Secretary', photo: '/images/students/gs-kaustubh-kachare.webp' },
   ],
   chairsEyebrow: 'Year-2 chairs · 2025-26',
   chairsTitle: 'Cross-committee forum.',
@@ -120,12 +118,12 @@ export default function Leadership() {
         <Tabs active={tab} tabs={tabs} onSelect={setTab} className="mb-12 md:mb-16" />
         <div id="gs" role="tabpanel" aria-labelledby="tab-gs" hidden={tab !== 'gs'} className={`scroll-mt-40 flex-col gap-12 md:gap-16 ${tab === 'gs' ? 'flex' : 'hidden'}`}>
           <SectionTitle center tagline={lp.gsEyebrow} title={lp.gsTitle} body={lp.gsBody} />
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-12">
+          <div className={`grid sm:grid-cols-2 gap-12 ${lp.gs.length <= 2 ? 'max-w-[616px] mx-auto w-full' : 'lg:grid-cols-4'}`}>
             {lp.gs.map((p, i) => (
               <div key={i} className="flex flex-col items-center gap-6 text-center text-black">
                 <div
                   className="w-full aspect-square bg-navy-50 bg-cover bg-center"
-                  style={{ backgroundImage: `url('/images/students/gs-${i + 1}.webp')` }}
+                  style={{ backgroundImage: `url('${p.photo || `/images/students/gs-${i + 1}.webp`}')` }}
                 />
                 <div>
                   <p className="text-[22px] leading-[150%] font-semibold">{p.name}</p>

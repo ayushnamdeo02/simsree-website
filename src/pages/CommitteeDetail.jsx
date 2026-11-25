@@ -664,7 +664,12 @@ const fallbackBySlug = {
     teamTitleHighlight: 'running this',
     teamSubtitle: 'Refreshed annually after induction.',
     team: [
+      { name: 'Ronit Pawar', role: 'Coordinator', photoUrl: '/images/committees/team/marketing-media-ronit-pawar.webp' },
+      { name: 'Rutvik Sanap', role: 'Coordinator', photoUrl: '/images/committees/team/marketing-media-rutvik-sanap.webp' },
+      { name: 'Akanksha Pandey', role: 'Senior Member', photoUrl: '/images/committees/team/marketing-media-akanksha-pandey.webp' },
+      { name: 'Mihika Gupta', role: 'Senior Member', photoUrl: '/images/committees/team/marketing-media-mihika-gupta.webp' },
       { name: 'Shravan Dubey', role: 'Senior Member', photoUrl: '/images/committees/team/marketing-media-shravan-dubey.webp' },
+      { name: 'Yashas Jadhav', role: 'Senior Member', photoUrl: '/images/committees/team/marketing-media-yashas-jadhav.webp' },
     ],
     voiceEyebrow: 'Member Voice',
     voiceTitle: 'In their own words',
